@@ -158,7 +158,7 @@
 (add-hook 'dired-mode-hook
 	  (lambda ()
 	    (auto-revert-mode)
-	    (when (file-remote-p dired-directory)                          
+	    (when (file-remote-p dired-directory)
 	      (setq-local dired-actual-switches "-AlhF"))
 	    (dired-omit-caller)
 	    (dired-hide-details-mode)
@@ -168,7 +168,7 @@
 		(with-current-buffer "saves-*"
 		  (interactive)
 		  (setq dired-omit-mode nil))))
-	    ))    
+	    ))
 
 (setq dired-ranger-bookmark-reopen 'always)
 ;; start directory
@@ -191,7 +191,7 @@
 		   buffer-file-name
 		   (not
 		    (file-name-extension
-                     buffer-file-name)))
+		     buffer-file-name)))
 	      (setq file-name-mode-alist
 		    (cons
 		     (cons buffer-file-name major-mode)
@@ -351,19 +351,19 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; (setq ring-bell-function 'ignore)
 (setq ring-bell-function
       (lambda ()
-        (unless (memq this-command
-                      '(isearch-abort
+	(unless (memq this-command
+		      '(isearch-abort
 			minibuffer-keyboard-quit
-                        abort-recursive-edit
-                        exit-minibuffer
-                        keyboard-quit
-                        previous-line
-                        next-line
-                        scroll-down
-                        scroll-up
-                        cua-scroll-down
-                        cua-scroll-up))
-          (ding))))
+			abort-recursive-edit
+			exit-minibuffer
+			keyboard-quit
+			previous-line
+			next-line
+			scroll-down
+			scroll-up
+			cua-scroll-down
+			cua-scroll-up))
+	  (ding))))
 
 
 (setq ispell-program-name (executable-find "hunspell"))

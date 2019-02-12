@@ -519,8 +519,8 @@
 	    (define-key jj-eyebrowse-map (kbd ">")	'eyebrowse-next-window-config)
 	    (define-key jj-eyebrowse-map (kbd "'")	'eyebrowse-next-window-config)
 	    (define-key jj-eyebrowse-map (kbd "c")	'eyebrowse-create-window-config)
-            (eyebrowse-mode t)
-            (setq eyebrowse-new-workspace nil)
+	    (eyebrowse-mode t)
+	    (setq eyebrowse-new-workspace nil)
 	    (setq eyebrowse-switch-back-and-forth t)))
 
 

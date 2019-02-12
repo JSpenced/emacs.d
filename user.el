@@ -8,6 +8,29 @@
 ;; (error "No error until here")
 (global-set-key (kbd "C-x C-s") nil)
 
+;; don't require-final-newline in todo.txt mode
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (when (get-buffer "todo.txt")
+	      (progn
+		(with-current-buffer "todo.txt"
+		  (interactive)
+		  (setq require-final-newline nil))))))
+
+(require 'ws-butler)
+(add-hook 'prog-mode-hook (lambda () (ws-butler-mode)))
+(require 'whitespace-cleanup-mode)
+;; (dolist (hook '(prog-mode-hook text-mode-hook Fundamental-mode-hook nxml-mode-hook LaTeX-mode-hook tex-mode-hook latex-mode-hook ...))
+;;   (add-hook hook (lambda () (whitespace-cleanup-mode))))
+(global-whitespace-cleanup-mode)
+(eval-after-load 'whitespace-cleanup-mode
+  '(push 'markdown-mode whitespace-cleanup-mode-ignore-modes))
+
+(require 'org-download)
+(setq org-download-screenshot-method "screencapture -i %s")
+
+(setq org-cycle-separator-lines 1)
+
 (setq wttrin-default-cities '("Seoul" "Saint Louis, United States of America"))
 ;; '("Accept-Language" . "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
 (setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
@@ -43,7 +66,7 @@
 (defun jj/weather-default-wttrin ()
   "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
   (interactive)
-  ;; save window arrangement to register 
+  ;; save window arrangement to register
   (jj/wttrin-save-frame)
   ;; call wttrin
   (wttrin-query (car wttrin-default-cities))
@@ -55,9 +78,9 @@
   (interactive
    (list
     (completing-read "City name: " wttrin-default-cities nil nil
-                     (when (= (length wttrin-default-cities) 1)
-                       (car wttrin-default-cities)))))
-  ;; save window arrangement to register 
+		     (when (= (length wttrin-default-cities) 1)
+		       (car wttrin-default-cities)))))
+  ;; save window arrangement to register
   (jj/wttrin-save-frame)
   (wttrin-query city)
   ;; set that the frame was changed for exit
@@ -70,14 +93,14 @@
 (setq backup-each-save-size-limit (* 1024 1024 2))
 (defun jj/backup-each-save-filter (filename)
   (let ((ignored-filenames
-    	 '("^/tmp" "semantic.cache$" "\\.gpg$" "\\places$" "\\abbrev_defs$" "\\bookmarks$" "\\emacs_workgroups$"
+	 '("^/tmp" "semantic.cache$" "\\.gpg$" "\\places$" "\\abbrev_defs$" "\\bookmarks$" "\\emacs_workgroups$"
 	   "smex-items$" "\\recentf$" "\\.recentf$" "\\tramp$"
-    	   "\\.mc-lists.el$" "\\.emacs.desktop$" "\\history$" ".newsrc\\(\\.eld\\)?"))
-    	(matched-ignored-filename nil))
+	   "\\.mc-lists.el$" "\\.emacs.desktop$" "\\history$" ".newsrc\\(\\.eld\\)?"))
+	(matched-ignored-filename nil))
     (mapc
      (lambda (x)
        (when (string-match x filename)
-    	 (setq matched-ignored-filename t)))
+	 (setq matched-ignored-filename t)))
      ignored-filenames)
     (not matched-ignored-filename)))
 (setq backup-each-save-filter-function 'jj/backup-each-save-filter)
@@ -85,14 +108,14 @@
 (defun jj/backup-each-save-dired-jump ()
   (interactive)
   (let* (
-         (filename (buffer-file-name))
-         (containing-dir (file-name-directory filename))
-         (basename (file-name-nondirectory filename))
-         (backup-container
-          (format "%s/%s"
-                  backup-each-save-mirror-location
-                  containing-dir))
-         )
+	 (filename (buffer-file-name))
+	 (containing-dir (file-name-directory filename))
+	 (basename (file-name-nondirectory filename))
+	 (backup-container
+	  (format "%s/%s"
+		  backup-each-save-mirror-location
+		  containing-dir))
+	 )
     (when (file-exists-p backup-container)
       (find-file backup-container)
       (goto-char (point-max))
@@ -115,7 +138,7 @@ Null prefix argument turns off the mode."
   (if (symbol-value sensitive-mode)
       (progn
 	;; disable backups
-	(set (make-local-variable 'backup-inhibited) t)	
+	(set (make-local-variable 'backup-inhibited) t)
 	;; disable auto-save
 	(if auto-save-default
 	    (auto-save-mode -1)))
@@ -160,7 +183,7 @@ Null prefix argument turns off the mode."
 ;; Later maybe update the backup functions above so the tramp files are stored into their own
 ;; per-session and per-save directories
 (add-to-list 'backup-directory-alist
-             (cons tramp-file-name-regexp "~/.emacs_backups/per-save"))
+	     (cons tramp-file-name-regexp "~/.emacs_backups/per-save"))
 
 ;; Disabling backups can be targeted to just the su and sudo methods:
 ;; (setq backup-enable-predicate
@@ -219,23 +242,23 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
     ;; Override the default parameters for per-session backups.
     ;;
     (let ((backup-directory-alist
-           `(("." . ,(expand-file-name "per-session" jj/backup-location))))
-          (kept-new-versions 3))
+	   `(("." . ,(expand-file-name "per-session" jj/backup-location))))
+	  (kept-new-versions 3))
       ;;
       ;; add trash dir if needed
       ;;
       (if jj/backup-exclude-regexp
-          (add-to-list
-           'backup-directory-alist
-           `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
+	  (add-to-list
+	   'backup-directory-alist
+	   `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
       ;;
       ;; is file too large?
       ;;
       (if (<= (buffer-size) jj/backup-file-size-limit)
-          (progn
-            (message "Made per session backup of %s" (buffer-name))
-            (backup-buffer))
-        (message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
+	  (progn
+	    (message "Made per session backup of %s" (buffer-name))
+	    (backup-buffer))
+	(message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
   ;;
   ;; Make a "per save" backup on each save.  The first save results in
   ;; both a per-session and a per-save backup, to keep the numbering
@@ -246,9 +269,9 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
     ;; is file too large?
     ;;
     (if (<= (buffer-size) jj/backup-file-size-limit)
-        (progn
-          (message "Made per save backup of %s" (buffer-name))
-          (backup-buffer))
+	(progn
+	  (message "Made per save backup of %s" (buffer-name))
+	  (backup-buffer))
       (message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
 
 ;; add to save hook
@@ -260,7 +283,7 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 ;; // -*-mode:org; mode:sensitive; fill-column:132-*-
 (setq auto-mode-alist
       (append '(("\\.gpg$" . sensitive-mode))
-              auto-mode-alist))
+	      auto-mode-alist))
 
 (setq wg-use-default-session-file nil)
 ;; don't open last workgroup automatically in `wg-open-session',
@@ -279,29 +302,29 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
     (unless (featurep 'workgroups2)
       (require 'workgroups2))
     (setq group-names
-          (mapcar (lambda (group)
-                    ;; re-shape list for the ivy-read
-                    (cons (wg-workgroup-name group) group))
-                  (wg-session-workgroup-list (read (f-read-text (file-truename wg-session-file))))))
+	  (mapcar (lambda (group)
+		    ;; re-shape list for the ivy-read
+		    (cons (wg-workgroup-name group) group))
+		  (wg-session-workgroup-list (read (f-read-text (file-truename wg-session-file))))))
     (ivy-read "work groups" group-names
-              :action (lambda (group)
-                        (wg-find-session-file wg-default-session-file)
-                        (wg-switch-to-workgroup group)))))
+	      :action (lambda (group)
+			(wg-find-session-file wg-default-session-file)
+			(wg-switch-to-workgroup group)))))
 
 (eval-after-load 'workgroups2
   '(progn
      ;; make sure wg-create-workgroup always success
      (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
        (unless (file-exists-p (wg-get-session-file))
-         (wg-reset t)
-         (wg-save-session t))
+	 (wg-reset t)
+	 (wg-save-session t))
 
        (unless wg-current-session
-         ;; code extracted from `wg-open-session'.
-         ;; open session but do NOT load any workgroup.
-         (let ((session (read (f-read-text (file-truename wg-session-file)))))
-           (setf (wg-session-file-name session) wg-session-file)
-           (wg-reset-internal (wg-unpickel-session-parameters session))))
+	 ;; code extracted from `wg-open-session'.
+	 ;; open session but do NOT load any workgroup.
+	 (let ((session (read (f-read-text (file-truename wg-session-file)))))
+	   (setf (wg-session-file-name session) wg-session-file)
+	   (wg-reset-internal (wg-unpickel-session-parameters session))))
        ad-do-it
        ;; save the session file in real time
        (wg-save-session t))
@@ -412,19 +435,8 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 ;;   "Get latest file (including directory) in PATH."
 ;;   (car (directory-files path 'full nil #'file-newer-than-file-p)))
 
-;; (defun insert-org-image ()
-;;   "Moves image from Dropbox folder to ./media, inserting org-mode link"
-;;   (interactive)
-;;   (let* ((indir (expand-file-name andre--screenshot-folder))
-;;          (infile (get-newest-file-from-dir indir))
-;;          (outdir (concat (file-name-directory (buffer-file-name)) "/media"))
-;;          (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
-;;     (unless (file-directory-p outdir)
-;;       (make-directory outdir t))
-;;     (rename-file infile outfile)
-;;     (insert (concat (concat "[[./media/" (file-name-nondirectory outfile)) "]]")))
-;;   (newline)
-;;   (newline))
+;; (require 'hungry-delete)
+;; (global-hungry-delete-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Using but remove with upgrade to new version

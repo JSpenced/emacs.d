@@ -109,14 +109,14 @@
   (if (use-region-p)
       (counsel-grep-or-swiper (format "%s" (buffer-substring (region-beginning) (region-end))))
     (swiper)))
-(defun jj/counsel-find-name-everything () 
-      "list everything recursively"
-      (interactive)
-      (let* ((cands (split-string
-                     (shell-command-to-string "find .") "\n" t)))
-        (ivy-read "File: " cands
-                  :action #'find-file
-                  :caller 'jj/counsel-find-name-everything)))
+(defun jj/counsel-find-name-everything ()
+  "list everything recursively"
+  (interactive)
+  (let* ((cands (split-string
+		 (shell-command-to-string "find .") "\n" t)))
+    (ivy-read "File: " cands
+	      :action #'find-file
+	      :caller 'jj/counsel-find-name-everything)))
 
 (defun jj/make-current-mark-region-active ()
   "Make the current mark region active"
@@ -130,21 +130,21 @@
     With negative N, comment out original line and use the absolute value."
       (interactive "*p")
       (let ((use-region (use-region-p)))
-        (save-excursion
-          (let ((text (if use-region        ;Get region if active, otherwise line
-                          (buffer-substring (region-beginning) (region-end))
-                        (prog1 (thing-at-point 'line)
-                          (end-of-line)
-                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
-                              (newline))))))
-            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
-              (insert text))))
-        (if use-region nil                  ;Only if we're working with a line (not a region)
-          (let ((pos (- (point) (line-beginning-position)))) ;Save column
-            (if (> 0 n)                             ;Comment out original with negative arg
-                (comment-region (line-beginning-position) (line-end-position)))
-            (forward-line 1)
-            (forward-char pos)))))
+	(save-excursion
+	  (let ((text (if use-region        ;Get region if active, otherwise line
+			  (buffer-substring (region-beginning) (region-end))
+			(prog1 (thing-at-point 'line)
+			  (end-of-line)
+			  (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+			      (newline))))))
+	    (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+	      (insert text))))
+	(if use-region nil                  ;Only if we're working with a line (not a region)
+	  (let ((pos (- (point) (line-beginning-position)))) ;Save column
+	    (if (> 0 n)                             ;Comment out original with negative arg
+		(comment-region (line-beginning-position) (line-end-position)))
+	    (forward-line 1)
+	    (forward-char pos)))))
 
 (defun jj/backward-kill-line (arg)
   "Kill ARG lines backward."
@@ -489,11 +489,11 @@ With a prefix argument N, (un)comment that many sexps."
   (org-table-check-inside-data-field)
   (org-table-align)
   (let (cline
-        (ccol (org-table-current-column))
-        new-row-count
-        (created-new-row-at-bottom nil)
-        (orig-line (org-table-current-line))
-        (more t))
+	(ccol (org-table-current-column))
+	new-row-count
+	(created-new-row-at-bottom nil)
+	(orig-line (org-table-current-line))
+	(more t))
     (org-table-goto-line 1)
     (org-table-goto-column ccol)
     (while more
@@ -502,13 +502,13 @@ With a prefix argument N, (un)comment that many sexps."
       (org-table-copy-region (point) (point) 'cut)
       ;; Justify for width
       (ignore-errors
-        (setq org-table-clip
-              (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+	(setq org-table-clip
+	      (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
       ;; Add new lines and fill
       (setq new-row-count (1- (length org-table-clip)))
       (org-table-goto-line cline)
       (if (> new-row-count 0)
-          (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
+	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
       (org-table-goto-line cline)
       (org-table-goto-column ccol)
       (org-table-paste-rectangle)
@@ -528,8 +528,8 @@ With a prefix argument N, (un)comment that many sexps."
       (setq line (buffer-substring (point-at-bol) (point-at-eol)))
       (forward-line 1)
       (when (looking-at "^ *$")
-        (insert (org-table-clean-line line))
-        (setq created-new-row-at-bottom t))
+	(insert (org-table-clean-line line))
+	(setq created-new-row-at-bottom t))
       (org-shiftmetadown))
     created-new-row-at-bottom))
 
@@ -538,15 +538,15 @@ With a prefix argument N, (un)comment that many sexps."
 boundary."
   (interactive)
   (let (begin
-        (end (point))
-        cell-contents-to-point
-        width
-        cline
-        (ccol (org-table-current-column))
-        new-row-count
-        (created-new-row-at-bottom nil)
-        (orig-line (org-table-current-line))
-        (more t))
+	(end (point))
+	cell-contents-to-point
+	width
+	cline
+	(ccol (org-table-current-column))
+	new-row-count
+	(created-new-row-at-bottom nil)
+	(orig-line (org-table-current-line))
+	(more t))
     (save-excursion
       (search-backward-regexp "|")
       (forward-char 1)
@@ -563,13 +563,13 @@ boundary."
       (org-table-copy-region (point) (point) 'cut)
       ;; Justify for width
       (ignore-errors
-        (setq org-table-clip
-              (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+	(setq org-table-clip
+	      (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
       ;; Add new lines and fill
       (setq new-row-count (1- (length org-table-clip)))
       (org-table-goto-line cline)
       (if (> new-row-count 0)
-          (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
+	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
       (org-table-goto-line cline)
       (org-table-goto-column ccol)
       (org-table-paste-rectangle)
@@ -643,8 +643,8 @@ Repeated invocations toggle between the two most recently open buffers."
   "Split the current window into `wenshan-number' windows"
   (interactive "P")
   (setq wenshan-number (if wenshan-number
-                           (prefix-numeric-value wenshan-number)
-                         2))
+			   (prefix-numeric-value wenshan-number)
+			 2))
   (while (> wenshan-number 1)
     (split-window-below)
     (setq wenshan-number (- wenshan-number 1)))
@@ -655,8 +655,8 @@ Repeated invocations toggle between the two most recently open buffers."
   "Split the current window into `wenshan-number' windows"
   (interactive "P")
   (setq wenshan-number (if wenshan-number
-                           (prefix-numeric-value wenshan-number)
-                         2))
+			   (prefix-numeric-value wenshan-number)
+			 2))
   (while (> wenshan-number 1)
     (split-window-right)
     (setq wenshan-number (- wenshan-number 1)))
@@ -683,9 +683,9 @@ Repeated invocations toggle between the two most recently open buffers."
   "Changes splitting from vertical to horizontal and vice-versa"
   (interactive "P")
   (let ((split-type (lambda (&optional arg)
-                      (delete-other-windows-internal)
-                      (if arg (split-window-vertically)
-                        (split-window-horizontally)))))
+		      (delete-other-windows-internal)
+		      (if arg (split-window-vertically)
+			(split-window-horizontally)))))
     (change-split-type split-type arg)))
 
 (defun jj/window-split-toggle ()
@@ -694,13 +694,13 @@ Repeated invocations toggle between the two most recently open buffers."
   (if (> (length (window-list)) 2)
       (error "Can't toggle with more than 2 windows!")
     (let ((func (if (window-full-width-p)
-                    #'split-window-horizontally
-                  #'split-window-vertically)))
+		    #'split-window-horizontally
+		  #'split-window-vertically)))
       (delete-other-windows)
       (funcall func)
       (save-selected-window
-        (other-window 1)
-        (switch-to-buffer (other-buffer))))))
+	(other-window 1)
+	(switch-to-buffer (other-buffer))))))
 
 ;;; record two different file's last change. cycle them
 (defvar jj/last-change-pos1 nil)
@@ -808,9 +808,9 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun jj/find-open-last-killed-file ()
   (interactive)
   (let ((active-files (loop for buf in (buffer-list)
-                            when (buffer-file-name buf) collect it)))
+			    when (buffer-file-name buf) collect it)))
     (loop for file in recentf-list
-          unless (member file active-files) return (find-file file))))
+	  unless (member file active-files) return (find-file file))))
 
 (defun jj/find-alternative-file-with-sudo ()
   (interactive)
@@ -912,7 +912,7 @@ Repeated invocations toggle between the two most recently open buffers."
       "untitled~~.tmp"
     (let ((cnt 2))
       (while (exsitp-untitled-x file-list cnt)
-        (setq cnt (1+ cnt)))
+	(setq cnt (1+ cnt)))
       (concat "untitled~~" (number-to-string cnt) ".tmp")
       )
     )
@@ -958,12 +958,12 @@ If OTHER-WINDOW (the optional prefix arg), display the parent
 directory in another window."
   (interactive "P")
   (let* ((dir  (file-truename (dired-current-directory)))
-         (up   (file-name-directory (directory-file-name dir))))
+	 (up   (file-name-directory (directory-file-name dir))))
     (or (dired-goto-file (directory-file-name dir))
-        ;; Only try dired-goto-subdir if buffer has more than one dir.
-        (and (cdr dired-subdir-alist)  (dired-goto-subdir up))
-        (progn (if other-window (dired-other-window up) (dired up))
-               (dired-goto-file dir)))))
+	;; Only try dired-goto-subdir if buffer has more than one dir.
+	(and (cdr dired-subdir-alist)  (dired-goto-subdir up))
+	(progn (if other-window (dired-other-window up) (dired up))
+	       (dired-goto-file dir)))))
 
 (defun jj/dired-find-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
@@ -1022,8 +1022,8 @@ directory in another window."
   "Cycle through the list `dired-list-of-switches' of switches for ls"
   (interactive)
   (setq dired-list-of-switches
-        (append (cdr dired-list-of-switches)
-                (list (car dired-list-of-switches))))
+	(append (cdr dired-list-of-switches)
+		(list (car dired-list-of-switches))))
   (dired-sort-other (car dired-list-of-switches))
    (dired-sort-toggle-or-edit)
 )
@@ -1042,11 +1042,11 @@ directory in another window."
 (defun jj/remove-elc-on-save ()
   "If you're saving an Emacs Lisp file, likely the .elc is no longer valid."
   (add-hook 'after-save-hook
-            (lambda ()
-              (if (file-exists-p (concat buffer-file-name "c"))
-                  (delete-file (concat buffer-file-name "c"))))
-            nil
-            t))
+	    (lambda ()
+	      (if (file-exists-p (concat buffer-file-name "c"))
+		  (delete-file (concat buffer-file-name "c"))))
+	    nil
+	    t))
 
 (defun jj/brc-functions-file ()
     "Recompile the functions file to hook on exit emacs"
@@ -1330,25 +1330,25 @@ If ARG is zero, delete current line but exclude the trailing newline."
   (save-excursion
     (save-match-data
       (let (inc-by field-width answer)
-        (setq inc-by (if arg arg 1))
-        (skip-chars-backward "0123456789")
-        (when (re-search-forward "[0-9]+" nil t)
-          (setq field-width (- (match-end 0) (match-beginning 0)))
-          (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
-          (when (< answer 0)
-            (setq answer (+ (expt 10 field-width) answer)))
-          (replace-match (format (concat "%0" (int-to-string field-width) "d")
-                                 answer)))))))
+	(setq inc-by (if arg arg 1))
+	(skip-chars-backward "0123456789")
+	(when (re-search-forward "[0-9]+" nil t)
+	  (setq field-width (- (match-end 0) (match-beginning 0)))
+	  (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
+	  (when (< answer 0)
+	    (setq answer (+ (expt 10 field-width) answer)))
+	  (replace-match (format (concat "%0" (int-to-string field-width) "d")
+				 answer)))))))
 
 (defun jj/delete-kill-process-at-point ()
   (interactive)
   (let ((process (get-text-property (point) 'tabulated-list-id)))
     (cond ((and process
-                (processp process))
-           (delete-process process)
-           (revert-buffer))
-          (t
-           (error "no process at point!")))))
+		(processp process))
+	   (delete-process process)
+	   (revert-buffer))
+	  (t
+	   (error "no process at point!")))))
 
 (defun jj/decrement-number-decimal (&optional arg)
   (interactive "p*")
@@ -1356,23 +1356,23 @@ If ARG is zero, delete current line but exclude the trailing newline."
 
 (defun jj/set-tab-stop-width (width)
   "Set all tab stops to WIDTH in current buffer.
-    
+
     This updates `tab-stop-list', but not `tab-width'.
-    
+
     By default, `indent-for-tab-command' uses tabs to indent, see
     `indent-tabs-mode'."
   (interactive "nTab width: ")
   (let* ((max-col (car (last tab-stop-list)))
-         ;; If width is not a factor of max-col,
-         ;; then max-col could be reduced with each call.
-         (n-tab-stops (/ max-col width)))
+	 ;; If width is not a factor of max-col,
+	 ;; then max-col could be reduced with each call.
+	 (n-tab-stops (/ max-col width)))
     (set (make-local-variable 'tab-stop-list)
-         (mapcar (lambda (x) (* width x))
-                 (number-sequence 1 n-tab-stops)))
+	 (mapcar (lambda (x) (* width x))
+		 (number-sequence 1 n-tab-stops)))
     ;; So preserve max-col, by adding to end.
     (unless (zerop (% max-col width))
       (setcdr (last tab-stop-list)
-              (list max-col)))))
+	      (list max-col)))))
 
 (defun jj/dired-rename-space-to-hyphen ()
   "In dired, rename current or marked files by replacing space to hyphen -.
@@ -1642,52 +1642,52 @@ Version 2017-01-27"
   ;; this function sets a property 「'state」. Possible values are 0 to length of -charArray.
   (let ($p1 $p2)
     (if (and @begin @end)
-        (progn (setq $p1 @begin $p2 @end))
+	(progn (setq $p1 @begin $p2 @end))
       (if (use-region-p)
-          (setq $p1 (region-beginning) $p2 (region-end))
-        (if (nth 3 (syntax-ppss))
-            (save-excursion
-              (skip-chars-backward "^\"")
-              (setq $p1 (point))
-              (skip-chars-forward "^\"")
-              (setq $p2 (point)))
-          (let (
-                ($skipChars
-                 (if (boundp 'xah-brackets)
-                     (concat "^\"" xah-brackets)
-                   "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕（）")))
-            (skip-chars-backward $skipChars (line-beginning-position))
-            (setq $p1 (point))
-            (skip-chars-forward $skipChars (line-end-position))
-            (setq $p2 (point))
-            (set-mark $p1)))))
+	  (setq $p1 (region-beginning) $p2 (region-end))
+	(if (nth 3 (syntax-ppss))
+	    (save-excursion
+	      (skip-chars-backward "^\"")
+	      (setq $p1 (point))
+	      (skip-chars-forward "^\"")
+	      (setq $p2 (point)))
+	  (let (
+		($skipChars
+		 (if (boundp 'xah-brackets)
+		     (concat "^\"" xah-brackets)
+		   "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕（）")))
+	    (skip-chars-backward $skipChars (line-beginning-position))
+	    (setq $p1 (point))
+	    (skip-chars-forward $skipChars (line-end-position))
+	    (setq $p2 (point))
+	    (set-mark $p1)))))
     (let* (
-           ($charArray ["_" "-" " "])
-           ($length (length $charArray))
-           ($regionWasActive-p (region-active-p))
-           ($nowState
-            (if (equal last-command this-command )
-                (get 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state)
-              0 ))
-           ($changeTo (elt $charArray $nowState)))
+	   ($charArray ["_" "-" " "])
+	   ($length (length $charArray))
+	   ($regionWasActive-p (region-active-p))
+	   ($nowState
+	    (if (equal last-command this-command )
+		(get 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state)
+	      0 ))
+	   ($changeTo (elt $charArray $nowState)))
       (save-excursion
-        (save-restriction
-          (narrow-to-region $p1 $p2)
-          (goto-char (point-min))
-          (while
-              (re-search-forward
-               (elt $charArray (% (+ $nowState 2) $length))
-               ;; (concat
-               ;;  (elt -charArray (% (+ -nowState 1) -length))
-               ;;  "\\|"
-               ;;  (elt -charArray (% (+ -nowState 2) -length)))
-               (point-max)
-               "NOERROR")
-            (replace-match $changeTo "FIXEDCASE" "LITERAL"))))
+	(save-restriction
+	  (narrow-to-region $p1 $p2)
+	  (goto-char (point-min))
+	  (while
+	      (re-search-forward
+	       (elt $charArray (% (+ $nowState 2) $length))
+	       ;; (concat
+	       ;;  (elt -charArray (% (+ -nowState 1) -length))
+	       ;;  "\\|"
+	       ;;  (elt -charArray (% (+ -nowState 2) -length)))
+	       (point-max)
+	       "NOERROR")
+	    (replace-match $changeTo "FIXEDCASE" "LITERAL"))))
       (when (or (string= $changeTo " ") $regionWasActive-p)
-        (goto-char $p2)
-        (set-mark $p1)
-        (setq deactivate-mark nil))
+	(goto-char $p2)
+	(set-mark $p1)
+	(setq deactivate-mark nil))
       (put 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state (% (+ $nowState 1) $length)))))
 
 (defun jj/space-to-underscore-region (@begin @end)
@@ -1700,8 +1700,8 @@ Version 2017-01-11"
       (narrow-to-region @begin @end)
       (goto-char (point-min))
       (while
-          (re-search-forward " " (point-max) "NOERROR")
-        (replace-match "_" "FIXEDCASE" "LITERAL")))))
+	  (re-search-forward " " (point-max) "NOERROR")
+	(replace-match "_" "FIXEDCASE" "LITERAL")))))
 
 (defun jj/xah-clean-whitespace ()
   "Delete trailing whitespace, and replace repeated blank lines to just 1.
@@ -1713,23 +1713,23 @@ Version 2017-09-22"
   (interactive)
   (let ($begin $end)
     (if (region-active-p)
-        (setq $begin (region-beginning) $end (region-end))
+	(setq $begin (region-beginning) $end (region-end))
       (setq $begin (point-min) $end (point-max)))
     (save-excursion
       (save-restriction
-        (narrow-to-region $begin $end)
-        (progn
-          (goto-char (point-min))
-          (while (re-search-forward "[ \t]+\n" nil "move")
-            (replace-match "\n")))
-        (progn
-          (goto-char (point-min))
-          (while (re-search-forward "\n\n\n+" nil "move")
-            (replace-match "\n\n")))
-        (progn
-          (goto-char (point-max))
-          (while (equal (char-before) 32) ; char 32 is space
-            (delete-char -1))))
+	(narrow-to-region $begin $end)
+	(progn
+	  (goto-char (point-min))
+	  (while (re-search-forward "[ \t]+\n" nil "move")
+	    (replace-match "\n")))
+	(progn
+	  (goto-char (point-min))
+	  (while (re-search-forward "\n\n\n+" nil "move")
+	    (replace-match "\n\n")))
+	(progn
+	  (goto-char (point-max))
+	  (while (equal (char-before) 32) ; char 32 is space
+	    (delete-char -1))))
       (message "white space cleaned"))))
 
 ;;; --------------------------------------------------- adding words to flyspell
@@ -1738,20 +1738,20 @@ Version 2017-09-22"
   (let ((header "hunspell_personal_dic:")
 	(file-name (symbol-value 'ispell-personal-dictionary))
 	(read-words (lambda (file-name)
-                      (let ((all-lines (with-temp-buffer
+		      (let ((all-lines (with-temp-buffer
 					 (insert-file-contents file-name)
 					 (split-string (buffer-string) "\n" t))))
 			(if (null all-lines)
 			    ""
 			  (split-string (mapconcat 'identity (cdr all-lines) "\n")
-					nil 
+					nil
 					t))))))
     (when (file-readable-p file-name)
       (let* ((cur-words (eval (list read-words file-name)))
-             (all-words (delq header (cons new-word cur-words)))
-             (words (delq nil (remove-duplicates all-words :test 'string=))))
-	(with-temp-file file-name     
-	  (insert (concat header 
+	     (all-words (delq header (cons new-word cur-words)))
+	     (words (delq nil (remove-duplicates all-words :test 'string=))))
+	(with-temp-file file-name
+	  (insert (concat header
 			  " Total word count is "
 			  (number-to-string (length words))
 			  "\n"
@@ -1774,8 +1774,8 @@ Version 2017-09-22"
 (defmacro no-message (&rest body)
   "Eval BODY, with `message' doing nothing."
   `(cl-letf (((symbol-function 'message)
-              (lambda (&rest args)
-                nil)))
+	      (lambda (&rest args)
+		nil)))
      (progn ,@body)))
 
 (defmacro with-suppressed-message (&rest body)
@@ -1790,10 +1790,10 @@ Version 2017-09-22"
     (counsel-imenu)))
 
 (defun jj/infer-indentation-style ()
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if        
-  ;; neither, we use the current indent-tabs-mode                               
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
+  ;; neither, we use the current indent-tabs-mode
   (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
+	(tab-count (how-many "^\t" (point-min) (point-max))))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
@@ -1814,13 +1814,13 @@ Always focus bigger window."
      (ratio
       (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
       (split-window-horizontally (floor (/ (window-body-width)
-                                           (1+ ratio-val)))))
+					   (1+ ratio-val)))))
      (t
       (split-window-horizontally)))
     (set-window-buffer (next-window) (other-buffer))
     (if (or (not ratio-val)
-            (>= ratio-val 1))
-        (windmove-right))))
+	    (>= ratio-val 1))
+	(windmove-right))))
 
 (defun jj/split-window-vertically (&optional ratio)
   "Split window vertically and resize the new window.
@@ -1831,15 +1831,15 @@ Always focus bigger window."
      (ratio
       (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
       (split-window-vertically (floor (/ (window-body-height)
-                                         (1+ ratio-val)))))
+					 (1+ ratio-val)))))
      (t
       (split-window-vertically)))
     ;; open another window with other-buffer
     (set-window-buffer (next-window) (other-buffer))
     ;; move focus if new window bigger than current one
     (if (or (not ratio-val)
-            (>= ratio-val 1))
-        (windmove-down))))
+	    (>= ratio-val 1))
+	(windmove-down))))
 
 (defun eyebrowse-switch-to-window-config-11 ()
   "Switch to window configuration 11."
@@ -1892,7 +1892,7 @@ Always focus bigger window."
 
 ;; Forces so will always open in background if set
 (defun jj/osx-browse-url (url &optional new-window browser focus)
-  "Open URL in an external browser on OS X.
+"Open URL in an external browser on OS X.
 
 When called interactively, `browse-url-dwim-get-url' is used
 to detect URL from the edit context and prompt for user input
@@ -1914,22 +1914,22 @@ BACKGROUND is not set, the customizable variable
 When called interactively, specifying a negative prefix argument
 is equivalent to setting FOCUS to 'background.  Any other prefix
 argument is equivalent to setting FOCUS to 'foreground."
-  (interactive (osx-browse-interactive-form))
-  (unless (stringp url)
-    (error "No valid URL"))
-  (let ((args (list url))
-        (proc nil))
-    (when browser
-      (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
-    (when (eq osx-browse-prefer-background 'background)
-      (push "-g" args))
-    (setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
-    (set-process-query-on-exit-flag proc nil))
-  (let ((width (- (frame-width) 25)))
-    (when (and (eq focus 'background)
-               (not osx-browse-less-feedback)
-               (>= width 10))
-      (message "opened in background: %s" (osx-browse-truncate-url url width)))))
+(interactive (osx-browse-interactive-form))
+(unless (stringp url)
+  (error "No valid URL"))
+(let ((args (list url))
+      (proc nil))
+  (when browser
+    (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
+  (when (eq osx-browse-prefer-background 'background)
+    (push "-g" args))
+  (setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
+  (set-process-query-on-exit-flag proc nil))
+(let ((width (- (frame-width) 25)))
+  (when (and (eq focus 'background)
+	     (not osx-browse-less-feedback)
+	     (>= width 10))
+    (message "opened in background: %s" (osx-browse-truncate-url url width)))))
 
 (defun jj/osx-browse-url-safari (url &optional new-window browser focus)
   "Open URL in Safari on OS X.
