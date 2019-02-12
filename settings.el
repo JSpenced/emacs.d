@@ -163,7 +163,12 @@
 	    (dired-omit-caller)
 	    (dired-hide-details-mode)
 	    (dired-sort-toggle-or-edit)
-	    ))
+	    (when (get-buffer "saves-*")
+	      (progn
+		(with-current-buffer "saves-*"
+		  (interactive)
+		  (setq dired-omit-mode nil))))
+	    ))    
 
 (setq dired-ranger-bookmark-reopen 'always)
 ;; start directory
