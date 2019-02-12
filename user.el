@@ -394,6 +394,19 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 ;; (global-set-key (kbd "<f2>") 'jj/cut-line-or-region) ; cut
 ;; (global-set-key (kbd "<f3>") 'jj/copy-line-or-region) ; copy
 
+;; (defun sylvain/desktop-owner-advice (original &rest args)
+;;   (let ((owner (apply original args)))
+;;     (if (and owner (/= owner (emacs-pid)))
+;;         (and (car (member owner (list-system-processes)))
+;;              (let (cmd (attrlist (process-attributes owner)))
+;;                (if (not attrlist) owner
+;;                  (dolist (attr attrlist)
+;;                    (and (string= "comm" (car attr))
+;;                         (setq cmd (car attr))))
+;;                  (and cmd (string-match-p "[Ee]macs" cmd) owner))))
+;;       owner)))
+;; ;; Ensure that dead system processes don't own it.
+;; (advice-add #'desktop-owner :around #'sylvain/desktop-owner-advice)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Using but remove with upgrade to new version
