@@ -41,28 +41,28 @@
 
 ;; function to open wttrin with first city on list
 (defun jj/weather-default-wttrin ()
-    "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
-    (interactive)
-    ;; save window arrangement to register 
-    (jj/wttrin-save-frame)
-    ;; call wttrin
-    (wttrin-query (car wttrin-default-cities))
-    ;; set that the frame was changed for exit
-    (setq jj/wttrin-frame-changed t)
-    )
+  "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
+  (interactive)
+  ;; save window arrangement to register 
+  (jj/wttrin-save-frame)
+  ;; call wttrin
+  (wttrin-query (car wttrin-default-cities))
+  ;; set that the frame was changed for exit
+  (setq jj/wttrin-frame-changed t)
+  )
 (defun jj/weather-wttrin (city)
-    "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
-    (interactive
-     (list
-      (completing-read "City name: " wttrin-default-cities nil nil
+  "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
+  (interactive
+   (list
+    (completing-read "City name: " wttrin-default-cities nil nil
                      (when (= (length wttrin-default-cities) 1)
                        (car wttrin-default-cities)))))
-    ;; save window arrangement to register 
-    (jj/wttrin-save-frame)
-    (wttrin-query city)
-    ;; set that the frame was changed for exit
-    (setq jj/wttrin-frame-changed t)
-    )
+  ;; save window arrangement to register 
+  (jj/wttrin-save-frame)
+  (wttrin-query city)
+  ;; set that the frame was changed for exit
+  (setq jj/wttrin-frame-changed t)
+  )
 
 (add-hook 'after-save-hook 'backup-each-save)
 (setq backup-each-save-mirror-location "~/.emacs_path_backups")
@@ -98,7 +98,7 @@
       (goto-char (point-max))
       (search-backward basename)
       )))
- 
+
 (define-minor-mode sensitive-mode
   "For sensitive files like password lists.
 It disables backup creation and auto saving.
@@ -119,9 +119,9 @@ Null prefix argument turns off the mode."
 	;; disable auto-save
 	(if auto-save-default
 	    (auto-save-mode -1)))
-    ;resort to default value of backup-inhibited
+					;resort to default value of backup-inhibited
     (kill-local-variable 'backup-inhibited)
-    ;resort to default auto save setting
+					;resort to default auto save setting
     (if auto-save-default
 	(auto-save-mode 1))))
 
@@ -259,8 +259,8 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 ;; Can also use the below to make it sensitive-minor mode
 ;; // -*-mode:org; mode:sensitive; fill-column:132-*-
 (setq auto-mode-alist
- (append '(("\\.gpg$" . sensitive-mode))
-               auto-mode-alist))
+      (append '(("\\.gpg$" . sensitive-mode))
+              auto-mode-alist))
 
 (setq wg-use-default-session-file nil)
 ;; don't open last workgroup automatically in `wg-open-session',
@@ -269,7 +269,7 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 (setq wg-load-last-workgroup nil)
 (setq wg-open-this-wg nil)
 
-;(workgroups-mode 1) ; put this one at the bottom of .emacs
+					;(workgroups-mode 1) ; put this one at the bottom of .emacs
 ;; by default, the sessions are saved in "~/.emacs_workgroups"
 (autoload 'wg-create-workgroup "workgroups2" nil t)
 
@@ -312,7 +312,7 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
      ;; I'm fine to to override the original workgroup
      (defadvice wg-unique-workgroup-name-p (around wg-unique-workgroup-name-p-hack activate)
        (setq ad-return-value t))))
-  
+
 (require 'back-button)
 (require 'nice-jumper)
 (back-button-mode 1)
@@ -407,6 +407,24 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 ;;       owner)))
 ;; ;; Ensure that dead system processes don't own it.
 ;; (advice-add #'desktop-owner :around #'sylvain/desktop-owner-advice)
+
+;; (defun get-newest-file-from-dir  (path)
+;;   "Get latest file (including directory) in PATH."
+;;   (car (directory-files path 'full nil #'file-newer-than-file-p)))
+
+;; (defun insert-org-image ()
+;;   "Moves image from Dropbox folder to ./media, inserting org-mode link"
+;;   (interactive)
+;;   (let* ((indir (expand-file-name andre--screenshot-folder))
+;;          (infile (get-newest-file-from-dir indir))
+;;          (outdir (concat (file-name-directory (buffer-file-name)) "/media"))
+;;          (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
+;;     (unless (file-directory-p outdir)
+;;       (make-directory outdir t))
+;;     (rename-file infile outfile)
+;;     (insert (concat (concat "[[./media/" (file-name-nondirectory outfile)) "]]")))
+;;   (newline)
+;;   (newline))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Using but remove with upgrade to new version
