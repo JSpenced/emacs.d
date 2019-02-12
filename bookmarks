@@ -1,0 +1,50 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("d:ml"
+ (filename . "~/Google-dr/ml/")
+ (front-context-string . "kernels/\n  drwxr")
+ (rear-context-string . "38 Jan 24 15:16 ")
+ (position . 222))
+("f:Google Prep Plans"
+ (filename . "~/Dropbox/Documents/Journal/Learning-notes.org")
+ (front-context-string . "le grid in inter")
+ (rear-context-string . ". [ ] Update tab")
+ (position . 384494))
+("d:macbook-config"
+ (filename . "~/Dropbox/Programs/macbook-config/")
+ (front-context-string . "surfingkeys.js\n ")
+ (rear-context-string . "4K Jan 19 03:07 ")
+ (position . 195))
+("d:Programs"
+ (filename . "~/Dropbox/Programs/")
+ (front-context-string . "system-scripts\n ")
+ (rear-context-string . "20 Jan 15 14:50 ")
+ (position . 128))
+("d:dropbox"
+ (filename . "~/Dropbox/")
+ (front-context-string . ".dropbox.cache\n ")
+ (rear-context-string . "06 Jan 15 12:29 ")
+ (position . 121))
+("d:K"
+ (filename . "~/Documents/To_Delete/K/")
+ (front-context-string . "JapanHDV.18.12.3")
+ (rear-context-string . "70 Jan  2 17:03 ")
+ (position . 133))
+("d:downloads"
+ (filename . "~/Downloads/")
+ (front-context-string . "FinishedTor\n  dr")
+ (rear-context-string . "3K Jan 14 10:36 ")
+ (position . 122))
+("d:Job Apps"
+ (filename . "~/Dropbox/Documents/JobApps/")
+ (front-context-string . "Cover Letters\n  ")
+ (rear-context-string . "42 Dec 29 08:45 ")
+ (position . 136))
+("d:finishedtor"
+ (filename . "~/Downloads/FinishedTor/")
+ (front-context-string . "Law.and.Order.SV")
+ (rear-context-string . "70 Jan 11 13:35 ")
+ (position . 135))
+)
