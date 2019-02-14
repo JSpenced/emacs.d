@@ -29,6 +29,20 @@
 ;; (setq save-place-file (locate-user-emacs-file "places" ".emacs-places"))
 (save-place-mode 1)
 
+;; Fix minor mode lines that not useful
+(setq beacon-lighter nil)		; beacon-mode
+(setq back-button-mode-lighter nil)	; back-button-mode
+(setq google-this-modeline-indicator nil) ;google-this-mode
+;; couldn't figure out how to change lighter of emacs-lock-mode
+(eval-after-load 'whitespace-cleanup-mode
+  '(progn
+     (defun whitespace-cleanup-mode-mode-line ()
+       "Return a string for mode-line.
+Use '!' to signify that the buffer was not initially clean."
+       (concat " WS"
+	       (unless whitespace-cleanup-mode-initially-clean
+		 "!")))))
+
 (when (eq system-type 'darwin)
   (osx-trash-setup))
 (setq delete-by-moving-to-trash t)
