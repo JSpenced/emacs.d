@@ -71,8 +71,6 @@
 
 (reload-alternative-input-methods)
 
-
-
 (defun jj/swiper-symbol-at-point ()
   "Get the current symbol at point all buffers"
   (interactive)
@@ -125,26 +123,26 @@
       (exchange-point-and-mark))
 
 (defun jj/duplicate-line-or-region (&optional n)
-      "Duplicate current line, or region if active.
+  "Duplicate current line, or region if active.
     With argument N, make N copies.
     With negative N, comment out original line and use the absolute value."
-      (interactive "*p")
-      (let ((use-region (use-region-p)))
-	(save-excursion
-	  (let ((text (if use-region        ;Get region if active, otherwise line
-			  (buffer-substring (region-beginning) (region-end))
-			(prog1 (thing-at-point 'line)
-			  (end-of-line)
-			  (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
-			      (newline))))))
-	    (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
-	      (insert text))))
-	(if use-region nil                  ;Only if we're working with a line (not a region)
-	  (let ((pos (- (point) (line-beginning-position)))) ;Save column
-	    (if (> 0 n)                             ;Comment out original with negative arg
-		(comment-region (line-beginning-position) (line-end-position)))
-	    (forward-line 1)
-	    (forward-char pos)))))
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region        ;Get region if active, otherwise line
+		      (buffer-substring (region-beginning) (region-end))
+		    (prog1 (thing-at-point 'line)
+		      (end-of-line)
+		      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+			  (newline))))))
+	(dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+	  (insert text))))
+    (if use-region nil                  ;Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+	(if (> 0 n)                             ;Comment out original with negative arg
+	    (comment-region (line-beginning-position) (line-end-position)))
+	(forward-line 1)
+	(forward-char pos)))))
 
 (defun jj/backward-kill-line (arg)
   "Kill ARG lines backward."
@@ -251,8 +249,6 @@ we're typing a directory name, kill forward until the next
 		 (forward-char)
 		 (kill-region (point) l))
 	(kill-sexp (- p))))))
-
-
 
 (defun jj/delete-sexp (&optional arg)
   "Kill the sexp (balanced expression) following point.
@@ -899,21 +895,21 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun create-new-file (file-list)
   (defun exsitp-untitled-x (file-list cnt)
-    (while (and (car file-list) (not (string= (car file-list) (concat "untitled~~" (number-to-string cnt) ".tmp"))))
+    (while (and (car file-list) (not (string= (car file-list) (concat "untitled~~" (number-to-string cnt) ".qqq"))))
       (setq file-list (cdr file-list)))
     (car file-list))
 
   (defun exsitp-untitled (file-list)
-    (while (and (car file-list) (not (string= (car file-list) "untitled~~.tmp")))
+    (while (and (car file-list) (not (string= (car file-list) "untitled~~.qqq")))
       (setq file-list (cdr file-list)))
     (car file-list))
 
   (if (not (exsitp-untitled file-list))
-      "untitled~~.tmp"
+      "untitled~~.qqq"
     (let ((cnt 2))
       (while (exsitp-untitled-x file-list cnt)
 	(setq cnt (1+ cnt)))
-      (concat "untitled~~" (number-to-string cnt) ".tmp")
+      (concat "untitled~~" (number-to-string cnt) ".qqq")
       )
     )
   )
@@ -1078,32 +1074,30 @@ The file is taken from a start directory set by `jj/move-file-here-start-dir' an
 		(user-error "ERROR: current buffer is not associated with a file.")
 	      (file-name-directory (buffer-file-name)))))
 
-  ;; sort list by most recent
-  ;;http://stackoverflow.com/questions/26514437/emacs-sort-list-of-directories-files-by-modification-date
-  (setq file-list-sorted
-	(mapcar #'car
-		(sort file-list
-		      #'(lambda (x y) (time-less-p (nth 6 y) (nth 6 x))))))
+    ;; sort list by most recent
+    ;;http://stackoverflow.com/questions/26514437/emacs-sort-list-of-directories-files-by-modification-date
+    (setq file-list-sorted
+	  (mapcar #'car
+		  (sort file-list
+			#'(lambda (x y) (time-less-p (nth 6 y) (nth 6 x))))))
 
-  ;; use ivy to select start-file
-  (setq start-file (ivy-read
-		    (concat "Move selected file to " target-dir ":")
-		    file-list-sorted
-		    :re-builder #'ivy--regex
-		    :sort nil
-		    :initial-input nil))
+    ;; use ivy to select start-file
+    (setq start-file (ivy-read
+		      (concat "Move selected file to " target-dir ":")
+		      file-list-sorted
+		      :re-builder #'ivy--regex
+		      :sort nil
+		      :initial-input nil))
 
-  ;; add full path to start file and end-file
-  (setq start-file-full
-	(expand-file-name start-file jj/move-file-here-start-dir))
-  (setq end-file
-	(expand-file-name (file-name-nondirectory start-file) target-dir))
-  (rename-file start-file-full end-file)
-  (kill-new start-file)
-  (gui-set-selection 'PRIMARY start-file)
-  (message "moved %s to %s" start-file-full end-file)))
-
-
+    ;; add full path to start file and end-file
+    (setq start-file-full
+	  (expand-file-name start-file jj/move-file-here-start-dir))
+    (setq end-file
+	  (expand-file-name (file-name-nondirectory start-file) target-dir))
+    (rename-file start-file-full end-file)
+    (kill-new start-file)
+    (gui-set-selection 'PRIMARY start-file)
+    (message "moved %s to %s" start-file-full end-file)))
 
 (defun jj/find-next-file-in-current-directory (&optional backward)
   "Find the next file (by name) in the current directory.
@@ -1136,7 +1130,6 @@ Version 2017-10-09"
     (let ((process-connection-type nil))
       (start-process "" nil "x-terminal-emulator"
 		     (concat "--working-directory=" default-directory))))))
-
 
 (defun jj/show-in-path-finder ()
   "Show current file in desktop.
@@ -1409,7 +1402,6 @@ Version 2016-12-22"
 	  (when (eql 1  number-marked-files)
 	    (dired-next-line 1))))
     (user-error "Not in dired")))
-
 
 (defun jj/dired-rename-space-to-underscore ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -1892,7 +1884,7 @@ Always focus bigger window."
 
 ;; Forces so will always open in background if set
 (defun jj/osx-browse-url (url &optional new-window browser focus)
-"Open URL in an external browser on OS X.
+  "Open URL in an external browser on OS X.
 
 When called interactively, `browse-url-dwim-get-url' is used
 to detect URL from the edit context and prompt for user input
@@ -1914,22 +1906,22 @@ BACKGROUND is not set, the customizable variable
 When called interactively, specifying a negative prefix argument
 is equivalent to setting FOCUS to 'background.  Any other prefix
 argument is equivalent to setting FOCUS to 'foreground."
-(interactive (osx-browse-interactive-form))
-(unless (stringp url)
-  (error "No valid URL"))
-(let ((args (list url))
-      (proc nil))
-  (when browser
-    (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
-  (when (eq osx-browse-prefer-background 'background)
-    (push "-g" args))
-  (setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
-  (set-process-query-on-exit-flag proc nil))
-(let ((width (- (frame-width) 25)))
-  (when (and (eq focus 'background)
-	     (not osx-browse-less-feedback)
-	     (>= width 10))
-    (message "opened in background: %s" (osx-browse-truncate-url url width)))))
+  (interactive (osx-browse-interactive-form))
+  (unless (stringp url)
+    (error "No valid URL"))
+  (let ((args (list url))
+	(proc nil))
+    (when browser
+      (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
+    (when (eq osx-browse-prefer-background 'background)
+      (push "-g" args))
+    (setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
+    (set-process-query-on-exit-flag proc nil))
+  (let ((width (- (frame-width) 25)))
+    (when (and (eq focus 'background)
+	       (not osx-browse-less-feedback)
+	       (>= width 10))
+      (message "opened in background: %s" (osx-browse-truncate-url url width)))))
 
 (defun jj/osx-browse-url-safari (url &optional new-window browser focus)
   "Open URL in Safari on OS X.
@@ -1984,7 +1976,7 @@ With PREFIX, ask for location."
 
 ;; Still runs with using s-x
 (defadvice kill-ring-save (before slick-copy-line activate compile)
-  "When called interactively with no region, copy the sexp or line
+  "When called interactively with no region, copy the word or line
 
 Calling it once without a region will copy the current word.
 Calling it a second time will copy the current line."
@@ -1999,14 +1991,14 @@ Calling it a second time will copy the current line."
 		 (line-beginning-position 2)))
        (save-excursion
 	 (forward-char)
-	 (backward-sexp)
-	 (mark-sexp)
-	 (message "Copied sexp")
+	 (backward-word)
+	 (mark-word)
+	 (message "Copied word")
 	 (list (mark) (point)))))))
 
 ;; *** Kill word/line without selecting
 (defadvice kill-region (before slick-cut-line first activate compile)
-  "When called interactively kill the current sexp or line.
+  "When called interactively kill the current word or line.
 
 Calling it once without a region will kill the current word.
 Calling it a second time will kill the current line."
@@ -2025,9 +2017,9 @@ Calling it a second time will kill the current line."
 		 (line-beginning-position 2)))
        (save-excursion
 	 (forward-char)
-	 (backward-sexp)
-	 (mark-sexp)
-	 (message "Killed sexp")
+	 (backward-word)
+	 (mark-word)
+	 (message "Killed word")
 	 (list (mark) (point)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
