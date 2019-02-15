@@ -250,9 +250,10 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq dired-listing-switches "-alXGhF -HA  --group-directories-first")
 ;; First is normal then group directories first and then with proper number sorting scheme -v
 ;; (setq dired-listing-switches "-lXGh  --group-directories-first")
-;; Very dangerous to set to always below
+;; Very dangerous to set to always below (on Mac sends to Trash so ok to set to always)
 (setq dired-recursive-copies 'always)
-(setq dired-recursive-deletes 'top)
+(if (eq system-type 'darwin) (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-deletes 'top))
 (setq dired-omit-mode t)
 (setq dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*$")
 ;; (setq dired-omit-files "^\\...+$")
