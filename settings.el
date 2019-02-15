@@ -372,6 +372,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 			abort-recursive-edit
 			exit-minibuffer
 			keyboard-quit
+			jj/org-metaleft-next-line-beginning-item
+			jj/org-metaleft-next-line-previous-item
 			previous-line
 			next-line
 			scroll-down
