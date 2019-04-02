@@ -69,6 +69,15 @@
 (global-set-key (kbd "<S-s-up>") 'jj/evil-scroll-up-15-lines)
 (global-set-key (kbd "<s-down>") 'evil-scroll-line-down)
 (global-set-key (kbd "<s-up>") 'evil-scroll-line-up)
+(global-set-key (kbd "C-x C-s") nil)
+(global-set-key (kbd "<escape> s") 'save-buffer)
+(global-set-key (kbd "<escape> S") 'save-some-buffers)
+(global-set-key (kbd "M-g M") 'manual-entry)
+(global-set-key (kbd "M-s-m") 'iconify-or-deiconify-frame)
+(global-set-key (kbd "<escape> <backspace>") 'jj/delete-backward-bracket-pair)
+(global-set-key (kbd "<escape> C-d") 'jj/delete-forward-bracket-pairs)
+(global-set-key (kbd "<escape> M-h") 'jj/delete-backward-bracket-pair)
+(global-set-key (kbd "<escape> s-h") 'Helper-describe-bindings)
 
 ;; (define-key org-mode-map (kbd "<C-m>") 'exchange-point-and-mark)
 ;; unset C- and M- digit keys
@@ -136,6 +145,44 @@
 (define-key global-map (kbd "C-S-t") 'jj/find-open-last-killed-file)
 (define-key global-map (kbd "s-T") 'jj/find-open-last-killed-file)
 (define-key commandpalette-map (kbd "C-q") 'jj/toggle-window-dedicated)
+(global-set-key (kbd "M-g M-d") 'dumb-jump-go)
+(global-set-key (kbd "M-g M-b") 'dumb-jump-back)
+
+;; Dumb jump map bindings
+(define-key dumb-jump-map (kbd "j") 'dumb-jump-go)
+(define-key dumb-jump-map (kbd "i") 'dumb-jump-go-prompt)
+(define-key dumb-jump-map (kbd "l") 'dumb-jump-quick-look)
+(define-key dumb-jump-map (kbd "o") 'dumb-jump-go-other-window)
+(define-key dumb-jump-map (kbd "c") 'dumb-jump-go-current-window)
+(define-key dumb-jump-map (kbd "b") 'dumb-jump-back)
+(define-key dumb-jump-map (kbd "p") 'dumb-jump-back)
+(define-key dumb-jump-map (kbd "x") 'dumb-jump-go-prefer-external)
+(define-key dumb-jump-map (kbd "z") 'dumb-jump-go-prefer-external-other-window)
+;; Tags and Gtags and Xref jump to definitions bindings
+(global-set-key  (kbd "M-.") 'xref-find-definitions)
+(global-set-key  (kbd "M-g .") 'helm-gtags-dwim)
+(global-set-key  (kbd "M-g C-j") 'helm-gtags-select)
+(global-set-key  (kbd "M-g j") 'helm-gtags-select)
+(global-set-key  (kbd "M-g M-,") 'helm-gtags-show-stack)
+(global-set-key  (kbd "M-g ,") 'helm-gtags-pop-stack)
+(global-set-key  (kbd "M-g b") 'helm-gtags-previous-history)
+(global-set-key  (kbd "M-g f") 'helm-gtags-next-history)
+(global-set-key  (kbd "M-g M-.") 'ggtags-find-tag-dwim)
+(define-key tags-jump-map  (kbd "g") 'counsel-gtags-dwim)
+(define-key tags-jump-map  (kbd "t") 'counsel-gtags-dwim)
+(define-key tags-jump-map  (kbd "r") 'counsel-gtags-find-reference)
+(define-key tags-jump-map  (kbd "r") 'counsel-gtags-find-reference)
+(define-key tags-jump-map  (kbd "o") 'helm-gtags-find-tag-other-window)
+(define-key tags-jump-map  (kbd "i") 'helm-gtags-tags-in-this-function)
+(define-key tags-jump-map  (kbd "j") 'helm-gtags-select)
+(define-key tags-jump-map  (kbd "c") 'helm-gtags-create-tags)
+(define-key tags-jump-map  (kbd "u") 'helm-gtags-update-tags)
+(define-key tags-jump-map  (kbd "U") 'ggtags-update-tags)
+(define-key tags-jump-map  (kbd "d") 'counsel-gtags-find-definition)
+(define-key tags-jump-map  (kbd "s") 'counsel-gtags-find-symbol)
+(define-key tags-jump-map  (kbd "b") 'counsel-gtags-go-backward)
+(define-key tags-jump-map  (kbd "f") 'counsel-gtags-go-forward)
+
 ;; Window bindings
 (define-prefix-command 'cp-window-map)
 (define-key commandpalette-map (kbd "w") 'cp-window-map)
@@ -614,7 +661,15 @@
 (global-set-key (kbd "C-S-<tab>") 'jj/switch-to-previous-buffer)
 
 (define-key process-menu-mode-map (kbd "C-k") 'jj/delete-kill-process-at-point)
+
 (global-set-key (kbd "C-M-s-9") 'jj/goto-last-change)
+(global-set-key (kbd "M-[")  'nice-jumper/backward)
+(global-set-key (kbd "M-]") 'nice-jumper/forward)
+(global-set-key (kbd "C-(") 'back-button-global-backward)
+(global-set-key (kbd "C-)") 'back-button-global-forward)
+(global-set-key (kbd "s-[") 'back-button-local-backward)
+(global-set-key (kbd "s-]") 'back-button-local-forward)
+
 (global-set-key [remap kill-ring-save] 'easy-kill)
 (global-set-key [remap mark-sexp] 'easy-mark)
 (global-set-key (kbd "M-@") 'easy-mark)
@@ -761,17 +816,3 @@
      (bind-key "i" #'evil-scroll-page-up  messages-buffer-mode-map)
      (bind-key "k" #'evil-scroll-page-down  messages-buffer-mode-map)
      ))
-
-;; Used to just define a function in a specific mode
-					; (with-eval-after-load 'coffee-mode
-					;   (define-key coffee-mode-map (kbd "C-c C-c") 'coffee-compile-file)
-					;   (define-key erlang-mode-map (kbd "C-c C-m") 'coffee-make-coffee)
-					;   ;; Add other coffee commands
-					; )
-
-;;;;;;;;;; Bookmarks
-					; (global-set-key (read-kbd-macro "<C-x j>") 'bookmark-jump)
-					; (global-set-key (read-kbd-macro "<C-c j>") 'bookmark-jump)
-					; (global-set-key (read-kbd-macro "<C-x C-j>") 'bookmark-jump)
-;; (global-set-key (read-kbd-macro "<C-x RET RET>") 'bookmark-set)
-					; (global-set-key (read-kbd-macro "<C-c k>") 'bookmark-set)

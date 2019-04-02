@@ -61,6 +61,59 @@
 	    ;; load after recentf-mode since storing recentf-list in savehist variable
 	    (savehist-mode 1)
 	    (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file))))
+;; untitled~~.tmp files will open into text-mode (
+(add-to-list 'auto-mode-alist '("\\.qqq\\'" . text-mode))
+;; symlinks under version control are followed to there real directory
+;; only necessary if using emacs for controlling git (possibly remove later)
+(setq vc-follow-symlinks t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Undo Tree
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; setup later undo info
+;; (setq undo-tree-auto-save-history t)
+;; (setq undo-tree-history-directory-alist
+;;       (quote (("" . "~/.local/var/emacs/undo_hist"))))
+(setq undo-outer-limit (* 1024 1024 10))
+(setq undo-strong-limit (* 1024 1024 6))
+(setq undo-limit (* 1024 1024 5))
+;; (with-eval-after-load "volatile-highlights-autoloads"
+;;   (volatile-highlights-mode 1))
+
+;; ;; Treat undo history as a tree.
+;; (with-eval-after-load "undo-tree-autoloads"
+
+;;   ;; Enable Global-Undo-Tree mode.
+;;   (global-undo-tree-mode 1))
+
+;; (with-eval-after-load "undo-tree"
+
+;;   (with-eval-after-load "diminish-autoloads"
+;;     (diminish 'undo-tree-mode))
+
+;;   ;; Display times relative to current time in visualizer.
+;;   (setq undo-tree-visualizer-relative-timestamps t)
+
+;;   ;; Display time-stamps by default in undo-tree visualizer.
+;;   (setq undo-tree-visualizer-timestamps t)
+;;					; Toggle time-stamps display using `t'.
+
+;;   ;; Display diff by default in undo-tree visualizer.
+;;   (setq undo-tree-visualizer-diff t)  ; Toggle the diff display using `d'.
+
+;;   (define-key undo-tree-map (kbd "C-/") nil)
+
+;;   ;; (defalias 'redo 'undo-tree-redo)
+;;   (global-set-key (kbd "C-S-z") #'undo-tree-redo)
+;;   (global-set-key (kbd "<S-f11>") #'undo-tree-redo))
+
+;; )                                       ; Chapter 7 ends here.
+
+;; Look at adding
+;; (defadvice undo-tree-make-history-save-file-name
+;;     (after undo-tree activate)
+;;   (setq ad-return-value (concat ad-return-value ".gz")))
+
 
 ;; Fix minor mode lines that not useful
 (setq beacon-lighter nil)		; beacon-mode
@@ -86,6 +139,10 @@ Use '!' to signify that the buffer was not initially clean."
 (setq counsel-grep-base-command "grep -E -n -i -e %s %s")
 ;; Use to make the ivy-directories in buffer switch use full paths
 ;; (setq ivy-virtual-abbreviate 'full)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ivy and Counsel
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ivy-use-virtual-buffers nil)
 (setq ivy-height 14)
 (ivy-set-actions
@@ -132,7 +189,82 @@ Use '!' to signify that the buffer was not initially clean."
 	(counsel-grep-or-swiper      . ivy--regex-ignore-order)
 	(jj/counsel-find-name-everything      . ivy--regex-ignore-order)
 	(t      . ivy--regex-ignore-order)))
-;; Latex and tex mode settings
+(add-to-list 'ivy-sort-functions-alist
+	     '(read-file-name-internal . jj/ivy-sort-file-function))
+;; (add-to-list 'ivy-sort-functions-alist
+;;              '(read-file-name-internal . jj/ivy-sort-file-by-mtime))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Whitespace mode and ws-butler settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; hook needs to be run before whitespace-cleanup-mode hook so that is loaded first
+(add-hook 'prog-mode-hook 'jj/ws-butler-mode-if-whitespace-initially-not-clean)
+(add-hook 'org-mode-hook 'jj/ws-butler-mode-if-whitespace-initially-not-clean)
+;; (global-whitespace-cleanup-mode)
+;; modes to ignore for whitespace-cleanup-mode (useful when global-whtespace-cleanup-mode enabled)
+;;
+(dolist (hook '(prog-mode-hook text-mode-hook latex-mode-hook ...))
+  (add-hook hook (lambda ()
+		   (whitespace-cleanup-mode))))
+(add-hook 'markdown-mode-hook
+	  (lambda () (whitespace-cleanup-mode 0)))
+(eval-after-load 'whitespace-cleanup-mode
+  '(setq whitespace-cleanup-mode-ignore-modes
+	 (nconc '(markdown-mode dired-mode fundamental-mode image-mode doc-view-mode archive-mode tar-mode)
+		whitespace-cleanup-mode-ignore-modes)))
+
+(add-hook 'prog-mode-hook 'clean-aindent-mode)
+(add-hook 'prog-mode-hook 'dtrt-indent-mode)
+;; if using semantic might need this (removes print on opening buffer)
+;; (setq dtrt-indent-verbosity 0)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Diminish mode line settins and cyphejor mode-line settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; use diminish to change minor-mode line or with no argument deletes it
+;; can also be used to change major-mode lines
+;; (eval-after-load "dubcaps" '(diminish 'dubcaps-mode))
+(eval-after-load 'emacs-lock-mode '(diminish 'org-indent-mode))
+(eval-after-load "org-indent" '(diminish 'org-indent-mode))
+(eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
+(eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
+(eval-after-load "dired-x" '(diminish 'dired-omit-mode " Omt"))
+(eval-after-load "dired-filter" '(diminish 'dired-filter-mode " Filter"))
+(eval-after-load "dired-narrow" '(diminish 'dired-narrow-mode " Narrow"))
+(eval-after-load "elpy" '(diminish 'elpy-mode " El"))
+(eval-after-load "autorevert" '(progn (setq auto-revert-mode-text " AR")))
+(eval-after-load "emacs-lock" '(diminish 'emacs-lock-mode
+					 `("" (emacs-lock--try-unlocking " l:" " L:")
+					   (:eval (substring (symbol-name emacs-lock-mode) 0 1) ))))
+(setq
+ cyphejor-rules
+ '(
+   ;; supposed to replace first letter to Upper but doesn't work
+   ;; :upcase-replace    ; change to :upcase for just first letter of major-mode
+   ("bookmark"    "→")
+   ("buffer"      "β")
+   ("diff"        "Δ")
+   ("emacs"       "∃")
+   ("fundamental" "Ⓕ")
+   ("inferior"    "i" :prefix)
+   ("interaction" "i" :prefix)
+   ("interactive" "i" :prefix)
+   ("lisp"        "λ" :postfix)
+   ("menu"        "▤" :postfix)
+   ("mode"        "")
+   ("package"     "↓")
+   ("python"      "π")			;Ƥ
+   ("org"      "Ω")			;Ⓞ
+   ("shell"       "sh" :postfix)
+   ("help"       "Ήϵ")
+   ("dired"       "Ɖ")			;Ⓓ
+   ("text"        "Ŧ")
+   ("wdired"      "𝓦Ɖ")))
+(cyphejor-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Latex and Tex
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scale height of section commands by 1.2
 (setq font-latex-fontify-sectioning 1.2)
 ;; don't query user to save on running latex commands
@@ -212,7 +344,6 @@ Use '!' to signify that the buffer was not initially clean."
 						))
 	    (hl-todo-mode)
 	    ))
-(setq org-startup-indented t)
 (add-hook 'nxml-mode-hook
 	  (lambda ()
 	    (setq visual-fill-column-mode nil)
@@ -231,6 +362,30 @@ Use '!' to signify that the buffer was not initially clean."
 	    (setq visual-fill-column-width 200)
 	    (setq visual-fill-column-mode nil)
 	    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; hl-todo highlight todo mode settins
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq hl-todo-highlight-punctuation "\-:*/~=#<>|\\")
+;; Sets for every buffer so can run hl-todo-occur even if hl-todo-mode not enabled
+(setq-default hl-todo--regexp "\\([-:*/~=#<>|\\\\]*\\<\\([?]\\{3,5\\}\\|UNSURE\\|FINISHED\\|DON[ET]\\|F\\(?:AIL\\|IXME\\)\\|H\\(?:ACK\\|OLD\\)\\|KLUDGE\\|N\\(?:EXT\\|OTE\\)\\|OKAY\\|PROG\\|T\\(?:EMP\\|HEM\\|ODO\\|0D0\\)\\|XXXX?\\)\\>[-:*/~=#<>|\\\\]*\\)")
+(setq-default hl-todo-keyword-faces '(("HOLD" . "#d0bf8f") ("TODO" . "#cc9393") ("T0D0" . "#cc9393")
+				      ("NEXT" . "#dca3a3") ("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
+				      ("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
+				      ("DONT" . "#5f7f5f") ("FAIL" . "#8c5353") ("DONE" . "#afd8af")
+				      ("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
+				      ("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
+				      ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX" . "#cc9393")
+				      ("XXXX" . "#cc9393") ("????" . "#cc9393") ("???" . "#cc9393")
+				      ))
+;; below uneccasry because hl-todo-mode is set by hl-todo-activate-in-modes
+;; this defualts to (prog-mode text-mode) but not turned on in org-mode
+(global-hl-todo-mode)
+;; highlight todo, done, and fixme in prog-modes and latex-mode
+;; (dolist (hook '(prog-mode-hook latex-mode-hook markdown-mode-hook ...))
+;;   (add-hook hook (lambda ()
+;;		   (hl-todo-mode))))
+
 
 ;; (add-hook 'text-mode-hook (lambda () (text-scale-decrease 1)))
 ;; (setq dropbox-access-token pa8m5pql3gkAAAAAAADx6pqdfm4oOdinGLz1kQFcGyvidfq7EPrcFyPeiLnzIHE-)
@@ -379,6 +534,161 @@ Use '!' to signify that the buffer was not initially clean."
 (when (fboundp 'file-name-mode-alist)
   (setq auto-mode-alist (append auto-mode-alist file-name-mode-alist)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Backup each save and emacs default backup settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'after-save-hook 'backup-each-save)
+(setq backup-each-save-mirror-location "~/.emacs_path_backups")
+;; Backup-save size limit is set to 5mb
+(setq backup-each-save-size-limit (* 1024 1024 2))
+(setq backup-each-save-filter-function 'jj/backup-each-save-filter)
+
+;; https://www.emacswiki.org/emacs/BackupFiles
+(setq
+ backup-inhibited nil	       ; enable backups
+ backup-by-copying t	       ; don't clobber symlinks
+ kept-new-versions 4	       ; keep 12 latest versions
+ kept-old-versions 1	       ; don't bother with old versions
+ delete-old-versions t	       ; don't ask about deleting old versions
+ delete-by-moving-to-trash t
+ version-control t		     ; number backups
+ vc-make-backup-files t) ; backup version controlled files
+;; Later maybe update the backup functions above so the tramp files are stored into their own
+;; per-session and per-save directories
+(add-to-list 'backup-directory-alist
+	     (cons tramp-file-name-regexp "~/.emacs_backups/per-save"))
+
+;; Disabling backups can be targeted to just the su and sudo methods:
+;; (setq backup-enable-predicate
+;;            (lambda (name)
+;;              (and (normal-backup-enable-predicate name)
+;;                   (not
+;;                    (let ((method (file-remote-p name 'method)))
+;;                      (when (stringp method)
+;;                        (member method '("su" "sudo"))))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; backup every save                                                      ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+;; https://www.emacswiki.org/emacs/backup-each-save.el
+(defvar jj/backup-file-size-limit (* 5 1024 1024)
+  "Maximum size of a file (in bytes) that should be copied at each savepoint.
+
+If a file is greater than this size, don't make a backup of it.
+Default is 5 MB")
+
+(defvar jj/backup-location (expand-file-name "~/.emacs_backups")
+  "Base directory for backup files.")
+
+(defvar jj/backup-trash-dir (expand-file-name "~/.Trash")
+  "Directory for unwanted backups.")
+
+(defvar jj/backup-exclude-regexp "\\.\\(vcf\\|gpg\\|pdf\\)$"
+  "Don't back up files matching this regexp.
+
+Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'. Set to nil to disable this.")
+
+;; Default and per-save backups go here:
+;; N.B. backtick and comma allow evaluation of expression
+;; when forming list
+(setq backup-directory-alist
+      `(("" . ,(expand-file-name "per-save" jj/backup-location))))
+
+;; add trash dir if needed
+(if jj/backup-exclude-regexp
+    (add-to-list 'backup-directory-alist `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
+
+;; add to save hook
+(add-hook 'before-save-hook 'jj/backup-every-save)
+
+;; If sensitive mode is turned off then the autosave file will be created
+;; and the backups will go to the trash due to the settings jj/backup-every-save
+;; Can also use the below to make it sensitive-minor mode
+;; // -*-mode:org; mode:sensitive; fill-column:132-*-
+(setq auto-mode-alist
+      (append '(("\\.gpg$" . sensitive-mode)
+		;; ("\\.pdf$" . sensitive-mode)
+		)
+	      auto-mode-alist))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Auto save settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; turn off auto-save-messages
+(setq auto-save-no-message t)
+;; auto save often
+;; save every 20 characters typed (this is the minimum)
+(setq auto-save-interval 60)
+;; number of seconds before auto-save when idle
+(setq auto-save-timeout 10)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dumbjump jump settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq dumb-jump-selector 'ivy)
+(setq dumb-jump-prefer-searcher 'rg)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Gtags settings (helm)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq
+ helm-gtags-ignore-case nil
+ helm-gtags-auto-update t
+ helm-gtags-use-input-at-cursor t
+ helm-gtags-pulse-at-cursor t
+ helm-gtags-suggested-key-mapping t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Go to (Special) End of Buffer for certain modes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(eval-after-load 'dired '(jj/special-beginning-of-buffer dired
+			   (while (not (ignore-errors (dired-get-filename)))
+			     (dired-next-line 1))))
+(jj/special-end-of-buffer dired
+  (if (not (ignore-errors (dired-get-filename)))
+      (dired-previous-line 1)))
+(jj/special-beginning-of-buffer occur
+  (occur-next 1))
+(jj/special-end-of-buffer occur
+  (occur-prev 1))
+(jj/special-beginning-of-buffer ibuffer
+  (ibuffer-forward-line 1))
+(jj/special-end-of-buffer ibuffer
+  (ibuffer-backward-line 1))
+(jj/special-beginning-of-buffer vc-dir
+  (vc-dir-next-line 1))
+(jj/special-end-of-buffer vc-dir
+  (vc-dir-previous-line 1))
+(jj/special-beginning-of-buffer bs
+  (bs-down 2))
+(jj/special-end-of-buffer bs
+  (bs-up 1)
+  (bs-down 1))
+(jj/special-beginning-of-buffer recentf-dialog
+  (when (re-search-forward "^  \\[" nil t)
+    (goto-char (match-beginning 0))))
+(jj/special-end-of-buffer recentf-dialog
+  (re-search-backward "^  \\[" nil t))
+(jj/special-beginning-of-buffer ag
+  (compilation-next-error 1))
+(jj/special-end-of-buffer ag
+  (compilation-previous-error 1))
+(jj/special-beginning-of-buffer org-agenda
+  (org-agenda-next-item 1))
+(jj/special-end-of-buffer org-agenda
+  (org-agenda-previous-item 1))
+(jj/special-beginning-of-buffer ag
+  (compilation-next-error 1))
+(jj/special-end-of-buffer ag
+  (compilation-previous-error 1))
+(jj/special-end-of-buffer elfeed-search
+  (forward-line -2))
+(jj/special-end-of-buffer elfeed-search
+  (forward-line -2))
+
 ;; (savehist-mode 1)
 ;; not needed as above does the same thing
 ;; (run-with-timer (* 30 60) (* 30 60) 'savehist-save)
@@ -500,6 +810,18 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Deals with remembering window history and go back with C-c left/right
 (winner-mode 1) ;; winner-undo and winner-redo the functions
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; will show space between headings if 1 or more lines blank (default 2)
+(setq org-cycle-separator-lines 1)
+(setq org-support-shift-select nil)
+(setq org-list-allow-alphabetical t)
+(setq org-list-demote-modify-bullet
+      '(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
+(setq org-startup-indented t)
+
 ;; Switch entry to done automatically when all subentries are done
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
@@ -520,6 +842,29 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-ref-bibliography-notes "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib"
       org-ref-default-bibliography '("~/Google-dr/Research/MyWork/Bibtex/library.bib")
       org-ref-pdf-directory "~/Google-dr/Research/Papers/")
+;; setup when start refiling notes
+;; (setq org-refile-targets
+;;       '(("gtd.org" :maxlevel . 1)
+;;         ("done.org" :maxlevel . 1)))
+
+;; (setq org-agenda-files
+;;       '("gtd.org" "done.org"))
+
+;; (setq org-refile-targets
+;;       '((nil :maxlevel . 3)
+;;         (org-agenda-files :maxlevel . 3)))
+;; (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
+;; also seen people set use-outline-path to 'file
+;; (setq org-refile-use-outline-path t)             ; Show full paths for refiling
+;; (setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-download-screenshot-method "screencapture -i %s")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; view weather wttrin package
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq wttrin-default-cities '("Seoul" "Saint Louis, United States of America"))
+;; '("Accept-Language" . "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+(setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
 
 ;; Setup so todotxt works and initialize location of todotxt file
 (setq todotxt-file (expand-file-name "/Users/bigtyme/Dropbox/Apps/Simpletask/todo.txt"))
@@ -612,13 +957,56 @@ even when the file is larger than `large-file-warning-threshold'.")
 	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 	      "\\)$"))
 
-;; For alternative input methods (korean)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Peep dired settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq peep-dired-max-size (* 8 1024 1024))
+(setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "xls" "avi" "mpg" "mpg" "mp3" "xlsx" "wav" "psd" "ppt" "pptx" "doc" "docx" "m4a"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Easy kill settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq easy-kill-alist '((?w word           " ")
+			(?a backward-line-edge "")
+			(?e forward-line-edge "")
+			(?s sexp           "\n")
+			(?l list           "\n")
+			(?f filename       "\n")
+			(?d defun          "\n\n")
+			(?D defun-name     " ")
+			(?b buffer-file-name)
+			(?h buffer "")
+			(?< buffer-before-point "")
+			(?> buffer-after-point "")
+			(?^ backward-line-edge "")
+			(?$ forward-line-edge "")
+			(?L line           "\n")
+			(?z string-to-char-forward "")
+			(?Z string-up-to-char-forward "")
+			(?t string-to-char-backward "")
+			(?T string-up-to-char-backward "")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Alternative input methods for Korean hangul
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq alternative-input-methods
       '(("korean-hangul" . [?\M-\s-\\])))
 (setq default-input-method
       (caar alternative-input-methods))
 (reload-alternative-input-methods)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Wg workgroups settings and emacs startup hook and daemon settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq wg-use-default-session-file nil)
+;; don't open last workgroup automatically in `wg-open-session',
+;; I only want to check available workgroups! Nothing more.
+(setq wg-session-file "~/Programs/scimax/user/emacs_workgroups")
+(setq wg-load-last-workgroup nil)
+(setq wg-open-this-wg nil)
+;;(workgroups-mode 1) ; put this one at the bottom of .emacs
+;; by default, the sessions are saved in "~/.emacs_workgroups"
+(autoload 'wg-create-workgroup "workgroups2" nil t)
 ;; needs to be added to hook after (recentf-mode 1) so loaded first
 ;; if not writing to recentf, might not work properly
 (add-hook 'emacs-startup-hook
@@ -632,8 +1020,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 		       (desktop-save-mode)
 		       (desktop-read))))))
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
-
-
 ;; Run an edit server in the running emacs
 ;; (when (locate-library "edit-server")
 ;;   (require 'edit-server)
@@ -644,105 +1030,3 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; (add-hook 'edit-server-start-hook 'edit-server-maybe-dehtmlize-buffer)
 ;; (add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer)
 ;; )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Not using
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; add some additional themes
-					; (add-to-list 'custom-theme-load-path (expand-file-name "themes/emacs-color-theme-solarized" starter-kit-dir))
-
-					; (add-to-list 'custom-theme-load-path (expand-file-name "themes/replace-colorthemes" starter-kit-dir))
-
-					; (add-to-list 'load-path (expand-file-name "themes/tomorrow-theme/Gnu Emacs" starter-kit-dir))
-
-					; (add-to-list 'custom-theme-load-path (expand-file-name "themes/tomorrow-theme/Gnu Emacs" starter-kit-dir))
-
-;; flyspell mode for spell checking everywhere
-;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-
-;; [[https://github.com/grettke/home/blob/master/ALEC.txt][home/ALEC.txt at master · grettke/home]]
-					; (setq org-catch-invisible-edits 'error)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Deprecated
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Old emacs config mine
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; adapted from [[http://doc.rix.si/org/fsem.html][Hardcore Freestyle Emacs]]
-;; (rainbow-mode 1)
-;; (diminish 'rainbow-mode)
-;; (global-linum-mode 0)
-;; (global-whitespace-mode 0)
-;; ;; (global-relative-line-numbers-mode 0)
-;; (global-hl-line-mode 0)
-;; ;; (column-highlight-mode 0)
-;; (hl-line-mode 0)
-
-;; (defun rrix/enable-hl-line ()
-;;        (hl-line-mode 1))
-
-;; (mapc (function (lambda (mode)
-;;                  (message (symbol-name mode))
-;;                  (add-hook mode 'rrix/enable-hl-line)))
-;;       '(erc-mode-hook
-;;         gnus-group-mode-hook
-;;         gnus-summary-mode-hook
-;;         org-agenda-mode-hook
-;;         eshell-mode-hook))
-
-;; (require 'diminish)
-;; (diminish 'visual-line-mode "")
-
-;; (global-visual-line-mode)
-;; (setq-default fill-column 80
-;;	      whitespace-line-column 80)
-
-;; (require 'whitespace)
-;; (diminish 'whitespace-mode "ᗣ")
-;; (diminish 'global-whitespace-mode "ᗣ")
-;; (add-hook 'before-save-hook 'whitespace-cleanup)
-
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; (define-key global-map (kbd "RET") 'newline-and-indent)
-
-;; (defun rrix/setup-text-mode ()
-;;        "function that applies all of my text-mode customizations"
-;;        (whitespace-mode 1))
-;; (add-hook 'text-mode-hook 'rrix/setup-text-mode)
-
-;; (setq whitespace-style '(indentation::space
-;;                          space-after-tab
-;;                          space-before-tab
-;;                          trailing
-;; ;;                         lines-tail
-;;                          tab-mark
-;;                          face
-;;                          tabs))
-
-;; (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-;; (setq linum-delay t
-;;       linum-eager nil)
-;; (add-hook 'prog-mode-hook '(lambda () (linum-mode 1)))
-
-;; (require 'flymake)
-;; (flymake-mode 0)
-;; (diminish 'flymake-mode "")
-
-;; (require 'hideshow)
-;; (add-hook 'prog-mode-hook (lambda () (hs-minor-mode 1)))
-;; (diminish 'hs-minor-mode "F")
-
-;; (require 'git-messenger)
-;; (add-hook 'prog-mode-hook (lambda ()
-;;                            (local-set-key (kbd "C-c v p")
-;;         'git-messenger:popup-message)
-;;         ))
-
-
-
-;; (require 'ace-isearch)
-;; (global-ace-isearch-mode +1)
