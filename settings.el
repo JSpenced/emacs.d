@@ -155,7 +155,7 @@ Use '!' to signify that the buffer was not initially clean."
     )))
 
 (setq ivy-initial-inputs-alist
-      '((org-refile . "^")
+      '((org-refile . "")
 	(org-agenda-refile . "^")
 	(org-capture-refile . "^")
 	(counsel-M-x . "")
@@ -847,16 +847,19 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;       '(("gtd.org" :maxlevel . 1)
 ;;         ("done.org" :maxlevel . 1)))
 
-;; (setq org-agenda-files
-;;       '("gtd.org" "done.org"))
+(setq org-agenda-files
+      '("Learning_notes.org" "done.org"))
 
-;; (setq org-refile-targets
-;;       '((nil :maxlevel . 3)
-;;         (org-agenda-files :maxlevel . 3)))
-;; (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
+(setq org-refile-targets
+      '((nil :maxlevel . 1)
+	("Machine_learning_notes.org" :maxlevel . 2)
+	(org-agenda-files :maxlevel . 2)))
+(setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
-;; (setq org-refile-use-outline-path t)             ; Show full paths for refiling
-;; (setq org-refile-allow-creating-parent-nodes 'confirm)
+;; this allows refiling to the top level of a file
+;; TODO: Possible change back to t instead of 'file if don't need to refile at the top level
+(setq org-refile-use-outline-path 'file)             ; Show full paths for refiling
+(setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-download-screenshot-method "screencapture -i %s")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
