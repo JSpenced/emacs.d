@@ -4,6 +4,8 @@
 (setq mc/cmds-to-run-for-all
       '(
 	ace-jump-zap-to-char-dwim
+	back-button-local-backward
+	backward-kill-sexp
 	backward-sexp
 	beginning-of-visual-line
 	counsel-M-x
@@ -30,23 +32,32 @@
 	easy-mark
 	electric-newline-and-maybe-indent
 	end-of-visual-line
+	eval-defun
 	eval-last-sexp
 	forward-sexp
 	indent-for-tab-command
+	jj/backward-delete-sexp-or-dir
 	jj/backward-delete-word
+	jj/delete-backward-word
+	jj/delete-forward-sexp-or-dir
+	jj/delete-line-backward
+	jj/delete-sexp
 	jj/delete-whole-line
 	jj/delete-word
 	jj/duplicate-line-or-region
 	jj/forward-delete-sexp-or-dir
+	jj/insert-dollar-sign
 	kill-sexp
 	kill-visual-line
 	lispy-braces
 	lispy-brackets
+	lispy-colon
 	lispy-comment
 	lispy-cursor-down
 	lispy-delete
 	lispy-delete-backward
 	lispy-kill
+	lispy-kill-word
 	lispy-move-beginning-of-line
 	lispy-move-end-of-line
 	lispy-newline-and-indent-plain
@@ -57,10 +68,16 @@
 	lispy-yank
 	my/duplicate-line
 	org-ctrl-c-minus
+	org-delete-char
+	org-end-of-line
 	org-force-self-insert
 	org-metaright
 	org-self-insert-command
+	org-shiftmetaleft
+	org-todo
 	orgstruct-hijacker-org-cycle-3
+	sp-backward-sexp
+	sp-forward-sexp
 	special-digit-argument
 	special-lh-knight/body
 	special-lispy-ace-char
@@ -131,12 +148,15 @@
 	special-lispy-widen
 	special-lispy-x
 	special-pop-tag-mark
+	whole-line-or-region-kill-region
 	))
 
 (setq mc/cmds-to-run-once
       '(
 	counsel-describe-function
 	describe-key
+	dired-do-delete
+	dired-jump
 	dired-toggle-read-only
 	easy-kill-help
 	eyebrowse-switch-to-window-config-11
@@ -147,12 +167,15 @@
 	eyebrowse-switch-to-window-config-6
 	eyebrowse-switch-to-window-config-7
 	eyebrowse-switch-to-window-config-8
+	iedit-switch-to-mc-mode
 	ivy-done
+	ivy-wgrep-change-to-wgrep-mode
 	jj/dired-rename-space-to-hyphen
 	jj/ivy-switch-buffer-use-virtual
 	kmacro-end-or-call-macro
 	minibuffer-keyboard-quit
 	next-multiframe-window
+	org-cycle
 	other-frame
 	previous-multiframe-window
 	swiper-mc
