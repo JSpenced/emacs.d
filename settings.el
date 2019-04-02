@@ -1,18 +1,25 @@
 ;; -*- mode: Emacs-Lisp -*-
 ;; Set the font sizesS
-(set-face-attribute 'default nil :font "Hack-14")
-(set-face-attribute 'mode-line nil :font "Hack-14")
-(setq-default line-spacing 0.16)
+(setq-default line-spacing 0.17)
 ;; (setq-default indent-tabs-mode nil)
 ;; Or set the below in hooks for major modes
 ;; (setq indent-tabs-mode nil)
 ;; (jj/infer-indentation-style)
+;; should start putting double spaces after periods so don't need this command
+;; sentence-navigation replaced forward backward but still used for kills
+(setq sentence-end-double-space nil)
 (setq recentf-max-menu-items 20)
-(setq recentf-max-saved-items 4999)
+(setq recentf-max-saved-items nil)
+(setq history-length 750)
+(setq helm-ff-history-max-length 500)
 (setq ivy-dired-history-max 999)
 (setq helm-dired-history-max 999)
 (setq buffers-menu-max-size 20)
+(setq kill-whole-line t)
+(setq kill-read-only-ok t)
 (setq column-number-mode t)
+(setq ns-auto-hide-menu-bar t)
+(if (featurep 'scroll-bar) (toggle-scroll-bar -1))
 (setq mark-ring-max 32)
 (setq global-mark-ring-max 6)
 (setq set-mark-command-repeat-pop t)
@@ -24,10 +31,36 @@
 ;; Removed slime so don't need the following line
 ;; (setq slime-contribs '(slime-fancy))
 
+(setq recentf-save-file "~/Programs/scimax/user/recentf")
+;; (run-with-timer (* 60 60) (* 60 60) 'recentf-save-list)
+(setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
+;; ".*\\.pdf$"
+;; disable recentf-cleanup on Emacs start, because it can cause
+;; problems with remote files
+;; (recentf-auto-cleanup 'never)
+
 ;; Possibly use this if using network filed systems because checks every file on emacs exit
 ;; (setq save-place-forget-unreadable-files nil)
 ;; (setq save-place-file (locate-user-emacs-file "places" ".emacs-places"))
+(setq save-place-limit 2000)
+(setq save-place-ignore-files-regexp "\\(?:COMMIT_EDITMSG\\|hg-editor-[[:alnum:]]+\\.txt\\|svn-commit\\.tmp\\|recentf\\|bzr_log\\.[[:alnum:]]+\\)$")
+
+;; (run-with-timer (* 60 120) (* 60 120) 'save-place-alist-to-file)
+(defvar save-place-timer nil)
+;; removed because added save-place-alist to savehist
+;; Don't need this since have the timer above but if added savehist
+;; has to be loaded after save-place=mode so the variable loaded in later
+;; (add-to-list 'savehist-additional-variables 'save-place-alist)
 (save-place-mode 1)
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    ;; so loaded after all settings because appears to mess up things if loaded before
+	    (require 'dired+)
+	    ;; allows proper loading so doesn't overwrite the recentf file with no entries
+	    (recentf-mode 1)
+	    ;; load after recentf-mode since storing recentf-list in savehist variable
+	    (savehist-mode 1)
+	    (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file))))
 
 ;; Fix minor mode lines that not useful
 (setq beacon-lighter nil)		; beacon-mode
@@ -91,6 +124,7 @@ Use '!' to signify that the buffer was not initially clean."
 	(counsel-package      . ivy--regex-fuzzy)
 	(counsel-M-x      . ivy--regex-fuzzy)
 	(swiper-all      . ivy--regex-ignore-order)
+	(dired-goto-file      . ivy--regex-plus)
 	(counsel-git-grep      . ivy--regex-ignore-order)
 	(swiper-multi      . ivy--regex-ignore-order)
 	(counsel-org-goto      . ivy--regex-ignore-order)
@@ -98,19 +132,85 @@ Use '!' to signify that the buffer was not initially clean."
 	(counsel-grep-or-swiper      . ivy--regex-ignore-order)
 	(jj/counsel-find-name-everything      . ivy--regex-ignore-order)
 	(t      . ivy--regex-ignore-order)))
+;; Latex and tex mode settings
+;; scale height of section commands by 1.2
+(setq font-latex-fontify-sectioning 1.2)
+;; don't query user to save on running latex commands
+(setq TeX-save-query nil)
+(setq TeX-PDF-mode t)
+(setq TeX-source-correlate-mode t)
+(setq TeX-clean-confirm t)
+;; (setq TeX-source-correlate-method 'synctex)
+;; Maybe change to ask then ask about allowing inverse search
+(setq TeX-source-correlate-start-server nil)
+(eval-after-load "tex"
+  '(progn
+     ;; adding command options -b before -g below will highlight the line number in skim
+     (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
+     (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r /Users/bigtyme/Programs/scimax/user/latexmkrc %s" TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
+     (setq TeX-view-program-selection '((output-pdf "Skim")))
+     (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
+     (setq-default TeX-command-default "latexmk")
+     (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+     )
+  )
+;; Sample `latexmkrc` for OSX that copies the *.pdf file from the `/tmp` directory
+;; to the working directory:
+;;    $pdflatex = 'pdflatex -file-line-error -synctex=1 %O %S && (cp "%D" "%R.pdf")';
+;;    $pdf_mode = 1;
+;;    $out_dir = '/tmp';"
+;; ;; The below didn't work for some reason
+;; (eval-after-load
+;;     "tex"
+;;   '(progn
+;;      (add-to-list 'TeX-view-predicate-list-builtin '(output-pdf t))
+;;      (add-to-list 'TeX-expand-list '("%(tex-file-name)" (lambda () (concat "\"" (with-current-buffer TeX-command-buffer buffer-file-name) "\""))))
+;;      (add-to-list 'TeX-expand-list '("%(pdf-file-name)" (lambda () (concat "\"" (car (split-string (with-current-buffer TeX-command-buffer buffer-file-name) "\\.tex")) ".pdf" "\""))))
+;;      (add-to-list 'TeX-expand-list '("%(line-number)" (lambda () (format "%d" (line-number-at-pos)))))
+;;      (cond
+;;       ((eq system-type 'darwin)
+;;        (add-to-list 'TeX-expand-list '("%(latexmkrc-osx)" (lambda () "/Users/bigtyme/.latexmkrc")))
+;;        (add-to-list 'TeX-command-list '("latexmk-osx" "latexmk -pdf -r %(latexmkrc-osx) %s" TeX-run-TeX nil t))
+;;        (add-to-list 'TeX-expand-list '("%(skim)" (lambda () "/Applications/Skim.app/Contents/SharedSupport/displayline")))
+;;        (add-to-list 'TeX-command-list '("Skim" "%(skim) -b -g %(line-number) %(pdf-file-name) %(tex-file-name)" TeX-run-TeX nil t))
+;;        (add-to-list 'TeX-view-program-list '("skim-viewer" "%(skim) -b -g %(line-number) %(pdf-file-name) %(tex-file-name)"))
+;;        (setq TeX-view-program-selection '((output-pdf "skim-viewer"))))
+;;       ((eq system-type 'windows-nt)
+;;        (add-to-list 'TeX-expand-list '("%(latexmkrc-nt)" (lambda () "y:/scimax/users/.latexmkrc-nt")))
+;;        (add-to-list 'TeX-command-list '("latexmk-nt" "latexmk -pdf -r %(latexmkrc-nt) %s" TeX-run-TeX nil t))
+;;        (add-to-list 'TeX-expand-list '("%(sumatra)" (lambda () "\"c:/Program Files/SumatraPDF/SumatraPDF.exe\"")))
+;;        (add-to-list 'TeX-command-list '("SumatraPDF" "%(sumatra) -reuse-instance -forward-search %(tex-file-name) %(line-number) %(pdf-file-name)" TeX-run-TeX nil t))
+;;        (add-to-list 'TeX-view-program-list '("sumatra-viewer" "%(sumatra) -reuse-instance -forward-search %(tex-file-name) %(line-number) %(pdf-file-name)"))
+;;        (setq TeX-view-program-selection '((output-pdf "sumatra-viewer")))))))
+
 ;; Set fill-column for fill-paragraph command. Also wraps visual-fill-column-width globally at this value
 (setq fill-column 79)
-(dolist (hook '(text-mode-hook markdown-mode-hook LaTeX-mode-hook tex-mode-hook latex-mode-hook ...))
-  (add-hook hook
-	    (lambda ()
-	      (visual-fill-column-mode)
-	      (setq visual-fill-column-width 88)
-	      (setq visual-fill-column-center-text t)
-	      )))
+
+;; (dolist (hook 'text-mode-hook markdown-mode-hook tex-mode-hook LaTeX-mode-hook latex-mode-hook ...)
+;;   (add-hook hook (lambda ())))
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (visual-fill-column-mode)
+	    (setq visual-fill-column-width 91)
+	    (setq visual-fill-column-center-text t)))
+(add-hook 'tex-mode-hook
+	  (lambda ()
+	    (setq visual-fill-column-width 94)))
 (add-hook 'org-mode-hook
 	  (lambda ()
 	    (setq visual-fill-column-center-text nil)
 	    (setq visual-fill-column-width 108)
+	    ;; Turns off TODO, DONE, NEXT, and set local so doesn't override default value
+	    (setq-local hl-todo-keyword-faces '(("HOLD" . "#d0bf8f")  ("T0D0" . "#cc9393")
+						("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
+						("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
+						("DONT" . "#5f7f5f") ("FAIL" . "#8c5353")
+						("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
+						("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
+						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX" . "#cc9393")
+						("XXXX" . "#cc9393") ("????" . "#cc9393") ("???" . "#cc9393")
+						))
+	    (hl-todo-mode)
 	    ))
 (setq org-startup-indented t)
 (add-hook 'nxml-mode-hook
@@ -135,13 +235,51 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (add-hook 'text-mode-hook (lambda () (text-scale-decrease 1)))
 ;; (setq dropbox-access-token pa8m5pql3gkAAAAAAADx6pqdfm4oOdinGLz1kQFcGyvidfq7EPrcFyPeiLnzIHE-)
 
+;; Beacon mode settings
+(beacon-mode)
+(setq beacon-blink-duration 0.3)
+(setq beacon-blink-delay 0.1)
+(setq beacon-size 35)
+;; (setq beacon-color "#B194CB")
+(setq beacon-blink-when-focused t)
+(setq beacon-blink-when-window-changes t)
+(setq beacon-blink-when-buffer-changes t)
+(setq beacon-blink-when-point-moves-horizontally nil)
+(setq beacon-blink-when-point-moves-vertically nil)
+(setq beacon-blink-when-window-scrolls nil)
+;; (jj/append-to-list-no-duplicates 'beacon-dont-blink-commands '(evil-scroll-down evil-scroll-up evil-scroll-page-up evil-scroll-page-down jj/evil-scroll-up-15-lines jj/evil-scroll-down-15-lines evil-scroll-line-up evil-scroll-line-down) t)
+(add-hook 'eyebrowse-post-window-switch-hook #'beacon-blink)
+
 ;; Visible mark settings
 (defface visible-mark-active ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
     (t (:background "magenta"))) "")
+(defface visible-mark-light-purple ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "#7549EC"))) "")
+(defface visible-mark-light-orange ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "#BF674A"))) "")
+(defface visible-mark-dark-orange ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "#AE5041"))) "")
+(defface visible-mark-magenta ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "#A445A7"))) "")
+(defface visible-mark-dark-teal ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "#226E68"))) "")
+;; looping below to set faces to certain attributes
+;; (dolist (face  '(sml/line-number sml/numbers-separator sml/col-number))
+;;   (set-face-attribute face nil
+;;                       :background zenburn/bg-1
+;;                       :foreground zenburn/fg
+;;                       :weight 'unspecified))
 (global-visible-mark-mode 1)
 (setq visible-mark-max 2)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2))
+;; use below for dark themes
+;; (setq visible-mark-faces `(visible-mark-magenta visible-mark-dark-orange))
 (setq show-paren-priority 999)
 ;; (setq avy-timeout-seconds 0.5)
 
@@ -151,14 +289,32 @@ Use '!' to signify that the buffer was not initially clean."
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq magithub-clone-default-directory "~/Downloads/")
+;; (setq magit-remote-set-if-missing nil)
 
 ;; Makes it so you can't kill this buffer (but with dired can't usa a or keys that don't open new buffer
 ;; (with-current-buffer "Downloads"
 ;;   (emacs-lock-mode 'kill))
 ;; Themes
-(setq jmax-user-theme 'leuven)
+(setq custom-safe-themes t)
+;; (when (display-graphic-p)
+;;   (load-theme 'leuven t)
+;;   )
+(sml/setup)
+(setq sml/theme 'automatic)
+(column-number-mode 0)
+(jj/sml/total-lines-append-mode-line)
 
+;; (setq jmax-user-theme 'monokai)
+;; (setq sml/theme 'dark)
+;; (add-hook 'after-init-hook (lambda () (load-theme 'smart-mode-line-dark)))
+(set-face-attribute 'default nil :font "Hack-14")
+;; possibly set after-setting-font-hook if changing themes a lot to keep setting the mode-line
+;; or since use dired a lot set in function that forces mode-line to be rewritten
+(set-face-attribute 'mode-line nil :font "Lucida Grande-13")
 (add-hook 'emacs-lisp-mode-hook 'jj/remove-elc-on-save)
+
+;; this is a test does it work well I think so
+(jj/load-theme-sanityinc-tomorrow-eighties)
 
 (setq global-auto-revert-mode t)
 ;; refresh dired buffers when revisited
@@ -173,7 +329,7 @@ Use '!' to signify that the buffer was not initially clean."
 	  (lambda ()
 	    (auto-revert-mode)
 	    (when (file-remote-p dired-directory)
-	      (setq-local dired-actual-switches "-AlhF"))
+	      (setq-local dired-actual-switches "-a -F -Alh"))
 	    (dired-omit-caller)
 	    (dired-hide-details-mode)
 	    (dired-sort-toggle-or-edit)
@@ -181,10 +337,19 @@ Use '!' to signify that the buffer was not initially clean."
 	      (progn
 		(with-current-buffer "saves-*"
 		  (interactive)
-		  (setq dired-omit-mode nil))))
-	    ))
+		  (setq dired-omit-mode nil)
+		  (dired-hide-details-mode 0)
+		  (jj/dired-sort-by-time-switch-toggle))))))
 
 (setq dired-ranger-bookmark-reopen 'always)
+;; Set up so that dired+ mode properly ignores auto-save files
+;; Need to load dired+ after setting up the settings or they don't work
+(jj/append-to-list 'dired-omit-extensions '("#" "##"))
+(setq diredp-ignore-compressed-flag nil)
+(setq diredp-compressed-extensions '(".tar" ".taz" ".tgz" ".arj" ".lzh" ".lzma" ".xz" ".zip" ".z" ".Z"
+				     ".gz" ".bz2" ".rar" ".r[0-9]+"))
+(setq diredp-omit-files-regexp "\\.#\\|\\.\\|\\.\\.\\|\\..*")
+
 ;; start directory
 (defvar jj/move-file-here-start-dir (expand-file-name "~/Downloads"))
 (defvar-local is-new-file-buffer nil)
@@ -193,12 +358,31 @@ Use '!' to signify that the buffer was not initially clean."
 
 ;; Setup remebering what major mode to open files with no file extension
 ;; Appends these to the list to open files
-(add-to-list 'savehist-additional-variables 'file-name-mode-alist)
+;; TODO: Improve this if using because seems to load the file many times
+;; (add-to-list 'savehist-additional-variables 'kill-ring)
+(add-to-list 'savehist-additional-variables 'jj/last-change-pos1)
+(add-to-list 'savehist-additional-variables 'jj/last-change-pos2)
 (add-hook 'find-file-hook 'jj/find-file-hook-root-header-warning)
 ;; (add-hook 'jj/find-file-root-hook 'find-file-root-header-warning)
 (add-to-list 'savehist-additional-variables 'jj/find-file-root-history)
+;; Needs to be defined before savehist-mode is loaded
+
+;; Save the dired directories previously used for copy and rename and goto with ,
+(add-to-list 'savehist-additional-variables 'ivy-dired-history-variable)
+(add-to-list 'savehist-additional-variables 'recentf-list)
+;; Out of the box desktop.el saves registers but in case of error this is backup
+(add-to-list 'savehist-additional-variables 'register-alist)
+;; (add-to-list 'savehist-additional-variables 'save-place-alist)
+(setq savehist-autosave-interval (* 9 60))
+(defvar file-name-mode-alist '())
+;; (add-to-list 'savehist-additional-variables 'file-name-mode-alist)
 (when (fboundp 'file-name-mode-alist)
   (setq auto-mode-alist (append auto-mode-alist file-name-mode-alist)))
+
+;; (savehist-mode 1)
+;; not needed as above does the same thing
+;; (run-with-timer (* 30 60) (* 30 60) 'savehist-save)
+;; or if you use desktop-save-mode
 (add-hook 'after-change-major-mode-hook
 	  (lambda ()
 	    (when (and
@@ -224,30 +408,28 @@ Use '!' to signify that the buffer was not initially clean."
 (add-hook 'after-change-functions 'jj/buffer-change-hook)
 
 (setq openwith-associations
-      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|mat\\|mkv\\|xlsx\\|mp4\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
+      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
 ;; '(("\\.avi\\'" "open" (file))))
 (openwith-mode t)
 ;; dired won't ask unless file bigger than 100MB set to nil to completely get rid of
 (setq large-file-warning-threshold 100000000)
 ;; Makes it so don't ask for these file types if opening bigger than 100MB
-(defvar my-ok-large-file-types
-  (rx "." (or "mp4" "mkv" "avi" "mpeg" "mpg" "wmv" "mov") string-end)
+(defvar jj/ok-large-file-types
+  (rx "." (or "mp4" "mkv" "avi" "mpeg" "mpg" "wmv" "mov" "m4a") string-end)
   "Regexp matching filenames which are definitely ok to visit,
 even when the file is larger than `large-file-warning-threshold'.")
 
 (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
-  "If FILENAME matches `my-ok-large-file-types', do not abort."
-  (unless (string-match-p my-ok-large-file-types (ad-get-arg 2))
+  "If FILENAME matches `jj/ok-large-file-types', do not abort."
+  (unless (string-match-p jj/ok-large-file-types (ad-get-arg 2))
     ad-do-it))
 (ad-activate 'abort-if-file-too-large)
-(setq recentf-save-file "~/Programs/scimax/user/recentf")
-(add-to-list 'recentf-exclude
-	     (expand-file-name "~/Programs/scimax/user/bookmarks"))
+
 ;; Directories sorted by folder first
 (setq insert-directory-program "gls" dired-use-ls-dired t)
 ;; -A means almost all below not including . and ..
 ;; (setq dired-omit-case-fold t)
-(setq dired-listing-switches "-alXGhF -HA  --group-directories-first")
+(setq dired-listing-switches "-a -F -lGhHAv  --group-directories-first")
 ;; First is normal then group directories first and then with proper number sorting scheme -v
 ;; (setq dired-listing-switches "-lXGh  --group-directories-first")
 ;; Very dangerous to set to always below (on Mac sends to Trash so ok to set to always)
@@ -259,6 +441,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; (setq dired-omit-files "^\\...+$")
 ;; Makes it so doesn't ask if I want to use the command the first time
 ;; (if set to t it will ask me the first time when starting emacs)
+
 (put 'dired-find-file-other-buffer 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq dired-guess-shell-alist-user
@@ -282,12 +465,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq emacs-lock-default-locking-mode 'kill)
 (with-current-buffer "*scratch*"
   (emacs-lock-mode 'kill))
-
-;; Save the dired directories previously used for copy and rename and goto with ,
-(add-to-list 'savehist-additional-variables 'ivy-dired-history-variable)
-(savehist-mode 1)
-;; or if you use desktop-save-mode
-;; (add-to-list 'desktop-globals-to-save 'ivy-dired-history-variable)
 
 ;; different from find-alternate-file because when hit enter on file
 ;; keeps that directory open and opens file (find-alt will close the dired buffer)
@@ -323,8 +500,16 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Deals with remembering window history and go back with C-c left/right
 (winner-mode 1) ;; winner-undo and winner-redo the functions
 
+;; Switch entry to done automatically when all subentries are done
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
 (add-hook 'org-mode-hook 'scimax-autoformat-mode)
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)")
+	(sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+	(sequence "|" "CANCELED(c)")))
 
 ;; Make org-goto work with ivy-completion
 (setq org-goto-interface 'outline-path-completion)
@@ -376,71 +561,77 @@ even when the file is larger than `large-file-warning-threshold'.")
 			jj/org-metaleft-next-line-previous-item
 			previous-line
 			next-line
+			evil-scroll-up
+			evil-scroll-down
+			dired-tree-up
+			dired-tree-down
+			mwheel-scroll
+			jj/dired-tree-up
+			jj/dired-tree-down
+			dired-next-subdir
+			dired-prev-subdir
+			jj/dired-prev-subdir
+			jj/dired-next-subdir
+			end-of-buffer
 			scroll-down
 			scroll-up
 			cua-scroll-down
 			cua-scroll-up))
 	  (ding))))
 
-
 (setq ispell-program-name (executable-find "hunspell"))
 (setq ispell-silently-savep t)
 (setq ispell-personal-dictionary (expand-file-name "~/Dropbox/Programs/emacs/user/hunspell_personal.dic"))
 
 (setq desktop-path (list "~/Programs/scimax/user"))
-;; Add variables to desktop saving and only run when not in daemon-mode
-(when (not (daemonp))
-  (desktop-save-mode)
-  (setq desktop-auto-save-timeout (* 60 5))
-  (add-to-list 'desktop-globals-to-save 'register-alist)
-  (desktop-read)
-  )
+;; Too low a number eg.5 doesn't seem to load workspaces correctly but maybe 30-50 better
+;; (setq desktop-restore-eager 30)
+(setq desktop-auto-save-timeout (* 60 5))
+(add-to-list 'desktop-globals-to-save 'register-alist)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
-;; These need to be set after desktop-read is run
-;; TODO: Make this into a for loop with all the buffers in a defvar list
-(eval-after-load 'dired
-  '(progn
-     (when (get-buffer "Downloads")
-       (progn
-	 (with-current-buffer "Downloads"
-	   (interactive)
-	   (jj/emacs-lock-mode-all))))
-     (when (get-buffer "*scratch*")
-       (progn
-	 (with-current-buffer "*scratch*"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "FinishedTor")
-       (progn
-	 (with-current-buffer "FinishedTor"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "K")
-       (progn
-	 (with-current-buffer "K"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "user.el")
-       (progn
-	 (with-current-buffer "user.el"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "bindings.el")
-       (progn
-	 (with-current-buffer "bindings.el"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "settings.el")
-       (progn
-	 (with-current-buffer "settings.el"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     (when (get-buffer "functions.el")
-       (progn
-	 (with-current-buffer "functions.el"
-	   (interactive)
-	   (jj/emacs-lock-mode-kill))))
-     ))
+;; prevents desktop-save from saving if all the buffers haven't reloaded yet
+(defvar jj/desktop-save-if-all-buffers-read nil
+  "Should I save the desktop when Emacs is shutting down?")
+(add-hook 'desktop-after-read-hook
+	  (lambda () (setq jj/desktop-save-if-all-buffers-read t)
+	    (jj/lock-my-dired-emacs-buffers)))
+(advice-add 'desktop-save :around
+	    (lambda (fn &rest args)
+	      (if (bound-and-true-p jj/desktop-save-if-all-buffers-read)
+		  (apply fn args))))
+;; if default-desktop-file doesn't exist set above to true so allows saving
+(add-hook 'desktop-no-desktop-file-hook
+	  (lambda () (setq jj/desktop-save-if-all-buffers-read t)))
+
+(setq desktop-buffers-not-to-save
+      (concat "\\("
+	      "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+	      "\\)$"))
+
+;; For alternative input methods (korean)
+(setq alternative-input-methods
+      '(("korean-hangul" . [?\M-\s-\\])))
+(setq default-input-method
+      (caar alternative-input-methods))
+(reload-alternative-input-methods)
+
+;; needs to be added to hook after (recentf-mode 1) so loaded first
+;; if not writing to recentf, might not work properly
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    ;; (interactive)
+	    (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
+		   (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
+		   (setq jj/desktop-save-if-all-buffers-read t)
+		   (setq desktop-path (list "~/Programs/scimax/user/desktops")))
+		  (t (when (not (daemonp))
+		       (desktop-save-mode)
+		       (desktop-read))))))
+;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 
 
 ;; Run an edit server in the running emacs
@@ -477,17 +668,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deprecated
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq jmax-user-theme 'dichromacy)
-;; (setq jmax-user-theme 'misterioso)
-;; (setq jmax-user-theme 'adwaita)
-
-;; (require 'color-theme)
-;; (color-theme-initialize)
-;; (color-theme-dichromacy)
-;; (color-theme-misterioso)
-;; (color-theme-adwaita)
-;; (color-theme-install-frame-params
-;;   '((background-color . "gray12")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Old emacs config mine

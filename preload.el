@@ -1,3 +1,6 @@
+;; (when (display-graphic-p)
+;;   (load-theme 'leuven t)
+;;   )
 ;; (setq desktop-path (list "~/Programs/scimax/user"))
 ;; (desktop-change-dir "~/Programs/scimax/user")
 ;; (desktop-save-mode 1)

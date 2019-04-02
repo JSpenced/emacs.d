@@ -1,10 +1,13 @@
 ;; -*- mode: Emacs-Lisp -*-
-;; This is bindings loaded by user.el
+(define-prefix-command 'comment-map)
+(global-set-key (kbd "s-/") 'comment-map)
+;; ensures packages are installed or installs them but doesn't keep them updated
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 (require 'todotxt)
 (require 'multiple-cursors)
 (require 'expand-region)
 (require 'avy)
-(require 'dired-x)
 (require 'openwith)
 (require 'savehist)
 (require 'goto-last-change)
@@ -12,26 +15,48 @@
 (require 'ace-jump-zap)
 (require 'visible-mark)
 (require 'dash)
-(require 'find-dired)
 (require 'visual-regexp)
 (require 'visual-regexp-steroids)
 (require 'transpose-frame)
 (require 'desktop)
 (require 'eyebrowse)
-(require 'peep-dired)
 (require 'tiny)
 (require 'magithub)
+(require 'dired-x)
 (require 'dired-aux)
+(require 'find-dired)
+(require 'peep-dired)
 (require 'dired-ranger)
 (require 'dired-narrow)
 (require 'dired-filter)
+;; TODO: get dired+ working properly (one issue is doesn't flag dot files as before)
+;; emailed Drew Adams "drew.adams@oracle.com"
 (require 'whole-line-or-region)
 (require 'backup-each-save)
 (require 'wttrin)
 (require 'frame-cmds)
 (require 'f)
-(require 'dired-aux)
+(require 'evil)
+(require 'pdf-tools)
+(require 'gse-number-rect)
+(require 'man)
+(require 'smartparens)
+(use-package sentence-navigation :defer t)
+(use-package xah-lookup :defer 6)
+(use-package poporg :defer t
+  ;; bind: doesn't work here I think because prefix defined outside package
+  ;; :bind (("s-/ o" . poporg-dwim))
+  ;; :bind (("s-/ j" . poporg-dwim))
+  )
+(use-package total-lines
+  :config (global-total-lines-mode))
+(use-package darkroom :defer 6
+  :init
+  (setq darkroom-text-scale-increase 1))
 
+;; latexmk works for compiling but not updating viewers
+;; (require 'auctex-latexmk)
+;; (require 'workgroups2)
 ;; (require 'evil-nerd-commenter)
 ;; (require 'counsel-etags)
 (eval-when-compile (require 'cl))
@@ -41,13 +66,6 @@
 
 ;; Needs to be installed but can be used for dedicatiing windows and reloading window configurations
 ;; (require 'window-purpose)
-
-;; For alternative input methods (korean)
-(setq alternative-input-methods
-      '(("korean-hangul" . [?\M-\s-«])
-	))
-(setq default-input-method
-      (caar alternative-input-methods))
 
 (defun toggle-alternative-input-method (method &optional arg interactive)
   (if arg
@@ -68,8 +86,6 @@
 				  method "\" instead of `default-input-method'")
 			 (interactive "P\np")
 			 (toggle-alternative-input-method ,method arg interactive))))))
-
-(reload-alternative-input-methods)
 
 (defun jj/swiper-symbol-at-point ()
   "Get the current symbol at point all buffers"
@@ -176,14 +192,14 @@
 ;;     (yank)
 ;;     (move-to-column col)))
 
-(defun jj/forward-delete-sexp-or-dir (&optional p)
+(defun jj/delete-forward-sexp-or-dir (&optional p)
   "Kill forward sexp or directory.
 If inside a string or minibuffer, and if it looks like
 we're typing a directory name, kill forward until the next
 /. Otherwise, `kill-sexp'"
   (interactive "p")
   (if (< p 0)
-      (jj/backward-delete-sexp-or-dir (- p))
+      (jj/delete-backward-sexp-or-dir (- p))
     (let ((r (point)))
       (if (and (or (in-string-p)
 		   (minibuffer-window-active-p
@@ -194,11 +210,11 @@ we're typing a directory name, kill forward until the next
 		 (delete-region r (point)))
 	(jj/delete-sexp p)))))
 
-(defun jj/backward-delete-sexp-or-dir (&optional p)
+(defun jj/delete-backward-sexp-or-dir (&optional p)
   "Kill backwards sexp or directory."
   (interactive "p")
   (if (< p 0)
-      (jj/forward-delete-sexp-or-dir (- p))
+      (jj/delete-forward-sexp-or-dir (- p))
     (let ((r (point))
 	  (l (save-excursion
 	       (point))))
@@ -213,7 +229,7 @@ we're typing a directory name, kill forward until the next
 		 (delete-region (point) l))
 	(jj/delete-sexp (- p))))))
 
-(defun jj/forward-kill-sexp-or-dir (&optional p)
+(defun jj/kill-sexp-forward-or-dir (&optional p)
   "Kill forward sexp or directory.
 If inside a string or minibuffer, and if it looks like
 we're typing a directory name, kill forward until the next
@@ -250,6 +266,13 @@ we're typing a directory name, kill forward until the next
 		 (kill-region (point) l))
 	(kill-sexp (- p))))))
 
+(defun jj/dark-theme-set-visible-mark-faces ()
+  (interactive)
+  (setq visible-mark-faces `(visible-mark-magenta visible-mark-dark-teal)))
+(defun jj/light-theme-set-visible-mark-faces ()
+  (interactive)
+  (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2)))
+
 (defun jj/delete-sexp (&optional arg)
   "Kill the sexp (balanced expression) following point.
 With ARG, kill that many sexps after point.
@@ -260,7 +283,7 @@ This command assumes point is not in a string or comment."
     (forward-sexp (or arg 1))
     (delete-region opoint (point))))
 
-(defun jj/backward-delete-sexp (&optional arg)
+(defun jj/delete-backward-sexp (&optional arg)
   "Kill the sexp (balanced expression) preceding point.
 With ARG, kill that many sexps before point.
 Negative arg -N means kill N sexps after point.
@@ -279,7 +302,7 @@ This command does not push text to `kill-ring'."
      (forward-word arg)
      (point))))
 
-(defun jj/backward-delete-word (arg)
+(defun jj/delete-backward-word (arg)
   "Delete characters backward until encountering the beginning of a word.
 With argument, do this that many times.
 This command does not push text to `kill-ring'."
@@ -299,6 +322,118 @@ This command does not push text to `kill-ring'."
   (interactive)
   (kill-line 0)
   (indent-for-tab-command))
+
+;; visual-line-mode remaps kill-line
+;; (define-key visual-line-mode-map [remap kill-line] nil)
+(defun jj/kill-line (&optional arg)
+  "Kill the rest of the current line; if no nonblanks there, kill thru newline.
+With prefix argument ARG, kill that many lines from point.
+Negative arguments kill lines backward.
+With zero argument, kills the text before point on the current line.
+
+When calling from a program, nil means \"no arg\",
+a number counts as a prefix arg.
+
+To kill a whole line, when point is not at the beginning, type \
+\\[move-beginning-of-line] \\[kill-line] \\[kill-line].
+
+If `show-trailing-whitespace' is non-nil, this command will just
+kill the rest of the current line, even if there are no nonblanks
+there.
+
+If option `kill-whole-line' is non-nil, then this command kills the whole line
+including its terminating newline, when used at the beginning of a line
+with no argument.  As a consequence, you can always kill a whole line
+by typing \\[move-beginning-of-line] \\[kill-line].
+
+If you want to append the killed line to the last killed text,
+use \\[append-next-kill] before \\[kill-line].
+
+If the buffer is read-only, Emacs will beep and refrain from deleting
+the line, but put the line in the kill ring anyway.  This means that
+you can use this command to copy text from a read-only buffer.
+\(If the variable `kill-read-only-ok' is non-nil, then this won't
+even beep.)"
+  (interactive "P")
+  (kill-region (point)
+	       ;; It is better to move point to the other end of the kill
+	       ;; before killing.  That way, in a read-only buffer, point
+	       ;; moves across the text that is copied to the kill ring.
+	       ;; The choice has no effect on undo now that undo records
+	       ;; the value of point from before the command was run.
+	       (progn
+		 (if arg
+		     (forward-visible-line (prefix-numeric-value arg))
+		   (if (eobp)
+		       (signal 'end-of-buffer nil))
+		   (let ((end
+			  (save-excursion
+			    (end-of-visible-line) (point))))
+		     (if (or (save-excursion
+			       ;; If trailing whitespace is visible,
+			       ;; don't treat it as nothing.
+			       (unless show-trailing-whitespace
+				 (skip-chars-forward " \t" end))
+			       (= (point) end))
+			     (and kill-whole-line (bolp)))
+			 (forward-visible-line 1)
+		       (goto-char end))))
+		 (point))))
+
+(defun jj/kill-line-save (&optional arg)
+  "Kill the rest of the current line; if no nonblanks there, kill thru newline.
+With prefix argument ARG, kill that many lines from point.
+Negative arguments kill lines backward.
+With zero argument, kills the text before point on the current line.
+
+When calling from a program, nil means \"no arg\",
+a number counts as a prefix arg.
+
+To kill a whole line, when point is not at the beginning, type \
+\\[move-beginning-of-line] \\[kill-line] \\[kill-line].
+
+If `show-trailing-whitespace' is non-nil, this command will just
+kill the rest of the current line, even if there are no nonblanks
+there.
+
+If option `kill-whole-line' is non-nil, then this command kills the whole line
+including its terminating newline, when used at the beginning of a line
+with no argument.  As a consequence, you can always kill a whole line
+by typing \\[move-beginning-of-line] \\[kill-line].
+
+If you want to append the killed line to the last killed text,
+use \\[append-next-kill] before \\[kill-line].
+
+If the buffer is read-only, Emacs will beep and refrain from deleting
+the line, but put the line in the kill ring anyway.  This means that
+you can use this command to copy text from a read-only buffer.
+\(If the variable `kill-read-only-ok' is non-nil, then this won't
+even beep.)"
+  (interactive "P")
+  (save-mark-and-excursion (copy-region-as-kill (point)
+						;; It is better to move point to the other end of the kill
+						;; before killing.  That way, in a read-only buffer, point
+						;; moves across the text that is copied to the kill ring.
+						;; The choice has no effect on undo now that undo records
+						;; the value of point from before the command was run.
+						(progn
+						  (if arg
+						      (forward-visible-line (prefix-numeric-value arg))
+						    (if (eobp)
+							(signal 'end-of-buffer nil))
+						    (let ((end
+							   (save-excursion
+							     (end-of-visible-line) (point))))
+						      (if (or (save-excursion
+								;; If trailing whitespace is visible,
+								;; don't treat it as nothing.
+								(unless show-trailing-whitespace
+								  (skip-chars-forward " \t" end))
+								(= (point) end))
+							      (and kill-whole-line (bolp)))
+							  (forward-visible-line 1)
+							(goto-char end))))
+						  (point)))))
 
 ;; (defun jj/slick-cut (beg end)
 ;;   (interactive
@@ -438,21 +573,163 @@ With a prefix argument N, (un)comment that many sexps."
       (jj/comment-sexp--raw))))
 
 (defun jj/unwrap-next-sexp ()
-       (interactive)
-       (let ((close (progn (forward-sexp 1)
-			   (point)))
-	     (open (progn (forward-sexp -1)
-			  (point))))
-	 (goto-char close)
-	 (delete-char -1)
-	 (goto-char open)
-	 (delete-char 1)))
+  (interactive)
+  (let ((close (progn (forward-sexp 1)
+		      (point)))
+	(open (progn (forward-sexp -1)
+		     (point))))
+    (goto-char close)
+    (delete-char -1)
+    (goto-char open)
+    (delete-char 1)))
+
+(defun jj/append-to-list (list-var elements)
+  "Append ELEMENTS to the end of LIST-VAR.
+
+The return value is the new value of LIST-VAR."
+  (unless (consp elements)
+    (error "ELEMENTS must be a list"))
+  (let ((list (symbol-value list-var)))
+    (if list
+	(setcdr (last list) elements)
+      (set list-var elements)))
+  (symbol-value list-var))
+
+(defun jj/append-to-list-no-duplicates (list to-add &optional to-back)
+  "Adds multiple items to LIST.
+Allows for adding a sequence of items to the same list, rather
+than having to call `add-to-list' multiple times.
+If `to-back' is t then add to back of list."
+  (interactive)
+  (dolist (item to-add)
+    (add-to-list list item (or to-back nil))))
+
+(defun jj/evil-scroll-down-15-lines ()
+  (interactive)
+  (evil-scroll-line-down 15))
+
+(defun jj/evil-scroll-up-15-lines ()
+  (interactive)
+  (evil-scroll-line-up 15))
+
+(defun jj/org-next-item-at-ident ()
+  (interactive)
+  (let ((sentence-end-double-space t) searchTo wordEnd2 checkBoxAt unordList ordList charBeg lineEnd)
+    (org-next-item)
+    (save-excursion
+      (setq charBeg (point))
+      (end-of-visual-line)
+      (setq lineEnd (point))
+      (beginning-of-visual-line)
+      (save-excursion
+	(re-search-forward "\\s-\\w" lineEnd t)
+	(re-search-forward "\\s-\\w" lineEnd t)
+	(setq wordEnd2 (point)))
+      (if (eq wordEnd2 charBeg)
+	  (setq searchTo lineEnd)
+	(setq searchTo wordEnd2))
+      (save-excursion
+	(re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
+	(setq checkBoxAt (point)))
+      (save-excursion
+	(re-search-forward "\\s-*\d*\\." searchTo t)
+	(setq ordList (point)))
+      (save-excursion
+	(re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
+	(setq unordList (point))))
+    (cond
+     ((not (eq checkBoxAt charBeg))
+      (if (>= (+ checkBoxAt 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  checkBoxAt 1))))
+     ((not (eq ordList charBeg))
+      (if (>= (+ ordList 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  ordList 1))))
+     ((not (eq unordList charBeg))
+      (if (>= (+ unordList 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  unordList 1))))
+     ;; ((eq wordEnd1 lineEnd)
+     ;;  (end-of-visual-line))
+     ;; ((eq wordEnd2 lineEnd)
+     ;;  (end-of-visual-line)
+     ;;  (org-backward-sentence))
+     ;; ((eq wordEnd1 wordEnd2)
+     ;;  (end-of-visual-line))
+     ;; ((eq wordEnd2 charBeg)
+     ;;  (end-of-visual-line)
+     ;;  (org-backward-sentence))
+     ;; ((>= (+ wordEnd2 1) lineEnd)
+     ;;  (end-of-visual-line)
+     ;;  (org-backward-sentence))
+     ;; (t (goto-char (+ wordEnd2 1))
+     ;;		(org-backward-sentence))
+     )
+    ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+    ))
+(defun jj/org-previous-item-at-ident ()
+  (interactive)
+  (let ((sentence-end-double-space t) wordEnd2 searchTo checkBoxAt unordList ordList charBeg lineEnd)
+    (org-previous-item)
+    (save-excursion
+      (setq charBeg (point))
+      (end-of-visual-line)
+      (setq lineEnd (point))
+      (beginning-of-visual-line)
+      (save-excursion
+	(re-search-forward "\\s-\\w" lineEnd t)
+	(re-search-forward "\\s-\\w" lineEnd t)
+	(setq wordEnd2 (point)))
+      (if (eq wordEnd2 charBeg)
+	  (setq searchTo lineEnd)
+	(setq searchTo wordEnd2))
+      (save-excursion
+	(re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
+	(setq checkBoxAt (point)))
+      (save-excursion
+	(re-search-forward "\\s-*\d*\\." searchTo t)
+	(setq ordList (point)))
+      (save-excursion
+	(re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
+	(setq unordList (point))))
+    (cond
+     ((not (eq checkBoxAt charBeg))
+      (if (>= (+ checkBoxAt 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  checkBoxAt 1))))
+     ((not (eq ordList charBeg))
+      (if (>= (+ ordList 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  ordList 1))))
+     ((not (eq unordList charBeg))
+      (if (>= (+ unordList 1) lineEnd)
+	  (end-of-visual-line)
+	(goto-char (+  unordList 1))))
+     )
+    ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+    ))
+;; NOTE: These don't work right because forward-element works in funky way
+;; (defun jj/org-forward-element-at-ident ()
+;;   (interactive)
+;;   (let ((sentence-end-double-space t))
+;;     (org-forward-element)
+;;     (forward-char 30)
+;;     (org-backward-sentence)
+;;     ))
+;; (defun jj/org-backward-element-at-ident ()
+;;   (interactive)
+;;   (let ((sentence-end-double-space t))
+;;     (org-backward-element)
+;;     (forward-char 25)
+;;     (org-backward-sentence)
+;;     ))
 
 ;; Org functions to create bullet points at the correct location
 (defun jj/org-metaleft-next-line-previous-item ()
-       (interactive)
-       (scimax/org-return)
-       (org-metaleft))
+  (interactive)
+  (scimax/org-return)
+  (org-metaleft))
 (defun jj/org-metaleft-next-line-beginning-item ()
        (interactive)
        (scimax/org-return)
@@ -466,10 +743,10 @@ With a prefix argument N, (un)comment that many sexps."
        (org-metaright)
        (org-cycle-list-bullet 5))
 (defun jj/org-move-headline-next-second-level ()
-       (interactive)
-       (scimax/org-return)
-       (org-metaright)
-       (org-cycle-list-bullet 1))
+  (interactive)
+  (scimax/org-return)
+  (org-metaright)
+  (org-cycle-list-bullet 1))
 
 ;; Function as stated below
 (defun jj/org-show-just-me (&rest _)
@@ -478,6 +755,19 @@ With a prefix argument N, (un)comment that many sexps."
   (org-overview)
   (org-reveal)
   (org-show-subtree))
+
+(defun jj/org-babel-remove-result-all-blocks ()
+  "Call org-babel-remove-result-one-or-many with prefix arg to remove
+all blocks in document."
+  (interactive)
+  (org-babel-remove-result-one-or-many '(4)))
+
+(defun jj/org-show-todo-tree-then-remove-occur-highlights (arg)
+  "Run org-show-todo-tree then org-remove-occur-highlights to remove the highlights."
+  (interactive "P")
+  (save-excursion (org-show-todo-tree arg))
+  (beginning-of-visual-line)
+  (org-remove-occur-highlights))
 
 (defun jj/org-table-wrap-to-width (width)
   "Wrap current column to WIDTH."
@@ -659,14 +949,14 @@ Repeated invocations toggle between the two most recently open buffers."
   (set-window-buffer (next-window) (other-buffer))
   (balance-windows))
 
-(defun jj/split-window-4()
- "Splite window into 4 sub-window"
- (interactive)
- (if (= 1 (length (window-list)))
-     (progn (split-window-vertically)
-	    (split-window-horizontally)
-	    (other-window 2)
-	    (split-window-horizontally))))
+(defun jj/split-window-4 ()
+  "Splite window into 4 sub-window"
+  (interactive)
+  (if (= 1 (length (window-list)))
+      (progn (split-window-vertically)
+	     (split-window-horizontally)
+	     (other-window 2)
+	     (split-window-horizontally))))
 
 (defun change-split-type (split-fn &optional arg)
   "Change 3 window style from horizontal to vertical and vice-versa"
@@ -719,6 +1009,190 @@ Repeated invocations toggle between the two most recently open buffers."
       (goto-char (cdr jj/last-change-pos1))
       (jj/swap-last-changes))))
 
+(defun jj/insert-brackets (&optional arg)
+  "Enclose following ARG sexps in brackets [].
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\[ ?\]))
+(defun jj/insert-brackets-alt (&optional arg)
+  "Enclose following ARG sexps in brackets {}.
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\{ ?\}))
+(defun jj/insert-dollar-sign (&optional arg)
+  "Enclose following ARG sexps in dollar signs $$.
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\$ ?\$))
+(defun jj/insert-double-dollar-dollar-sign (&optional arg)
+  "Enclose following ARG sexps in dollar signs $$$$.
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (save-mark-and-excursion
+    (insert-pair arg ?\$ ?\$))
+  (let (( parens-require-spaces nil))
+    (insert-pair arg ?\$ ?\$))
+  (forward-char))
+(defun jj/insert-double-quotes (&optional arg)
+  "Enclose following ARG sexps in dollar signs \"\".
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\" ?\"))
+(defun jj/insert-double-quotes (&optional arg)
+  "Enclose following ARG sexps in dollar signs \"\".
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\" ?\"))
+(defun jj/insert-single-quotes (&optional arg)
+  "Enclose following ARG sexps in dollar signs ''.
+Leave point after open-paren.
+A negative ARG encloses the preceding ARG sexps instead.
+No argument is equivalent to zero: just insert `()' and leave point between.
+If `parens-require-spaces' is non-nil, this command also inserts a space
+before and after, depending on the surrounding characters.
+If region is active, insert enclosing characters at region boundaries.
+
+This command assumes point is not in a string or comment."
+  (interactive "P")
+  (insert-pair arg ?\' ?\'))
+
+(defun jj/insert-upward-v-exponential ()
+  "Insert one ^ into text"
+  (interactive) (insert-char '94))
+
+(defvar jj/save-place-last-checksum nil)
+(defun jj/save-place-alist-to-file (&optional auto-save)
+  (interactive)
+  (let ((file (expand-file-name save-place-file))
+	(coding-system-for-write 'utf-8))
+    (with-current-buffer (get-buffer-create " *Saved Places*")
+      (delete-region (point-min) (point-max))
+      (when save-place-forget-unreadable-files
+	(save-place-forget-unreadable-files))
+      (insert (format ";;; -*- coding: %s -*-\n"
+		      (symbol-name coding-system-for-write)))
+      (let ((print-length nil)
+	    (print-level nil))
+	(pp save-place-alist (current-buffer)))
+      (let ((version-control
+	     (cond
+	      ((null save-place-version-control) nil)
+	      ((eq 'never save-place-version-control) 'never)
+	      ((eq 'nospecial save-place-version-control) version-control)
+	      (t
+	       t))))
+	(condition-case nil
+	    ;; Don't use write-file; we don't want this buffer to visit it.
+	    ;; If autosaving, avoid writing if nothing has changed since the
+	    ;; last write.
+	    (let ((checksum (md5 (current-buffer) nil nil 'no-conversion)))
+	      (unless (and auto-save (equal checksum jj/save-place-last-checksum))
+		;; Set file-precious-flag when saving the buffer because we
+		;; don't want a half-finished write ruining the entire
+		;; history.  Remember that this is run from a timer and from
+		;; kill-emacs-hook, and also that multiple Emacs instances
+		;; could write to this file at once.
+		(let ((file-precious-flag t)
+		      (coding-system-for-write 'utf-8))
+		  (write-region (point-min) (point-max) file nil
+				(unless (called-interactively-p 'interactive) 'quiet)))
+		(setq jj/save-place-last-checksum checksum)))
+	  (file-error (message "Saving places: can't write %s" file)))
+	(kill-buffer (current-buffer))))))
+
+(defvar jj/recentf-last-checksum nil)
+(defun jj/recentf-save-list (&optional auto-save)
+  "Save the recent list.
+Write data into the file specified by `recentf-save-file'."
+  (interactive)
+  (let ((file (expand-file-name recentf-save-file))
+	(coding-system-for-write recentf-save-file-coding-system))
+    (with-temp-buffer
+      (erase-buffer)
+      (set-buffer-file-coding-system recentf-save-file-coding-system)
+      (insert (format-message recentf-save-file-header
+			      (current-time-string)))
+      (recentf-dump-variable 'recentf-list recentf-max-saved-items)
+      (recentf-dump-variable 'recentf-filter-changer-current)
+      (insert "\n\n;; Local Variables:\n"
+	      (format ";; coding: %s\n" recentf-save-file-coding-system)
+	      ";; End:\n")
+      (condition-case nil
+	  (let ((checksum (md5 (current-buffer) nil nil 'no-conversion)))
+	    (unless (and auto-save (equal checksum jj/recentf-last-checksum))
+	      ;; Set file-precious-flag when saving the buffer because we
+	      ;; don't want a half-finished write ruining the entire
+	      ;; history.  Remember that this is run from a timer and from
+	      ;; kill-emacs-hook, and also that multiple Emacs instances
+	      ;; could write to this file at once.
+	      (let ((file-precious-flag t)
+		    (coding-system-for-write recentf-save-file-coding-system))
+		(write-region (point-min) (point-max) file nil
+			      (unless (called-interactively-p 'interactive) 'quiet))
+		(setq jj/recentf-last-checksum checksum)))
+	    (when recentf-save-file-modes
+	      (set-file-modes recentf-save-file recentf-save-file-modes)))
+	(file-error (message "Can't write recentf file to: %s" file))
+	;; (warn "recentf mode: %s" (error-message-string error))))
+	;; (write-file (expand-file-name recentf-save-file))
+	))))
+
+(defun jj/save-place-recentf-to-file ()
+  (interactive)
+  ;; not needed as included in the package
+  ;; (savehist-autosave)
+  ;; has checksum to see if need to save when passed t into these functions
+  (jj/recentf-save-list t)
+  ;; use this the function will always auto-save because things added to list everytime
+  ;; only new items added when buffers closed normally
+  ;; (save-places-to-alist)
+  (jj/save-place-alist-to-file t))
+(defun jj/save-places-to-alist ()
+  (interactive)
+  (save-places-to-alist))
+
 (defun jj/buffer-change-hook (beg end len)
   (let ((bfn (buffer-file-name))
 	(file (car jj/last-change-pos1)))
@@ -728,47 +1202,55 @@ Repeated invocations toggle between the two most recently open buffers."
 	(progn (setq jj/last-change-pos2 (cons bfn end))
 	       (jj/swap-last-changes))))))
 
-(defun jj/revert-all-buffers ()
-   "Iterate through the list of buffers and revert them, e.g. after a
+(defun jj/revert-buffers-all ()
+  "Iterate through the list of buffers and revert them, e.g. after a
     new branch has been checked out."
-    (interactive)
-    (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
-      (let ((frm1 (selected-frame)))
-	(make-frame)
-	(let ((frm2 (next-frame frm1)))
-	  (select-frame frm2)
-	  (make-frame-invisible)
-	  (dolist (x (buffer-list))
-	    (let ((test-buffer (buffer-name x)))
-	      (when (not (string-match "\*" test-buffer))
-		(when (not (file-exists-p (buffer-file-name x)))
-		  (select-frame frm1)
-		  (when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
-		    (kill-buffer (buffer-name x)))
-		  (select-frame frm2))
-		(when (file-exists-p (buffer-file-name x))
-		  (switch-to-buffer (buffer-name x))
-		  (revert-buffer t t t)))))
-	  (select-frame frm1)
-	  (delete-frame frm2)
-))))
+  (interactive)
+  (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
+    (let ((frm1 (selected-frame)))
+      (make-frame)
+      (let ((frm2 (next-frame frm1)))
+	(select-frame frm2)
+	(make-frame-invisible)
+	(dolist (x (buffer-list))
+	  (let ((test-buffer (buffer-name x)))
+	    (when (not (string-match "\*" test-buffer))
+	      (when (not (file-exists-p (buffer-file-name x)))
+		(select-frame frm1)
+		(when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
+		  (kill-buffer (buffer-name x)))
+		(select-frame frm2))
+	      (when (file-exists-p (buffer-file-name x))
+		(switch-to-buffer (buffer-name x))
+		(revert-buffer t t t)))))
+	(select-frame frm1)
+	(delete-frame frm2)
+	))))
 
 (defun jj/revert-buffer-no-confirm ()
     "Revert buffer without confirmation."
     (interactive) (revert-buffer t t))
 
 (defun revert-buffer-no-confirm ()
-    "Revert buffer without confirmation."
-    (interactive) (revert-buffer t t))
+  "Revert buffer without confirmation."
+  (interactive) (revert-buffer t t))
 
+;; TODO: switch to using ivy so it ignores help windows
 (defun jj/switch-to-previous-buffer ()
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
+;; (defun jj/switch-to-previous-buffer ()
+;;   "Switch to previously open buffer.
+;; Repeated invocations toggle between the two most recently open buffers."
+;;   (interactive)
+;;   (if (not (string-match "*Help*" (buffer-name (other-buffer (current-buffer)))))
+;;       (switch-to-buffer (other-buffer (current-buffer) 1))
+;;     (switch-to-buffer (other-buffer (other-buffer (current-buffer) 1)) )))
 
 (fset 'jj/dired-kill-subdir-pop-mark
-   [?\s-\C-\M-4 ?\s-\[])
+      [?\s-\C-\M-4 ?\s-\[])
 
 (defun jj/kill-buffer-immediately ()
   "Kill the current buffer immediately"
@@ -800,6 +1282,11 @@ Repeated invocations toggle between the two most recently open buffers."
       (emacs-lock-mode 'all)
     (emacs-lock-mode -1)
     ))
+
+(defun jj/emacs-lock-mode-off ()
+  "Lock the current buffer from being killed and emacs can't exit until it us unprotected"
+  (interactive)
+  (emacs-lock-mode -1))
 
 (defun jj/find-open-last-killed-file ()
   (interactive)
@@ -1011,7 +1498,7 @@ directory in another window."
        (setq dired-omit-mode nil)))
 
 (defcustom dired-list-of-switches
-  '("-alXGhF -HA  --group-directories-first"  "-alXGhvF -HAL  --group-directories-first" "-alXGhvF -HA  --group-directories-first")
+  '("-a -F -lGhHAv  --group-directories-first"  "-a -F -lGhHAv -L  --group-directories-first" "-a -F -lGhHA  --group-directories-first")
   "List of ls switches for dired to cycle among.")
 
 (defun jj/dired-cycle-switches ()
@@ -1021,19 +1508,18 @@ directory in another window."
 	(append (cdr dired-list-of-switches)
 		(list (car dired-list-of-switches))))
   (dired-sort-other (car dired-list-of-switches))
-   (dired-sort-toggle-or-edit)
-)
+  (dired-sort-set-mode-line))
+
 (defun jj/dired-sort-by-time-switch-toggle ()
   "Sort by time not putting directories first"
   (interactive)
-  (cond ((string= dired-actual-switches "-alXGhvF -HAU -t")
-	 (dired-sort-other "-alXGhF -HA  --group-directories-first"))
-	((string= dired-actual-switches "-alXGhv -HAU")
-	 (dired-sort-other "-alXGhF -HA  --group-directories-first"))
+  (cond ((string= dired-actual-switches "-a -F -lGhHAv -t")
+	 (dired-sort-other "-a -F -lGhHAv  --group-directories-first"))
+	((string= dired-actual-switches "-a -F -lGhHA -v")
+	 (dired-sort-other "-a -F -lGhHAv  --group-directories-first"))
 	(t
-	 (dired-sort-other "-alXGhvF -HAU")))
-  (dired-sort-toggle-or-edit)
-)
+	 (dired-sort-other "-a -F -lGhHAv -t")))
+  (dired-sort-set-mode-line))
 
 (defun jj/remove-elc-on-save ()
   "If you're saving an Emacs Lisp file, likely the .elc is no longer valid."
@@ -1045,10 +1531,10 @@ directory in another window."
 	    t))
 
 (defun jj/brc-functions-file ()
-    "Recompile the functions file to hook on exit emacs"
+  "Recompile the functions file to hook on exit emacs if updated"
   (interactive)
-  (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/functions.el")
-)
+  (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/functions.el" nil 0)
+  )
 
 (defun jj/ivy-switch-buffer-use-virtual ()
   (interactive)
@@ -1164,6 +1650,32 @@ Version 2018-09-29"
 	(start-process "" nil openFileProgram $path))
       ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. eg with nautilus
       ))))
+
+(defun jj/show-in-finder-for-dropbox ()
+  "Show current file in desktop.
+ (Mac Finder, Windows Explorer, Linux file manager)
+ This command can be called when in a file or in `dired'.
+
+URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
+Version 2018-09-29"
+  (interactive)
+  (let (($path (if (buffer-file-name) (buffer-file-name) default-directory )))
+    (cond
+     ((string-equal system-type "darwin")
+      (if (eq major-mode 'dired-mode)
+	  (let (($files (dired-get-marked-files nil t nil nil)))
+	    (if (eq (length $files) 0)
+		(progn
+		  (shell-command
+		   (concat "open -a Finder " default-directory)))
+	      (let* ((x (car $files))
+		     (dired-rename-file-split (f-split x))
+		     (just-directory (apply 'f-join (nbutlast dired-rename-file-split))))
+		(progn
+		  (shell-command
+		   (concat "open -a Finder " just-directory))))))
+	(shell-command
+	 (concat "open -a Finder " default-directory)))))))
 
 (defun jj/toggle-window-dedicated ()
   "Control whether or not Emacs is allowed to display another
@@ -1695,6 +2207,19 @@ Version 2017-01-11"
 	  (re-search-forward " " (point-max) "NOERROR")
 	(replace-match "_" "FIXEDCASE" "LITERAL")))))
 
+(defun jj/space-to-no-space-region (@begin @end)
+  "Change underscore char to space.
+URL `http://ergoemacs.org/emacs/elisp_change_space-hyphen_underscore.html'
+Version 2017-01-11"
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region @begin @end)
+      (goto-char (point-min))
+      (while
+	  (re-search-forward " " (point-max) "NOERROR")
+	(replace-match "" "FIXEDCASE" "LITERAL")))))
+
 (defun jj/xah-clean-whitespace ()
   "Delete trailing whitespace, and replace repeated blank lines to just 1.
 Only space and tab is considered whitespace here.
@@ -1723,6 +2248,77 @@ Version 2017-09-22"
 	  (while (equal (char-before) 32) ; char 32 is space
 	    (delete-char -1))))
       (message "white space cleaned"))))
+
+(defun jj/TeX-command-run-all-auto-save (arg)
+  "Runs TeX-command-run-all but saving first if modified."
+  (interactive "P")
+  (let ((TeX-save-query nil))
+    (TeX-command-run-all arg)))
+
+(defun jj/TeX-LaTeX-auctex-latexmk-compile-view ()
+  "Compile, view *.pdf, and clean (maybe)."
+  (interactive)
+  (let ((TeX-PDF-mode t)
+	(TeX-source-correlate-mode t)
+	(TeX-source-correlate-method 'synctex)
+	(TeX-source-correlate-start-server nil))
+    (when (buffer-modified-p)
+      (save-buffer))
+    (set-process-sentinel
+     (TeX-command "latexmk" 'TeX-master-file)
+     (lambda (p e)
+       (when (not (= 0 (process-exit-status p)))
+	 (TeX-next-error t) )
+       (when (= 0 (process-exit-status p))
+	 (TeX-command "View" 'TeX-active-master 0))))
+    ))
+
+;; TODO: Get Latex running correctly because sometimes gets passed in resume.pdf.pdf instead of resume.pdf
+;; I think can maybe fix by calling view a second time or figure out where the error is occurring in auctex
+(defun jj/TeX-LaTeX-auctex-latexmk-compile-view-twice ()
+  (interactive)
+  (jj/TeX-LaTeX-auctex-latexmk-compile-view)
+  (let ((TeX-PDF-mode t)
+	(TeX-source-correlate-mode t)
+	(TeX-source-correlate-method 'synctex)
+	(TeX-source-correlate-start-server nil))
+    (TeX-command "View" 'TeX-active-master 0)
+    ))
+
+(defun jj/TeX-LaTeX-auctex-regular-compile-view-clean ()
+  "Compile, view *.pdf, and clean (maybe)."
+  (interactive)
+  (let ((TeX-PDF-mode t)
+	(TeX-source-correlate-mode t)
+	(TeX-source-correlate-method 'synctex)
+	(TeX-source-correlate-start-server nil)
+	(TeX-clean-confirm nil)
+	;; TODO: These don't work for some reason and are overridden by the defaults
+	(TeX-clean-default-intermediate-suffixes
+	 '("\\.aux" "\\.bbl" "\\.blg" "\\.brf" "\\.fot" "\\.glo" "\\.gls"
+	   "\\.idx" "\\.ilg" "\\.ind" "\\.lof" "\\.log" "\\.lot" "\\.nav"
+	   "\\.out" "\\.snm" "\\.toc" "\\.url" "\\.bcf"
+	   "\\.run\\.xml" "\\.fls" "-blx\\.bib" "\\.fdb.latexmk"))
+	(LaTeX-clean-intermediate-suffixes
+	 '("\\.aux" "\\.bbl" "\\.blg" "\\.brf" "\\.fot" "\\.glo" "\\.gls"
+	   "\\.idx" "\\.ilg" "\\.ind" "\\.lof" "\\.log" "\\.lot" "\\.nav"
+	   "\\.out" "\\.snm" "\\.toc" "\\.url" "\\.bcf"
+	   "\\.run\\.xml" "\\.fls" "-blx\\.bib" "\\.acn" "\\.acr" "\\.alg"
+	   "\\.glg" "\\.ist" "\\.fdb.latexmk")))
+    (when (buffer-modified-p)
+      (save-buffer))
+    (set-process-sentinel
+     (TeX-command "LaTeX" 'TeX-master-file)
+     (lambda (p e)
+       (when (not (= 0 (process-exit-status p)))
+	 (TeX-next-error t) )
+       (when (= 0 (process-exit-status p))
+	 (TeX-command "View" 'TeX-active-master 0)
+	 ;; `set-process-sentinel` cannot be used on Windows XP for post-view cleanup,
+	 ;; because Emacs treats SumatraPDF as an active process until SumatraPDF exits.
+	 (let ((major-mode 'latex-mode))
+	   (with-current-buffer TeX-command-buffer
+	     (TeX-command "Clean" 'TeX-master-file))))))))
 
 ;;; --------------------------------------------------- adding words to flyspell
 ;; If ispell-personal-dictionary variable not set this won't work correctly
@@ -1833,6 +2429,12 @@ Always focus bigger window."
 	    (>= ratio-val 1))
 	(windmove-down))))
 
+(defun jj/eyebrowse-close-window-config-switch-to-2 ()
+  (interactive)
+  (eyebrowse-close-window-config)
+  ;; TODO: Modify to switch to last-window-config instead of always to #2
+  (eyebrowse-switch-to-window-config-2))
+
 (defun eyebrowse-switch-to-window-config-11 ()
   "Switch to window configuration 11."
   (interactive)
@@ -1881,7 +2483,9 @@ Always focus bigger window."
   "Switch to window configuration 22."
   (interactive)
   (eyebrowse-switch-to-window-config 22))
-
+(defun test-blinking ()
+  (interactive)
+  (beacon-blink))
 ;; Forces so will always open in background if set
 (defun jj/osx-browse-url (url &optional new-window browser focus)
   "Open URL in an external browser on OS X.
@@ -1974,6 +2578,78 @@ With PREFIX, ask for location."
       (google-this-parse-and-search-string
        (concat "weather " (read-string "Location: " nil nil "")) nil))))
 
+(defun jj/myfunc-color-identifiers-mode-hook ()
+  (interactive)
+  (let ((faces '(font-lock-comment-face font-lock-comment-delimiter-face font-lock-constant-face font-lock-type-face font-lock-function-name-face font-lock-variable-name-face font-lock-keyword-face font-lock-string-face font-lock-builtin-face font-lock-preprocessor-face font-lock-warning-face font-lock-doc-face font-lock-negation-char-face font-lock-regexp-grouping-construct font-lock-regexp-grouping-backslash)))
+    (dolist (face faces)
+      (face-remap-add-relative face '((:foreground "" :weight normal :slant normal)))))
+  (face-remap-add-relative 'font-lock-keyword-face '((:weight bold)))
+  (face-remap-add-relative 'font-lock-comment-face '((:slant italic)))
+  (face-remap-add-relative 'font-lock-builtin-face '((:weight bold)))
+  (face-remap-add-relative 'font-lock-preprocessor-face '((:weight bold)))
+  (face-remap-add-relative 'font-lock-function-name-face '((:slant italic)))
+  (face-remap-add-relative 'font-lock-string-face '((:slant italic)))
+  (face-remap-add-relative 'font-lock-constant-face '((:weight bold))))
+
+;; These need to be set after desktop-read is run
+;; TODO: Make this into a for loop with all the buffers in a defvar list
+;; Possible to put in a function that is hooked into desktop-after-read-hook
+(defun jj/lock-my-dired-emacs-buffers ()
+  (interactive)
+  (progn
+    (when (get-buffer "Downloads")
+      (progn
+	(with-current-buffer "Downloads"
+	  (interactive)
+	  (jj/emacs-lock-mode-all))))
+    (when (get-buffer "*scratch*")
+      (progn
+	(with-current-buffer "*scratch*"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "FinishedTor")
+      (progn
+	(with-current-buffer "FinishedTor"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "K")
+      (progn
+	(with-current-buffer "K"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "user.el")
+      (progn
+	(with-current-buffer "user.el"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "bindings.el")
+      (progn
+	(with-current-buffer "bindings.el"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "settings.el")
+      (progn
+	(with-current-buffer "settings.el"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    (when (get-buffer "functions.el")
+      (progn
+	(with-current-buffer "functions.el"
+	  (interactive)
+	  (jj/emacs-lock-mode-kill))))
+    ))
+
+(defun jj/quit-window-kill ()
+  "Uses quit-window with prefix arg to kill the buffer and return to previous-window.
+Useful in dired-mode and other modes that launch new windows like magit."
+  (interactive)
+  (quit-window t))
+
+(defun jj/magit-mode-kill-buffer ()
+  "Uses magit-mode-bury-buffer with prefix arg to kill the buffer and return to magit-status."
+  (interactive)
+  (magit-mode-bury-buffer '(4)))
+
 ;; Still runs with using s-x
 (defadvice kill-ring-save (before slick-copy-line activate compile)
   "When called interactively with no region, copy the word or line
@@ -2022,31 +2698,76 @@ Calling it a second time will kill the current line."
 	 (message "Killed word")
 	 (list (mark) (point)))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Deprecated
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun xah-lookup-word-thesaurus-eww (&optional @word)
+  "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+Version 2017-02-09"
+  (interactive)
+  (xah-lookup-word-on-internet
+   @word
+   (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
+   (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
+  ;;
+  )
+(put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+(put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
-;; (defun jj/delete-line ()
-;;   "Delete text from current position to end of line char.
-;; This command does not push text to `kill-ring'."
-;;   (interactive)
-;;   (delete-region
-;;    (point)
-;;    (progn (end-of-line 1) (point)))
-;;   (delete-char 1))
+(defun xah-lookup-word-thesaurus (&optional @word)
+  "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+Version 2017-02-09"
+  (interactive)
+  (xah-lookup-word-on-internet
+   @word
+   (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
+   (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
+  ;;
+  )
+(put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+(put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function 'browser-url)
 
-;; (defun my-browse-url-of-buffer-with-firefox ()
-;;   "Same as `browse-url-of-buffer' but using Firefox.
-;; You need Firefox's path in the path environment variable within emacs.
-;; e.g.
-;;  (setenv \"PATH\" (concat \"C:/Program Files (x86)/Mozilla Firefox/\" \";\" (getenv \"PATH\") ) )
-;; On Mac OS X, you don't need to. This command makes this shell call:
-;;  「open -a Firefox.app http://example.com/」"
-;;   (interactive)
-;;   (cond
-;;    ((string-equal system-type "windows-nt") ; Windows
-;;     (shell-command (concat "firefox file://" buffer-file-name)))
-;;    ((string-equal system-type "gnu/linux")
-;;     (shell-command (concat "firefox file://" buffer-file-name)))
-;;    ((string-equal system-type "darwin") ; Mac
-;;     (shell-command (concat "open -a Firefox.app file://" buffer-file-name)))))
+(defun xah-lookup-word-definition-eww (&optional @word)
+  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+  (interactive)
+  (xah-lookup-word-on-internet
+   @word
+   (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
+   (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
+  ;;
+  )
+(put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
+(put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
+
+(defun xah-lookup-power-thesaurus-eww (&optional @word)
+  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+  (interactive)
+  (xah-lookup-word-on-internet
+   @word
+   (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
+   (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
+  ;;
+  )
+(put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+(put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
+
+(defun xah-lookup-power-thesaurus (&optional @word)
+  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+  (interactive)
+  (xah-lookup-word-on-internet
+   @word
+   (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
+   (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
+  ;;
+  )
+(put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+(put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function 'browser-url)
+
+(defun jj/sml/total-lines-append-mode-line ()
+  "Appends the total lines after the current line to the mode-line after sml/setup.
+Can be changed to include (or not) the percentage and current column."
+  (setq-default mode-line-front-space
+		;; (append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines ))))))
+		(append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines )) "::" "%p"))))
+  ;; (append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines)) "//" "%p" (:eval (format "::%2d" (1+ (current-column))))))))
+  )

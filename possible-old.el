@@ -5,7 +5,7 @@
 (copy-face 'default 'fixed-pitch)
 
 ;;============================================================
-;; toggle between variable pitch and fixed pitch font for 
+;; toggle between variable pitch and fixed pitch font for
 ;; the current buffer
 (defun fixed-pitch-mode ()
   (buffer-face-mode -1))
@@ -54,3 +54,29 @@
 ;;   (my-keys-minor-mode 0))
 
 ;; (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+;; Remove with emacs 26.2 as new variable auto-save-no-message was added
+;; custom autosave to suppress messages
+;;
+;; For some reason `do-auto-save' doesn't work if called manually
+;; after switching off the default autosave altogether. Instead set
+;; to a long timeout so it is not called.
+;; (setq auto-save-timeout 99999)
+
+;; ;; Set up my timer
+;; (defvar bjm/auto-save-timer nil
+;;   "Timer to run `bjm/auto-save-silent'")
+
+;; ;; Auto-save every 5 seconds of idle time
+;; (defvar bjm/auto-save-interval 10
+;;   "How often in seconds of idle time to auto-save with `bjm/auto-save-silent'")
+
+;; ;; Function to auto save files silently
+;; (defun bjm/auto-save-silent ()
+;;   "Auto-save all buffers silently"
+;;   (interactive)
+;;   (do-auto-save t))
+
+;; ;; Start new timer
+;; (setq bjm/auto-save-timer
+;;       (run-with-idle-timer 0 bjm/auto-save-interval 'bjm/auto-save-silent))
