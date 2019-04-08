@@ -339,8 +339,8 @@ Use '!' to signify that the buffer was not initially clean."
 						("DONT" . "#5f7f5f") ("FAIL" . "#8c5353")
 						("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
 						("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
-						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX" . "#cc9393")
-						("XXXX" . "#cc9393") ("????" . "#cc9393") ("???" . "#cc9393")
+						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
+						("\\?\\?\\?+" . "#cc9393")
 						))
 	    (hl-todo-mode)
 	    ))
@@ -366,17 +366,17 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hl-todo highlight todo mode settins
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq hl-todo-highlight-punctuation "\-:*/~=#<>|\\")
+(setq hl-todo-highlight-punctuation "\-:*/~=#<>|\\?")
 ;; Sets for every buffer so can run hl-todo-occur even if hl-todo-mode not enabled
-(setq-default hl-todo--regexp "\\([-:*/~=#<>|\\\\]*\\<\\([?]\\{3,5\\}\\|UNSURE\\|FINISHED\\|DON[ET]\\|F\\(?:AIL\\|IXME\\)\\|H\\(?:ACK\\|OLD\\)\\|KLUDGE\\|N\\(?:EXT\\|OTE\\)\\|OKAY\\|PROG\\|T\\(?:EMP\\|HEM\\|ODO\\|0D0\\)\\|XXXX?\\)\\>[-:*/~=#<>|\\\\]*\\)")
+(setq-default hl-todo--regexp "\\(\\<\\(HOLD\\|TODO\\|T0D0\\|NEXT\\|TOD0\\|TODOO\\|THEM\\|PROG\\|OKAY\\|DONT\\|FAIL\\|DONE\\|FINISHED\\|UNSURE\\|T000\\|NOTE\\|KLUDGE\\|HACK\\|TEMP\\|FIXME\\|XXX+\\|\\?\\?\\?+\\)\\(?:\\>\\|\\>?\\)[-:*/~=#<>|\\?]*\\)")
 (setq-default hl-todo-keyword-faces '(("HOLD" . "#d0bf8f") ("TODO" . "#cc9393") ("T0D0" . "#cc9393")
 				      ("NEXT" . "#dca3a3") ("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
 				      ("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
 				      ("DONT" . "#5f7f5f") ("FAIL" . "#8c5353") ("DONE" . "#afd8af")
 				      ("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
 				      ("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
-				      ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX" . "#cc9393")
-				      ("XXXX" . "#cc9393") ("????" . "#cc9393") ("???" . "#cc9393")
+				      ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
+				      ("\\?\\?\\?+" . "#cc9393")
 				      ))
 ;; below uneccasry because hl-todo-mode is set by hl-todo-activate-in-modes
 ;; this defualts to (prog-mode text-mode) but not turned on in org-mode
@@ -848,12 +848,17 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;         ("done.org" :maxlevel . 1)))
 
 (setq org-agenda-files
-      '("Learning_notes.org" "done.org"))
+      '("gtd.org" "done.org"))
 
 (setq org-refile-targets
       '((nil :maxlevel . 1)
-	("Machine_learning_notes.org" :maxlevel . 2)
-	(org-agenda-files :maxlevel . 2)))
+	(org-agenda-files :maxlevel . 1)
+	("Machine_learning_notes.org" :maxlevel . 1)
+	("Job_notes.org" :maxlevel . 1)
+	("Archive_notes.org" :maxlevel . 1)
+	("computer_notes.org" :maxlevel . 1)
+	("done.org" :maxlevel . 2)
+	))
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
 ;; this allows refiling to the top level of a file
