@@ -1070,7 +1070,7 @@ Repeated invocations toggle between the two most recently open buffers."
 			(split-window-horizontally)))))
     (change-split-type split-type arg)))
 
-(defun jj/window-split-toggle ()
+(defun jj/window-split-toggle-horizontal-vertical ()
   "Toggle between horizontal and vertical split with two windows."
   (interactive)
   (if (> (length (window-list)) 2)

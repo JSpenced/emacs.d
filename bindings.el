@@ -200,7 +200,7 @@
 (define-key commandpalette-map (kbd "w n") 'winner-redo)
 (define-key commandpalette-map (kbd "w o") 'ivy-switch-buffer-other-window)
 (define-key commandpalette-map (kbd "o") 'ivy-switch-buffer-other-window)
-(define-key commandpalette-map (kbd "w t") 'jj/window-split-toggle)
+(define-key commandpalette-map (kbd "w t") 'jj/window-split-toggle-horizontal-vertical)
 (define-key commandpalette-map (kbd "w d") 'delete-window)
 (define-key commandpalette-map (kbd "0") 'delete-window)
 (define-key commandpalette-map (kbd "-") 'ace-delete-window)
@@ -238,7 +238,7 @@
 (define-key commandpalette-map (kbd "w f r") 'rotate-frame)
 (global-set-key (kbd "C-x K") 'jj/other-window-kill-buffer)
 (global-set-key (kbd "C-c q") 'jj/quit-help-windows)
-(global-set-key (kbd "C-x 4 t") 'jj/window-split-toggle)
+(global-set-key (kbd "C-x 4 t") 'jj/window-split-toggle-horizontal-vertical)
 					; Set same binding as in sublime to take emacs full screen c-x 1
 (global-set-key (kbd "M-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
 (global-set-key (kbd "C-M-s-<return>") 'jj/delete-other-windows-switch-other-buffer)
