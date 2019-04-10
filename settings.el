@@ -821,6 +821,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-list-demote-modify-bullet
       '(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
 (setq org-startup-indented t)
+;; sets whether todo statistics are recursive for todo and checkboxes
+(setq org-hierarchical-todo-statistics t)
+(setq org-checkbox-hierarchical-statistics nil)
 
 ;; Switch entry to done automatically when all subentries are done
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
