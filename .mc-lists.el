@@ -17,6 +17,7 @@
 	dired-next-line
 	dired-previous-line
 	dired-ranger-copy
+	dired-unmark-all-marks
 	down-list
 	easy-kill
 	easy-kill-abort
@@ -158,6 +159,7 @@
 	dired-do-delete
 	dired-jump
 	dired-toggle-read-only
+	diredp-previous-line
 	easy-kill-help
 	eyebrowse-switch-to-window-config-11
 	eyebrowse-switch-to-window-config-2
@@ -172,6 +174,7 @@
 	ivy-wgrep-change-to-wgrep-mode
 	jj/dired-rename-space-to-hyphen
 	jj/ivy-switch-buffer-use-virtual
+	jj/switch-to-previous-buffer
 	kmacro-end-or-call-macro
 	minibuffer-keyboard-quit
 	next-multiframe-window

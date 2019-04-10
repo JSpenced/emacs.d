@@ -329,7 +329,7 @@
 (global-set-key (kbd "M-K") 'kill-sexp)
 (global-set-key (kbd "<escape> C-k") 'jj/kill-line)
 (global-set-key (kbd "M-k") 'kill-sentence)
-(global-set-key (kbd "<escape> M-k") 'kill-sentence)
+;; (global-set-key (kbd "<escape> M-k") 'kill-sentence)
 (global-set-key (kbd "<escape> M-w") 'jj/kill-line-save)
 (global-set-key (kbd "<escape> w") 'jj/kill-line-save)
 (global-set-key (kbd "<escape> l") 'jj/kill-line)
