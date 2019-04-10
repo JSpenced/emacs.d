@@ -3811,6 +3811,49 @@ search modes defined in the new `dired-sort-toggle'.
 		(package-delete  old-package)))))
       (message "All packages are up to date"))))
 
+;; Not used but can reset checkboxes and narrow subtree when all are checked
+(defun jj/org-reset-checkbox-state-subtree ()
+  "Simplified version of org-list builtin"
+  ;; Begin copy from org-reset-checkbox-subtree
+  (org-narrow-to-subtree)
+  (org-show-subtree)
+  (goto-char (point-min))
+  (let ((end (point-max)))
+    (while (< (point) end)
+      (when (org-at-item-checkbox-p)
+	(replace-match "[ ]" t t nil 1))
+      (beginning-of-line 2)))
+  (org-update-checkbox-count-maybe 'all)
+  ;; End copy from org-reset-checkbox-subtree
+  )
+
+(defun jj/org-checkbox-todo ()
+  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
+  (let ((todo-state (org-get-todo-state)) beg end)
+    (unless (not todo-state)
+      (save-excursion
+	(org-back-to-heading t)
+	(setq beg (point))
+	(end-of-line)
+	(setq end (point))
+	(goto-char beg)
+	(if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
+			       end t)
+	    (if (match-end 1)
+		(if (equal (match-string 1) "100%")
+		    (unless (string-equal todo-state "DONE")
+		      ;; (jj/org-reset-checkbox-state-subtree)
+		      (org-todo 'done))
+		  (unless (string-equal todo-state "TODO")
+		    (org-todo 'todo)))
+	      (if (and (> (match-end 2) (match-beginning 2))
+		       (equal (match-string 2) (match-string 3)))
+		  (unless (string-equal todo-state "DONE")
+		    ;; (jj/org-reset-checkbox-state-subtree)
+		    (org-todo 'done))
+		(unless (string-equal todo-state "TODO")
+		  (org-todo 'todo)))))))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)

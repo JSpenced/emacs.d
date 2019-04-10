@@ -826,7 +826,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-checkbox-hierarchical-statistics nil)
 
 ;; Switch entry to done automatically when all subentries are done
-(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+(add-hook 'org-checkbox-statistics-hook 'jj/org-checkbox-todo)
 
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
 (add-hook 'org-mode-hook 'scimax-autoformat-mode)
