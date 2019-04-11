@@ -3861,6 +3861,33 @@ search modes defined in the new `dired-sort-toggle'.
     (ansi-term "/bin/bash" "htop")
     (comint-send-string "*htop*" "htop\n")))
 
+;; Make the compilation window automatically disappear - from enberg on #emacs
+;; (setq compilation-finish-functions
+;;       (lambda (buf str)
+;;	(if (null (string-match ".*exited abnormally.*" str))
+;;	    ;;no errors, make the compilation window go away in a few seconds
+;;	    (progn
+;;	      (run-at-time
+;;	       "2 sec" nil 'delete-windows-on
+;;	       (get-buffer-create "*compilation*"))
+;;	      (message "No Compilation Errors!")))))
+
+;; (defun jj/bury-compile-buffer-if-successful (buffer string)
+;;   "Bury a compilation buffer if succeeded without warnings "
+;;   (if (and
+;;        (string-match "compilation" (buffer-name buffer))
+;;        (string-match "finished" string)
+;;        (not
+;;         (with-current-buffer buffer
+;;           **(goto-char 1)**
+;;           (search-forward "warning" nil t))))
+;;       (run-with-timer 1 nil
+;;                       (lambda (buf)
+;;                         (bury-buffer buf)
+;;                         (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+;;                       buffer)))
+;; (add-hook 'compilation-finish-functions 'jj/bury-compile-buffer-if-successful)
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
