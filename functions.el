@@ -3854,6 +3854,13 @@ search modes defined in the new `dired-sort-toggle'.
 		(unless (string-equal todo-state "TODO")
 		  (org-todo 'todo)))))))))
 
+(defun jj/htop-view-processes ()
+  (interactive)
+  (if (get-buffer "*htop*")
+      (switch-to-buffer "*htop*")
+    (ansi-term "/bin/bash" "htop")
+    (comint-send-string "*htop*" "htop\n")))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
