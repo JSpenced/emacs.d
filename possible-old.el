@@ -60,6 +60,10 @@
 ;;                     keyword))
 ;;     (backward-char)
 ;;     (indent-region (line-beginning-position) (line-end-position)))))
+;; change compile.el
+;; line 111 change so changes the string from compiling
+;; '(compilation-in-progress " Ç")
+;; minor-mode-alist)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deprecated
