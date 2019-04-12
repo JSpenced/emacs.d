@@ -501,8 +501,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Need to load dired+ after setting up the settings or they don't work
 (jj/append-to-list 'dired-omit-extensions '("#" "##"))
 (setq diredp-ignore-compressed-flag nil)
-(setq diredp-compressed-extensions '(".tar" ".taz" ".tgz" ".arj" ".lzh" ".lzma" ".xz" ".zip" ".z" ".Z"
-				     ".gz" ".bz2" ".rar" ".r[0-9]+"))
 (setq diredp-omit-files-regexp "\\.#\\|\\.\\|\\.\\.\\|\\..*")
 
 ;; start directory
