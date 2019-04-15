@@ -280,6 +280,11 @@ Use '!' to signify that the buffer was not initially clean."
      ;; adding command options -b before -g below will highlight the line number in skim
      (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
      (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r /Users/bigtyme/Programs/scimax/user/latexmkrc %s" TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
+     (add-to-list 'TeX-command-list
+		  '("Xelatexmanual" "xelatex -interaction=nonstopmode %s"
+		    TeX-run-command t t :help "Run xelatex"))
+     (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -r /Users/bigtyme/Programs/scimax/user/xelatexmkrc %s" TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
      (setq-default TeX-command-default "latexmk")
