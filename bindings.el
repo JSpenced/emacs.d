@@ -6,6 +6,8 @@
 (global-set-key (kbd "<f8>") 'menu-bar-open)
 (global-set-key (kbd "<f10>") 'toggle-frame-maximized)
 (global-set-key (kbd "M-e") 'sentence-nav-forward)
+(global-set-key (kbd "<escape> M-e") 'forward-sentence)
+(global-set-key (kbd "<escape> M-a") 'backward-sentence)
 (global-set-key (kbd "M-E") 'sentence-nav-forward-end)
 (global-set-key (kbd "M-a") 'sentence-nav-backward)
 (global-set-key (kbd "M-A") 'sentence-nav-backward-end)
@@ -401,8 +403,11 @@
   '(progn
      (define-key LaTeX-mode-map (kbd "C-c ~") 'jj/TeX-command-run-all-auto-save)
      (define-key LaTeX-mode-map (kbd "C-c b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+     (define-key LaTeX-mode-map (kbd "C-c B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "C-c s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "<escape> B") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+     (define-key LaTeX-mode-map (kbd "<escape> C-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+     (define-key LaTeX-mode-map (kbd "<escape> C-B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "<escape> s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "C-c V") 'pdf-sync-forward-search)
      (define-key LaTeX-mode-map (kbd "<escape> V") 'pdf-sync-forward-search)
@@ -430,6 +435,7 @@
 (define-key emacs-lisp-mode-map (kbd "C-c j") 'lispy-goto)
 (define-key python-mode-map (kbd "C-c C-j") 'counsel-imenu)
 (define-key python-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
+(define-key LaTeX-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
 (global-set-key (kbd "C-x C-r") 'jj/find-alternative-file-with-sudo)
 
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)

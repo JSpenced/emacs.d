@@ -1032,7 +1032,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 		   (setq desktop-path (list "~/Programs/scimax/user/desktops")))
 		  (t (when (not (daemonp))
 		       (desktop-save-mode)
-		       (desktop-read))))))
+		       (desktop-read)
+		       )))))
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 ;; Run an edit server in the running emacs
 ;; (when (locate-library "edit-server")
