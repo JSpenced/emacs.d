@@ -143,7 +143,6 @@
 (define-key commandpalette-map (kbd "l") 'jj/emacs-lock-mode)
 (define-key commandpalette-map (kbd "L") 'jj/emacs-lock-mode-all)
 (define-key commandpalette-map (kbd "i") 'ivy-resume)
-(define-key commandpalette-map (kbd "t") 'jj/find-open-last-killed-file)
 (define-key global-map (kbd "C-S-t") 'jj/find-open-last-killed-file)
 (define-key global-map (kbd "s-T") 'jj/find-open-last-killed-file)
 (define-key commandpalette-map (kbd "C-q") 'jj/toggle-window-dedicated)
@@ -401,6 +400,8 @@
 
 (eval-after-load "latex"
   '(progn
+     (define-key LaTeX-mode-map (kbd "M-e") 'forward-sentence)
+     (define-key LaTeX-mode-map (kbd "M-a") 'backward-sentence)
      (define-key LaTeX-mode-map (kbd "C-c ~") 'jj/TeX-command-run-all-auto-save)
      (define-key LaTeX-mode-map (kbd "C-c b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "C-c B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)

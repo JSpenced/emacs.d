@@ -150,6 +150,80 @@
 	    (setq eyebrowse-new-workspace nil)
 	    (setq eyebrowse-switch-back-and-forth t)))
 
+(use-package chronos
+  :config
+  ;; (use-package chronos)
+  ;; https://github.com/dxknight/chronos
+  ;; now is 17:00
+  ;; 5 gives an expiry time of 17:05
+  ;; 1:30 gives 18:30
+  ;; 0:0:30 gives 30 seconds after 17:00
+  ;; empty or 0 gives a count up timer starting now, at 17:00.
+
+  ;; =17:00/Drink coffee + -5/Brew coffee + -5/Boil kettle + 25/Finish break
+  ;; Which will give a timer at 5 o'clock to drink coffee, a timer five minutes before that (16:55) to
+  ;; start brewing the coffee, a reminder five minutes before that (16:50) to put the kettle on and a
+  ;; reminder 25 minutes after that (17:15) to finish drinking coffee and get back to work.
+
+  ;; Key	Action
+  ;; a	add a timer by specifying expiry time and a message
+  ;; A	add multiple consecutive timer(s) in one go
+  ;; n/p	move selection down/up (also C-n/C-p <down>/<up>)
+  ;; SPC	pause/unpause (pausing affects time to go and the expiry time, but not elapsed time)
+  ;; d	delete selected timer
+  ;; D	delete all expired timers
+  ;; e	edit selected timer
+  ;; l	lap selected timer
+  ;; F	freeze/unfreeze the display
+  ;; q	quit window
+
+
+
+  (defun jj/chronos-shell-notify (c)
+    "Notify expiration of timer C by running a shell command."
+    ;; NOTE: for alarm.wav to work has to be copied to /System/Library/sounds
+    (if (eq system-type 'darwin)
+	(chronos--shell-command "Chronos shell notification for Mac OS X"
+				"/usr/local/bin/terminal-notifier"
+				(list "-ignoreDnD" "-sound" "alarm.wav" "-title" "Chronos Timer" "-message" (chronos--message c))
+				)
+      (chronos--shell-command "Chronos shell notification for Linux & Windows"
+			      "notify-send"
+			      (list "-t" "3600000" "Chronos Timer" (chronos--message c))))
+    ;; 24*60*60*1000 = 86400000  60*60*1000 = 3600000
+    )
+
+  (setq
+   ;; chronos-shell-notify-program "mpg123"
+   ;; chronos-shell-notify-parameters '("-q ~/.emacs.d/manual-addons/sounds/end.mp3")
+   ;; chronos-shell-notify-program "notify-send"
+   ;; chronos-shell-notify-parameters '("-t" "0" "Сработал таймер")
+   chronos-notification-wav "~/Programs/scimax/user/sounds/techno.wav"
+   chronos-expiry-functions '(chronos-buffer-notify
+			      jj/chronos-shell-notify
+			      chronos-message-notify
+			      ;; chronos-sound-notify
+			      ))
+  (use-package helm-chronos)
+  ;; hack for manual addons. helm updates?
+  (setq helm-chronos--fallback-source
+	(helm-build-dummy-source "test"
+	  :action '(("Add timer" . helm-chronos--parse-string-and-add-timer))))
+
+  (setq helm-chronos-standard-timers
+	'(
+	  "    45/Pomodoro: Work no break"
+	  "     6/Break"
+	  "    45/Pomodoro: Work on helm-chronos + 6/Pomodoro: Rest"
+	  "     6/Short Break"))
+
+  ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
+  (global-set-key (kbd "s-t") 'helm-chronos-add-timer)
+  (global-set-key (kbd "s-p t") '(lambda() (interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*")))
+  ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
+  (global-set-key (kbd "s-p s-t") '(lambda() (interactive)(switch-to-buffer "*chronos*")))
+  )
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
