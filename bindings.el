@@ -498,6 +498,7 @@
 ;; expand region overwrites the below hot key so added
 (define-key org-mode-map (kbd "C-c g") 'org-mark-ring-goto)
 (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-heading-respect-content)
+(define-key org-mode-map (kbd "<C-return>") 'org-insert-heading-respect-content)
 (define-key org-mode-map (kbd "<escape> <C-M-return>") 'jj/org-insert-heading-respect-content-and-delete-current-line)
 (define-key org-mode-map (kbd "<escape> t") 'jj/org-show-todo-tree-then-remove-occur-highlights)
 (define-key org-mode-map (kbd "<escape> o") 'org-occur)
