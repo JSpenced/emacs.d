@@ -116,10 +116,6 @@
 (global-set-key (kbd "H-p H-o") 'noccur-project)
 
 ;;;;;;;;;; Counsel
-(define-prefix-command 'commandpalette-map)
-(global-set-key (kbd "s-P") 'commandpalette-map)
-;; this will translate to "s-P" as well
-(global-set-key (kbd "s-p") 'commandpalette-map)
 (define-key commandpalette-map (kbd "s-e") 'turn-off-evil-mode)
 (define-key commandpalette-map (kbd "s-P") 'counsel-M-x)
 (define-key commandpalette-map (kbd "s-p") 'counsel-M-x)
