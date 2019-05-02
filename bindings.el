@@ -409,6 +409,7 @@
      (define-key LaTeX-mode-map (kbd "C-c V") 'pdf-sync-forward-search)
      (define-key LaTeX-mode-map (kbd "<escape> V") 'pdf-sync-forward-search)
      (define-key LaTeX-mode-map (kbd "<escape> s-v") 'pdf-sync-forward-search)
+     (define-key LaTeX-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
      ))
 
 ;; Moved into orgtbl-mode-hook
@@ -432,7 +433,6 @@
 (define-key emacs-lisp-mode-map (kbd "C-c j") 'lispy-goto)
 (define-key python-mode-map (kbd "C-c C-j") 'counsel-imenu)
 (define-key python-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
-(define-key LaTeX-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
 (global-set-key (kbd "C-x C-r") 'jj/find-alternative-file-with-sudo)
 
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
