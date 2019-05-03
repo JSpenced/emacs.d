@@ -114,6 +114,8 @@
 ;;     (after undo-tree activate)
 ;;   (setq ad-return-value (concat ad-return-value ".gz")))
 
+;;; Shut up compile saves
+(setq compilation-ask-about-save nil)
 
 ;; Fix minor mode lines that not useful
 (setq beacon-lighter nil)		; beacon-mode
