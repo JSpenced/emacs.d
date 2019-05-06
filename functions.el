@@ -4104,7 +4104,7 @@ search modes defined in the new `dired-sort-toggle'.
 	 (set-face-attribute 'diredp-dir-name nil :foreground "ice" :background "#282828" :bold t)
 	 (set-face-attribute 'diredp-dir-heading nil :foreground "ice" :background "#272727" :bold t)
 	 (set-face-attribute 'diredp-ignored-file-name nil :foreground "#ff3300" :background nil :strike-through t)
-	 (set-face-attribute 'diredp-omit-file-name nil :foreground "salmon"  :italic t :box t)
+	 (set-face-attribute 'diredp-omit-file-name nil :foreground "salmon"  :italic t :box t :strike-through nil)
 	 (set-face-attribute 'diredp-flag-mark-line nil :foreground "white" :background "#cc0000" :bold t)
 	 (set-face-attribute 'diredp-flag-mark nil :foreground "white" :background "#cc0000" :bold t)
 	 (set-face-attribute 'diredp-compressed-file-suffix nil :foreground "#F5DAA1")
