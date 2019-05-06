@@ -3982,6 +3982,16 @@ search modes defined in the new `dired-sort-toggle'.
 ;;                       buffer)))
 ;; (add-hook 'compilation-finish-functions 'jj/bury-compile-buffer-if-successful)
 
+(defun count-words (start end)
+  "Print number of words in the region."
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (count-matches "\\sw+"))))
+(defalias 'word-count 'count-words)
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
