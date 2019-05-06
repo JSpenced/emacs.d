@@ -3982,6 +3982,8 @@ search modes defined in the new `dired-sort-toggle'.
 ;;                       buffer)))
 ;; (add-hook 'compilation-finish-functions 'jj/bury-compile-buffer-if-successful)
 
+(defalias 'count-words-region 'word-count-region)
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
