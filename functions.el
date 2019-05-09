@@ -2912,7 +2912,7 @@ Version 2017-02-09"
   ;;
   )
 (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
-(put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function 'browser-url)
+(put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
 (defun xah-lookup-word-definition-eww (&optional @word)
   "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
@@ -2951,7 +2951,7 @@ Version 2017-02-09"
   ;;
   )
 (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-(put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function 'browser-url)
+(put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
 (defun jj/sml/total-lines-append-mode-line ()
   "Appends the total lines after the current line to the mode-line after sml/setup.
