@@ -1,4 +1,4 @@
-hunspell_personal_dic: Total word count is 74
+hunspell_personal_dic: Total word count is 75
 Cholesky
 Cython
 Discriminative
@@ -54,6 +54,7 @@ nonnegativity
 numpy
 orthogonalization
 overfitting
+oversized
 parallelization
 piecewise
 pointwise
