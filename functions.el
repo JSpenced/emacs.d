@@ -3984,6 +3984,16 @@ search modes defined in the new `dired-sort-toggle'.
 
 (defalias 'word-count 'count-words)
 
+;; remove comments from org document for use with export hook
+;; https://emacs.stackexchange.com/questions/22574/orgmode-export-how-to-prevent-a-new-line-for-comment-lines
+(defun delete-org-comments (backend)
+  (loop for comment in (reverse (org-element-map (org-element-parse-buffer)
+				    'comment 'identity))
+	do
+	(setf (buffer-substring (org-element-property :begin comment)
+				(org-element-property :end comment))
+	      "")))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)

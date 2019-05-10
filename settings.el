@@ -838,6 +838,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
 (add-hook 'org-mode-hook 'scimax-autoformat-mode)
+;; deletes comments before export so paragraphs aren't split where comments are
+;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "|" "DONE(d)")
