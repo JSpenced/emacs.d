@@ -390,6 +390,7 @@
 (define-key org-mode-map (kbd "s-I") 'org-italics-region-or-point)
 (define-key org-mode-map (kbd "s-V") 'org-verbatim-region-or-point)
 (define-key org-mode-map (kbd "s-C") 'org-code-region-or-point)
+(define-key org-mode-map (kbd "<escape> ~") 'org-code-region-or-point)
 (define-key org-mode-map (kbd "s-M") 'org-latex-math-region-or-point)
 (define-key org-mode-map (kbd "C-c n") 'jj/org-move-headline-next-top-level)
 (define-key org-mode-map (kbd "C-c m") 'jj/org-move-headline-next-second-level)
