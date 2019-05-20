@@ -66,7 +66,75 @@
 (global-nice-jumper-mode t)
 
 (use-package sentence-navigation :defer t)
-(use-package xah-lookup :defer 6)
+(use-package xah-lookup
+  :defer 6
+  :config
+  
+  (defun xah-lookup-word-thesaurus-eww (&optional @word)
+    "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+Version 2017-02-09"
+    (interactive)
+    (xah-lookup-word-on-internet
+     @word
+     (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
+     (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
+    ;;
+    )
+  (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+  (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
+
+  (defun xah-lookup-word-thesaurus (&optional @word)
+    "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+Version 2017-02-09"
+    (interactive)
+    (xah-lookup-word-on-internet
+     @word
+     (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
+     (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
+    ;;
+    )
+  (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+  (put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
+
+  (defun xah-lookup-word-definition-eww (&optional @word)
+    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+    (interactive)
+    (xah-lookup-word-on-internet
+     @word
+     (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
+     (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
+    ;;
+    )
+  (put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
+  (put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
+
+  (defun xah-lookup-power-thesaurus-eww (&optional @word)
+    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+    (interactive)
+    (xah-lookup-word-on-internet
+     @word
+     (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
+     (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
+    ;;
+    )
+  (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+  (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
+
+  (defun xah-lookup-power-thesaurus (&optional @word)
+    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+Version 2017-02-09"
+    (interactive)
+    (xah-lookup-word-on-internet
+     @word
+     (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
+     (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
+    ;;
+    )
+  (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+  (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
+  )
 (use-package poporg :defer t
   ;; bind: doesn't work here I think because prefix defined outside package
   ;; :bind (("s-/ o" . poporg-dwim))
@@ -2887,71 +2955,6 @@ Calling it a second time will kill the current line."
 	 (mark-word)
 	 (message "Killed word")
 	 (list (mark) (point)))))))
-
-(defun xah-lookup-word-thesaurus-eww (&optional @word)
-  "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
-Version 2017-02-09"
-  (interactive)
-  (xah-lookup-word-on-internet
-   @word
-   (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
-   (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
-  ;;
-  )
-(put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
-(put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
-
-(defun xah-lookup-word-thesaurus (&optional @word)
-  "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
-Version 2017-02-09"
-  (interactive)
-  (xah-lookup-word-on-internet
-   @word
-   (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
-   (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
-  ;;
-  )
-(put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
-(put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
-
-(defun xah-lookup-word-definition-eww (&optional @word)
-  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-  (interactive)
-  (xah-lookup-word-on-internet
-   @word
-   (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
-   (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
-  ;;
-  )
-(put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
-(put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
-
-(defun xah-lookup-power-thesaurus-eww (&optional @word)
-  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-  (interactive)
-  (xah-lookup-word-on-internet
-   @word
-   (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
-   (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
-  ;;
-  )
-(put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-(put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
-
-(defun xah-lookup-power-thesaurus (&optional @word)
-  "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-  (interactive)
-  (xah-lookup-word-on-internet
-   @word
-   (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
-   (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
-  ;;
-  )
-(put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-(put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
 (defun jj/sml/total-lines-append-mode-line ()
   "Appends the total lines after the current line to the mode-line after sml/setup.
