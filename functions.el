@@ -289,9 +289,13 @@ Version 2017-02-09"
 
   ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
   (global-set-key (kbd "s-t") 'helm-chronos-add-timer)
-  (global-set-key (kbd "s-p t") '(lambda() (interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*")))
+  (defun jj/helm-chronos-add-timer-switch-to-chronos ()
+    (interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*"))
+  (defun jj/switch-to-chronos ()
+    (interactive)(switch-to-buffer "*chronos*"))
+  (global-set-key (kbd "s-p t") 'jj/helm-chronos-add-timer-switch-to-chronos)
   ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
-  (global-set-key (kbd "s-p s-t") '(lambda() (interactive)(switch-to-buffer "*chronos*")))
+  (global-set-key (kbd "s-p s-t") 'jj/switch-to-chronos)
   )
 
 ;; latexmk works for compiling but not updating viewers
