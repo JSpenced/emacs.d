@@ -282,10 +282,11 @@ Version 2017-02-09"
 
   (setq helm-chronos-standard-timers
 	'(
-	  "    45/Pomodoro: Work no break"
+	  "    45/P: Work + 6/P: Break"
+	  "    45/P: Work"
 	  "     6/Break"
-	  "    45/Pomodoro: Work on helm-chronos + 6/Pomodoro: Rest"
-	  "     6/Short Break"))
+	  "     15/Long Break"
+	  ))
 
   ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
   (global-set-key (kbd "s-t") 'helm-chronos-add-timer)
@@ -296,6 +297,8 @@ Version 2017-02-09"
   (global-set-key (kbd "s-p t") 'jj/helm-chronos-add-timer-switch-to-chronos)
   ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
   (global-set-key (kbd "s-p s-t") 'jj/switch-to-chronos)
+  (global-set-key (kbd "s-p T") 'chronos-delete-all-expired)
+  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired)
   )
 
 ;; latexmk works for compiling but not updating viewers

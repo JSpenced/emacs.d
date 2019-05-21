@@ -1,4 +1,4 @@
-hunspell_personal_dic: Total word count is 76
+hunspell_personal_dic: Total word count is 77
 Cholesky
 Cython
 Discriminative
@@ -40,6 +40,7 @@ generalizability
 generalizable
 hyperplane
 iterable
+lexicographically
 matplotlib
 maxpool
 maxpooling
