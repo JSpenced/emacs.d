@@ -373,6 +373,7 @@
 (define-key org-mode-map (kbd "M-}") 'org-forward-element)
 (define-key org-mode-map (kbd "M-{") 'org-backward-element)
 (define-key org-mode-map (kbd "C-c k") 'org-metaright)
+(define-key org-mode-map (kbd "C-c K") 'org-metaleft)
 (define-key org-mode-map (kbd "C-c b k") 'org-metaright)
 (define-key org-mode-map (kbd "C-c b j") 'org-metaleft)
 (define-key org-mode-map (kbd "C-c C-S-j") 'ivy-org-jump-to-open-headline)

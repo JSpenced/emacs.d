@@ -1,6 +1,7 @@
-hunspell_personal_dic: Total word count is 77
+hunspell_personal_dic: Total word count is 79
 Cholesky
 Cython
+DataFrame
 Discriminative
 GANs
 Hermitian
@@ -68,6 +69,7 @@ subexpression
 subexpressions
 subgradient
 subsampling
+summarization
 tokenization
 tokenizing
 trained
