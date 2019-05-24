@@ -170,6 +170,8 @@ Version 2017-02-09"
 (use-package eyebrowse
   :diminish eyebrowse-mode
   :config (progn
+	    (global-set-key (kbd "s-{")	'eyebrowse-prev-window-config)
+	    (global-set-key (kbd "s-}")	'eyebrowse-next-window-config)
 	    (define-key jj-eyebrowse-map (kbd "C-c")	'eyebrowse-create-window-config)
 	    (define-key jj-eyebrowse-map (kbd "\"")	'eyebrowse-close-window-config)
 	    (define-key jj-eyebrowse-map (kbd "k")	'jj/eyebrowse-close-window-config-switch-to-2)
