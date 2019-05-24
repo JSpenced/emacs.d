@@ -8,6 +8,8 @@
 (global-set-key (kbd "M-e") 'sentence-nav-forward)
 (global-set-key (kbd "<escape> M-e") 'forward-sentence)
 (global-set-key (kbd "<escape> M-a") 'backward-sentence)
+(global-set-key (kbd "<escape> C-e") 'end-of-line)
+(global-set-key (kbd "<escape> C-a") 'beginning-of-line)
 (global-set-key (kbd "M-=") 'count-words)
 (global-set-key (kbd "M-E") 'sentence-nav-forward-end)
 (global-set-key (kbd "M-a") 'sentence-nav-backward)
