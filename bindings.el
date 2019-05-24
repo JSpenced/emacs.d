@@ -18,6 +18,10 @@
 (global-set-key (kbd "s-H") 'ns-do-hide-others)
 (global-set-key (kbd "H-h") 'ns-do-hide-others)
 (global-set-key (kbd "s-l") 'async-shell-command)
+(global-set-key (kbd "C-M-{")	'previous-buffer)
+(global-set-key (kbd "C-M-}")	'next-buffer)
+(global-set-key (kbd "C-s-{")	'jj/previous-user-buffer)
+(global-set-key (kbd "C-s-}")	'jj/next-user-buffer)
 (global-set-key (kbd "C-M-f") 'sp-forward-sexp)
 (global-set-key (kbd "C-M-b") 'sp-backward-sexp)
 (global-set-key (kbd "C-M-d") 'sp-down-sexp)
@@ -689,6 +693,8 @@
 (define-key google-this-mode-submap "F" #'jj/google-this-forecast-background)
 
 ;; (global-set-key (kbd "M-1") 'jj-eyebrowse-map)
+;; (global-set-key (kbd "M-1") 'jj-eyebrowse-map)
+
 (define-key jj-eyebrowse-map (kbd "C")	'wg-create-workgroup)
 (define-key jj-eyebrowse-map (kbd "Y")	'wg-clone-workgroup)
 (define-key jj-eyebrowse-map (kbd "R")	'wg-rename-workgroup)
