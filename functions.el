@@ -61,9 +61,9 @@
 (require 'counsel-projectile)
 (counsel-projectile-mode)
 (require 'back-button)
-(require 'nice-jumper)
 (back-button-mode 1)
-(global-nice-jumper-mode t)
+;; (require 'nice-jumper)
+;; (global-nice-jumper-mode t)
 
 (use-package sentence-navigation :defer t)
 (use-package xah-lookup
