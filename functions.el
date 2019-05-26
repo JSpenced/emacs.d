@@ -21,7 +21,6 @@
 (require 'avy)
 (require 'openwith)
 (require 'savehist)
-(require 'goto-last-change)
 (require 'ivy-dired-history)
 (require 'ace-jump-zap)
 (require 'visible-mark)
@@ -69,7 +68,7 @@
 (use-package xah-lookup
   :defer 6
   :config
-  
+
   (defun xah-lookup-word-thesaurus-eww (&optional @word)
     "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 Version 2017-02-09"
@@ -303,6 +302,11 @@ Version 2017-02-09"
   (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired)
   )
 
+(use-package goto-chg
+  :defer t
+  :bind (("M-[" . goto-last-change)
+	 ("M-]" . goto-last-change-reverse))
+  )
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
@@ -4016,9 +4020,9 @@ Version 2016-06-19"
   (let ((i 0))
     (while (< i 20)
       (if (not (jj/user-buffer-q))
-          (progn (next-buffer)
-                 (setq i (1+ i)))
-        (progn (setq i 100))))))
+	  (progn (next-buffer)
+		 (setq i (1+ i)))
+	(progn (setq i 100))))))
 
 (defun jj/previous-user-buffer ()
   "Switch to the previous user buffer.
@@ -4030,9 +4034,9 @@ Version 2016-06-19"
   (let ((i 0))
     (while (< i 20)
       (if (not (jj/user-buffer-q))
-          (progn (previous-buffer)
-                 (setq i (1+ i)))
-        (progn (setq i 100))))))
+	  (progn (previous-buffer)
+		 (setq i (1+ i)))
+	(progn (setq i 100))))))
 
 (defun jj/user-buffer-q ()
   "Return t if current buffer is a user buffer, else nil.
@@ -4044,10 +4048,10 @@ version 2016-06-18"
   (if (string-equal "*" (substring (buffer-name) 0 1))
       nil
     (if (string-equal "magit" (substring (buffer-name) 0 5))
-        nil
+	nil
       ;; NOTE: Remove below if want to include dired buffers
       (if (string-equal major-mode "dired-mode")
-          nil
+	  nil
 	t
 	))))
 
