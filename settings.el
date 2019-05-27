@@ -12,6 +12,8 @@
 (setq recentf-max-saved-items nil)
 (setq history-length 750)
 (setq helm-ff-history-max-length 500)
+(setq ivy-dired-history-max 999)
+(setq helm-dired-history-max 999)
 (setq buffers-menu-max-size 20)
 (setq kill-whole-line t)
 (setq kill-read-only-ok t)
@@ -117,6 +119,7 @@
 
 ;; Fix minor mode lines that not useful
 (setq beacon-lighter nil)		; beacon-mode
+(setq back-button-mode-lighter nil)	; back-button-mode
 (setq google-this-modeline-indicator nil) ;google-this-mode
 ;; couldn't figure out how to change lighter of emacs-lock-mode
 (eval-after-load 'whitespace-cleanup-mode
@@ -207,7 +210,12 @@ Use '!' to signify that the buffer was not initially clean."
 		   (whitespace-cleanup-mode))))
 (add-hook 'markdown-mode-hook
 	  (lambda () (whitespace-cleanup-mode 0)))
+(eval-after-load 'whitespace-cleanup-mode
+  '(setq whitespace-cleanup-mode-ignore-modes
+	 (nconc '(markdown-mode dired-mode fundamental-mode image-mode doc-view-mode archive-mode tar-mode)
+		whitespace-cleanup-mode-ignore-modes)))
 
+(add-hook 'prog-mode-hook 'clean-aindent-mode)
 (add-hook 'prog-mode-hook 'dtrt-indent-mode)
 ;; if using semantic might need this (removes print on opening buffer)
 ;; (setq dtrt-indent-verbosity 0)
@@ -223,12 +231,38 @@ Use '!' to signify that the buffer was not initially clean."
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
 (eval-after-load "dired-x" '(diminish 'dired-omit-mode " Omt"))
-;; (eval-after-load "dired-filter" '(diminish 'dired-filter-mode " Filter"))
+(eval-after-load "dired-filter" '(diminish 'dired-filter-mode " Filter"))
+(eval-after-load "dired-narrow" '(diminish 'dired-narrow-mode " Narrow"))
 (eval-after-load "elpy" '(diminish 'elpy-mode " El"))
 (eval-after-load "autorevert" '(progn (setq auto-revert-mode-text " AR")))
 (eval-after-load "emacs-lock" '(diminish 'emacs-lock-mode
 					 `("" (emacs-lock--try-unlocking " l:" " L:")
 					   (:eval (substring (symbol-name emacs-lock-mode) 0 1) ))))
+(setq
+ cyphejor-rules
+ '(
+   ;; supposed to replace first letter to Upper but doesn't work
+   ;; :upcase-replace    ; change to :upcase for just first letter of major-mode
+   ("bookmark"    "→")
+   ("buffer"      "β")
+   ("diff"        "Δ")
+   ("emacs"       "∃")
+   ("fundamental" "Ⓕ")
+   ("inferior"    "i" :prefix)
+   ("interaction" "i" :prefix)
+   ("interactive" "i" :prefix)
+   ("lisp"        "λ" :postfix)
+   ("menu"        "▤" :postfix)
+   ("mode"        "")
+   ("package"     "↓")
+   ("python"      "π")			;Ƥ
+   ("org"      "Ω")			;Ⓞ
+   ("shell"       "sh" :postfix)
+   ("help"       "Ήϵ")
+   ("dired"       "Ɖ")			;Ⓓ
+   ("text"        "Ŧ")
+   ("wdired"      "𝓦Ɖ")))
+(cyphejor-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Latex and Tex
@@ -416,7 +450,11 @@ Use '!' to signify that the buffer was not initially clean."
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(setq magithub-clone-default-directory "~/Downloads/")
+;; (setq magit-remote-set-if-missing nil)
+;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
 (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode)
+
 
 ;; Makes it so you can't kill this buffer (but with dired can't usa a or keys that don't open new buffer
 ;; (with-current-buffer "Downloads"
@@ -481,10 +519,24 @@ Use '!' to signify that the buffer was not initially clean."
 (add-hook 'kill-buffer-hook 'jj/save-new-file-before-kill)
 (add-hook 'kill-emacs-hook 'jj/brc-functions-file)
 
+;; Setup remebering what major mode to open files with no file extension
+;; Appends these to the list to open files
+;; TODO: Improve this if using because seems to load the file many times
+;; (add-to-list 'savehist-additional-variables 'kill-ring)
+(add-to-list 'savehist-additional-variables 'jj/last-change-pos1)
+(add-to-list 'savehist-additional-variables 'jj/last-change-pos2)
 (add-hook 'find-file-hook 'jj/find-file-hook-root-header-warning)
 ;; (add-hook 'jj/find-file-root-hook 'find-file-root-header-warning)
+(add-to-list 'savehist-additional-variables 'jj/find-file-root-history)
 ;; Needs to be defined before savehist-mode is loaded
 
+;; Save the dired directories previously used for copy and rename and goto with ,
+(add-to-list 'savehist-additional-variables 'ivy-dired-history-variable)
+(add-to-list 'savehist-additional-variables 'recentf-list)
+;; Out of the box desktop.el saves registers but in case of error this is backup
+(add-to-list 'savehist-additional-variables 'register-alist)
+;; (add-to-list 'savehist-additional-variables 'save-place-alist)
+(setq savehist-autosave-interval (* 9 60))
 (defvar file-name-mode-alist '())
 ;; (add-to-list 'savehist-additional-variables 'file-name-mode-alist)
 (when (fboundp 'file-name-mode-alist)
@@ -580,6 +632,12 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (setq auto-save-interval 60)
 ;; number of seconds before auto-save when idle
 (setq auto-save-timeout 10)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dumbjump jump settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq dumb-jump-selector 'ivy)
+(setq dumb-jump-prefer-searcher 'rg)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Gtags settings (helm)
@@ -820,6 +878,17 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; TODO: Possible change back to t instead of 'file if don't need to refile at the top level
 (setq org-refile-use-outline-path 'file)             ; Show full paths for refiling
 (setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-download-screenshot-method "screencapture -i %s")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; view weather wttrin package
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq wttrin-default-cities '("Seoul" "Saint Louis, United States of America"))
+;; '("Accept-Language" . "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+(setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
+
+;; Setup so todotxt works and initialize location of todotxt file
+(setq todotxt-file (expand-file-name "/Users/bigtyme/Dropbox/Apps/Simpletask/todo.txt"))
 
 (setq user-full-name "Jeff Spencer"
 					; andrewid "jeffspencerd"

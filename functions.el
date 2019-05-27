@@ -13,311 +13,62 @@
 (global-set-key (kbd "M-1") 'jj-eyebrowse-map)
 
 ;; ensures packages are installed or installs them but doesn't keep them updated
+(require 'use-package-ensure)
 (setq use-package-always-ensure t)
+(require 'todotxt)
+(require 'multiple-cursors)
+(require 'expand-region)
+(require 'avy)
+(require 'openwith)
+(require 'savehist)
+(require 'ivy-dired-history)
+(require 'ace-jump-zap)
+(require 'visible-mark)
+(require 'dash)
+(require 'visual-regexp)
+(require 'visual-regexp-steroids)
+(require 'transpose-frame)
+(require 'desktop)
+(require 'tiny)
+(require 'magithub)
 (require 'dired-x)
 (require 'dired-aux)
+(require 'find-dired)
+(require 'peep-dired)
+(require 'dired-ranger)
+(require 'dired-narrow)
+(require 'dired-filter)
+;; TODO: get dired+ working properly (one issue is doesn't flag dot files as before)
+;; emailed Drew Adams "drew.adams@oracle.com"
+(require 'whole-line-or-region)
+(require 'backup-each-save)
+(require 'wttrin)
+(require 'frame-cmds)
+(require 'f)
+(require 'evil)
+(require 'pdf-tools)
+(require 'gse-number-rect)
+(require 'man)
+(require 'smartparens)
 (require 'dtrt-indent)
-(use-package desktop)
-(use-package man)
-(use-package multiple-cursors :defer 4
-  :bind
-  (("C-S-c C-S-c" . mc/edit-lines)
-   ("C-S-s-e" . mc/edit-lines)
-   ("C-S-s-n" . mc/mark-next-like-this)
-   ("C-S-s-p" . mc/mark-previous-like-this))
-  ;; :bind
-  ;; (:map mc/keymap
-  ;;	("<return>" . nil)
-  ;;	("C-S-s-l" . mc/unmark-next-like-this)
-  ;;	("C-S-s-h" . mc/unmark-previous-like-this)
-  ;;	("C-S-s-j" . mc/skip-to-previous-like-this)
-  ;;	("C-S-s-k" . mc/skip-to-next-like-this))
-  :config
-  (define-key mc/keymap (kbd "<return>") nil)
-  (define-key mc/keymap (kbd "C-S-s-l") 'mc/unmark-next-like-this)
-  (define-key mc/keymap (kbd "C-S-s-h") 'mc/unmark-previous-like-this)
-  (define-key mc/keymap (kbd "C-S-s-j") 'mc/skip-to-previous-like-this)
-  (define-key mc/keymap (kbd "C-S-s-k") 'mc/skip-to-next-like-this)
-  (global-unset-key (kbd "C-S-<down-mouse-1>"))
-  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-  ;; Could make this to be a local key map
-  (global-set-key (kbd "M-s-a") 'mc/mark-all-like-this)
-  (global-set-key (kbd "M-s-å") 'mc/mark-all-like-this)
-  ;; Backup commands
-  (define-key mc/keymap (kbd "M-s M-n") 'mc/insert-numbers)
-  (define-key mc/keymap (kbd "M-s M-l") 'mc/insert-letters)
-  ;; (define-key mc/keymap (kbd "m-s m-d") 'mc/mark-next-like-this)
-  ;; (define-key mc/keymap (kbd "m-s m-d") 'mc/mark-next-like-this)
-  ;; (define-key mc/keymap (kbd "m-s m-r") 'mc/mark-previous-like-this)
-  ;; (define-key mc/keymap (kbd "m-s m-n") 'mc/unmark-next-like-this)
-  ;; (define-key mc/keymap (kbd "m-s m-p") 'mc/unmark-previous-like-this)
-  ;; (define-key mc/keymap (kbd "M-s M-s") 'mc/skip-to-next-like-this)
-  )
-(use-package expand-region :defer t
-  :bind
-  ("S-s-SPC" . er/expand-region)
-  ("s-+" . er/expand-region)
-  ("s-_" . er/contract-region)
-  ("s-)" . (lambda () (interactive) (er/expand-region 0))))
-(use-package avy)
-(use-package openwith :defer 5)
-(use-package savehist
-  :init
-  (setq savehist-autosave-interval (* 9 60))
-  :config
-  ;; TODO: Improve this if using because seems to load the file many times
-  ;; (add-to-list 'savehist-additional-variables 'kill-ring)
-  (add-to-list 'savehist-additional-variables 'jj/last-change-pos1)
-  (add-to-list 'savehist-additional-variables 'jj/last-change-pos2)
-  (add-to-list 'savehist-additional-variables 'jj/find-file-root-history)
-  ;; Save the dired directories previously used for copy and rename and goto with ,
-  (add-to-list 'savehist-additional-variables 'ivy-dired-history-variable)
-  (add-to-list 'savehist-additional-variables 'recentf-list)
-  ;; Out of the box desktop.el saves registers but in case of error this is backup
-  (add-to-list 'savehist-additional-variables 'register-alist)
-  ;; (add-to-list 'savehist-additional-variables 'save-place-alist)
-  )
-(use-package ivy-dired-history :defer 5
-  :init
-  (setq ivy-dired-history-max 999)
-  (setq helm-dired-history-max 999))
-(use-package ace-jump-zap :defer t
-  :bind-keymap
-  ("C-z" . ctrlz-map)
-  :bind (:map ctrlz-map
-	      ()
-	      ("C-x" . ace-jump-zap-to-char-dwim)
-	      ("x" . ace-jump-zap-to-char)
-	      ("C-z" . ace-jump-zap-up-to-char-dwim)
-	      ("z" . ace-jump-zap-up-to-char)
-	      ("C-z" . 'ace-jump-zap-up-to-char-dwim)
-	      ("M-z" . 'ace-jump-zap-to-char)
-	      ("M-Z" . 'ace-jump-zap-up-to-char)
-	      ))
-(require 'visible-mark)
-(use-package dash :defer t)
-(use-package visual-regexp :defer t)
-(use-package visual-regexp-steroids :defer t)
-(use-package transpose-frame :defer t)
-(use-package tiny :defer t)
-(use-package magithub :after magit
-  :config
-  (setq magithub-clone-default-directory "~/Downloads/")
-  ;; (setq magit-remote-set-if-missing nil)
-  ;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
-  )
-(use-package whole-line-or-region :defer t
-  :bind
-  ("<C-M-s-268632075>" . whole-line-or-region-kill-region)
-  ("C-M-s-k" . whole-line-or-region-kill-region)
-  ("C-w" . whole-line-or-region-kill-region)
-  ("<C-M-s-backspace>" . whole-line-or-region-kill-region)
-  ("s-/ R" . whole-line-or-region-uncomment-region)
-  ("s-/ l" . whole-line-or-region-comment-region)
-  ("s-/ L" . whole-line-or-region-uncomment-region)
-  ("s-/ u" . whole-line-or-region-uncomment-region))
-(use-package backup-each-save :defer t)
-(use-package wttrin :defer 7
-  :init
-  (setq wttrin-default-cities '("Seoul" "Saint Louis, United States of America"))
-  ;; '("Accept-Language" . "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
-  (setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
-  :config
-  (progn
-    ;;requires frame-cmds package
-    (defvar jj/wttrin-frame-changed nil
-      "If wttrin is entered changing the frame, set to t to exit in returning to the previous frame and window state.")
-    (defun jj/wttrin-save-frame ()
-      "Save frame and window configuration and then expand frame for wttrin."
-      ;;save window arrangement to a register
-      (window-configuration-to-register :pre-wttrin)
-      (delete-other-windows)
-      ;;save frame setup and resize
-      (save-frame-config)
-      (set-frame-width (selected-frame) 130)
-      (set-frame-height (selected-frame) 48)
-      )
-    ;; (advice-add 'wttrin :before #'jj/wttrin-save-frame)
-    (defun jj/wttrin-restore-frame ()
-      "Restore frame and window configuration saved prior to launching wttrin."
-      (interactive)
-      (if (equal jj/wttrin-frame-changed t)
-	  (progn
-	    (jump-to-frame-config-register)
-	    (jump-to-register :pre-wttrin)
-	    (setq jj/wttrin-frame-changed nil)
-	    )
-	;; (message "Did not enter wttrin changing the frame.")
-	))
-    (advice-add 'wttrin-exit :after #'jj/wttrin-restore-frame)
+(require 'clean-aindent-mode)
+(require 'ws-butler)
+(require 'whitespace-cleanup-mode)
+(require 'cyphejor)
+(require 'org-download)
+(require 'dumb-jump)
+(require 'counsel-projectile)
+(counsel-projectile-mode)
+(require 'back-button)
+(back-button-mode 1)
+;; (require 'nice-jumper)
+;; (global-nice-jumper-mode t)
 
-    ;; function to open wttrin with first city on list
-    (defun jj/weather-default-wttrin ()
-      "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
-      (interactive)
-      ;; save window arrangement to register
-      (jj/wttrin-save-frame)
-      ;; call wttrin
-      (wttrin-query (car wttrin-default-cities))
-      ;; set that the frame was changed for exit
-      (setq jj/wttrin-frame-changed t)
-      )
-    (defun jj/weather-wttrin (city)
-      "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
-      (interactive
-       (list
-	(completing-read "City name: " wttrin-default-cities nil nil
-			 (when (= (length wttrin-default-cities) 1)
-			   (car wttrin-default-cities)))))
-      ;; save window arrangement to register
-      (jj/wttrin-save-frame)
-      (wttrin-query city)
-      ;; set that the frame was changed for exit
-      (setq jj/wttrin-frame-changed t)
-      )))
-(use-package frame-cmds :defer 7 :ensure nil)
-(use-package f :defer t)
-(use-package evil :defer t
-  :bind (("C-v" . evil-scroll-down)
-	 ("M-v" . evil-scroll-up)
-	 ("<escape> C-v" . evil-scroll-page-down)
-	 ("<escape> M-v" . evil-scroll-page-up)
-	 ("C-S-v" . evil-scroll-page-down)
-	 ("M-V" . evil-scroll-page-up)
-	 ("<C-S-s-down>" . evil-scroll-line-down)
-	 ("<C-S-s-up>" . evil-scroll-line-up)
-	 ("<S-s-down>" . jj/evil-scroll-down-15-lines)
-	 ("<S-s-up>" . jj/evil-scroll-up-15-lines)
-	 ("<s-down>" . evil-scroll-line-down)
-	 ("<s-up>" . evil-scroll-line-up)))
-(use-package cyphejor :defer t
-  :init
-  (setq
-   cyphejor-rules
-   '(
-     ;; supposed to replace first letter to Upper but doesn't work
-     ;; :upcase-replace    ; change to :upcase for just first letter of major-mode
-     ("bookmark"    "→")
-     ("buffer"      "β")
-     ("diff"        "Δ")
-     ("emacs"       "∃")
-     ("fundamental" "Ⓕ")
-     ("inferior"    "i" :prefix)
-     ("interaction" "i" :prefix)
-     ("interactive" "i" :prefix)
-     ("lisp"        "λ" :postfix)
-     ("menu"        "▤" :postfix)
-     ("mode"        "")
-     ("package"     "↓")
-     ("python"      "π")		;Ƥ
-     ("org"      "Ω")			;Ⓞ
-     ("shell"       "sh" :postfix)
-     ("help"       "Ήϵ")
-     ("dired"       "Ɖ")		;Ⓓ
-     ("text"        "Ŧ")
-     ("wdired"      "𝓦Ɖ")))
+(use-package sentence-navigation :defer t)
+(use-package xah-lookup
+  :defer 6
   :config
-  (cyphejor-mode 1))
-(use-package smartparens :defer t
-  :bind
-  ("C-M-f" . sp-forward-sexp)
-  ("C-M-b" . sp-backward-sexp)
-  ("C-M-d" . sp-down-sexp)
-  ("C-M-u" . sp-backward-up-sexp)
-  ("<escape> b" . sp-splice-sexp)
-  ("<escape> 0" . sp-splice-sexp)
-  ("<escape> -" . sp-splice-sexp)
-  ("<escape> a" . sp-beginning-of-sexp)
-  ("<escape> e" . sp-end-of-sexp)
-  ("<escape> k" . sp-kill-sexp)
-  ("<escape> d" . (lambda () (interactive) (sp-kill-sexp '(16))))
-  ("<escape> M-k" . (lambda () (interactive) (sp-kill-sexp '(16))))
-  ("<escape> C-M-d" . (lambda () (interactive) (sp-kill-sexp '(16))))
-  ("<escape> K" . (lambda () (interactive) (sp-kill-sexp 0))))
-(use-package clean-aindent-mode :defer t
-  :hook prog-mode)
-(use-package ws-butler :defer t)
-(use-package whitespace-cleanup-mode :defer t
-  :config
-  (progn
-    (defun whitespace-cleanup-mode-mode-line ()
-      "Return a string for mode-line.
-Use '!' to signify that the buffer was not initially clean."
-      (concat " WS"
-	      (unless whitespace-cleanup-mode-initially-clean
-		"!")))
-    (setq whitespace-cleanup-mode-ignore-modes
-	  (nconc '(markdown-mode dired-mode fundamental-mode image-mode doc-view-mode archive-mode tar-mode)
-		 whitespace-cleanup-mode-ignore-modes))))
-(use-package gse-number-rect :defer t :ensure nil
-  :bind
-  ("C-x r 1" . gse-number-rectangle))
-(use-package counsel-projectile
-  :config
-  (counsel-projectile-mode))
-(use-package back-button
-  :bind
-  ("C-(" . back-button-global-backward)
-  ("C-)" . back-button-global-forward)
-  ("s-[" . back-button-local-backward)
-  ("s-]" . back-button-local-forward)
-  :ensure nil
-  :config
-  (setq back-button-mode-lighter nil)	; back-button-mode
-  (back-button-mode 1))
-(use-package org-download :defer t
-  :init
-  (setq org-download-screenshot-method "screencapture -i %s"))
-(use-package dumb-jump :defer t
-  :init
-  (setq dumb-jump-selector 'ivy)
-  (setq dumb-jump-prefer-searcher 'rg))
-(use-package todotxt :defer t
-  :init
-  (setq todotxt-file (expand-file-name "/Users/bigtyme/Dropbox/Apps/Simpletask/todo.txt")))
-(use-package dired-ranger :defer t
-  :bind
-  (:map dired-mode-map
-	("w" . dired-ranger-copy)
-	("E" . dired-ranger-move)
-	("M" . dired-ranger-move)
-	("Y" . dired-ranger-paste)))
-(use-package dired-filter :defer 3 :diminish " Filter"
-  :bind
-  (:map dired-mode-map
-	("/ t" . dired-filter-mode))
-  :bind
-  (:map dired-filter-map
-	("t" . dired-filter-mode)))
-(use-package dired-narrow :defer 3 :diminish " Narrow"
-  :config
-  (progn
-    (defvar dired-narrow-filter-map
-      (let ((map (make-sparse-keymap)))
-	(define-key map "," 'dired-narrow)
-	(define-key map "r" 'dired-narrow-regexp)
-	(define-key map "f" 'dired-narrow-fuzzy)
-	map)
-      "Keymap used for filtering files.")
-    (define-key dired-mode-map (kbd ",") dired-narrow-filter-map)
-    ))
-(use-package find-dired :defer t)
-(use-package peep-dired :defer t)
-(use-package sentence-navigation :defer t
-  :bind (("M-e" . sentence-nav-forward)
-	 ("M-E" . sentence-nav-forward-end)
-	 ("M-a" . sentence-nav-backward)
-	 ("M-A" . sentence-nav-backward-end)
-	 ))
-(use-package xah-lookup :defer 5
-  :config
-  (global-set-key (kbd "s-h 0") 'xah-lookup-word-thesaurus)
-  (global-set-key (kbd "s-h )") 'xah-lookup-word-thesaurus-eww)
-  (global-set-key (kbd "s-h -") 'xah-lookup-word-power-thesaurus)
-  (global-set-key (kbd "s-h _") 'xah-lookup-word-power-thesaurus-eww)
-  (global-set-key (kbd "s-h 9") 'xah-lookup-word-definition)
-  (global-set-key (kbd "s-h (") 'xah-lookup-word-definition-eww)
-  (global-set-key (kbd "s-h 8") 'xah-lookup-word-dict-org)
+
   (defun xah-lookup-word-thesaurus-eww (&optional @word)
     "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 Version 2017-02-09"
@@ -381,7 +132,8 @@ Version 2017-02-09"
     ;;
     )
   (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-  (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function))
+  (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
+  )
 (use-package poporg :defer t
   ;; bind: doesn't work here I think because prefix defined outside package
   ;; :bind (("s-/ o" . poporg-dwim))
@@ -416,59 +168,59 @@ Version 2017-02-09"
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 (use-package eyebrowse
   :diminish eyebrowse-mode
-  :config
-  (progn
-    (global-set-key (kbd "s-{")	'eyebrowse-prev-window-config)
-    (global-set-key (kbd "s-}")	'eyebrowse-next-window-config)
-    (define-key jj-eyebrowse-map (kbd "C-c")	'eyebrowse-create-window-config)
-    (define-key jj-eyebrowse-map (kbd "\"")	'eyebrowse-close-window-config)
-    (define-key jj-eyebrowse-map (kbd "k")	'jj/eyebrowse-close-window-config-switch-to-2)
-    (define-key jj-eyebrowse-map (kbd "'")	'eyebrowse-last-window-config)
-    (define-key jj-eyebrowse-map (kbd ",")	'eyebrowse-rename-window-config)
-    (define-key jj-eyebrowse-map (kbd ".")	'eyebrowse-switch-to-window-config)
-    (define-key jj-eyebrowse-map (kbd "b")	'eyebrowse-switch-to-window-config)
-    (define-key jj-eyebrowse-map (kbd "<return>")	'eyebrowse-switch-to-window-config)
-    (define-key jj-eyebrowse-map (kbd "0")	'eyebrowse-switch-to-window-config-0)
-    (define-key jj-eyebrowse-map (kbd "1")	'eyebrowse-switch-to-window-config-1)
-    (define-key jj-eyebrowse-map (kbd "M-1")	'eyebrowse-last-window-config)
-    (define-key jj-eyebrowse-map (kbd "2")	'eyebrowse-switch-to-window-config-2)
-    (define-key jj-eyebrowse-map (kbd "3")	'eyebrowse-switch-to-window-config-3)
-    (define-key jj-eyebrowse-map (kbd "4")	'eyebrowse-switch-to-window-config-4)
-    (global-set-key (kbd "M-2")	'eyebrowse-switch-to-window-config-2)
-    (global-set-key (kbd "M-3")	'eyebrowse-switch-to-window-config-3)
-    (global-set-key (kbd "M-4")	'eyebrowse-switch-to-window-config-4)
-    (global-set-key (kbd "M-5")	'eyebrowse-switch-to-window-config-5)
-    (define-key jj-eyebrowse-map (kbd "5")	'eyebrowse-switch-to-window-config-5)
-    (define-key jj-eyebrowse-map (kbd "6")	'eyebrowse-switch-to-window-config-6)
-    (define-key jj-eyebrowse-map (kbd "7")	'eyebrowse-switch-to-window-config-7)
-    (define-key jj-eyebrowse-map (kbd "8")	'eyebrowse-switch-to-window-config-8)
-    (define-key jj-eyebrowse-map (kbd "9")	'eyebrowse-switch-to-window-config-9)
-    (global-set-key  (kbd "M-5")	'eyebrowse-switch-to-window-config-5)
-    (global-set-key  (kbd "M-6")	'eyebrowse-switch-to-window-config-6)
-    (global-set-key  (kbd "M-7")	'eyebrowse-switch-to-window-config-7)
-    (global-set-key  (kbd "M-8")	'eyebrowse-switch-to-window-config-8)
-    (global-set-key  (kbd "M-9")	'eyebrowse-switch-to-window-config-9)
-    (define-key jj-eyebrowse-map (kbd "<f1>")	'eyebrowse-switch-to-window-config-11)
-    (define-key jj-eyebrowse-map (kbd "<f2>")	'eyebrowse-switch-to-window-config-12)
-    (define-key jj-eyebrowse-map (kbd "<f3>")	'eyebrowse-switch-to-window-config-13)
-    (define-key jj-eyebrowse-map (kbd "<f4>")	'eyebrowse-switch-to-window-config-14)
-    (define-key jj-eyebrowse-map (kbd "<f5>")	'eyebrowse-switch-to-window-config-15)
-    (define-key jj-eyebrowse-map (kbd "<f6>")	'eyebrowse-switch-to-window-config-16)
-    (define-key jj-eyebrowse-map (kbd "<f7>")	'eyebrowse-switch-to-window-config-17)
-    (define-key jj-eyebrowse-map (kbd "<f8>")	'eyebrowse-switch-to-window-config-18)
-    (define-key jj-eyebrowse-map (kbd "<f9>")	'eyebrowse-switch-to-window-config-19)
-    (define-key jj-eyebrowse-map (kbd "<f10>")	'eyebrowse-switch-to-window-config-20)
-    (define-key jj-eyebrowse-map (kbd "<f11>")	'eyebrowse-switch-to-window-config-21)
-    (define-key jj-eyebrowse-map (kbd "<f12>")	'eyebrowse-switch-to-window-config-22)
-    (global-set-key (kbd "M-<f11>")	'eyebrowse-switch-to-window-config-21)
-    (global-set-key (kbd "M-<f12>")	'eyebrowse-switch-to-window-config-22)
-    (define-key jj-eyebrowse-map (kbd ",")	'eyebrowse-prev-window-config)
-    (define-key jj-eyebrowse-map (kbd ".")	'eyebrowse-next-window-config)
-    (define-key jj-eyebrowse-map (kbd "'")	'eyebrowse-next-window-config)
-    (define-key jj-eyebrowse-map (kbd "c")	'eyebrowse-create-window-config)
-    (eyebrowse-mode t)
-    (setq eyebrowse-new-workspace nil)
-    (setq eyebrowse-switch-back-and-forth t)))
+  :config (progn
+	    (global-set-key (kbd "s-{")	'eyebrowse-prev-window-config)
+	    (global-set-key (kbd "s-}")	'eyebrowse-next-window-config)
+	    (define-key jj-eyebrowse-map (kbd "C-c")	'eyebrowse-create-window-config)
+	    (define-key jj-eyebrowse-map (kbd "\"")	'eyebrowse-close-window-config)
+	    (define-key jj-eyebrowse-map (kbd "k")	'jj/eyebrowse-close-window-config-switch-to-2)
+	    (define-key jj-eyebrowse-map (kbd "'")	'eyebrowse-last-window-config)
+	    (define-key jj-eyebrowse-map (kbd ",")	'eyebrowse-rename-window-config)
+	    (define-key jj-eyebrowse-map (kbd ".")	'eyebrowse-switch-to-window-config)
+	    (define-key jj-eyebrowse-map (kbd "b")	'eyebrowse-switch-to-window-config)
+	    (define-key jj-eyebrowse-map (kbd "<return>")	'eyebrowse-switch-to-window-config)
+	    (define-key jj-eyebrowse-map (kbd "0")	'eyebrowse-switch-to-window-config-0)
+	    (define-key jj-eyebrowse-map (kbd "1")	'eyebrowse-switch-to-window-config-1)
+	    (define-key jj-eyebrowse-map (kbd "M-1")	'eyebrowse-last-window-config)
+	    (define-key jj-eyebrowse-map (kbd "2")	'eyebrowse-switch-to-window-config-2)
+	    (define-key jj-eyebrowse-map (kbd "3")	'eyebrowse-switch-to-window-config-3)
+	    (define-key jj-eyebrowse-map (kbd "4")	'eyebrowse-switch-to-window-config-4)
+	    (global-set-key (kbd "M-2")	'eyebrowse-switch-to-window-config-2)
+	    (global-set-key (kbd "M-3")	'eyebrowse-switch-to-window-config-3)
+	    (global-set-key (kbd "M-4")	'eyebrowse-switch-to-window-config-4)
+	    (global-set-key (kbd "M-5")	'eyebrowse-switch-to-window-config-5)
+	    (define-key jj-eyebrowse-map (kbd "5")	'eyebrowse-switch-to-window-config-5)
+	    (define-key jj-eyebrowse-map (kbd "6")	'eyebrowse-switch-to-window-config-6)
+	    (define-key jj-eyebrowse-map (kbd "7")	'eyebrowse-switch-to-window-config-7)
+	    (define-key jj-eyebrowse-map (kbd "8")	'eyebrowse-switch-to-window-config-8)
+	    (define-key jj-eyebrowse-map (kbd "9")	'eyebrowse-switch-to-window-config-9)
+	    (global-set-key  (kbd "M-5")	'eyebrowse-switch-to-window-config-5)
+	    (global-set-key  (kbd "M-6")	'eyebrowse-switch-to-window-config-6)
+	    (global-set-key  (kbd "M-7")	'eyebrowse-switch-to-window-config-7)
+	    (global-set-key  (kbd "M-8")	'eyebrowse-switch-to-window-config-8)
+	    (global-set-key  (kbd "M-9")	'eyebrowse-switch-to-window-config-9)
+	    (define-key jj-eyebrowse-map (kbd "<f1>")	'eyebrowse-switch-to-window-config-11)
+	    (define-key jj-eyebrowse-map (kbd "<f2>")	'eyebrowse-switch-to-window-config-12)
+	    (define-key jj-eyebrowse-map (kbd "<f3>")	'eyebrowse-switch-to-window-config-13)
+	    (define-key jj-eyebrowse-map (kbd "<f4>")	'eyebrowse-switch-to-window-config-14)
+	    (define-key jj-eyebrowse-map (kbd "<f5>")	'eyebrowse-switch-to-window-config-15)
+	    (define-key jj-eyebrowse-map (kbd "<f6>")	'eyebrowse-switch-to-window-config-16)
+	    (define-key jj-eyebrowse-map (kbd "<f7>")	'eyebrowse-switch-to-window-config-17)
+	    (define-key jj-eyebrowse-map (kbd "<f8>")	'eyebrowse-switch-to-window-config-18)
+	    (define-key jj-eyebrowse-map (kbd "<f9>")	'eyebrowse-switch-to-window-config-19)
+	    (define-key jj-eyebrowse-map (kbd "<f10>")	'eyebrowse-switch-to-window-config-20)
+	    (define-key jj-eyebrowse-map (kbd "<f11>")	'eyebrowse-switch-to-window-config-21)
+	    (define-key jj-eyebrowse-map (kbd "<f12>")	'eyebrowse-switch-to-window-config-22)
+	    (global-set-key (kbd "M-<f11>")	'eyebrowse-switch-to-window-config-21)
+	    (global-set-key (kbd "M-<f12>")	'eyebrowse-switch-to-window-config-22)
+	    (define-key jj-eyebrowse-map (kbd ",")	'eyebrowse-prev-window-config)
+	    (define-key jj-eyebrowse-map (kbd ".")	'eyebrowse-next-window-config)
+	    (define-key jj-eyebrowse-map (kbd "'")	'eyebrowse-next-window-config)
+	    (define-key jj-eyebrowse-map (kbd "c")	'eyebrowse-create-window-config)
+	    (eyebrowse-mode t)
+	    (setq eyebrowse-new-workspace nil)
+	    (setq eyebrowse-switch-back-and-forth t)))
+
 (use-package chronos
   :config
   ;; (use-package chronos)
@@ -547,11 +299,14 @@ Version 2017-02-09"
   ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
   (global-set-key (kbd "s-p s-t") 'jj/switch-to-chronos)
   (global-set-key (kbd "s-p T") 'chronos-delete-all-expired)
-  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired))
+  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired)
+  )
+
 (use-package goto-chg
   :defer t
   :bind (("M-[" . goto-last-change)
-	 ("M-]" . goto-last-change-reverse)))
+	 ("M-]" . goto-last-change-reverse))
+  )
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
@@ -3587,6 +3342,58 @@ current line."
     (backward-char)
     (indent-region (line-beginning-position) (line-end-position)))))
 
+;;requires frame-cmds package
+(defvar jj/wttrin-frame-changed nil
+  "If wttrin is entered changing the frame, set to t to exit in returning to the previous frame and window state.")
+(defun jj/wttrin-save-frame ()
+  "Save frame and window configuration and then expand frame for wttrin."
+  ;;save window arrangement to a register
+  (window-configuration-to-register :pre-wttrin)
+  (delete-other-windows)
+  ;;save frame setup and resize
+  (save-frame-config)
+  (set-frame-width (selected-frame) 130)
+  (set-frame-height (selected-frame) 48)
+  )
+;; (advice-add 'wttrin :before #'jj/wttrin-save-frame)
+(defun jj/wttrin-restore-frame ()
+  "Restore frame and window configuration saved prior to launching wttrin."
+  (interactive)
+  (if (equal jj/wttrin-frame-changed t)
+      (progn
+	(jump-to-frame-config-register)
+	(jump-to-register :pre-wttrin)
+	(setq jj/wttrin-frame-changed nil)
+	)
+    ;; (message "Did not enter wttrin changing the frame.")
+    ))
+(advice-add 'wttrin-exit :after #'jj/wttrin-restore-frame)
+
+;; function to open wttrin with first city on list
+(defun jj/weather-default-wttrin ()
+  "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
+  (interactive)
+  ;; save window arrangement to register
+  (jj/wttrin-save-frame)
+  ;; call wttrin
+  (wttrin-query (car wttrin-default-cities))
+  ;; set that the frame was changed for exit
+  (setq jj/wttrin-frame-changed t)
+  )
+(defun jj/weather-wttrin (city)
+  "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
+  (interactive
+   (list
+    (completing-read "City name: " wttrin-default-cities nil nil
+		     (when (= (length wttrin-default-cities) 1)
+		       (car wttrin-default-cities)))))
+  ;; save window arrangement to register
+  (jj/wttrin-save-frame)
+  (wttrin-query city)
+  ;; set that the frame was changed for exit
+  (setq jj/wttrin-frame-changed t)
+  )
+
 (defun jj/backup-each-save-filter (filename)
   (let ((ignored-filenames
 	 '("^/tmp" "semantic.cache$" "\\.gpg$" "\\.pdf$" "\\places$" "\\abbrev_defs$" "\\bookmarks$" "\\emacs_workgroups$"
@@ -4354,13 +4161,10 @@ Version 2016-06-19"
     (set-face-attribute 'org-level-2 nil :background "#BF95D8" :foreground "#551A78" :bold t :height 1.1 :box t :overline t)
     (set-face-attribute 'org-level-3 nil :foreground "#66cccc" :bold t :overline t)
     (set-face-attribute 'org-latex-and-related nil :foreground "SkyBlue1")
-    (eval-after-load "markdown-mode"
-      '(progn
-	 ;; (set-face-attribute 'markdown-header-face-1 nil :foreground "#f99157" :height 1.2)
-	 (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground "Tomato3" :height 1.1 :bold t)
-	 ;; Default value below (shadow color)
-	 ;; (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground nil)
-	 ))
+    ;; (set-face-attribute 'markdown-header-face-1 nil :foreground "#f99157" :height 1.2)
+    (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground "Tomato3" :height 1.1 :bold t)
+    ;; Default value below (shadow color)
+    ;; (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground nil)
     (set-face-attribute 'org-verbatim nil :foreground "SkyBlue1")
     (set-face-attribute 'org-code nil :foreground "SpringGreen3")
     (set-face-attribute 'org-todo nil :foreground "brown1" :background "dark red" :box t)
