@@ -295,11 +295,13 @@ Version 2017-02-09"
     (interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*"))
   (defun jj/switch-to-chronos ()
     (interactive)(switch-to-buffer "*chronos*"))
-  (global-set-key (kbd "s-p t") 'jj/helm-chronos-add-timer-switch-to-chronos)
+  (global-set-key (kbd "s-p s-T") 'jj/helm-chronos-add-timer-switch-to-chronos)
+  ;; Don't use helm if I don't want the timer stored
+  (global-set-key (kbd "s-p t") 'chronos-add-timer)
+  (global-set-key (kbd "s-p M-t") 'chronos-add-timer)
   ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
   (global-set-key (kbd "s-p s-t") 'jj/switch-to-chronos)
-  (global-set-key (kbd "s-p T") 'chronos-delete-all-expired)
-  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired))
+  (global-set-key (kbd "s-p T") 'chronos-delete-all-expired))
 
 (use-package goto-chg :defer t
   :bind (("M-[" . goto-last-change)
