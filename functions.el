@@ -283,10 +283,10 @@ Version 2017-02-09"
 
   (setq helm-chronos-standard-timers
 	'(
-	  "    45/P: Work + 6/P: Break"
-	  "    45/P: Work"
-	  "     6/Break"
-	  "     15/Long Break"
+	  "45/P: Work + 6/P: Break"
+	  "45/P: Work"
+	  " 6/Break"
+	  "15/Long Break"
 	  ))
 
   ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
@@ -299,11 +299,9 @@ Version 2017-02-09"
   ;; (global-set-key (kbd "s-p T") 'chronos-add-timers-from-string)
   (global-set-key (kbd "s-p s-t") 'jj/switch-to-chronos)
   (global-set-key (kbd "s-p T") 'chronos-delete-all-expired)
-  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired)
-  )
+  (global-set-key (kbd "s-p M-t") 'chronos-delete-all-expired))
 
-(use-package goto-chg
-  :defer t
+(use-package goto-chg :defer t
   :bind (("M-[" . goto-last-change)
 	 ("M-]" . goto-last-change-reverse))
   )

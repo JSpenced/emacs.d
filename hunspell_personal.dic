@@ -1,4 +1,4 @@
-hunspell_personal_dic: Total word count is 79
+hunspell_personal_dic: Total word count is 80
 Cholesky
 Cython
 DataFrame
@@ -12,6 +12,7 @@ NNs
 Numba
 PCA
 Quantile
+Resampling
 SGD
 SOTA
 SVD
@@ -78,3 +79,4 @@ upsample
 vectorization
 vectorize
 wordpieces
+resampling
