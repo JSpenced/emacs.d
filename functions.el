@@ -1787,7 +1787,7 @@ directory in another window."
   "Recompile the functions file to hook on exit emacs if updated"
   (interactive)
   (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/functions.el" nil 0)
-  )
+  (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/settings.el" nil 0))
 
 (defun jj/ivy-switch-buffer-use-virtual ()
   (interactive)
