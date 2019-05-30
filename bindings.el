@@ -151,6 +151,9 @@
 (define-key commandpalette-map (kbd "C-q") 'jj/toggle-window-dedicated)
 (global-set-key (kbd "M-g M-d") 'dumb-jump-go)
 (global-set-key (kbd "M-g M-b") 'dumb-jump-back)
+(define-key commandpalette-map (kbd "v") 'jj/visible-mark-mode-enable)
+(define-key commandpalette-map (kbd "s-v") 'jj/visible-mark-mode-enable)
+(define-key commandpalette-map (kbd "V") 'jj/global-visible-mark-mode-enable)
 
 ;; Dumb jump map bindings
 (define-key dumb-jump-map (kbd "j") 'dumb-jump-go)

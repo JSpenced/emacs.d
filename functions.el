@@ -4077,6 +4077,19 @@ Version 2016-06-19"
     (while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
       (setq i (1+ i)) (previous-buffer))))
 
+(defun jj/visible-mark-mode-enable (prefix)
+  "Enable visible mark mode or with prefix disable it."
+  (interactive "P")
+  (visible-mark-mode 0)
+  (cond ((equal prefix nil)
+	 (visible-mark-mode))))
+(defun jj/global-visible-mark-mode-enable (prefix)
+  "Enable global visible mark mode or with prefix disable it."
+  (interactive "P")
+  (global-visible-mark-mode 0)
+  (cond ((equal prefix nil)
+	 (global-visible-mark-mode 1))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
