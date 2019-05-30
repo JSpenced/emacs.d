@@ -449,6 +449,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;; if use f11 to fullscreen into own space then new ones open in own space
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; So no gaps between emacs frames and other windows
+(setq frame-resize-pixelwise t)
 
 (setq magithub-clone-default-directory "~/Downloads/")
 ;; (setq magit-remote-set-if-missing nil)
