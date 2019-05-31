@@ -838,7 +838,18 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Switch entry to done automatically when all subentries are done
 (add-hook 'org-checkbox-statistics-hook 'jj/org-checkbox-todo)
 
+(setq org-use-sub-superscripts '{})
+(setq org-export-with-sub-superscripts '{})
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
+(scimax-toggle-abbrevs 'scimax-weekday-abbreviations +1)
+(scimax-toggle-abbrevs 'scimax-chemical-formula-abbreviations 1)
+(scimax-toggle-abbrevs 'scimax-misc-abbreviations 1)
+(scimax-toggle-abbrevs 'scimax-contraction-abbreviations -1)
+;; (setq scimax-autoformat-ordinals t)
+;; (setq scimax-autoformat-fractions t)
+;; (setq scimax-autoformat-superscript t)
+;; (setq scimax-autoformat-transposed-caps t)
+;; ;; To turn them on all that time add the line below
 (add-hook 'org-mode-hook 'scimax-autoformat-mode)
 ;; deletes comments before export so paragraphs aren't split where comments are
 ;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
