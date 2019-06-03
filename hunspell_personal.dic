@@ -1,8 +1,9 @@
-hunspell_personal_dic: Total word count is 82
+hunspell_personal_dic: Total word count is 83
 Cholesky
 Cython
 DataFrame
 Discriminative
+Fortran
 GANs
 Hermitian
 IMDB
@@ -81,3 +82,4 @@ upsample
 vectorization
 vectorize
 wordpieces
+Fortran
