@@ -4090,6 +4090,44 @@ Version 2016-06-19"
   (cond ((equal prefix nil)
 	 (global-visible-mark-mode 1))))
 
+(defcustom jj/dired-keep-marker-version ?V
+  "Controls marking of versioned files.
+If t, versioned files are marked if and as the corresponding original files were.
+If a character, copied files are unconditionally marked with that character."
+  :type '(choice (const :tag "Keep" t)
+		 (character :tag "Mark"))
+  :group 'dired-mark)
+
+(defun jj/dired-version-file (from to ok-flag)
+  (dired-handle-overwrite to)
+  (dired-copy-file-recursive from to ok-flag dired-copy-preserve-time t
+			     dired-recursive-copies))
+
+(defun jj/dired-do-version (&optional arg)
+  "Search for numeric pattern in file name and create a version of that file
+with that number incremented by one, or, in case such file already exists,
+will search for a file with the similar name, incrementing the counter each
+time by one.
+Additionally, if called with prefix argument, will prompt for number format.
+The formatting is the same as is used with `format' function."
+  (interactive "P")
+  (let ((fn-list (dired-get-marked-files nil nil)))
+    (dired-create-files
+     (function jj/dired-version-file) "Version" fn-list
+     (function
+      (lambda (from)
+	(let (new-name (i 0) (fmt (if arg (read-string "Version format: " "%d") "%d")))
+	  (while (or (null new-name) (file-exists-p new-name))
+	    (setq new-name
+		  (if (string-match  "^\\([^0-9]*\\)\\([0-9]+\\)\\(.*\\)$" from)
+		      (concat (match-string 1 from)
+			      (format fmt
+				      (+ (string-to-number (match-string 2 from)) (1+ i)))
+			      (match-string 3 from))
+		    (concat from (format (concat "." fmt) i)))
+		  i (1+ i))) new-name)))
+     jj/dired-keep-marker-version)))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)

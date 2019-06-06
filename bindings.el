@@ -528,6 +528,7 @@
 (define-key dired-h-prefix-map (kbd "s") 'jj/dired-cycle-switches)
 (define-key dired-h-prefix-map (kbd "S") 'jj/dired-sort-by-size-switch-toggle)
 (define-key dired-h-prefix-map (kbd "c") 'jj/dired-sort-choose)
+(define-key dired-h-prefix-map (kbd "C") 'jj/dired-version-file)
 (define-key dired-h-prefix-map (kbd ",") 'beginning-of-buffer)
 (define-key dired-h-prefix-map (kbd ".") 'end-of-buffer)
 (define-key dired-h-prefix-map (kbd "p") 'peep-dired)
