@@ -64,6 +64,27 @@
 ;; (require 'nice-jumper)
 ;; (global-nice-jumper-mode t)
 
+(use-package hideshow
+  :bind (("<escape> f" . hs-toggle-hiding)
+	 ("<escape> F" . hs-show-block)
+	 ("C-c f s" . hs-show-block)
+	 ("C-c f S" . hs-show-all)
+	 ("C-c f h" . hs-hide-block)
+	 ("C-c f H" . hs-hide-all)
+	 ("C-c f t" . hs-toggle-hiding)
+	 ("C-c f a" . hs-show-all))
+  :init (add-hook json-mode-hook #'hs-minor-mode)
+  :diminish hs-minor-mode
+  :config
+  (setq hs-special-modes-alist
+	(mapcar 'purecopy
+		'((c-mode "{" "}" "/[*/]" nil nil)
+		  (c++-mode "{" "}" "/[*/]" nil nil)
+		  (java-mode "{" "}" "/[*/]" nil nil)
+		  (js-mode "{" "}" "/[*/]" nil)
+		  (js2-mode "{" "}" "/[*/]" nil)
+		  (json-mode "{" "}" "/[*/]" nil)
+		  (javascript-mode  "{" "}" "/[*/]" nil)))))
 (use-package sentence-navigation :defer t)
 (use-package xah-lookup
   :defer 6
