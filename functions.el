@@ -74,7 +74,7 @@
 	 ("C-c f H" . hs-hide-all)
 	 ("C-c f t" . hs-toggle-hiding)
 	 ("C-c f a" . hs-show-all))
-  :init (add-hook json-mode-hook #'hs-minor-mode)
+  :init (add-hook 'json-mode-hook #'hs-minor-mode)
   :diminish hs-minor-mode
   :config
   (setq hs-special-modes-alist
