@@ -64,6 +64,7 @@
 ;; (require 'nice-jumper)
 ;; (global-nice-jumper-mode t)
 
+(require 'vlf-setup)
 (use-package hideshow
   :bind (("<escape> f" . hs-toggle-hiding)
 	 ("<escape> F" . hs-show-block)
