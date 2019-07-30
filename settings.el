@@ -220,6 +220,15 @@ Use '!' to signify that the buffer was not initially clean."
 ;; if using semantic might need this (removes print on opening buffer)
 ;; (setq dtrt-indent-verbosity 0)
 
+;; Turn on flycheck mode to validate json and add settings
+(eval-after-load "json-mode"
+  '(progn
+     (add-hook 'json-mode-hook #'flycheck-mode)
+     (define-key json-mode-map "\C-c\C-n" (function flycheck-next-error))
+     (define-key json-mode-map "\C-cn" (function flycheck-previous-error))
+     (define-key json-mode-map "\C-c\C-l" (function flycheck-list-errors))
+     ))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Diminish mode line settins and cyphejor mode-line settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
