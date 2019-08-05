@@ -33,7 +33,7 @@
 
 (setq recentf-save-file "~/Programs/scimax/user/recentf")
 ;; (run-with-timer (* 60 60) (* 60 60) 'recentf-save-list)
-(setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
+(setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*dmg$" ".*pkg$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
 ;; ".*\\.pdf$"
 ;; disable recentf-cleanup on Emacs start, because it can cause
 ;; problems with remote files
@@ -737,14 +737,14 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (add-hook 'after-change-functions 'jj/buffer-change-hook)
 
 (setq openwith-associations
-      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
+      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
 ;; '(("\\.avi\\'" "open" (file))))
 (openwith-mode t)
 ;; dired won't ask unless file bigger than 100MB set to nil to completely get rid of
 (setq large-file-warning-threshold 100000000)
 ;; Makes it so don't ask for these file types if opening bigger than 100MB
 (defvar jj/ok-large-file-types
-  (rx "." (or "mp4" "mkv" "avi" "mpeg" "mpg" "wmv" "mov" "m4a") string-end)
+  (rx "." (or "mp4" "mkv" "avi" "mpeg" "mpg" "wmv" "mov" "m4a" "dmg") string-end)
   "Regexp matching filenames which are definitely ok to visit,
 even when the file is larger than `large-file-warning-threshold'.")
 
@@ -1005,7 +1005,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Peep dired settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq peep-dired-max-size (* 8 1024 1024))
-(setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "xls" "avi" "mpg" "mpg" "mp3" "xlsx" "wav" "psd" "ppt" "pptx" "doc" "docx" "m4a"))
+(setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "xls" "avi" "mpg" "mpg" "mp3" "xlsx" "wav" "psd" "ppt" "pptx" "doc" "docx" "m4a" "dmg"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Easy kill settings
