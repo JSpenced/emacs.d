@@ -190,6 +190,7 @@ Version 2017-02-09"
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 (use-package eyebrowse
   :diminish eyebrowse-mode
+ ; TODO: Add in setq-default so don't need to modify eyebrowse to C-c w
   :config (progn
 	    (global-set-key (kbd "s-{")	'eyebrowse-prev-window-config)
 	    (global-set-key (kbd "s-}")	'eyebrowse-next-window-config)
