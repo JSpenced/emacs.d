@@ -4150,6 +4150,13 @@ The formatting is the same as is used with `format' function."
 		  i (1+ i))) new-name)))
      jj/dired-keep-marker-version)))
 
+(defun jj/org-refile-in-current ()
+  "refile current item in current buffer"
+  (interactive)
+  (let ((org-refile-use-outline-path t)
+	(org-refile-targets '((nil . (:maxlevel . 5)))))
+    (org-refile)))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
