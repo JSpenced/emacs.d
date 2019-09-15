@@ -599,6 +599,11 @@
      (define-key archive-mode-map (kbd "U") 'archive-unmark-all-files)
      (define-key archive-mode-map (kbd "<M-backspace>") 'archive-unmark-all-files)))
 
+(eval-after-load "elpy"
+  '(progn
+     (define-key elpy-mode-map (kbd "C-c C-c") 'elpy-shell-send-region-or-buffer)
+     ))
+
 (eval-after-load "dired+"
   '(progn
      ;; Think this can be replaced with browse-url-of-dired-file
