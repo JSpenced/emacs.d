@@ -639,6 +639,8 @@
      (define-key dired-mode-map "b" 'counsel-bookmarked-directory)
      (define-key dired-mode-map "B" 'counsel-bookmark)
      (define-key dired-mode-map "<" 'dired)
+     (define-key dired-mode-map "\M-b" nil)
+     (define-key dired-mode-map "\C-\M-b" nil)
      (define-key dired-mode-map (kbd "w") 'dired-ranger-copy)
      (define-key dired-mode-map (kbd "W") 'dired-copy-filename-as-kill)
      (define-key dired-mode-map (kbd "E") 'dired-ranger-move)
