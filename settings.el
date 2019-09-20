@@ -277,12 +277,17 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setenv "WORKON_HOME" "/Users/bigtyme/anaconda/envs")
-(setq python-shell-interpreter "jupyter" python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters  "jupyter")
+;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook 'jj/flycheck-mode-python-setup)
+(defun jj/flycheck-mode-python-setup ()
+  "Custom behaviours of flycheck mode for `python-mode'."
+  (setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
+  (setq-local flycheck-idle-change-delay 4))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Latex and Tex
