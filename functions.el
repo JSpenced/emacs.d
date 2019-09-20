@@ -1225,14 +1225,30 @@ Repeated invocations toggle between the two most recently open buffers."
   (set-window-buffer (next-window) (other-buffer))
   (balance-windows))
 
-(defun jj/split-window-4 ()
+(defun jj/split-window-4-delete-others ()
   "Splite window into 4 sub-window"
   (interactive)
-  (if (= 1 (length (window-list)))
-      (progn (split-window-vertically)
-	     (split-window-horizontally)
-	     (other-window 2)
-	     (split-window-horizontally))))
+  (if (not (= 1 (length (window-list))))
+      (delete-other-windows))
+  (progn (split-window-vertically)
+	 (set-window-buffer (next-window) (other-buffer))
+	 (split-window-horizontally)
+	 (set-window-buffer (next-window) (other-buffer))
+	 (other-window 2)
+	 (split-window-horizontally)
+	 (set-window-buffer (next-window) (other-buffer))
+	 (balance-windows)))
+
+(defun jj/split-window-4-here ()
+  "Splite window into 4 sub-window"
+  (interactive)
+  (progn (split-window-vertically)
+	 (set-window-buffer (next-window) (other-buffer))
+	 (split-window-horizontally)
+	 (set-window-buffer (next-window) (other-buffer))
+	 (other-window 2)
+	 (split-window-horizontally)
+	 (set-window-buffer (next-window) (other-buffer))))
 
 (defun change-split-type (split-fn &optional arg)
   "Change 3 window style from horizontal to vertical and vice-versa"
