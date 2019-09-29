@@ -986,6 +986,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (setq ispell-program-name (executable-find "hunspell"))
 (setq ispell-silently-savep t)
+(setq ispell-dictionary "american")
 (setq ispell-personal-dictionary (expand-file-name "~/Dropbox/Programs/emacs/user/hunspell_personal.dic"))
 
 (setq desktop-path (list "~/Programs/scimax/user"))
