@@ -287,7 +287,7 @@ Use '!' to signify that the buffer was not initially clean."
 (defun jj/flycheck-mode-python-setup ()
   "Custom behaviours of flycheck mode for `python-mode'."
   (setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
-  (setq-local flycheck-idle-change-delay 4))
+  (setq-local flycheck-idle-change-delay 2))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Latex and Tex

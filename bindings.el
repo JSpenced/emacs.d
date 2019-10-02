@@ -569,7 +569,8 @@
 (define-key dired-mode-map (kbd "C-c m") 'dired-do-chmod)
 (define-key dired-mode-map (kbd "H") 'dired-do-chmod)
 (define-key dired-mode-map (kbd "h o") 'dired-omit-switch)
-(define-key dired-mode-map (kbd "h O") 'noccur-dired)
+(define-key dired-mode-map (kbd "h O") 'dired-omit-mode)
+(define-key dired-mode-map (kbd "h 0") 'noccur-dired)
 (global-set-key (kbd "C-c t") 'jj/open-iterm-terminal-here)
 ;; (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
 
@@ -603,6 +604,11 @@
 (eval-after-load "elpy"
   '(progn
      (define-key elpy-mode-map (kbd "C-c C-c") 'elpy-shell-send-region-or-buffer)
+     (add-hook 'elpy-mode-hook
+	       (lambda ()
+		 (define-key indent-rigidly-map (kbd "J")  'elpy-nav-indent-shift-left)
+		 (define-key indent-rigidly-map (kbd "K")  'elpy-nav-indent-shift-right)
+		 ))
      ))
 
 (eval-after-load "dired+"
@@ -788,4 +794,14 @@
      (bind-key "p" #'previous-line messages-buffer-mode-map)
      (bind-key "i" #'evil-scroll-page-up  messages-buffer-mode-map)
      (bind-key "k" #'evil-scroll-page-down  messages-buffer-mode-map)
+     ))
+
+(eval-after-load "indent"
+  '(progn
+     (global-set-key (kbd "C-M-]") 'indent-rigidly)
+     (global-set-key (kbd "M-|") 'indent-rigidly)
+     (define-key indent-rigidly-map (kbd "J")  'indent-rigidly-left-to-tab-stop)
+     (define-key indent-rigidly-map (kbd "K")  'indent-rigidly-right-to-tab-stop)
+     (define-key indent-rigidly-map (kbd "L")  'indent-rigidly-right)
+     (define-key indent-rigidly-map (kbd "H")  'indent-rigidly-left)
      ))
