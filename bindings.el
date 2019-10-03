@@ -767,23 +767,13 @@
 	  (define-key magit-mode-map (kbd "M-s-3") 'magit-section-show-level-3-all)
 	  (define-key magit-mode-map (kbd "M-s-4") 'magit-section-show-level-4-all)
 	  (define-key magit-mode-map (kbd "M-s-5") 'magit-section-show-level-5-all)
-	  ))))
-
-(eval-after-load "magit-mode"
-  '(progn
-     (define-key magit-mode-map (kbd "Q") 'jj/magit-mode-kill-buffer)
-     (eval-after-load "magit-section"
+	  (define-key magit-mode-map (kbd "C-o") 'magit-diff-visit-file-other-frame)
+	  (define-key magit-mode-map (kbd "<s-return>") 'magit-diff-visit-file-other-window)
+	  ))
+     (eval-after-load "magit-diff"
        '(progn
-	  (define-key magit-mode-map (kbd "M-1") nil)
-	  (define-key magit-mode-map (kbd "M-2") nil)
-	  (define-key magit-mode-map (kbd "M-3") nil)
-	  (define-key magit-mode-map (kbd "M-4") nil)
-	  (define-key magit-mode-map (kbd "M-5") nil)
-	  (define-key magit-mode-map (kbd "M-s-1") 'magit-section-show-level-1-all)
-	  (define-key magit-mode-map (kbd "M-s-2") 'magit-section-show-level-2-all)
-	  (define-key magit-mode-map (kbd "M-s-3") 'magit-section-show-level-3-all)
-	  (define-key magit-mode-map (kbd "M-s-4") 'magit-section-show-level-4-all)
-	  (define-key magit-mode-map (kbd "M-s-5") 'magit-section-show-level-5-all)
+	  (define-key magit-diff-mode-map (kbd "C-o") 'magit-diff-visit-file-other-frame)
+	  (define-key magit-diff-mode-map (kbd "<s-return>") 'magit-diff-visit-file-other-window)
 	  ))))
 
 (eval-after-load "simple"
