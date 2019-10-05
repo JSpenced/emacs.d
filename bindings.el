@@ -284,10 +284,7 @@
 (define-key swiper-map (kbd "M-s-å") 'swiper-mc)
 (define-key ivy-minibuffer-map (kbd "M-y") 'ivy-next-line)
 ;; (define-key ivy-minibuffer-map (kbd "M-s m") 'ivy-restrict-to-matches)
-(define-key ivy-minibuffer-map (kbd "C-r") 'ivy-previous-line)
-(define-key ivy-minibuffer-map (kbd "C-r") 'ivy-previous-line)
 (define-key ivy-minibuffer-map (kbd "C-d") 'delete-backward-char)
-;; (define-key ivy-minibuffer-map (kbd "C-r") 'ivy-reverse-i-search)
 (define-key ivy-minibuffer-map (kbd "C-w") 'whole-line-or-region-kill-region)
 (define-key ivy-minibuffer-map (kbd "C-c <C-m>") 'ivy-call)
 
