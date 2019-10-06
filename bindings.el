@@ -792,3 +792,11 @@
      (define-key indent-rigidly-map (kbd "L")  'indent-rigidly-right)
      (define-key indent-rigidly-map (kbd "H")  'indent-rigidly-left)
      ))
+
+(eval-after-load "markdown-mode"
+  '(progn
+     (define-key markdown-mode-command-map (kbd "i")  'jj/markdown-preview-impatient-mode-httpd-start)
+     (define-key markdown-mode-command-map (kbd "I")  'jj/markdown-preview-impatient-mode-httpd-stop)
+     (define-key markdown-mode-command-map (kbd "G")  'jj/grip-mode-disable)
+     (define-key markdown-mode-command-map (kbd "M-i")  'impatient-mode)
+     ))

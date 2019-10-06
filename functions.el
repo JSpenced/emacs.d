@@ -4205,6 +4205,23 @@ The formatting is the same as is used with `format' function."
   (cl-incf imp-last-state)
   (imp--notify-clients))
 
+(defun jj/markdown-preview-impatient-mode-httpd-start ()
+  (interactive)
+  (httpd-start)
+  (impatient-mode 1)
+  (setq imp-user-filter #'jj/markdown-html)
+  (cl-incf imp-last-state)
+  (imp--notify-clients))
+
+(defun jj/markdown-preview-impatient-mode-httpd-stop ()
+  (interactive)
+  (impatient-mode 0)
+  (httpd-stop))
+
+(defun jj/grip-mode-disable ()
+  (interactive)
+  (grip-mode 0))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
