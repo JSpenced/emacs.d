@@ -330,6 +330,12 @@ Version 2017-02-09"
   :bind (("M-[" . goto-last-change)
 	 ("M-]" . goto-last-change-reverse))
   )
+
+(use-package grip-mode
+  :ensure t
+  :bind (:map markdown-mode-command-map
+	      ("g" . grip-mode)))
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
