@@ -263,6 +263,8 @@ Use '!' to signify that the buffer was not initially clean."
    ("lisp"        "λ" :postfix)
    ("menu"        "▤" :postfix)
    ("mode"        "")
+   ("markdown"        "M")
+   ("gfm"        "MG")
    ("package"     "↓")
    ("python"      "π")			;Ƥ
    ("org"      "Ω")			;Ⓞ
