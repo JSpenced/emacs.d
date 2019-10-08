@@ -184,9 +184,40 @@ Version 2017-02-09"
 	      (pdf-view-auto-slice-minor-mode)))
   ;; more fine-grained zooming
   (setq pdf-view-resize-factor 1.1)
-  ;; keyboard shortcuts
-  (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+
+  (defvar jj/pdftools-selected-pages '())
+
+  (defun jj/pdftools-select-page ()
+    "Add current page to list of selected pages."
+    (interactive)
+    (add-to-list 'jj/pdftools-selected-pages (pdf-view-current-page) t))
+
+  (defun jj/pdftools-unselect-page ()
+    "Add current page to list of selected pages."
+    (interactive)
+    (setq jj/pdftools-selected-pages (delete (pdf-view-current-page)  jj/pdftools-selected-pages)))
+
+  (defun jj/pdftools-extract-selected-pages (file)
+    "Save selected pages to FILE."
+    (interactive "FSave as: ")
+    (setq jj/pdftools-selected-pages (sort jj/pdftools-selected-pages #'<))
+    (start-process "pdfjam" "*pdfjam*"
+		   "pdfjam"
+		   (buffer-file-name)
+		   (mapconcat #'number-to-string
+			      jj/pdftools-selected-pages
+			      ",")
+		   "-o"
+		   (expand-file-name file)))
+
+  ;; keyboard shdefine-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
+  (define-key pdf-view-mode-map "S" #'jj/pdftools-select-page)
+  (define-key pdf-view-mode-map "U" #'jj/pdftools-unselect-page)
+  (define-key pdf-view-mode-map "u" #'jj/pdftools-unselect-page)
+  (define-key pdf-view-mode-map "l" #'jj/pdftools-select-page)
+  (define-key pdf-view-mode-map "s s" #'jj/pdftools-select-page)
+  (define-key pdf-view-mode-map "e" #'jj/pdftools-extract-selected-pages)
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 (use-package eyebrowse
   :diminish eyebrowse-mode
