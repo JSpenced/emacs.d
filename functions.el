@@ -4325,6 +4325,7 @@ The formatting is the same as is used with `format' function."
 		))
     (set-face-attribute 'org-block nil :background "gray16")
     (set-face-attribute 'org-block-python nil :background "gray16")
+    (set-face-attribute 'org-block-ipython nil :background "gray16")
     ;; (set-face-attribute 'org-block-python nil :background "gray19")
     (set-face-attribute 'org-block-begin-line nil :background "#420C0C")
     (set-face-attribute 'org-block-begin-line nil :background "#814545" :foreground "#E5E5E5")
