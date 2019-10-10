@@ -852,7 +852,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; will show space between headings if 1 or more lines blank (default 2)
-(setq org-cycle-separator-lines 1)
+(setq org-cycle-separator-lines 2)
 (setq org-support-shift-select nil)
 (setq org-list-allow-alphabetical t)
 (setq org-list-demote-modify-bullet
@@ -920,6 +920,22 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-refile-use-outline-path 'file)             ; Show full paths for refiling
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-download-screenshot-method "screencapture -i %s")
+
+;; Org-mode source blocks
+;; If you have issues like described above, then try disable ob-ipython and see, is it help. Usually, it is enough to remove ipython from (org-babel-do-load-languages ...) list, and restart your Emacs.
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t) (latex . t) (python . t) (shell . t) (matlab . t)
+   (sqlite . t) (ruby . t) (perl . t) (org . t) (dot . t) (plantuml . t)
+   (R . t) (fortran . t) (C . t) (jupyter . t)))
+;; overrides so when you put python it does jupyter-python
+;; (org-babel-jupyter-override-src-block "python")
+;; Fix error that async might cause issues
+(setq ob-async-no-async-languages-alist '("jupyter-python" "jupyter-julia"))
+(setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
+						    (:session . "jl")))
+(setq org-babel-default-header-args:jupyter-python '((:async . "yes")
+						     (:session . "py")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; view weather wttrin package
