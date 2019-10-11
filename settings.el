@@ -236,6 +236,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;; can also be used to change major-mode lines
 ;; (eval-after-load "dubcaps" '(diminish 'dubcaps-mode))
 (eval-after-load 'emacs-lock-mode '(diminish 'org-indent-mode))
+(eval-after-load "flycheck" '(diminish 'flycheck-mode "FC"))
+(eval-after-load "flyspell" '(diminish 'flyspell-mode "FS"))
 (eval-after-load "org-indent" '(diminish 'org-indent-mode))
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
