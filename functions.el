@@ -372,6 +372,16 @@ Version 2017-02-09"
   ;; (wgrep-auto-save-buffer t)
   (wgrep-change-readonly-file t))
 
+(use-package ag
+  :custom
+  (ag-highligh-search t)
+  (ag-reuse-buffers t)
+  (ag-reuse-window t)
+  ;; :bind
+  ;; ("M-s a" . ag-project)
+  :config
+  (use-package wgrep-ag))
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
