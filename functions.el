@@ -382,6 +382,14 @@ Version 2017-02-09"
   :config
   (use-package wgrep-ag))
 
+(use-package deadgrep
+  :bind (("C-x f d" . deadgrep))
+  :config
+  (define-key deadgrep-mode-map (kbd "C-c j") 'counsel-imenu)
+  (define-key deadgrep-mode-map (kbd "C-c C-j") 'counsel-semantic-or-imenu)
+  (define-key deadgrep-mode-map (kbd "i") 'counsel-imenu)
+  (define-key deadgrep-mode-map (kbd "j") 'counsel-imenu))
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
