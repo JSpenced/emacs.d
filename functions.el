@@ -367,6 +367,11 @@ Version 2017-02-09"
   :bind (:map markdown-mode-command-map
 	      ("g" . grip-mode)))
 
+(use-package wgrep
+  :custom
+  ;; (wgrep-auto-save-buffer t)
+  (wgrep-change-readonly-file t))
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
