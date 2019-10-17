@@ -777,7 +777,7 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (add-hook 'after-change-functions 'jj/buffer-change-hook)
 
 (setq openwith-associations
-      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
+      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|odt\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
 ;; '(("\\.avi\\'" "open" (file))))
 (openwith-mode t)
 ;; dired won't ask unless file bigger than 100MB set to nil to completely get rid of
@@ -1088,7 +1088,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Peep dired settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq peep-dired-max-size (* 8 1024 1024))
-(setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "xls" "avi" "mpg" "mpg" "mp3" "xlsx" "wav" "psd" "ppt" "pptx" "doc" "docx" "m4a" "dmg"))
+(setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "xls" "avi" "mpg" "mpg" "mp3" "xlsx" "wav" "psd" "ppt" "pptx" "odt" "doc" "docx" "m4a" "dmg"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Easy kill settings
