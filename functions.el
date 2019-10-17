@@ -67,10 +67,7 @@
 ;; (global-nice-jumper-mode t)
 
 (require 'vlf-setup)
-(use-package doom-todo-ivy
-  :ensure t
-  :hook (after-init . doom-todo-ivy))
-;; FIXME: Might need to move below loading hl-todos
+(require 'doom-todo-ivy)
 (use-package magit-todos
   :after magit
   :after hl-todo
