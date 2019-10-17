@@ -65,6 +65,12 @@
 ;; (global-nice-jumper-mode t)
 
 (require 'vlf-setup)
+;; Might not be necessary but put here to ensure
+(use-package magit-todos
+  :after magit
+  :after hl-todo
+  :config
+  (magit-todos-mode))
 (use-package hideshow
   :bind (("<escape> f" . hs-toggle-hiding)
 	 ("<escape> F" . hs-show-block)
