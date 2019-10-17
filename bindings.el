@@ -281,12 +281,17 @@
 (global-set-key (kbd "C-r") 'jj/swiper-region)
 ;; (global-set-key (kbd "C-s") 'jj/counsel-grep-or-swiper-region)
 (global-set-key (kbd "C-c s") 'swiper-all)
-(define-key swiper-map (kbd "M-s-å") 'swiper-mc)
-(define-key ivy-minibuffer-map (kbd "M-y") 'ivy-next-line)
-;; (define-key ivy-minibuffer-map (kbd "M-s m") 'ivy-restrict-to-matches)
-(define-key ivy-minibuffer-map (kbd "C-d") 'delete-backward-char)
-(define-key ivy-minibuffer-map (kbd "C-w") 'whole-line-or-region-kill-region)
-(define-key ivy-minibuffer-map (kbd "C-c <C-m>") 'ivy-call)
+(eval-after-load "ivy"
+  '(progn
+     (define-key swiper-map (kbd "M-s-å") 'swiper-mc)
+     (define-key ivy-minibuffer-map (kbd "C-M-s") #'jj/counsel-rg-ignore-tests-swiper)
+     (define-key ivy-minibuffer-map (kbd "C-M-r") #'jj/counsel-rg-swiper)
+     (define-key ivy-minibuffer-map (kbd "M-y") 'ivy-next-line)
+     ;; (define-key ivy-minibuffer-map (kbd "M-s m") 'ivy-restrict-to-matches)
+     (define-key ivy-minibuffer-map (kbd "C-d") 'delete-backward-char)
+     (define-key ivy-minibuffer-map (kbd "C-w") 'whole-line-or-region-kill-region)
+     (define-key ivy-minibuffer-map (kbd "C-c <C-m>") 'ivy-call)
+     ))
 
 					;define-key commandpalette-map
 (define-prefix-command 'ctrlz-map)

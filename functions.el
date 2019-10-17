@@ -4286,6 +4286,24 @@ The formatting is the same as is used with `format' function."
       (setq org-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i"))))
     ))
 
+(defun jj/counsel-rg-ignore-tests-swiper ()
+  (interactive)
+  (let ((search-str (ivy--input)))
+    (ivy-quit-and-run
+      (counsel-rg search-str (projectile-project-root) "--iglob '!test*'"))))
+
+(defun jj/counsel-rg-swiper ()
+  (interactive)
+  (let ((search-str (ivy--input)))
+    (ivy-quit-and-run
+      (counsel-rg search-str (projectile-project-root) ""))))
+
+(defun jj/counsel-rg-ignore-tests ()
+  (interactive)
+  (let ((search-str (ivy--input)))
+    (ivy-quit-and-run
+      (counsel-rg "" (projectile-project-root) "--iglob '!test*'"))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
