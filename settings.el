@@ -425,6 +425,13 @@ Use '!' to signify that the buffer was not initially clean."
 ;;   (add-hook hook (lambda ()
 ;;		   (hl-todo-mode))))
 
+;; Make sure magit-todos installed and run after loading hl-todo-mode
+;; Might not be necessary but put here to ensure
+(use-package magit-todos
+  :after magit
+  :after hl-todo
+  :config
+  (magit-todos-mode))
 
 ;; (add-hook 'text-mode-hook (lambda () (text-scale-decrease 1)))
 ;; (setq dropbox-access-token pa8m5pql3gkAAAAAAADx6pqdfm4oOdinGLz1kQFcGyvidfq7EPrcFyPeiLnzIHE-)
