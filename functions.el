@@ -11,6 +11,8 @@
 (global-set-key (kbd "M-g t") 'tags-jump-map)
 (define-prefix-command 'jj-eyebrowse-map)
 (global-set-key (kbd "M-1") 'jj-eyebrowse-map)
+(defvar grep-and-find-map (make-sparse-keymap))
+(define-key global-map "\C-xf" grep-and-find-map)
 
 ;; ensures packages are installed or installs them but doesn't keep them updated
 (require 'use-package-ensure)

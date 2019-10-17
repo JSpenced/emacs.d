@@ -669,8 +669,6 @@
      (define-key dired-mode-map (kbd ",") dired-narrow-filter-map)
 
      ))
-(defvar grep-and-find-map (make-sparse-keymap))
-(define-key global-map "\C-xf" grep-and-find-map)
 ;; (define-key global-map "\C-xfg" 'find-grep-dired)
 ;; (define-key global-map "\C-xfn" 'find-name-dired)
 (define-key global-map "\C-xff" 'jj/counsel-find-name-everything)
