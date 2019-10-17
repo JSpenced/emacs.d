@@ -425,16 +425,26 @@ Use '!' to signify that the buffer was not initially clean."
 ;;   (add-hook hook (lambda ()
 ;;		   (hl-todo-mode))))
 
-;; Make sure magit-todos installed and run after loading hl-todo-mode
-;; Might not be necessary but put here to ensure
-(use-package magit-todos
-  :after magit
-  :after hl-todo
-  :config
-  (magit-todos-mode))
-
 ;; (add-hook 'text-mode-hook (lambda () (text-scale-decrease 1)))
 ;; (setq dropbox-access-token pa8m5pql3gkAAAAAAADx6pqdfm4oOdinGLz1kQFcGyvidfq7EPrcFyPeiLnzIHE-)
+
+;; Setup fonts and t
+(defface doom-fixme-tasks ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:foreground "#ff3300"))) "")
+(setq doom/ivy-task-tags
+      '(("TODO"  . warning)
+	;; ("XXX"  . warning)
+	;; ("XXXX"  . warning)
+	;; ("UNSURE"  . doom-fixme-tasks)
+	("DONE" . success)
+	;; ("NOTE" . success)
+	;; ("FINISHED" . success)
+	("CANCELED" . success)
+	("FAIL" . doom-fixme-tasks)
+	("FIXME" . doom-fixme-tasks)
+	))
+(defalias 'jj/doom/ivy-ag-rg-todos-tasks 'doom/ivy-tasks)
 
 ;; Beacon mode settings
 (beacon-mode)

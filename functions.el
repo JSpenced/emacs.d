@@ -65,7 +65,10 @@
 ;; (global-nice-jumper-mode t)
 
 (require 'vlf-setup)
-;; Might not be necessary but put here to ensure
+(use-package doom-todo-ivy
+  :ensure t
+  :hook (after-init . doom-todo-ivy))
+;; FIXME: Might need to move below loading hl-todos
 (use-package magit-todos
   :after magit
   :after hl-todo
