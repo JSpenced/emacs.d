@@ -926,9 +926,32 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-download-screenshot-method "screencapture -i %s")
 
+;; Does \usepackage[margin=1in]{geometry} in latex header
+(setq org-latex-packages-alist '(("margin=1in" "geometry" nil)))
+;; adds new class defined below that can specify with #+LATEX_CLASS:
+(add-to-list 'org-latex-classes
+	     '("myarticle"
+	       "\\documentclass[letter,11pt]{article}
+
+\\usepackage[utf8]{inputenc}
+\\usepackage{lmodern}
+\\usepackage[T1]{fontenc}
+
+\\usepackage{fixltx2e}
+
+\\newcommand\\foo{bar}
+	       [NO-DEFAULT-PACKAGES]
+	       [NO-PACKAGES]
+	       [EXTRA]"
+	       ("\\section{%s}" . "\\section*{%s}")
+	       ("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (setq  org-odt-preferred-output-format "docx")
 ;; Used to setq certain org values to convert odt to docx
 (jj/my-setup-odt-org-convert-process-to-docx)
+
 ;; Org-mode source blocks
 ;; If you have issues like described above, then try disable ob-ipython and see, is it help. Usually, it is enough to remove ipython from (org-babel-do-load-languages ...) list, and restart your Emacs.
 (org-babel-do-load-languages
