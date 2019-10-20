@@ -244,7 +244,7 @@ Use '!' to signify that the buffer was not initially clean."
 (eval-after-load "org-indent" '(diminish 'org-indent-mode))
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
-(eval-after-load "dired-x" '(diminish 'dired-omit-mode "Omt"))
+(add-hook 'dired-mode-hook '(diminish 'dired-omit-mode " Om"))
 (eval-after-load "dired-filter" '(diminish 'dired-filter-mode "Filt"))
 (eval-after-load "dired-narrow" '(diminish 'dired-narrow-mode "Nrw"))
 (eval-after-load "elpy" '(diminish 'elpy-mode " El"))
