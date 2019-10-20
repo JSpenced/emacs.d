@@ -776,7 +776,7 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (add-hook 'after-change-functions 'jj/buffer-change-hook)
 
 (setq openwith-associations
-      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|odt\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
+      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
 ;; '(("\\.avi\\'" "open" (file))))
 (openwith-mode t)
 ;; dired won't ask unless file bigger than 100MB set to nil to completely get rid of
@@ -964,6 +964,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
 	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
 	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+;; If export to "docx" then odt can't be in openwith associations or doesn't work
 (setq  org-odt-preferred-output-format "docx")
 ;; Used to setq certain org values to convert odt to docx
 (jj/my-setup-odt-org-convert-process-to-docx)
