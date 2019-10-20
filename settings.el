@@ -517,7 +517,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;;   )
 (sml/setup)
 (setq sml/theme 'automatic)
-(column-number-mode 0)
 (jj/sml/total-lines-append-mode-line)
 
 ;; (setq jmax-user-theme 'monokai)
