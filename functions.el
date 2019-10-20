@@ -3087,7 +3087,7 @@ Calling it a second time will kill the current line."
 Can be changed to include (or not) the percentage and current column."
   (setq-default mode-line-front-space
 		;; (append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines ))))))
-		(append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines )) "::" "%p"))))
+		(append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines )) ":" (-3 "%p")))))
   ;; (append mode-line-front-space '((12 "/" (:eval (format "%d" total-lines)) "//" "%p" (:eval (format "::%2d" (1+ (current-column))))))))
   )
 
@@ -4317,6 +4317,27 @@ The formatting is the same as is used with `format' function."
   (let ((search-str (ivy--input)))
     (ivy-quit-and-run
       (counsel-rg "" (projectile-project-root) "--iglob '!test*'"))))
+
+;; TODO: Add to preload.el so loads properly
+;; https://github.com/jkitchin/scimax/issues/312
+(defun jj/org-ob-babel-reset-scimax-bindings ()
+  ;; My defined bindings get overridden so set to nil then redefine
+  (interactive)
+  (scimax-define-src-key ipython "s-<return>" #'nil)
+  (scimax-define-src-key ipython "s" #'nil)
+  (scimax-define-src-key ipython "M-s-<return>" #'nil)
+  (scimax-define-src-key ipython "s-k" #'nil)
+  (scimax-define-src-key ipython "s-K" #'nil)
+  (scimax-define-src-key ipython "s-s" #'nil)
+  ;; (scimax-define-src-key ipython "s-w" #'nil)
+  ;; ("s-<return>" . #'scimax-ob-ipython-restart-kernel-execute-block)
+  ;; ("M-s-<return>" . #'scimax-restart-ipython-and-execute-to-point)
+  ;; ("s-i" . #'org-babel-previous-src-block)
+  ;; ("s-k" . #'org-babel-next-src-block)
+  ;; ("s-w" . #'scimax-ob-move-src-block-up)
+  ;; ("s-s" . #'scimax-ob-move-src-block-down)
+  (scimax-define-src-key ipython "C-s-n" #'org-babel-next-src-block)
+  (scimax-define-src-key ipython "C-s-p" #'org-babel-previous-src-block))
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"

@@ -821,23 +821,3 @@
      (define-key markdown-mode-command-map (kbd "G")  'jj/grip-mode-disable)
      (define-key markdown-mode-command-map (kbd "M-i")  'impatient-mode)
      ))
-
-(eval-after-load "scimax-org-babel-ipython-upstream"
-  '(progn
-     ;; My defined bindings get overridden so set to nil then redefine
-     (scimax-define-src-key ipython "s-<return>" #'nil)
-     (scimax-define-src-key ipython "s" #'nil)
-     (scimax-define-src-key ipython "M-s-<return>" #'nil)
-     (scimax-define-src-key ipython "s-k" #'nil)
-     (scimax-define-src-key ipython "s-k" #'nil)
-     (scimax-define-src-key ipython "s-s" #'nil)
-     ;; (scimax-define-src-key ipython "s-w" #'nil)
-     ;; ("s-<return>" . #'scimax-ob-ipython-restart-kernel-execute-block)
-     ;; ("M-s-<return>" . #'scimax-restart-ipython-and-execute-to-point)
-     ;; ("s-i" . #'org-babel-previous-src-block)
-     ;; ("s-k" . #'org-babel-next-src-block)
-     ;; ("s-w" . #'scimax-ob-move-src-block-up)
-     ;; ("s-s" . #'scimax-ob-move-src-block-down)
-     (scimax-define-src-key ipython "C-s-n" #'org-babel-next-src-block)
-     (scimax-define-src-key ipython "C-s-p" #'org-babel-previous-src-block)
-     ))
