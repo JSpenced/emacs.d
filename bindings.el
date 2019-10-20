@@ -126,7 +126,7 @@
 (define-key commandpalette-map (kbd "s-e") 'turn-off-evil-mode)
 (define-key commandpalette-map (kbd "s-P") 'counsel-M-x)
 (define-key commandpalette-map (kbd "s-p") 'counsel-M-x)
-(global-set-key (kbd "C-x B") 'jj/ivy-switch-buffer-use-virtual)
+(global-set-key (kbd "C-x B") 'org-switchb)
 (define-key commandpalette-map (kbd "b") 'counsel-bookmark)
 (define-key commandpalette-map (kbd "B") 'counsel-bookmarked-directory)
 (define-key commandpalette-map (kbd "d") 'counsel-bookmarked-directory)
