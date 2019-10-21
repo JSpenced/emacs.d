@@ -87,6 +87,7 @@
 (global-set-key (kbd "<escape> C-d") 'jj/delete-forward-bracket-pairs)
 (global-set-key (kbd "<escape> M-h") 'jj/delete-backward-bracket-pair)
 (global-set-key (kbd "<escape> s-h") 'Helper-describe-bindings)
+(global-set-key (kbd "C-c M-j") 'counsel-org-goto-all)
 
 ;; (define-key org-mode-map (kbd "<C-m>") 'exchange-point-and-mark)
 ;; unset C- and M- digit keys
@@ -391,8 +392,8 @@
 (define-key org-mode-map (kbd "C-c b j") 'org-metaleft)
 (define-key org-mode-map (kbd "C-c C-S-j") 'ivy-org-jump-to-open-headline)
 (define-key org-mode-map (kbd "C-c C-j") 'ivy-org-jump-to-heading)
-(define-key org-mode-map (kbd "C-c j") 'counsel-org-goto-all)
-(define-key org-mode-map (kbd "C-c M-j") 'counsel-org-goto)
+(define-key org-mode-map (kbd "C-c M-j") 'counsel-org-goto-all)
+(define-key org-mode-map (kbd "C-c j") 'counsel-org-goto)
 (define-key org-mode-map (kbd "C-c J") 'ivy-org-jump-to-heading-in-directory)
 					;(define-key org-mode-map (kbd "C-c i") 'org-do-demote)
 					;(define-key org-mode-map (kbd "C-c u") 'org-do-promote) 'org-indent-item 'org-outdent-item
