@@ -232,6 +232,9 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Diminish mode line settins and cyphejor mode-line settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: Replace diminish with delight (https://www.emacswiki.org/emacs/DelightedModes)
+;; (don't need to call eval-after-load) also supports major-modes
+;;
 ;; use diminish to change minor-mode line or with no argument deletes it
 ;; can also be used to change major-mode lines
 ;; (eval-after-load "dubcaps" '(diminish 'dubcaps-mode))
