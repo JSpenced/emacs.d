@@ -186,8 +186,8 @@ Use '!' to signify that the buffer was not initially clean."
 	(dired-goto-file      . ivy--regex-plus)
 	(counsel-git-grep      . ivy--regex-ignore-order)
 	(swiper-multi      . ivy--regex-ignore-order)
-	(counsel-org-goto      . ivy--regex-ignore-order)
-	(counsel-org-goto-all      . ivy--regex-ignore-order)
+	(counsel-org-goto      . ivy--regex-fuzzy)
+	(counsel-org-goto-all      . ivy--regex-fuzzy)
 	(counsel-grep-or-swiper      . ivy--regex-ignore-order)
 	(jj/counsel-find-name-everything      . ivy--regex-ignore-order)
 	(t      . ivy--regex-ignore-order)))
@@ -241,7 +241,7 @@ Use '!' to signify that the buffer was not initially clean."
 (eval-after-load "dired-x" '(diminish 'dired-omit-mode "Omt"))
 (eval-after-load "flycheck" '(diminish 'flycheck-mode "FC"))
 (eval-after-load "flyspell" '(diminish 'flyspell-mode "FS"))
-(eval-after-load "org-indent" '(diminish 'org-indent-mode))
+(eval-after-load "org-indent" '(diminish 'org-indent-mode ))
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
 (add-hook 'dired-mode-hook '(diminish 'dired-omit-mode " Om"))
@@ -273,6 +273,7 @@ Use '!' to signify that the buffer was not initially clean."
    ("package"     "↓")
    ("python"      "π")			;Ƥ
    ("org"      "Ω")			;Ⓞ
+   ("org-agenda"      "ΩA")			;Ⓞ
    ("shell"       "sh" :postfix)
    ("help"       "Ήϵ")
    ("dired"       "Ɖ")			;Ⓓ
@@ -984,6 +985,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 						    (:session . "jl")))
 (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
 						     (:session . "py")))
+;; HACK: Append reset scimax bindings to end of org-mode hook so runs last
+(add-hook 'org-mode-hook 'jj/org-ob-babel-reset-scimax-bindings 90)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; view weather wttrin package
