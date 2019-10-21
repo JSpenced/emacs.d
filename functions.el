@@ -373,7 +373,8 @@ Version 2017-02-09"
 
 (use-package goto-chg :defer t
   :bind (("M-[" . goto-last-change)
-	 ("M-]" . goto-last-change-reverse))
+	 ("M-]" . jj/goto-last-change-reverse)
+	 ("C-M-s-0" . jj/goto-last-change-back-to-first))
   )
 
 (use-package grip-mode
@@ -4339,6 +4340,21 @@ The formatting is the same as is used with `format' function."
   ;; ("s-s" . #'scimax-ob-move-src-block-down)
   (scimax-define-src-key ipython "C-s-n" #'org-babel-next-src-block)
   (scimax-define-src-key ipython "C-s-p" #'org-babel-previous-src-block))
+
+(defun jj/goto-last-change-reverse ()
+  "Fix goto-last-change-reverse code that doesn't work properly"
+  (interactive)
+  ;; Make 'goto-last-change-reverse' look like 'goto-last-change'
+  (cond ((eq last-command this-command)
+	 (setq last-command 'goto-last-change)))
+  (setq this-command 'goto-last-change)
+  ;; FIXME: Fix so can pass in any number of previous argument
+  (goto-last-change '-1))
+
+(defun jj/goto-last-change-back-to-first ()
+  "Fix goto-last-change-reverse code that doesn't work properly"
+  (interactive)
+  (goto-last-change 1))
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
