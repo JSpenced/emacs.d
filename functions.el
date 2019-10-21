@@ -1364,7 +1364,7 @@ Repeated invocations toggle between the two most recently open buffers."
       (setf jj/last-change-pos2 jj/last-change-pos1
 	    jj/last-change-pos1 tmp))))
 
-(defun jj/goto-last-change ()
+(defun jj/goto-last-change-across-buffers ()
   (interactive)
   (when jj/last-change-pos1
     (let* ((buffer (find-file-noselect (car jj/last-change-pos1)))
@@ -4321,6 +4321,7 @@ The formatting is the same as is used with `format' function."
 ;; TODO: Add to preload.el so loads properly
 ;; https://github.com/jkitchin/scimax/issues/312
 (defun jj/org-ob-babel-reset-scimax-bindings ()
+  "Reset scimax bindings for org-babel so doesn't override my bindings."
   ;; My defined bindings get overridden so set to nil then redefine
   (interactive)
   (scimax-define-src-key ipython "s-<return>" #'nil)
