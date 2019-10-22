@@ -52,15 +52,6 @@
 ;; has to be loaded after save-place=mode so the variable loaded in later
 ;; (add-to-list 'savehist-additional-variables 'save-place-alist)
 (save-place-mode 1)
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-	    ;; so loaded after all settings because appears to mess up things if loaded before
-	    (require 'dired+)
-	    ;; allows proper loading so doesn't overwrite the recentf file with no entries
-	    (recentf-mode 1)
-	    ;; load after recentf-mode since storing recentf-list in savehist variable
-	    (savehist-mode 1)
-	    (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file))))
 ;; untitled~~.tmp files will open into text-mode (
 (add-to-list 'auto-mode-alist '("\\.qqq\\'" . text-mode))
 ;; symlinks under version control are followed to there real directory
@@ -248,7 +239,7 @@ Use '!' to signify that the buffer was not initially clean."
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
 (add-hook 'dired-mode-hook (lambda ()
-			     (diminish 'dired-omit-mode " Om")))
+			     (eval-after-load "dired-x" '(diminish 'dired-omit-mode " Om"))))
 (eval-after-load "dired-filter" '(diminish 'dired-filter-mode "Filt"))
 (eval-after-load "dired-narrow" '(diminish 'dired-narrow-mode "Nrw"))
 (eval-after-load "elpy" '(diminish 'elpy-mode " El"))
@@ -1130,7 +1121,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (reload-alternative-input-methods)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Wg workgroups settings and emacs startup hook and daemon settings
+;; Wg workgroups settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq wg-use-default-session-file nil)
 ;; don't open last workgroup automatically in `wg-open-session',
@@ -1141,10 +1132,24 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;(workgroups-mode 1) ; put this one at the bottom of .emacs
 ;; by default, the sessions are saved in "~/.emacs_workgroups"
 (autoload 'wg-create-workgroup "workgroups2" nil t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs startup hook and daemon settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    ;; allows proper loading so doesn't overwrite the recentf file with no entries
+	    (recentf-mode 1)
+	    ;; load after recentf-mode since storing recentf-list in savehist variable
+	    (savehist-mode 1)
+	    (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file)))
+	  90)
 ;; needs to be added to hook after (recentf-mode 1) so loaded first
 ;; if not writing to recentf, might not work properly
 (add-hook 'emacs-startup-hook
 	  (lambda ()
+	    ;; so loaded after all settings because appears to mess up things if loaded before
+	    (require 'dired+)
 	    ;; (interactive)
 	    (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
 		   (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
@@ -1152,8 +1157,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 		   (setq desktop-path (list "~/Programs/scimax/user/desktops")))
 		  (t (when (not (daemonp))
 		       (desktop-save-mode)
-		       (desktop-read)
-		       )))))
+		       (desktop-read)))))
+	  -90)
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 ;; Run an edit server in the running emacs
 ;; (when (locate-library "edit-server")
