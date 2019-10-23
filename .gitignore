@@ -1,0 +1,14 @@
+*desktop*
+*.bak
+*.dat
+*.elc
+/smex-items
+/places
+/recentf
+/tramp
+/projectile-bookmarks.eld
+/history
+/.helm-chronos-recent-timers
+/bookmarks
+/custom.el
+/emacs_workgroups
