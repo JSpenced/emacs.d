@@ -31,7 +31,7 @@
 ;; Removed slime so don't need the following line
 ;; (setq slime-contribs '(slime-fancy))
 
-(setq recentf-save-file "~/Programs/scimax/user/recentf")
+(setq recentf-save-file (expand-file-name "~/Programs/scimax/user/recentf"))
 ;; (run-with-timer (* 60 60) (* 60 60) 'recentf-save-list)
 (setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*dmg$" ".*pkg$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
 ;; ".*\\.pdf$"
@@ -281,7 +281,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setenv "WORKON_HOME" "/Users/bigtyme/anaconda/envs")
+(setenv "WORKON_HOME" (expand-file-name "~/anaconda/envs"))
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
@@ -311,12 +311,12 @@ Use '!' to signify that the buffer was not initially clean."
   '(progn
      ;; adding command options -b before -g below will highlight the line number in skim
      (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
-     (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r /Users/bigtyme/Programs/scimax/user/latexmkrc %s" TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
+     (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
      (add-to-list 'TeX-command-list
 		  '("Xelatexmanual" "xelatex -interaction=nonstopmode %s"
 		    TeX-run-command t t :help "Run xelatex"))
      (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -r /Users/bigtyme/Programs/scimax/user/xelatexmkrc %s" TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
+     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -r ~/Programs/scimax/user/xelatexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
      (setq-default TeX-command-default "latexmk")
@@ -338,7 +338,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;      (add-to-list 'TeX-expand-list '("%(line-number)" (lambda () (format "%d" (line-number-at-pos)))))
 ;;      (cond
 ;;       ((eq system-type 'darwin)
-;;        (add-to-list 'TeX-expand-list '("%(latexmkrc-osx)" (lambda () "/Users/bigtyme/.latexmkrc")))
+;;        (add-to-list 'TeX-expand-list '("%(latexmkrc-osx)" (lambda () (expand-file-name "~/.latexmkrc"))))
 ;;        (add-to-list 'TeX-command-list '("latexmk-osx" "latexmk -pdf -r %(latexmkrc-osx) %s" TeX-run-TeX nil t))
 ;;        (add-to-list 'TeX-expand-list '("%(skim)" (lambda () "/Applications/Skim.app/Contents/SharedSupport/displayline")))
 ;;        (add-to-list 'TeX-command-list '("Skim" "%(skim) -b -g %(line-number) %(pdf-file-name) %(tex-file-name)" TeX-run-TeX nil t))
@@ -499,7 +499,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;; So no gaps between emacs frames and other windows
 (setq frame-resize-pixelwise t)
 
-(setq magithub-clone-default-directory "~/Downloads/")
+(setq magithub-clone-default-directory (expand-file-name "~/Downloads/"))
 ;; (setq magit-remote-set-if-missing nil)
 ;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
 (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode)
@@ -595,7 +595,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'after-save-hook 'backup-each-save)
-(setq backup-each-save-mirror-location "~/.emacs_path_backups")
+(setq backup-each-save-mirror-location (expand-file-name "~/.emacs_path_backups"))
 ;; Backup-save size limit is set to 5mb
 (setq backup-each-save-size-limit (* 1024 1024 2))
 (setq backup-each-save-filter-function 'jj/backup-each-save-filter)
@@ -613,7 +613,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Later maybe update the backup functions above so the tramp files are stored into their own
 ;; per-session and per-save directories
 (add-to-list 'backup-directory-alist
-	     (cons tramp-file-name-regexp "~/.emacs_backups/per-save"))
+	     (cons tramp-file-name-regexp (expand-file-name "~/.emacs_backups/per-save")))
 
 ;; Disabling backups can be targeted to just the su and sudo methods:
 ;; (setq backup-enable-predicate
@@ -910,11 +910,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-goto-interface 'outline-path-completion)
 (setq org-outline-path-complete-in-steps nil)
 ;; Bibliography
-(setq reftex-default-bibliography '("~/Google-dr/Research/MyWork/Bibtex/library.bib"))
+(setq reftex-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib")))
 ;; see org-ref for use of these variables
-(setq org-ref-bibliography-notes "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib"
-      org-ref-default-bibliography '("~/Google-dr/Research/MyWork/Bibtex/library.bib")
-      org-ref-pdf-directory "~/Google-dr/Research/Papers/")
+(setq org-ref-bibliography-notes (expand-file-name "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib")
+      org-ref-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib"))
+      org-ref-pdf-directory (expand-file-name "~/Google-dr/Research/Papers/"))
 ;; setup when start refiling notes
 ;; (setq org-refile-targets
 ;;       '(("gtd.org" :maxlevel . 1)
@@ -993,7 +993,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
 
 ;; Setup so todotxt works and initialize location of todotxt file
-(setq todotxt-file (expand-file-name "/Users/bigtyme/Dropbox/Apps/Simpletask/todo.txt"))
+(setq todotxt-file (expand-file-name "~/Dropbox/Apps/Simpletask/todo.txt"))
 
 (setq user-full-name "Jeff Spencer"
 					; andrewid "jeffspencerd"
@@ -1060,11 +1060,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq ispell-dictionary "american")
 ;; TODO: Need two files because headers are different (can rewrite header depending on loaded program)
 (if (equal ispell-program-name (executable-find "aspell"))
-    (setq ispell-personal-dictionary (expand-file-name "aspell_personal.pws"))
-  (setq ispell-personal-dictionary (expand-file-name "hunspell_personal.dic")))
+    (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/aspell_personal.pws"))
+  (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/hunspell_personal.dic")))
 
 
-(setq desktop-path (list "~/Programs/scimax/user"))
+(setq desktop-path (list (expand-file-name "~/Programs/scimax/user")))
 ;; Too low a number eg.5 doesn't seem to load workspaces correctly but maybe 30-50 better
 ;; (setq desktop-restore-eager 30)
 (setq desktop-auto-save-timeout (* 60 5))
@@ -1137,7 +1137,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq wg-use-default-session-file nil)
 ;; don't open last workgroup automatically in `wg-open-session',
 ;; I only want to check available workgroups! Nothing more.
-(setq wg-session-file "~/Programs/scimax/user/emacs_workgroups")
+(setq wg-session-file (expand-file-name "~/Programs/scimax/user/emacs_workgroups"))
 (setq wg-load-last-workgroup nil)
 (setq wg-open-this-wg nil)
 ;;(workgroups-mode 1) ; put this one at the bottom of .emacs
@@ -1165,7 +1165,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 	    (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
 		   (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
 		   (setq jj/desktop-save-if-all-buffers-read t)
-		   (setq desktop-path (list "~/Programs/scimax/user/desktops")))
+		   (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
 		  (t (when (not (daemonp))
 		       (desktop-save-mode)
 		       (desktop-read)))))

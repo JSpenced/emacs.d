@@ -337,7 +337,7 @@ Version 2017-02-09"
    ;; chronos-shell-notify-parameters '("-q ~/.emacs.d/manual-addons/sounds/end.mp3")
    ;; chronos-shell-notify-program "notify-send"
    ;; chronos-shell-notify-parameters '("-t" "0" "Сработал таймер")
-   chronos-notification-wav "~/Programs/scimax/user/sounds/techno.wav"
+   chronos-notification-wav (expand-file-name "~/Programs/scimax/user/sounds/techno.wav")
    chronos-expiry-functions '(chronos-buffer-notify
 			      jj/chronos-shell-notify
 			      chronos-message-notify
@@ -1365,6 +1365,7 @@ Repeated invocations toggle between the two most recently open buffers."
       (setf jj/last-change-pos2 jj/last-change-pos1
 	    jj/last-change-pos1 tmp))))
 
+;; TODO: Update to ignore certain buffers (eg. COMMIT-MSG buffers)
 (defun jj/goto-last-change-across-buffers ()
   (interactive)
   (when jj/last-change-pos1
@@ -1900,8 +1901,10 @@ directory in another window."
 (defun jj/brc-functions-file ()
   "Recompile the functions file to hook on exit emacs if updated"
   (interactive)
-  (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/functions.el" nil 0)
-  (byte-recompile-file "/Users/bigtyme/Dropbox/Programs/emacs/user/settings.el" nil 0))
+  (if (eq system-type 'darwin)
+      (progn
+	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
+	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
 
 (defun jj/ivy-switch-buffer-use-virtual ()
   (interactive)
