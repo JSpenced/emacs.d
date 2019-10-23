@@ -190,6 +190,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Whitespace mode and ws-butler settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: Write change major-mode hook that if whitespace cleanup mode activated calls before changing
+;; TODO: write mode hooks using the DEPTH attribute so can load after or before
 ;; hook needs to be run before whitespace-cleanup-mode hook so that is loaded first
 (add-hook 'prog-mode-hook 'jj/ws-butler-mode-if-whitespace-initially-not-clean)
 (add-hook 'org-mode-hook 'jj/ws-butler-mode-if-whitespace-initially-not-clean)
@@ -1048,10 +1050,19 @@ even when the file is larger than `large-file-warning-threshold'.")
 			cua-scroll-up))
 	  (ding))))
 
-(setq ispell-program-name (executable-find "hunspell"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Aspell/Ispell/Flyspell settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: Aspell can detect CamelCase words using --run-together added to ispell-extra-args
+;; (write function to add and remove this to change CamelCase checking on the fly)
+(setq ispell-program-name (executable-find "aspell"))
 (setq ispell-silently-savep t)
 (setq ispell-dictionary "american")
-(setq ispell-personal-dictionary (expand-file-name "~/Dropbox/Programs/emacs/user/hunspell_personal.dic"))
+;; TODO: Need two files because headers are different (can rewrite header depending on loaded program)
+(if (equal ispell-program-name (executable-find "aspell"))
+    (setq ispell-personal-dictionary (expand-file-name "aspell_personal.pws"))
+  (setq ispell-personal-dictionary (expand-file-name "hunspell_personal.dic")))
+
 
 (setq desktop-path (list "~/Programs/scimax/user"))
 ;; Too low a number eg.5 doesn't seem to load workspaces correctly but maybe 30-50 better
