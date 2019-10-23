@@ -988,7 +988,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; view weather wttrin package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq wttrin-default-cities '("Seoul" "Saint Louis, United States of America"))
+(setq wttrin-default-cities '("Toronto" "Saint Louis, United States of America" "Seoul"))
 ;; '("Accept-Language" . "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
 (setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
 
