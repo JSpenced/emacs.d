@@ -377,7 +377,7 @@ Use '!' to signify that the buffer was not initially clean."
 						("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
 						("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
 						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
-						("\\?\\?\\?+" . "#cc9393")
+						("QQQ+" . "#cc9393")
 						))
 	    (hl-todo-mode)
 	    ))
@@ -405,7 +405,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq hl-todo-highlight-punctuation "\-:*/~=#<>|\\?")
 ;; Sets for every buffer so can run hl-todo-occur even if hl-todo-mode not enabled
-(setq-default hl-todo--regexp "\\(\\<\\(HOLD\\|TODO\\|T0D0\\|NEXT\\|TOD0\\|TODOO\\|THEM\\|PROG\\|OKAY\\|DONT\\|FAIL\\|DONE\\|FINISHED\\|UNSURE\\|T000\\|NOTE\\|KLUDGE\\|HACK\\|TEMP\\|FIXME\\|XXX+\\|\\?\\?\\?+\\)\\(?:\\>\\|\\>?\\)[-:*/~=#<>|\\?]*\\)")
+(setq-default hl-todo--regexp "\\(\\<\\(HOLD\\|TODO\\|T0D0\\|NEXT\\|TOD0\\|TODOO\\|THEM\\|PROG\\|OKAY\\|DONT\\|FAIL\\|DONE\\|FINISHED\\|UNSURE\\|T000\\|NOTE\\|KLUDGE\\|HACK\\|TEMP\\|FIXME\\|XXX+\\|QQQ+\\)\\(?:\\>\\|\\>?\\)[-:*/~=#<>|\\?]*\\)")
 (setq-default hl-todo-keyword-faces '(("HOLD" . "#d0bf8f") ("TODO" . "#cc9393") ("T0D0" . "#cc9393")
 				      ("NEXT" . "#dca3a3") ("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
 				      ("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
@@ -413,7 +413,7 @@ Use '!' to signify that the buffer was not initially clean."
 				      ("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
 				      ("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
 				      ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
-				      ("\\?\\?\\?+" . "#cc9393")
+				      ("QQQ+" . "#cc9393")
 				      ))
 ;; below uneccasry because hl-todo-mode is set by hl-todo-activate-in-modes
 ;; this defualts to (prog-mode text-mode) but not turned on in org-mode
@@ -433,6 +433,8 @@ Use '!' to signify that the buffer was not initially clean."
       '(("TODO"  . warning)
 	;; ("XXX"  . warning)
 	;; ("XXXX"  . warning)
+	;; ("QQQQ"  . warning)
+	;; ("QQQ"  . warning)
 	;; ("UNSURE"  . doom-fixme-tasks)
 	("DONE" . success)
 	;; ("NOTE" . success)
