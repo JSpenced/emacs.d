@@ -424,7 +424,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;;		   (hl-todo-mode))))
 
 ;; (add-hook 'text-mode-hook (lambda () (text-scale-decrease 1)))
-;; (setq dropbox-access-token pa8m5pql3gkAAAAAAADx6pqdfm4oOdinGLz1kQFcGyvidfq7EPrcFyPeiLnzIHE-)
 
 ;; Setup fonts and t
 (defface doom-fixme-tasks ;; put this before (require 'visible-mark)
