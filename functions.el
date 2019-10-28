@@ -4378,6 +4378,31 @@ The formatting is the same as is used with `format' function."
   (interactive)
   (goto-last-change 1))
 
+(defun jj/beginning-or-indentation-or-previous-line (&optional n)
+  "Move cursor to beginning of this line or to its indentation. If at indentation position of this line, move to beginning of line.
+  If at beginning of line, move to beginning of previous line.
+  Else, move to indentation position of this line.
+  With arg N, move backward to the beginning of the Nth previous line.
+  Interactively, N is the prefix arg."
+  (interactive "P")
+  (cond ((or (bolp) n)
+	 (forward-line (- (prefix-numeric-value n))))
+	((save-excursion (skip-chars-backward " \t") (bolp)) ; At indentation.
+	 (forward-line 0))
+	(t (back-to-indentation))))
+
+(defun jj/beginning-or-indentation-of-visual-line ()
+  (interactive)
+  (let ((pos (point))
+	(indent (save-excursion
+		  (beginning-of-visual-line)
+		  (skip-chars-forward " \t\r")
+		  (point))))
+    (cond ((or (> pos indent) (= pos (line-beginning-position)))
+	   (goto-char indent))
+	  ((<= pos indent)
+	   (beginning-of-visual-line)))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
