@@ -561,6 +561,7 @@ Use '!' to signify that the buffer was not initially clean."
 (jj/append-to-list 'dired-omit-extensions '("#" "##"))
 (setq diredp-ignore-compressed-flag nil)
 (setq diredp-omit-files-regexp "\\.#\\|\\.\\|\\.\\.\\|\\..*")
+(setq dired-dwim-target t)
 (setq wdired-allow-to-change-permissions t)
 
 ;; start directory
