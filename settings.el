@@ -873,6 +873,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Org-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Set to t to go before * and TODO tags first
+(setq org-special-ctrl-a/e 'reversed)
 ;; will show space between headings if 1 or more lines blank (default 2)
 (setq org-cycle-separator-lines 2)
 (setq org-support-shift-select nil)
