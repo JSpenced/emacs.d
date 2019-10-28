@@ -3684,6 +3684,25 @@ TODO: If on the first line of directory already, move to previous directory.
     (if (eq eob t)
 	(dired-next-subdir 1))))
 
+(defun jj/dired-next-line (&optional arg)
+  "Move to the next line using dired-hacks-next-file unless it's
+the end of the buffer then use diredp-next-line so it wraps
+around to the top."
+  (interactive "p")
+  (unless arg (setq arg 1))
+  (if (eq (dired-subdir-max) (point-max))
+      (diredp-next-line arg)
+    (dired-hacks-next-file arg)))
+
+(defun jj/dired-previous-line (&optional arg)
+  "Move to the previous line using dired-hacks-previous-file unless it's
+the beginning of the buffer then use diredp-previous-line so it wraps
+around to the bottom."
+  (interactive "p")
+  (unless arg (setq arg 1))
+  (if (eq (dired-subdir-min) (point-min))
+      (diredp-previous-line arg)
+    (dired-hacks-previous-file arg)))
 
 (defun jj/dired-tree-down ()
   "Move to the previous subdirMove to the first line in the current subdirectory."
