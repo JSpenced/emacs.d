@@ -4403,6 +4403,30 @@ The formatting is the same as is used with `format' function."
 	  ((<= pos indent)
 	   (beginning-of-visual-line)))))
 
+(defun jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line ()
+  (interactive)
+  (let ((pos (point))
+	(indent (save-excursion
+		  (beginning-of-visual-line)
+		  (skip-chars-forward " \t\r")
+		  (point)))
+	(beg-vl (save-excursion
+		  (beginning-of-visual-line)
+		  (point))))
+    (cond ((> pos indent)
+	   (goto-char indent))
+	  ((= pos beg-vl)
+	   (back-to-indentation))
+	  ((<= pos indent)
+	   (beginning-of-visual-line)))))
+
+(defun jj/lispy-move-beginning-of-visual-line ()
+  "Forward to `move-beginning-of-line'.
+Reveal outlines."
+  (interactive)
+  (lispy--ensure-visible)
+  (jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
