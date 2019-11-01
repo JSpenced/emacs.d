@@ -378,7 +378,7 @@
 (define-key org-mode-map (kbd "C-x n o") 'jj/org-show-just-me)
 (define-key org-mode-map (kbd "C-x n <tab>") 'jj/org-show-just-me)
 (define-key text-mode-map (kbd "M-+") 'count-words)
-(define-key org-mode-map (kbd "C-a") 'org-beginning-of-line)
+(define-key org-mode-map (kbd "C-a") 'jj/org-beginning-of-line)
 (define-key org-mode-map (kbd "C-e") 'org-end-of-line)
 (define-key org-mode-map (kbd "M-e") 'forward-sentence)
 (define-key org-mode-map (kbd "M-E") 'jj/org-next-item-at-ident)

@@ -4427,6 +4427,34 @@ Reveal outlines."
   (lispy--ensure-visible)
   (jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line))
 
+(defun jj/org-beginning-of-line (&optional n)
+  "Go to the beginning of the current visible line.
+
+If this is a headline, and `org-special-ctrl-a/e' is not nil or
+symbol `reversed', on the first attempt move to where the
+headline text starts, and only move to beginning of line when the
+cursor is already before the start of the text of the headline.
+
+If `org-special-ctrl-a/e' is symbol `reversed' then go to the
+start of the text on the second attempt.
+
+With argument N not nil or 1, move forward N - 1 lines first."
+  (interactive "^p")
+  (let ((pos (point))
+	(beg-l (save-excursion
+		 (beginning-of-line)
+		 (point)))
+	(beg-vl (save-excursion
+		  (beginning-of-visual-line)
+		  (point))))
+    (cond ((and (= pos beg-vl) (not (= beg-vl beg-l)))
+	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
+	   (org-end-of-line)
+	   (previous-line)
+	   (org-beginning-of-line n))
+	  (t
+	   (org-beginning-of-line n)))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
