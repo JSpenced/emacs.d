@@ -57,6 +57,8 @@
 ;; symlinks under version control are followed to there real directory
 ;; only necessary if using emacs for controlling git (possibly remove later)
 (setq vc-follow-symlinks t)
+(add-hook 'after-save-hook 'vc-refresh-state)
+(add-hook 'after-revert-hook 'vc-refresh-state)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Undo Tree
