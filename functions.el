@@ -73,7 +73,13 @@
 	 :prefix "h"
 	 ("h" . describe-mode)
 	 ("g" . ibuffer-clear-filter-groups)
-	 ("r" . ibuffer-clear-filter-groups)))
+	 ("r" . ibuffer-clear-filter-groups)
+	 ("l" . jj/ibuffer-jump-to-last-buffer))
+  :config
+  (defun jj/ibuffer-jump-to-last-buffer ()
+    (interactive)
+    (ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
+  )
 
 (use-package ibuffer-vc
   :bind (:map ibuffer-h-prefix-map
