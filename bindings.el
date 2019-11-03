@@ -588,18 +588,6 @@
      (define-key wdired-mode-map (kbd "<escape> C-g") 'wdired-abort-changes)
      ))
 
-(eval-after-load "ibuffer"
-  '(progn
-     (define-prefix-command 'ibuffer-h-prefix-map)
-     (define-key ibuffer-mode-map (kbd "h") 'ibuffer-h-prefix-map)
-     (define-key ibuffer-h-prefix-map (kbd "h") 'describe-mode)
-     (define-key ibuffer-h-prefix-map (kbd "g") 'ibuffer-clear-filter-groups)
-     (define-key ibuffer-h-prefix-map (kbd "r") 'ibuffer-clear-filter-groups)
-     (eval-after-load "ibuffer-vc"
-       '(progn
-	  (define-key ibuffer-h-prefix-map (kbd "v") 'ibuffer-vc-set-filter-groups-by-vc-root)
-	  ))))
-
 (define-prefix-command 'jj-flyspell-mode-map)
 (global-set-key (kbd "M-s f") 'jj-flyspell-mode-map)
 (eval-after-load "flyspell"

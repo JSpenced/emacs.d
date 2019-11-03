@@ -66,6 +66,42 @@
 ;; (require 'nice-jumper)
 ;; (global-nice-jumper-mode t)
 
+(use-package ibuffer
+  :bind (
+	 :map ibuffer-mode-map
+	 :prefix-map ibuffer-h-prefix-map
+	 :prefix "h"
+	 ("h" . describe-mode)
+	 ("g" . ibuffer-clear-filter-groups)
+	 ("r" . ibuffer-clear-filter-groups)))
+
+(use-package ibuffer-vc
+  :bind (:map ibuffer-h-prefix-map
+	      ("v" . ibuffer-vc-set-filter-groups-by-vc-root)
+	      ("V" . jj/ibuffer-vc-refresh-state))
+  :config
+  (defun jj/vc-refresh-state-all-buffers ()
+    "Refresh all vc buffer statuses by calling `vc-refresh-state` on each one if it has an associated vc backend. Uses functions from `ibuffer-vc`, so decouple these functions if you need to use this without loading ibuffer-vc."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (let ((file-name (with-current-buffer buf
+			 (file-truename (or buffer-file-name
+					    default-directory)))))
+	(when (ibuffer-vc--include-file-p file-name)
+	  (let ((backend (ibuffer-vc--deduce-backend file-name)))
+	    (when backend
+	      (with-current-buffer buf (vc-refresh-state))
+	      ))))))
+
+  (defun jj/ibuffer-vc-refresh-state ()
+    "Refresh all vc buffer statuses and redisplay to update the current status in ibuffer."
+    (interactive)
+    (jj/vc-refresh-state-all-buffers)
+    (ibuffer-redisplay))
+
+  (add-hook 'ibuffer-mode-hook 'jj/ibuffer-vc-refresh-state)
+  )
+
 (require 'vlf-setup)
 (require 'doom-todo-ivy)
 (use-package magit-todos

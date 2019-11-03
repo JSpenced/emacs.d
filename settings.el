@@ -57,8 +57,6 @@
 ;; symlinks under version control are followed to there real directory
 ;; only necessary if using emacs for controlling git (possibly remove later)
 (setq vc-follow-symlinks t)
-(add-hook 'after-save-hook 'vc-refresh-state)
-(add-hook 'after-revert-hook 'vc-refresh-state)
 ;; Can use but post command hooks can't be expensive operations
 ;; (defun vc-state-refresh-post-command-hook ()
 ;;   "Check if command in `this-command' was executed, then run `vc-refresh-state'"
