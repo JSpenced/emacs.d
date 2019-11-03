@@ -522,7 +522,8 @@
 (define-key org-mode-map (kbd "<escape> t") 'jj/org-show-todo-tree-then-remove-occur-highlights)
 (define-key org-mode-map (kbd "<escape> o") 'org-occur)
 (define-key org-mode-map (kbd "<escape> O") 'org-remove-occur-highlights)
-(define-key org-mode-map (kbd "C-c C-g") 'org-mark-ring-goto)(define-prefix-command 'dired-h-prefix-map)
+(define-key org-mode-map (kbd "C-c C-g") 'org-mark-ring-goto)
+(define-prefix-command 'dired-h-prefix-map)
 (define-key dired-mode-map (kbd "h") 'dired-h-prefix-map)
 (define-key dired-h-prefix-map (kbd "P") 'jj/dired-up-directory-follow-symlink-up)
 (define-key dired-h-prefix-map (kbd "^") 'jj/dired-up-directory-follow-symlink-up)
@@ -587,6 +588,17 @@
      (define-key wdired-mode-map (kbd "<escape> C-g") 'wdired-abort-changes)
      ))
 
+(eval-after-load "ibuffer"
+  '(progn
+     (define-prefix-command 'ibuffer-h-prefix-map)
+     (define-key ibuffer-mode-map (kbd "h") 'ibuffer-h-prefix-map)
+     (define-key ibuffer-h-prefix-map (kbd "h") 'describe-mode)
+     (define-key ibuffer-h-prefix-map (kbd "g") 'ibuffer-clear-filter-groups)
+     (define-key ibuffer-h-prefix-map (kbd "r") 'ibuffer-clear-filter-groups)
+     (eval-after-load "ibuffer-vc"
+       '(progn
+	  (define-key ibuffer-h-prefix-map (kbd "v") 'ibuffer-vc-set-filter-groups-by-vc-root)
+	  ))))
 
 (define-prefix-command 'jj-flyspell-mode-map)
 (global-set-key (kbd "M-s f") 'jj-flyspell-mode-map)
