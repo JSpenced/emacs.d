@@ -59,6 +59,12 @@
 (setq vc-follow-symlinks t)
 (add-hook 'after-save-hook 'vc-refresh-state)
 (add-hook 'after-revert-hook 'vc-refresh-state)
+;; Can use but post command hooks can't be expensive operations
+;; (defun vc-state-refresh-post-command-hook ()
+;;   "Check if command in `this-command' was executed, then run `vc-refresh-state'"
+;;   (when (memq this-command '(other-window kill-buffer ido-kill-buffer ido-switch-buffer))
+;;     (vc-refresh-state)))
+;; (add-hook 'post-command-hook #'vc-state-refresh-post-command-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Undo Tree
