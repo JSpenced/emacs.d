@@ -83,7 +83,7 @@
 
 (use-package ibuffer-vc
   :bind (:map ibuffer-h-prefix-map
-	      ("v" . ibuffer-vc-set-filter-groups-by-vc-root)
+	      ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
 	      ("V" . jj/ibuffer-vc-refresh-state))
   :config
   (defun jj/vc-refresh-state-all-buffers ()
@@ -104,6 +104,12 @@
     (interactive)
     (jj/vc-refresh-state-all-buffers)
     (ibuffer-redisplay))
+
+  (defun jj/ibuffer-vc-set-filter-groups-by-vc-root ()
+    "First run `ibuffer-vc-set-filter-groups-by-vc-root` and then `jj/ibuffer-jump-to-last-buffer`."
+    (interactive)
+    (ibuffer-vc-set-filter-groups-by-vc-root)
+    (jj/ibuffer-jump-to-last-buffer))
 
   (add-hook 'ibuffer-mode-hook 'jj/ibuffer-vc-refresh-state)
   )
