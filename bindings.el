@@ -519,6 +519,7 @@
 (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-heading-respect-content)
 (define-key org-mode-map (kbd "<C-s-return>") 'org-insert-heading-after-current)
 (define-key org-mode-map (kbd "<escape> <C-M-return>") 'jj/org-insert-heading-respect-content-and-delete-current-line)
+(define-key org-mode-map (kbd "<escape> <return>") 'org-insert-heading)
 (define-key org-mode-map (kbd "<escape> t") 'jj/org-show-todo-tree-then-remove-occur-highlights)
 (define-key org-mode-map (kbd "<escape> o") 'org-occur)
 (define-key org-mode-map (kbd "<escape> O") 'org-remove-occur-highlights)
