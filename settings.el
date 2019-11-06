@@ -506,7 +506,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;; So no gaps between emacs frames and other windows
 (setq frame-resize-pixelwise t)
 
-(setq magithub-clone-default-directory (expand-file-name "~/Downloads/"))
 ;; (setq magit-remote-set-if-missing nil)
 ;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
 (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode)

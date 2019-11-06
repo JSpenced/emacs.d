@@ -32,7 +32,6 @@
 (require 'transpose-frame)
 (require 'desktop)
 (require 'tiny)
-(require 'magithub)
 (require 'dired-x)
 (require 'dired-aux)
 (require 'find-dired)
