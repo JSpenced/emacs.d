@@ -2769,7 +2769,7 @@ Version 2017-09-22"
 ;;; --------------------------------------------------- adding words to flyspell
 ;; If ispell-personal-dictionary variable not set this won't work correctly
 (defun jj/ispell-append-word (new-word)
-  (let ((header "hunspell_personal_dic:")
+  (let ((header "hunspell_personal_dic: Total word count is ")
 	(file-name (symbol-value 'ispell-personal-dictionary))
 	(read-words (lambda (file-name)
 		      (let ((all-lines (with-temp-buffer
@@ -2780,13 +2780,14 @@ Version 2017-09-22"
 			  (split-string (mapconcat 'identity (cdr all-lines) "\n")
 					nil
 					t))))))
+    (cond ((equal ispell-program-name (executable-find "aspell"))
+	   (setq header "personal_ws-1.1 en ")))
     (when (file-readable-p file-name)
       (let* ((cur-words (eval (list read-words file-name)))
 	     (all-words (delq header (cons new-word cur-words)))
 	     (words (delq nil (remove-duplicates all-words :test 'string=))))
 	(with-temp-file file-name
 	  (insert (concat header
-			  " Total word count is "
 			  (number-to-string (length words))
 			  "\n"
 			  (mapconcat 'identity (sort words #'string<) "\n") "\n")))))
