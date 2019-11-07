@@ -637,6 +637,7 @@
      (define-key dired-mode-map (kbd "C-p") 'jj/dired-previous-line)
      (define-key dired-mode-map (kbd "C-n") 'jj/dired-next-line)
      (define-key dired-mode-map (kbd "h z") 'diredp-compress-this-file)
+     (define-key dired-mode-map (kbd "h Z") 'jj/dired-do-compress-marked-files-to-zip)
      (define-key dired-mode-map (kbd "C-c C-o") 'jj/show-in-path-finder)
      (define-key dired-mode-map (kbd "P") 'dired-up-directory)
      (define-key dired-mode-map (kbd "<M-backspace>") 'dired-unmark-all-files)

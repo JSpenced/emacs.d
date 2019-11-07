@@ -4518,6 +4518,24 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	  (t
 	   (org-beginning-of-line n)))))
 
+;; TODO: Make this work when in a sub-directory (also d-comp
+(defun jj/dired-do-compress-marked-files-to-zip (zip-file)
+  "Create a zip archive containing the marked files. Won't work when in a subdirectory."
+  (interactive "sEnter name of zip file: ")
+
+  ;; create the zip file
+  (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
+    (shell-command
+     (concat "zip "
+	     zip-file
+	     " "
+	     (string-join
+	      (mapcar
+	       '(lambda (filename)
+		  (file-name-nondirectory filename))
+	       (dired-get-marked-files)) " "))))
+  (revert-buffer))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
