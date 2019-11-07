@@ -4598,10 +4598,13 @@ With argument N not nil or 1, move forward N - 1 lines first."
     (set-face-attribute 'org-level-2 nil :background "#BF95D8" :foreground "#551A78" :bold t :height 1.1 :box t :overline t)
     (set-face-attribute 'org-level-3 nil :foreground "#66cccc" :bold t :overline t)
     (set-face-attribute 'org-latex-and-related nil :foreground "SkyBlue1")
-    ;; (set-face-attribute 'markdown-header-face-1 nil :foreground "#f99157" :height 1.2)
-    (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground "Tomato3" :height 1.1 :bold t)
-    ;; Default value below (shadow color)
-    ;; (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground nil)
+    (eval-after-load "markdown-mode"
+      '(progn
+	 ;; (set-face-attribute 'markdown-header-face-1 nil :foreground "#f99157" :height 1.2)
+	 (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground "Tomato3" :height 1.1 :bold t)
+	 ;; Default value below (shadow color)
+	 ;; (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground nil)
+	 ))
     (set-face-attribute 'org-verbatim nil :foreground "SkyBlue1")
     (set-face-attribute 'org-code nil :foreground "SpringGreen3")
     (set-face-attribute 'org-todo nil :foreground "brown1" :background "dark red" :box t)
