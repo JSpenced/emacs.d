@@ -1015,13 +1015,13 @@ If `to-back' is t then add to back of list."
   (interactive)
   (evil-scroll-line-up 15))
 
-(defun jj/org-next-item-at-ident ()
-  (interactive)
+(defun jj/org-next-item-at-ident (&optional n)
+  (interactive "^p")
   (let ((sentence-end-double-space t) searchTo wordEnd2 checkBoxAt unordList ordList charBeg lineEnd)
     (let ((item (org-in-item-p))
 	  (org-special-ctrl-a/e 'reversed))
       (cond ((not item)
-	     (org-end-of-line))
+	     (end-of-line n))
 	    (t
 	     (org-next-item)
 	     (save-excursion
@@ -1076,13 +1076,13 @@ If `to-back' is t then add to back of list."
 	      )
 	     ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
 	     )))))
-(defun jj/org-previous-item-at-ident ()
-  (interactive)
+(defun jj/org-previous-item-at-ident (&optional n)
+  (interactive "^p")
   (let ((sentence-end-double-space t) wordEnd2 searchTo checkBoxAt unordList ordList charBeg lineEnd)
     (let ((item (org-in-item-p))
 	  (org-special-ctrl-a/e 'reversed))
       (cond ((not item)
-	     (org-beginning-of-line))
+	     (beginning-of-line n))
 	    (t
 	     (org-previous-item)
 	     (save-excursion
