@@ -4518,6 +4518,48 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	  (t
 	   (org-beginning-of-line n)))))
 
+(defun jj/end-of-visual-line-then-to-end-of-line (&optional n)
+  (interactive "^p")
+  (let ((pos (point))
+	(end (save-excursion
+	       (end-of-line)
+	       (point)))
+	(end-vl (save-excursion
+		  (end-of-visual-line)
+		  (point))))
+    (cond ((= pos end-vl)
+	   (end-of-line n))
+	  (t
+	   (end-of-visual-line n)))))
+
+(defun jj/org-end-of-line (&optional n)
+  "Go to the end of the line, but before ellipsis, if any.
+
+If this is a headline, and `org-special-ctrl-a/e' is not nil or
+symbol `reversed', ignore tags on the first attempt, and only
+move to after the tags when the cursor is already beyond the end
+of the headline.
+
+If `org-special-ctrl-a/e' is symbol `reversed' then ignore tags
+on the second attempt.
+
+With argument N not nil or 1, move forward N - 1 lines first."
+  (interactive "^p")
+  (let ((pos (point))
+	(end (save-excursion
+	       (end-of-line)
+	       (point)))
+	(end-vl (save-excursion
+		  (end-of-visual-line)
+		  (point))))
+    (cond ((and (= pos end-vl) (not (= end-vl end)))
+	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
+	   (org-beginning-of-line)
+	   (next-line)
+	   (org-end-of-line n))
+	  (t
+	   (org-end-of-line n)))))
+
 ;; TODO: Make this work when in a sub-directory (also d-comp
 (defun jj/dired-do-compress-marked-files-to-zip (zip-file)
   "Create a zip archive containing the marked files. Won't work when in a subdirectory."
