@@ -2723,6 +2723,24 @@ Version 2017-09-22"
 	 (TeX-command "View" 'TeX-active-master 0))))
     ))
 
+(defun jj/TeX-LaTeX-auctex-lualatex-compile-view ()
+  "Compile and view *.pdf for lualatex files"
+  (interactive)
+  (let ((TeX-PDF-mode t)
+	(TeX-source-correlate-mode t)
+	(TeX-source-correlate-method 'synctex)
+	(TeX-source-correlate-start-server nil))
+    (when (buffer-modified-p)
+      (save-buffer))
+    (set-process-sentinel
+     (TeX-command "Lualatexmk" 'TeX-master-file)
+     (lambda (p e)
+       (when (not (= 0 (process-exit-status p)))
+	 (TeX-next-error t) )
+       (when (= 0 (process-exit-status p))
+	 (TeX-command "View" 'TeX-active-master 0))))
+    ))
+
 ;; TODO: Get Latex running correctly because sometimes gets passed in resume.pdf.pdf instead of resume.pdf
 ;; I think can maybe fix by calling view a second time or figure out where the error is occurring in auctex
 (defun jj/TeX-LaTeX-auctex-latexmk-compile-view-twice ()

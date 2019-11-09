@@ -425,6 +425,7 @@
      (define-key LaTeX-mode-map (kbd "C-c ~") 'jj/TeX-command-run-all-auto-save)
      (define-key LaTeX-mode-map (kbd "C-c b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "C-c B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
+     (define-key LaTeX-mode-map (kbd "C-c M-b") 'jj/TeX-LaTeX-auctex-lualatex-compile-view)
      (define-key LaTeX-mode-map (kbd "C-c s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "<escape> B") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
      (define-key LaTeX-mode-map (kbd "<escape> C-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)

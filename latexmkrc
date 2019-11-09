@@ -1,4 +1,5 @@
 $pdflatex = 'pdflatex -interaction=nonstopmode -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
+$pdflualatex = 'lualatex -interaction=nonstopmode -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
 $pdf_mode = 1;
 $out_dir = '/tmp';
 # $pdf_previewer = 'open -a skim';
