@@ -4596,6 +4596,14 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	       (dired-get-marked-files)) " "))))
   (revert-buffer))
 
+(defun jj/whitespace-cleanup ()
+  "Turn off ws-butler-mode before running whitespace-cleanup."
+  (interactive)
+  (ws-butler-mode 0)
+  (whitespace-cleanup))
+
+(defalias 'jj/whitespace-cleanup 'jj/ws-butler-mode-off-whitespace-cleanup)
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
