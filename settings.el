@@ -935,9 +935,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;       '(("gtd.org" :maxlevel . 1)
 ;;         ("done.org" :maxlevel . 1)))
 
-(setq org-agenda-files
-      '("gtd.org" "done.org"))
-
 (setq org-refile-targets
       '((nil :maxlevel . 1)
 	(org-agenda-files :maxlevel . 1)
