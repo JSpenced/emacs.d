@@ -1,10 +1,19 @@
+# pdflatex and latex settings
 $pdflatex = 'pdflatex -interaction=nonstopmode -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
+
+# lualatex settings
 $lualatex = 'lualatex -interaction=nonstopmode -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
+
+# xelatex settings
+$xelatex = 'xelatex -interaction=nonstopmode  -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz")';
+$xdvipdfmx = 'xdvipdfmx -o %D %S; (test -f "%D") && (cp "%D" "%R.pdf")';
+
+# Output to a tmp folder and clean extensions
 $out_dir = '/tmp';
 $clean_ext = 'bbl rel %R-blx.bib %R.synctex.gz';
-# FIXME: Currently, this doesn't work because will be called with -no-pdf by latexmk, which makes the cp commands run before the call to convert the extended dvi to pdf.
-$xelatex = 'xelatex -interaction=nonstopmode  -synctex=1 %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
 
+
+# Old settings from sublime/linux
 # $pdf_mode = 1;
 # $pdf_previewer = 'open -a skim';
 # Settings for MAC from latexmk site

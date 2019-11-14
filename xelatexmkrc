@@ -1,5 +1,0 @@
-# FIXME: Currently, necessary because latexmk automatically adds -no-pdf, which makes the cp commands run before the call to convert the extended dvi to pdf. 
-$pdflatex = 'xelatex -synctex=1 -interaction=nonstopmode %O %S; (test -f "%Z%R.synctex.gz") && (cp "%Z%R.synctex.gz" "%R.synctex.gz"); (test -f "%D") && (cp "%D" "%R.pdf")';
-$out_dir = '/tmp';
-# push @extra_xelatex_options, '-synctex=1' ;
-# $pdf_mode = 5;
