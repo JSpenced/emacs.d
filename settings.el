@@ -313,21 +313,22 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (setq TeX-source-correlate-method 'synctex)
 ;; Maybe change to ask then ask about allowing inverse search
 (setq TeX-source-correlate-start-server nil)
+;; FIXME: use xelatexmkrc because xelatex run with -no-pdf option causes the commands to copy from /tmp to be run before the final output using xdvipdfmx
 (eval-after-load "tex"
   '(progn
      ;; adding command options -b before -g below will highlight the line number in skim
      (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
      (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
      (add-to-list 'TeX-command-list
-		  '("Xelatexnonstop" "xelatex -interaction=nonstopmode %s"
+		  '("Xelatexnonstop" "xelatex -no-pdf -synctex=1 -interaction=nonstopmode %s"
 		    TeX-run-command t t :help "Run xelatex"))
 
      (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -r ~/Programs/scimax/user/xelatexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
+     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -pdf -r ~/Programs/scimax/user/xelatexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
      (add-to-list 'TeX-command-list
-		  '("Lualatexnonstop" "lualatex -interaction=nonstopmode %s"
+		  '("Lualatexnonstop" "lualatex -synctex=1 -interaction=nonstopmode %s"
 		    TeX-run-command t t :help "Run xelatex"))
-     (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
+     (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
      (setq-default TeX-command-default "latexmk")
