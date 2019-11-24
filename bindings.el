@@ -287,15 +287,15 @@
 (global-set-key (kbd "C-c s") 'swiper-all)
 (eval-after-load "ivy"
   '(progn
-     (define-key swiper-map (kbd "M-s-å") 'swiper-mc)
-     (define-key ivy-minibuffer-map (kbd "C-M-s") #'jj/counsel-rg-ignore-tests-swiper)
-     (define-key ivy-minibuffer-map (kbd "C-M-r") #'jj/counsel-rg-swiper)
-     (define-key ivy-minibuffer-map (kbd "M-y") 'ivy-next-line)
-     ;; (define-key ivy-minibuffer-map (kbd "M-s m") 'ivy-restrict-to-matches)
-     (define-key ivy-minibuffer-map (kbd "C-d") 'delete-backward-char)
-     (define-key ivy-minibuffer-map (kbd "C-w") 'whole-line-or-region-kill-region)
-     (define-key ivy-minibuffer-map (kbd "C-c <C-m>") 'ivy-call)
-     ))
+	 (define-key swiper-map (kbd "M-s-å") 'swiper-mc)
+	 (define-key ivy-minibuffer-map (kbd "C-M-s") #'jj/counsel-rg-ignore-tests-swiper)
+	 (define-key ivy-minibuffer-map (kbd "C-M-r") #'jj/counsel-rg-swiper)
+	 (define-key ivy-minibuffer-map (kbd "M-y") 'ivy-next-line)
+	 ;; (define-key ivy-minibuffer-map (kbd "M-s m") 'ivy-restrict-to-matches)
+	 (define-key ivy-minibuffer-map (kbd "C-d") 'delete-backward-char)
+	 (define-key ivy-minibuffer-map (kbd "C-w") 'whole-line-or-region-kill-region)
+	 (define-key ivy-minibuffer-map (kbd "C-c <C-m>") 'ivy-call)
+	 ))
 
 					;define-key commandpalette-map
 (define-prefix-command 'ctrlz-map)
@@ -379,6 +379,7 @@
 (define-key org-mode-map (kbd "C-x n o") 'jj/org-show-just-me)
 (define-key org-mode-map (kbd "C-x n <tab>") 'jj/org-show-just-me)
 (define-key text-mode-map (kbd "M-+") 'count-words)
+(define-key TeX-mode-map (kbd "M-+") 'count-words)
 (define-key org-mode-map (kbd "C-a") 'jj/org-beginning-of-line)
 (define-key org-mode-map (kbd "C-e") 'jj/org-end-of-line)
 (define-key org-mode-map (kbd "M-e") 'forward-sentence)
@@ -420,32 +421,32 @@
 
 (eval-after-load "latex"
   '(progn
-     (define-key LaTeX-mode-map (kbd "M-e") 'forward-sentence)
-     (define-key LaTeX-mode-map (kbd "M-a") 'backward-sentence)
-     (define-key LaTeX-mode-map (kbd "C-c ~") 'jj/TeX-command-run-all-auto-save)
-     (define-key LaTeX-mode-map (kbd "C-c b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "C-c B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "C-c M-b") 'jj/TeX-LaTeX-auctex-lualatex-compile-view)
-     (define-key LaTeX-mode-map (kbd "C-c s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "<escape> B") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "<escape> C-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "<escape> C-B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "<escape> s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
-     (define-key LaTeX-mode-map (kbd "C-c V") 'pdf-sync-forward-search)
-     (define-key LaTeX-mode-map (kbd "<escape> V") 'pdf-sync-forward-search)
-     (define-key LaTeX-mode-map (kbd "<escape> s-v") 'pdf-sync-forward-search)
-     (define-key LaTeX-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
-     ))
+	 (define-key LaTeX-mode-map (kbd "M-e") 'forward-sentence)
+	 (define-key LaTeX-mode-map (kbd "M-a") 'backward-sentence)
+	 (define-key LaTeX-mode-map (kbd "C-c ~") 'jj/TeX-command-run-all-auto-save)
+	 (define-key LaTeX-mode-map (kbd "C-c b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "C-c B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "C-c M-b") 'jj/TeX-LaTeX-auctex-lualatex-compile-view)
+	 (define-key LaTeX-mode-map (kbd "C-c s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "<escape> B") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "<escape> C-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "<escape> C-B") 'jj/TeX-LaTeX-auctex-xelatexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "<escape> s-b") 'jj/TeX-LaTeX-auctex-latexmk-compile-view)
+	 (define-key LaTeX-mode-map (kbd "C-c V") 'pdf-sync-forward-search)
+	 (define-key LaTeX-mode-map (kbd "<escape> V") 'pdf-sync-forward-search)
+	 (define-key LaTeX-mode-map (kbd "<escape> s-v") 'pdf-sync-forward-search)
+	 (define-key LaTeX-mode-map (kbd "C-c j") 'counsel-semantic-or-imenu)
+	 ))
 
 ;; Moved into orgtbl-mode-hook
 ;; (define-key org-mode-map (kbd S-TAB") 'org-table-previous-field)
 
 (add-hook 'orgtbl-mode-hook
 	  (lambda ()
-	    (define-key orgtbl-mode-map (kbd "S-TAB") 'org-table-previous-field)
-	    (define-key orgtbl-mode-map (kbd "M-C-n") 'org-table-next-field)
-	    (define-key orgtbl-mode-map (kbd "M-C-p") 'org-table-previous-field)
-	    ))
+		(define-key orgtbl-mode-map (kbd "S-TAB") 'org-table-previous-field)
+		(define-key orgtbl-mode-map (kbd "M-C-n") 'org-table-next-field)
+		(define-key orgtbl-mode-map (kbd "M-C-p") 'org-table-previous-field)
+		))
 
 					; First is Old binding if ; not set to return
 (global-set-key (kbd "C-;") 'dabbrev-expand)
@@ -588,101 +589,101 @@
 
 (eval-after-load "wdired"
   '(progn
-     (define-key wdired-mode-map (kbd "<escape> C-g") 'wdired-abort-changes)
-     ))
+	 (define-key wdired-mode-map (kbd "<escape> C-g") 'wdired-abort-changes)
+	 ))
 
 (define-prefix-command 'jj-flyspell-mode-map)
 (global-set-key (kbd "M-s f") 'jj-flyspell-mode-map)
 (eval-after-load "flyspell"
   '(progn
-     (define-key flyspell-mode-map (kbd "s-RET") 'dabbrev-expand)
-     ;; (define-key flyspell-mode-map (kbd "M-p") 'flyspell-auto-correct-previous-word)
-     (define-key flyspell-mode-map (kbd "C-.") 'flyspell-correct-previous-word-generic)
-     (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-auto-correct-previous-word)
-     (define-key flyspell-mode-map (kbd "M-s f a") 'jj/ispell-append-current-and-sort)
-     (define-key flyspell-mode-map (kbd "M-s f w") 'ispell-word)
-     (define-key flyspell-mode-map (kbd "M-s f i") 'ispell)
-     (define-key flyspell-mode-map (kbd "M-s f p") 'flyspell-auto-correct-previous-word)
-     (define-key flyspell-mode-map (kbd "M-s f f") 'flyspell-correct-previous-word)
-     ))
+	 (define-key flyspell-mode-map (kbd "s-RET") 'dabbrev-expand)
+	 ;; (define-key flyspell-mode-map (kbd "M-p") 'flyspell-auto-correct-previous-word)
+	 (define-key flyspell-mode-map (kbd "C-.") 'flyspell-correct-previous-word-generic)
+	 (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-auto-correct-previous-word)
+	 (define-key flyspell-mode-map (kbd "M-s f a") 'jj/ispell-append-current-and-sort)
+	 (define-key flyspell-mode-map (kbd "M-s f w") 'ispell-word)
+	 (define-key flyspell-mode-map (kbd "M-s f i") 'ispell)
+	 (define-key flyspell-mode-map (kbd "M-s f p") 'flyspell-auto-correct-previous-word)
+	 (define-key flyspell-mode-map (kbd "M-s f f") 'flyspell-correct-previous-word)
+	 ))
 
 ;; Archive-mode is arc-mode
 (eval-after-load "arc-mode"
   '(progn
-     (define-key archive-mode-map (kbd "U") 'archive-unmark-all-files)
-     (define-key archive-mode-map (kbd "<M-backspace>") 'archive-unmark-all-files)))
+	 (define-key archive-mode-map (kbd "U") 'archive-unmark-all-files)
+	 (define-key archive-mode-map (kbd "<M-backspace>") 'archive-unmark-all-files)))
 
 (eval-after-load "elpy"
   '(progn
-     (define-key elpy-mode-map (kbd "C-c C-c") 'elpy-shell-send-region-or-buffer)
-     (add-hook 'elpy-mode-hook
-	       (lambda ()
+	 (define-key elpy-mode-map (kbd "C-c C-c") 'elpy-shell-send-region-or-buffer)
+	 (add-hook 'elpy-mode-hook
+		   (lambda ()
 		 (define-key indent-rigidly-map (kbd "J")  'elpy-nav-indent-shift-left)
 		 (define-key indent-rigidly-map (kbd "K")  'elpy-nav-indent-shift-right)
 		 ))
-     ))
+	 ))
 
 (eval-after-load "dired+"
   '(progn
-     ;; Think this can be replaced with browse-url-of-dired-file
-     ;; (define-key dired-mode-map (kbd "z") 'browse-url-of-dired-file)
-     (define-key dired-mode-map (kbd "z")
-       (lambda () (interactive)
+	 ;; Think this can be replaced with browse-url-of-dired-file
+	 ;; (define-key dired-mode-map (kbd "z") 'browse-url-of-dired-file)
+	 (define-key dired-mode-map (kbd "z")
+	   (lambda () (interactive)
 	 (let ((fn (dired-get-file-for-visit)))
 	   (start-process "default-app" nil "open" fn))))
-     (define-key dired-mode-map (kbd "V")
-       (lambda () (interactive)
+	 (define-key dired-mode-map (kbd "V")
+	   (lambda () (interactive)
 	 (let ((fn (dired-get-file-for-visit)))
 	   (start-process "default-app" nil "open" "-g" fn))))
-     (define-key dired-mode-map (kbd "p") 'jj/dired-previous-line)
-     (define-key dired-mode-map (kbd "n") 'jj/dired-next-line)
-     (define-key dired-mode-map (kbd "C-p") 'jj/dired-previous-line)
-     (define-key dired-mode-map (kbd "C-n") 'jj/dired-next-line)
-     (define-key dired-mode-map (kbd "h z") 'diredp-compress-this-file)
-     (define-key dired-mode-map (kbd "h Z") 'jj/dired-do-compress-marked-files-to-zip)
-     (define-key dired-mode-map (kbd "C-c C-o") 'jj/show-in-path-finder)
-     (define-key dired-mode-map (kbd "P") 'dired-up-directory)
-     (define-key dired-mode-map (kbd "<M-backspace>") 'dired-unmark-all-files)
-     (define-key dired-mode-map (kbd "N") 'dired-view-file)
-     (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
-     (define-key dired-mode-map (kbd "[") 'jj/dired-go-up-directory-same-buffer)
-     (define-key dired-mode-map (kbd "]") 'dired-find-alternate-file)
-     (define-key dired-mode-map (kbd "RET") 'dired-advertised-find-file)
-     (define-key dired-mode-map (kbd "C-M-s-4") 'dired-kill-subdir)
-     (define-key dired-mode-map (kbd "'") 'jj/dired-kill-subdir)
-     (define-key dired-mode-map (kbd "\"") 'jj/dired-kill-tree)
-     (define-key dired-mode-map (kbd "_") 'jj/dired-rename-space-to-underscore)
-     (define-key dired-mode-map (kbd "-") 'scimax-dired-cycle-space-hyphen-underscore)
-     (define-key dired-mode-map (kbd "c") 'jj/dired-create-file)
-     (define-key dired-mode-map (kbd "K") 'jj/dired-kill-subdir-pop-mark)
-     (define-key dired-mode-map (kbd "e") 'jj/counsel-find-name-everything)
-     ;; if you are using ido,you'd better disable ido for dired
-     ;; (define-key (cdr ido-minor-mode-map-entry) [remap dired] nil) ;in ido-setup-hook
-     ;; Possibly change this to counsel-bookmark
-     (define-key dired-mode-map "b" 'counsel-bookmarked-directory)
-     (define-key dired-mode-map "B" 'counsel-bookmark)
-     (define-key dired-mode-map "<" 'dired)
-     (define-key dired-mode-map "\M-b" nil)
-     (define-key dired-mode-map "\C-\M-b" nil)
-     (define-key dired-mode-map (kbd "w") 'dired-ranger-copy)
-     (define-key dired-mode-map (kbd "W") 'dired-copy-filename-as-kill)
-     (define-key dired-mode-map (kbd "E") 'dired-ranger-move)
-     (define-key dired-mode-map (kbd "/ t") 'dired-filter-mode)
-     (define-key dired-mode-map (kbd "/ O") 'dired-filter-mode)
-     (define-key dired-mode-map (kbd "M") 'dired-ranger-move)
-     ;; Originally dired-do-chmod mapped to M
-     ;; (define-key dired-mode-map (kbd "M") 'dired-do-chmod)
-     (define-key dired-mode-map (kbd "Y") 'dired-ranger-paste)
-     (defvar dired-narrow-filter-map
-       (let ((map (make-sparse-keymap)))
+	 (define-key dired-mode-map (kbd "p") 'jj/dired-previous-line)
+	 (define-key dired-mode-map (kbd "n") 'jj/dired-next-line)
+	 (define-key dired-mode-map (kbd "C-p") 'jj/dired-previous-line)
+	 (define-key dired-mode-map (kbd "C-n") 'jj/dired-next-line)
+	 (define-key dired-mode-map (kbd "h z") 'diredp-compress-this-file)
+	 (define-key dired-mode-map (kbd "h Z") 'jj/dired-do-compress-marked-files-to-zip)
+	 (define-key dired-mode-map (kbd "C-c C-o") 'jj/show-in-path-finder)
+	 (define-key dired-mode-map (kbd "P") 'dired-up-directory)
+	 (define-key dired-mode-map (kbd "<M-backspace>") 'dired-unmark-all-files)
+	 (define-key dired-mode-map (kbd "N") 'dired-view-file)
+	 (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
+	 (define-key dired-mode-map (kbd "[") 'jj/dired-go-up-directory-same-buffer)
+	 (define-key dired-mode-map (kbd "]") 'dired-find-alternate-file)
+	 (define-key dired-mode-map (kbd "RET") 'dired-advertised-find-file)
+	 (define-key dired-mode-map (kbd "C-M-s-4") 'dired-kill-subdir)
+	 (define-key dired-mode-map (kbd "'") 'jj/dired-kill-subdir)
+	 (define-key dired-mode-map (kbd "\"") 'jj/dired-kill-tree)
+	 (define-key dired-mode-map (kbd "_") 'jj/dired-rename-space-to-underscore)
+	 (define-key dired-mode-map (kbd "-") 'scimax-dired-cycle-space-hyphen-underscore)
+	 (define-key dired-mode-map (kbd "c") 'jj/dired-create-file)
+	 (define-key dired-mode-map (kbd "K") 'jj/dired-kill-subdir-pop-mark)
+	 (define-key dired-mode-map (kbd "e") 'jj/counsel-find-name-everything)
+	 ;; if you are using ido,you'd better disable ido for dired
+	 ;; (define-key (cdr ido-minor-mode-map-entry) [remap dired] nil) ;in ido-setup-hook
+	 ;; Possibly change this to counsel-bookmark
+	 (define-key dired-mode-map "b" 'counsel-bookmarked-directory)
+	 (define-key dired-mode-map "B" 'counsel-bookmark)
+	 (define-key dired-mode-map "<" 'dired)
+	 (define-key dired-mode-map "\M-b" nil)
+	 (define-key dired-mode-map "\C-\M-b" nil)
+	 (define-key dired-mode-map (kbd "w") 'dired-ranger-copy)
+	 (define-key dired-mode-map (kbd "W") 'dired-copy-filename-as-kill)
+	 (define-key dired-mode-map (kbd "E") 'dired-ranger-move)
+	 (define-key dired-mode-map (kbd "/ t") 'dired-filter-mode)
+	 (define-key dired-mode-map (kbd "/ O") 'dired-filter-mode)
+	 (define-key dired-mode-map (kbd "M") 'dired-ranger-move)
+	 ;; Originally dired-do-chmod mapped to M
+	 ;; (define-key dired-mode-map (kbd "M") 'dired-do-chmod)
+	 (define-key dired-mode-map (kbd "Y") 'dired-ranger-paste)
+	 (defvar dired-narrow-filter-map
+	   (let ((map (make-sparse-keymap)))
 	 (define-key map "," 'dired-narrow)
 	 (define-key map "r" 'dired-narrow-regexp)
 	 (define-key map "f" 'dired-narrow-fuzzy)
 	 map)
-       "Keymap used for filtering files.")
-     (define-key dired-mode-map (kbd ",") dired-narrow-filter-map)
+	   "Keymap used for filtering files.")
+	 (define-key dired-mode-map (kbd ",") dired-narrow-filter-map)
 
-     ))
+	 ))
 ;; (define-key global-map "\C-xfg" 'find-grep-dired)
 ;; (define-key global-map "\C-xfn" 'find-name-dired)
 (define-key global-map "\C-xff" 'jj/counsel-find-name-everything)
@@ -766,9 +767,9 @@
 
 (eval-after-load "magit-mode"
   '(progn
-     (define-key magit-mode-map (kbd "Q") 'jj/magit-mode-kill-buffer)
-     (eval-after-load "magit-section"
-       '(progn
+	 (define-key magit-mode-map (kbd "Q") 'jj/magit-mode-kill-buffer)
+	 (eval-after-load "magit-section"
+	   '(progn
 	  (define-key magit-mode-map (kbd "M-1") nil)
 	  (define-key magit-mode-map (kbd "M-2") nil)
 	  (define-key magit-mode-map (kbd "M-3") nil)
@@ -798,36 +799,36 @@
 	  (define-key magit-mode-todos-simple-map "s" 'ivy-magit-todos)
 	  (define-key magit-mode-todos-simple-map "C-s" 'ivy-magit-todos)
 	  ))
-     (eval-after-load "magit-diff"
-       '(progn
+	 (eval-after-load "magit-diff"
+	   '(progn
 	  (define-key magit-diff-mode-map (kbd "C-o") 'magit-diff-visit-file-other-frame)
 	  (define-key magit-diff-mode-map (kbd "<s-return>") 'magit-diff-visit-file-other-window)
 	  ))))
 
 (eval-after-load "simple"
   '(progn
-     (bind-key "1" #'beginning-of-buffer messages-buffer-mode-map)
-     (bind-key "2" #'end-of-buffer messages-buffer-mode-map)
-     (bind-key "n" #'next-line messages-buffer-mode-map)
-     (bind-key "p" #'previous-line messages-buffer-mode-map)
-     (bind-key "i" #'evil-scroll-page-up  messages-buffer-mode-map)
-     (bind-key "k" #'evil-scroll-page-down  messages-buffer-mode-map)
-     ))
+	 (bind-key "1" #'beginning-of-buffer messages-buffer-mode-map)
+	 (bind-key "2" #'end-of-buffer messages-buffer-mode-map)
+	 (bind-key "n" #'next-line messages-buffer-mode-map)
+	 (bind-key "p" #'previous-line messages-buffer-mode-map)
+	 (bind-key "i" #'evil-scroll-page-up  messages-buffer-mode-map)
+	 (bind-key "k" #'evil-scroll-page-down  messages-buffer-mode-map)
+	 ))
 
 (eval-after-load "indent"
   '(progn
-     (global-set-key (kbd "C-M-]") 'indent-rigidly)
-     (global-set-key (kbd "M-|") 'indent-rigidly)
-     (define-key indent-rigidly-map (kbd "J")  'indent-rigidly-left-to-tab-stop)
-     (define-key indent-rigidly-map (kbd "K")  'indent-rigidly-right-to-tab-stop)
-     (define-key indent-rigidly-map (kbd "L")  'indent-rigidly-right)
-     (define-key indent-rigidly-map (kbd "H")  'indent-rigidly-left)
-     ))
+	 (global-set-key (kbd "C-M-]") 'indent-rigidly)
+	 (global-set-key (kbd "M-|") 'indent-rigidly)
+	 (define-key indent-rigidly-map (kbd "J")  'indent-rigidly-left-to-tab-stop)
+	 (define-key indent-rigidly-map (kbd "K")  'indent-rigidly-right-to-tab-stop)
+	 (define-key indent-rigidly-map (kbd "L")  'indent-rigidly-right)
+	 (define-key indent-rigidly-map (kbd "H")  'indent-rigidly-left)
+	 ))
 
 (eval-after-load "markdown-mode"
   '(progn
-     (define-key markdown-mode-command-map (kbd "i")  'jj/markdown-preview-impatient-mode-httpd-start)
-     (define-key markdown-mode-command-map (kbd "I")  'jj/markdown-preview-impatient-mode-httpd-stop)
-     (define-key markdown-mode-command-map (kbd "G")  'jj/grip-mode-disable)
-     (define-key markdown-mode-command-map (kbd "M-i")  'impatient-mode)
-     ))
+	 (define-key markdown-mode-command-map (kbd "i")  'jj/markdown-preview-impatient-mode-httpd-start)
+	 (define-key markdown-mode-command-map (kbd "I")  'jj/markdown-preview-impatient-mode-httpd-stop)
+	 (define-key markdown-mode-command-map (kbd "G")  'jj/grip-mode-disable)
+	 (define-key markdown-mode-command-map (kbd "M-i")  'impatient-mode)
+	 ))
