@@ -17,6 +17,7 @@
 (setq buffers-menu-max-size 20)
 (setq kill-whole-line t)
 (setq kill-read-only-ok t)
+(setq-default tab-width 4)
 (setq column-number-mode t)
 (setq ns-auto-hide-menu-bar t)
 (if (featurep 'scroll-bar) (toggle-scroll-bar -1))
@@ -121,11 +122,11 @@
 ;; couldn't figure out how to change lighter of emacs-lock-mode
 (eval-after-load 'whitespace-cleanup-mode
   '(progn
-     (defun whitespace-cleanup-mode-mode-line ()
-       "Return a string for mode-line.
+	 (defun whitespace-cleanup-mode-mode-line ()
+	   "Return a string for mode-line.
 Use '!' to signify that the buffer was not initially clean."
-       (concat " WS"
-	       (unless whitespace-cleanup-mode-initially-clean
+	   (concat " WS"
+		   (unless whitespace-cleanup-mode-initially-clean
 		 "!")))))
 
 (when (eq system-type 'darwin)
@@ -147,14 +148,14 @@ Use '!' to signify that the buffer was not initially clean."
 (ivy-set-actions
  'ivy-switch-buffer
  '(("k"
-    (lambda (x)
-      (jj/ivy-kill-buffer x)
-      (ivy--reset-state ivy-last))
-    "kill"
-    )))
+	(lambda (x)
+	  (jj/ivy-kill-buffer x)
+	  (ivy--reset-state ivy-last))
+	"kill"
+	)))
 
 (setq ivy-initial-inputs-alist
-      '((org-refile . "")
+	  '((org-refile . "")
 	(org-agenda-refile . "^")
 	(org-capture-refile . "^")
 	(counsel-M-x . "")
@@ -165,7 +166,7 @@ Use '!' to signify that the buffer was not initially clean."
 	(woman . "^")))
 
 (setq ivy-re-builders-alist
-      '((counsel-bookmark . ivy--regex-fuzzy)
+	  '((counsel-bookmark . ivy--regex-fuzzy)
 	(counsel-bookmarked-directory . ivy--regex-fuzzy)
 	(swiper      . ivy--regex-ignore-order)
 	(counsel-recentf      . ivy--regex-plus)
@@ -189,7 +190,7 @@ Use '!' to signify that the buffer was not initially clean."
 	(jj/counsel-find-name-everything      . ivy--regex-ignore-order)
 	(t      . ivy--regex-ignore-order)))
 (add-to-list 'ivy-sort-functions-alist
-	     '(read-file-name-internal . jj/ivy-sort-file-function))
+		 '(read-file-name-internal . jj/ivy-sort-file-function))
 ;; (add-to-list 'ivy-sort-functions-alist
 ;;              '(read-file-name-internal . jj/ivy-sort-file-by-mtime))
 
@@ -222,11 +223,11 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Turn on flycheck mode to validate json and add settings
 (eval-after-load "json-mode"
   '(progn
-     (add-hook 'json-mode-hook #'flycheck-mode)
-     (define-key json-mode-map "\C-c\C-n" (function flycheck-next-error))
-     (define-key json-mode-map "\C-cn" (function flycheck-previous-error))
-     (define-key json-mode-map "\C-c\C-l" (function flycheck-list-errors))
-     ))
+	 (add-hook 'json-mode-hook #'flycheck-mode)
+	 (define-key json-mode-map "\C-c\C-n" (function flycheck-next-error))
+	 (define-key json-mode-map "\C-cn" (function flycheck-previous-error))
+	 (define-key json-mode-map "\C-c\C-l" (function flycheck-list-errors))
+	 ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Diminish mode line settins and cyphejor mode-line settings
@@ -247,7 +248,7 @@ Use '!' to signify that the buffer was not initially clean."
 (eval-after-load "ws-butler" '(diminish 'ws-butler-mode " WB"))
 (eval-after-load "dtrt-indent" '(diminish 'dtrt-indent-mode ""))
 (add-hook 'dired-mode-hook (lambda ()
-			     (eval-after-load "dired-x" '(diminish 'dired-omit-mode " Om"))))
+				 (eval-after-load "dired-x" '(diminish 'dired-omit-mode " Om"))))
 (eval-after-load "dired-filter" '(diminish 'dired-filter-mode "Filt"))
 (eval-after-load "dired-narrow" '(diminish 'dired-narrow-mode "Nrw"))
 (eval-after-load "elpy" '(diminish 'elpy-mode " El"))
@@ -285,12 +286,17 @@ Use '!' to signify that the buffer was not initially clean."
 (cyphejor-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; HTML
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'html-mode-hook (lambda () (setq-local tab-width 2)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setenv "WORKON_HOME" (expand-file-name "~/anaconda/envs"))
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
+	  python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
@@ -315,24 +321,24 @@ Use '!' to signify that the buffer was not initially clean."
 (setq TeX-source-correlate-start-server nil)
 (eval-after-load "tex"
   '(progn
-     ;; adding command options -b before -g below will highlight the line number in skim
-     (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
-     (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
-     (add-to-list 'TeX-command-list
+	 ;; adding command options -b before -g below will highlight the line number in skim
+	 (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
+	 (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
+	 (add-to-list 'TeX-command-list
 		  '("Xelatexnonstop" "xelatex -no-pdf -synctex=1 -interaction=nonstopmode %s"
-		    TeX-run-command t t :help "Run xelatex"))
+			TeX-run-command t t :help "Run xelatex"))
 
-     (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-     (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -pdfxe -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
-     (add-to-list 'TeX-command-list
+	 (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+	 (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -pdfxe -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
+	 (add-to-list 'TeX-command-list
 		  '("Lualatexnonstop" "lualatex -synctex=1 -interaction=nonstopmode %s"
-		    TeX-run-command t t :help "Run xelatex"))
-     (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
-     (setq TeX-view-program-selection '((output-pdf "Skim")))
-     (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
-     (setq-default TeX-command-default "latexmk")
-     (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-     )
+			TeX-run-command t t :help "Run xelatex"))
+	 (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
+	 (setq TeX-view-program-selection '((output-pdf "Skim")))
+	 (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
+	 (setq-default TeX-command-default "latexmk")
+	 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+	 )
   )
 ;; Sample `latexmkrc` for OSX that copies the *.pdf file from the `/tmp` directory
 ;; to the working directory:
@@ -370,18 +376,18 @@ Use '!' to signify that the buffer was not initially clean."
 ;;   (add-hook hook (lambda ())))
 (add-hook 'text-mode-hook
 	  (lambda ()
-	    (visual-fill-column-mode)
-	    (setq visual-fill-column-width 91)
-	    (setq visual-fill-column-center-text t)))
+		(visual-fill-column-mode)
+		(setq visual-fill-column-width 91)
+		(setq visual-fill-column-center-text t)))
 (add-hook 'tex-mode-hook
 	  (lambda ()
-	    (setq visual-fill-column-width 94)))
+		(setq visual-fill-column-width 94)))
 (add-hook 'org-mode-hook
 	  (lambda ()
-	    (setq visual-fill-column-center-text nil)
-	    (setq visual-fill-column-width 108)
-	    ;; Turns off TODO, DONE, NEXT, and set local so doesn't override default value
-	    (setq-local hl-todo-keyword-faces '(("HOLD" . "#d0bf8f")  ("T0D0" . "#cc9393")
+		(setq visual-fill-column-center-text nil)
+		(setq visual-fill-column-width 108)
+		;; Turns off TODO, DONE, NEXT, and set local so doesn't override default value
+		(setq-local hl-todo-keyword-faces '(("HOLD" . "#d0bf8f")  ("T0D0" . "#cc9393")
 						("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
 						("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
 						("DONT" . "#5f7f5f") ("FAIL" . "#8c5353")
@@ -390,26 +396,26 @@ Use '!' to signify that the buffer was not initially clean."
 						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
 						("QQQ+" . "#cc9393")
 						))
-	    (hl-todo-mode)
-	    ))
+		(hl-todo-mode)
+		))
 (add-hook 'nxml-mode-hook
 	  (lambda ()
-	    (setq visual-fill-column-mode nil)
-	    (setq visual-fill-column-center-text nil)
-	    (setq visual-fill-column-width 108)
-	    ))
+		(setq visual-fill-column-mode nil)
+		(setq visual-fill-column-center-text nil)
+		(setq visual-fill-column-width 108)
+		))
 (add-hook 'table-lood-hook
 	  (lambda ()
-	    (setq visual-fill-column-mode nil)
-	    (setq visual-fill-column-center-text t)
-	    (setq visual-fill-column-width 200)
-	    ))
+		(setq visual-fill-column-mode nil)
+		(setq visual-fill-column-center-text t)
+		(setq visual-fill-column-width 200)
+		))
 (add-hook 'org-src-mode-hook
 	  (lambda ()
-	    (setq visual-fill-column-center-text t)
-	    (setq visual-fill-column-width 200)
-	    (setq visual-fill-column-mode nil)
-	    ))
+		(setq visual-fill-column-center-text t)
+		(setq visual-fill-column-width 200)
+		(setq visual-fill-column-mode nil)
+		))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hl-todo highlight todo mode settins
@@ -418,14 +424,14 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Sets for every buffer so can run hl-todo-occur even if hl-todo-mode not enabled
 (setq-default hl-todo--regexp "\\(\\<\\(HOLD\\|TODO\\|T0D0\\|NEXT\\|TOD0\\|TODOO\\|THEM\\|PROG\\|OKAY\\|DONT\\|FAIL\\|DONE\\|FINISHED\\|UNSURE\\|T000\\|NOTE\\|KLUDGE\\|HACK\\|TEMP\\|FIXME\\|XXX+\\|QQQ+\\)\\(?:\\>\\|\\>?\\)[-:*/~=#<>|\\?]*\\)")
 (setq-default hl-todo-keyword-faces '(("HOLD" . "#d0bf8f") ("TODO" . "#cc9393") ("T0D0" . "#cc9393")
-				      ("NEXT" . "#dca3a3") ("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
-				      ("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
-				      ("DONT" . "#5f7f5f") ("FAIL" . "#8c5353") ("DONE" . "#afd8af")
-				      ("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
-				      ("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
-				      ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
-				      ("QQQ+" . "#cc9393")
-				      ))
+					  ("NEXT" . "#dca3a3") ("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
+					  ("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
+					  ("DONT" . "#5f7f5f") ("FAIL" . "#8c5353") ("DONE" . "#afd8af")
+					  ("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
+					  ("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
+					  ("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
+					  ("QQQ+" . "#cc9393")
+					  ))
 ;; below uneccasry because hl-todo-mode is set by hl-todo-activate-in-modes
 ;; this defualts to (prog-mode text-mode) but not turned on in org-mode
 (global-hl-todo-mode)
@@ -439,9 +445,9 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Setup fonts and t
 (defface doom-fixme-tasks ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:foreground "#ff3300"))) "")
+	(t (:foreground "#ff3300"))) "")
 (setq doom/ivy-task-tags
-      '(("TODO"  . warning)
+	  '(("TODO"  . warning)
 	;; ("XXX"  . warning)
 	;; ("XXXX"  . warning)
 	;; ("QQQQ"  . warning)
@@ -474,22 +480,22 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Visible mark settings
 (defface visible-mark-active ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "magenta"))) "")
+	(t (:background "magenta"))) "")
 (defface visible-mark-light-purple ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "#7549EC"))) "")
+	(t (:background "#7549EC"))) "")
 (defface visible-mark-light-orange ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "#BF674A"))) "")
+	(t (:background "#BF674A"))) "")
 (defface visible-mark-dark-orange ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "#AE5041"))) "")
+	(t (:background "#AE5041"))) "")
 (defface visible-mark-magenta ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "#A445A7"))) "")
+	(t (:background "#A445A7"))) "")
 (defface visible-mark-dark-teal ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "#226E68"))) "")
+	(t (:background "#226E68"))) "")
 ;; looping below to set faces to certain attributes
 ;; (dolist (face  '(sml/line-number sml/numbers-separator sml/col-number))
 ;;   (set-face-attribute face nil
@@ -551,14 +557,14 @@ Use '!' to signify that the buffer was not initially clean."
 (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
 (add-hook 'dired-mode-hook
 	  (lambda ()
-	    (auto-revert-mode)
-	    (when (file-remote-p dired-directory)
-	      (setq-local dired-actual-switches "-a -F -Alh"))
-	    (dired-omit-caller)
-	    (dired-hide-details-mode)
-	    (dired-sort-toggle-or-edit)
-	    (when (get-buffer "saves-*")
-	      (progn
+		(auto-revert-mode)
+		(when (file-remote-p dired-directory)
+		  (setq-local dired-actual-switches "-a -F -Alh"))
+		(dired-omit-caller)
+		(dired-hide-details-mode)
+		(dired-sort-toggle-or-edit)
+		(when (get-buffer "saves-*")
+		  (progn
 		(with-current-buffer "saves-*"
 		  (interactive)
 		  (setq dired-omit-mode nil)
@@ -615,18 +621,18 @@ Use '!' to signify that the buffer was not initially clean."
 
 ;; https://www.emacswiki.org/emacs/BackupFiles
 (setq
- backup-inhibited nil	       ; enable backups
- backup-by-copying t	       ; don't clobber symlinks
- kept-new-versions 4	       ; keep 12 latest versions
- kept-old-versions 1	       ; don't bother with old versions
- delete-old-versions t	       ; don't ask about deleting old versions
+ backup-inhibited nil		   ; enable backups
+ backup-by-copying t		   ; don't clobber symlinks
+ kept-new-versions 4		   ; keep 12 latest versions
+ kept-old-versions 1		   ; don't bother with old versions
+ delete-old-versions t		   ; don't ask about deleting old versions
  delete-by-moving-to-trash t
- version-control t		     ; number backups
+ version-control t			 ; number backups
  vc-make-backup-files t) ; backup version controlled files
 ;; Later maybe update the backup functions above so the tramp files are stored into their own
 ;; per-session and per-save directories
 (add-to-list 'backup-directory-alist
-	     (cons tramp-file-name-regexp (expand-file-name "~/.emacs_backups/per-save")))
+		 (cons tramp-file-name-regexp (expand-file-name "~/.emacs_backups/per-save")))
 
 ;; Disabling backups can be targeted to just the su and sudo methods:
 ;; (setq backup-enable-predicate
@@ -663,11 +669,11 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;; N.B. backtick and comma allow evaluation of expression
 ;; when forming list
 (setq backup-directory-alist
-      `(("" . ,(expand-file-name "per-save" jj/backup-location))))
+	  `(("" . ,(expand-file-name "per-save" jj/backup-location))))
 
 ;; add trash dir if needed
 (if jj/backup-exclude-regexp
-    (add-to-list 'backup-directory-alist `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
+	(add-to-list 'backup-directory-alist `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
 
 ;; add to save hook
 (add-hook 'before-save-hook 'jj/backup-every-save)
@@ -677,10 +683,10 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;; Can also use the below to make it sensitive-minor mode
 ;; // -*-mode:org; mode:sensitive; fill-column:132-*-
 (setq auto-mode-alist
-      (append '(("\\.gpg$" . sensitive-mode)
+	  (append '(("\\.gpg$" . sensitive-mode)
 		;; ("\\.pdf$" . sensitive-mode)
 		)
-	      auto-mode-alist))
+		  auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto save settings
@@ -715,10 +721,10 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (eval-after-load 'dired '(jj/special-beginning-of-buffer dired
 			   (while (not (ignore-errors (dired-get-filename)))
-			     (dired-next-line 1))))
+				 (dired-next-line 1))))
 (jj/special-end-of-buffer dired
   (if (not (ignore-errors (dired-get-filename)))
-      (dired-previous-line 1)))
+	  (dired-previous-line 1)))
 (jj/special-beginning-of-buffer occur
   (occur-next 1))
 (jj/special-end-of-buffer occur
@@ -738,7 +744,7 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
   (bs-down 1))
 (jj/special-beginning-of-buffer recentf-dialog
   (when (re-search-forward "^  \\[" nil t)
-    (goto-char (match-beginning 0))))
+	(goto-char (match-beginning 0))))
 (jj/special-end-of-buffer recentf-dialog
   (re-search-backward "^  \\[" nil t))
 (jj/special-beginning-of-buffer ag
@@ -764,18 +770,18 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;; or if you use desktop-save-mode
 (add-hook 'after-change-major-mode-hook
 	  (lambda ()
-	    (when (and
+		(when (and
 		   buffer-file-name
 		   (not
-		    (file-name-extension
-		     buffer-file-name)))
-	      (setq file-name-mode-alist
-		    (cons
-		     (cons buffer-file-name major-mode)
-		     file-name-mode-alist))
-	      (setq auto-mode-alist
-		    (append auto-mode-alist
-			    (list (cons buffer-file-name major-mode)))))))
+			(file-name-extension
+			 buffer-file-name)))
+		  (setq file-name-mode-alist
+			(cons
+			 (cons buffer-file-name major-mode)
+			 file-name-mode-alist))
+		  (setq auto-mode-alist
+			(append auto-mode-alist
+				(list (cons buffer-file-name major-mode)))))))
 
 
 
@@ -787,7 +793,7 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (add-hook 'after-change-functions 'jj/buffer-change-hook)
 
 (setq openwith-associations
-      '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
+	  '(("\\.\\(?:mpe?g\\|avi\\|wmv\\|dmg\\|pkg\\|mat\\|mkv\\|xlsx\\|mp4\\|m4a\\|mp3\\|xls\\|doc\\|docx\\|ppt\\|pptx\\|wav\\|mov\\|psd\\)\\'" "open" (file))))
 ;; '(("\\.avi\\'" "open" (file))))
 (openwith-mode t)
 ;; dired won't ask unless file bigger than 100MB set to nil to completely get rid of
@@ -801,7 +807,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
   "If FILENAME matches `jj/ok-large-file-types', do not abort."
   (unless (string-match-p jj/ok-large-file-types (ad-get-arg 2))
-    ad-do-it))
+	ad-do-it))
 (ad-activate 'abort-if-file-too-large)
 
 ;; Directories sorted by folder first
@@ -824,21 +830,21 @@ even when the file is larger than `large-file-warning-threshold'.")
 (put 'dired-find-file-other-buffer 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq dired-guess-shell-alist-user
-      (list
-       '("\\.dvi\\'" "xdvi" )	; preview and printing
-       '("\\.mpe?g\\'\\|\\.avi\\'\\|\\.mkv\\'\\|\\.mp4\\'" "open -a NicePlayer")
-       '("\\.ogg\\'" "open -a Clementine")
-       '("\\.mp3\\'" "open -a Clementine")
-       '("\\.gif\\'" "open -a Preview")		; view gif pictures
-       '("\\.tif\\'" "open -a Preview")
-       '("\\.png\\'" "open -a Preview")		; xloadimage 4.1 doesn't grok PNG
-       '("\\.jpe?g\\'" "open -a Preview")
-       '("\\.fig\\'" "xfig")		; edit fig pictures
-       '("\\.out\\'" "xgraph")		; for plotting purposes.
-       '("\\.tex\\'" "latex" "tex")
-       '("\\.texi\\(nfo\\)?\\'" "makeinfo" "texi2dvi")
-       '("\\.pdf\\'" "open -a Preview")
-       ))
+	  (list
+	   '("\\.dvi\\'" "xdvi" )	; preview and printing
+	   '("\\.mpe?g\\'\\|\\.avi\\'\\|\\.mkv\\'\\|\\.mp4\\'" "open -a NicePlayer")
+	   '("\\.ogg\\'" "open -a Clementine")
+	   '("\\.mp3\\'" "open -a Clementine")
+	   '("\\.gif\\'" "open -a Preview")		; view gif pictures
+	   '("\\.tif\\'" "open -a Preview")
+	   '("\\.png\\'" "open -a Preview")		; xloadimage 4.1 doesn't grok PNG
+	   '("\\.jpe?g\\'" "open -a Preview")
+	   '("\\.fig\\'" "xfig")		; edit fig pictures
+	   '("\\.out\\'" "xgraph")		; for plotting purposes.
+	   '("\\.tex\\'" "latex" "tex")
+	   '("\\.texi\\(nfo\\)?\\'" "makeinfo" "texi2dvi")
+	   '("\\.pdf\\'" "open -a Preview")
+	   ))
 
 ;; Also placed in preload.el right now
 (setq emacs-lock-default-locking-mode 'kill)
@@ -852,10 +858,10 @@ even when the file is larger than `large-file-warning-threshold'.")
   (interactive)
   (let ((orig (current-buffer))
 	(filename (dired-get-filename)))
-    ad-do-it
-    (when (and (file-directory-p filename)
-	       (not (eq (current-buffer) orig)))
-      (kill-buffer orig))))
+	ad-do-it
+	(when (and (file-directory-p filename)
+		   (not (eq (current-buffer) orig)))
+	  (kill-buffer orig))))
 
 ;; (require 'savehist)
 ;; (add-to-list 'savehist-additional-variables 'helm-dired-history-variable)
@@ -890,7 +896,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-support-shift-select nil)
 (setq org-list-allow-alphabetical t)
 (setq org-list-demote-modify-bullet
-      '(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
+	  '(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
 (setq org-startup-indented t)
 ;; sets whether todo statistics are recursive for todo and checkboxes
 (setq org-hierarchical-todo-statistics t)
@@ -903,21 +909,21 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-export-with-sub-superscripts '{})
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
 (scimax-toggle-abbrevs 'scimax-weekday-abbreviations +1)
-(scimax-toggle-abbrevs 'scimax-chemical-formula-abbreviations 1)
+(scimax-toggle-abbrevs 'scimax-chemical-formula-abbreviations -1)
 (scimax-toggle-abbrevs 'scimax-misc-abbreviations 1)
-(scimax-toggle-abbrevs 'scimax-contraction-abbreviations 1)
+(scimax-toggle-abbrevs 'scimax-contraction-abbreviations +1)
 (setq scimax-autoformat-ordinals nil)
 (setq scimax-autoformat-fractions t)
 (setq scimax-autoformat-superscript nil)
-(setq scimax-autoformat-transposed-caps t)
-(setq scimax-autoformat-sentence-capitalization t)
+(setq scimax-autoformat-transposed-caps nil)
+(setq scimax-autoformat-sentence-capitalization nil)
 ;; ;; To turn them on all that time add the line below
 (add-hook 'org-mode-hook 'scimax-autoformat-mode)
 ;; deletes comments before export so paragraphs aren't split where comments are
 ;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
 
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "|" "DONE(d)")
+	  '((sequence "TODO(t)" "|" "DONE(d)")
 	(sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
 	(sequence "|" "CANCELED(c)")))
 
@@ -928,15 +934,15 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq reftex-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib")))
 ;; see org-ref for use of these variables
 (setq org-ref-bibliography-notes (expand-file-name "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib")
-      org-ref-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib"))
-      org-ref-pdf-directory (expand-file-name "~/Google-dr/Research/Papers/"))
+	  org-ref-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib"))
+	  org-ref-pdf-directory (expand-file-name "~/Google-dr/Research/Papers/"))
 ;; setup when start refiling notes
 ;; (setq org-refile-targets
 ;;       '(("gtd.org" :maxlevel . 1)
 ;;         ("done.org" :maxlevel . 1)))
 
 (setq org-refile-targets
-      '((nil :maxlevel . 1)
+	  '((nil :maxlevel . 1)
 	(org-agenda-files :maxlevel . 1)
 	("Machine_learning_notes.org" :maxlevel . 1)
 	("Job_notes.org" :maxlevel . 1)
@@ -956,24 +962,26 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-latex-packages-alist '(("margin=1in" "geometry" nil)))
 ;; adds new class defined below that can specify with #+LATEX_CLASS:
 (add-to-list 'org-latex-classes
-	     '("myarticle"
-	       "\\documentclass[letter,11pt]{article}
+		 '("myarticle"
+		   "\\documentclass[letter,11pt]{article}
 
 \\usepackage[utf8]{inputenc}
 \\usepackage{lmodern}
 \\usepackage[T1]{fontenc}
+\\usepackage[margin=1in]{geometry}
+\\usepackage{graphicx}
 
 \\usepackage{fixltx2e}
 
 \\newcommand\\foo{bar}
-	       [NO-DEFAULT-PACKAGES]
-	       [NO-PACKAGES]
-	       [EXTRA]"
-	       ("\\section{%s}" . "\\section*{%s}")
-	       ("\\subsection{%s}" . "\\subsection*{%s}")
-	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
-	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+		   [NO-DEFAULT-PACKAGES]
+		   [NO-PACKAGES]
+		   [EXTRA]"
+		   ("\\section{%s}" . "\\section*{%s}")
+		   ("\\subsection{%s}" . "\\subsection*{%s}")
+		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 ;; If export to "docx" then odt can't be in openwith associations or doesn't work
 (setq  org-odt-preferred-output-format "docx")
 ;; Used to setq certain org values to convert odt to docx
@@ -991,9 +999,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Fix error that async might cause issues
 (setq ob-async-no-async-languages-alist '("jupyter-python" "jupyter-julia"))
 (setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
-						    (:session . "jl")))
+							(:session . "jl")))
 (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
-						     (:session . "py")))
+							 (:session . "py")))
 ;; HACK: Append reset scimax bindings to end of org-mode hook so runs last
 (add-hook 'org-mode-hook 'jj/org-ob-babel-reset-scimax-bindings 90)
 
@@ -1009,14 +1017,14 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (setq user-full-name "Jeff Spencer"
 					; andrewid "jeffspencerd"
-      user-mail-address "jeffspencerd@gmail.com"
-      ;; specify how email is sent
+	  user-mail-address "jeffspencerd@gmail.com"
+	  ;; specify how email is sent
 					; send-mail-function 'smtpmail-send-it
-      ;; used in message mode
+	  ;; used in message mode
 					; message-send-mail-function 'smtpmail-send-it
 					; smtpmail-smtp-server "smtp.gmail.com"
 					; smtpmail-smtp-service 587
-      )
+	  )
 
 (when (and (daemonp) (locate-library "edit-server"))
   (require 'edit-server)
@@ -1033,9 +1041,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Turn off the bell for the listed functions.
 ;; (setq ring-bell-function 'ignore)
 (setq ring-bell-function
-      (lambda ()
+	  (lambda ()
 	(unless (memq this-command
-		      '(isearch-abort
+			  '(isearch-abort
 			minibuffer-keyboard-quit
 			abort-recursive-edit
 			exit-minibuffer
@@ -1072,7 +1080,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq ispell-dictionary "american")
 ;; TODO: Need two files because headers are different (can rewrite header depending on loaded program)
 (if (equal ispell-program-name (executable-find "aspell"))
-    (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/aspell_personal.pws"))
+	(setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/aspell_personal.pws"))
   (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/hunspell_personal.dic")))
 
 
@@ -1090,20 +1098,20 @@ even when the file is larger than `large-file-warning-threshold'.")
   "Should I save the desktop when Emacs is shutting down?")
 (add-hook 'desktop-after-read-hook
 	  (lambda () (setq jj/desktop-save-if-all-buffers-read t)
-	    (jj/lock-my-dired-emacs-buffers)))
+		(jj/lock-my-dired-emacs-buffers)))
 (advice-add 'desktop-save :around
-	    (lambda (fn &rest args)
-	      (if (bound-and-true-p jj/desktop-save-if-all-buffers-read)
+		(lambda (fn &rest args)
+		  (if (bound-and-true-p jj/desktop-save-if-all-buffers-read)
 		  (apply fn args))))
 ;; if default-desktop-file doesn't exist set above to true so allows saving
 (add-hook 'desktop-no-desktop-file-hook
 	  (lambda () (setq jj/desktop-save-if-all-buffers-read t)))
 
 (setq desktop-buffers-not-to-save
-      (concat "\\("
-	      "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-	      "\\)$"))
+	  (concat "\\("
+		  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+		  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+		  "\\)$"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Peep dired settings
@@ -1138,9 +1146,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Alternative input methods for Korean hangul
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq alternative-input-methods
-      '(("korean-hangul" . [?\M-\s-\\])))
+	  '(("korean-hangul" . [?\M-\s-\\])))
 (setq default-input-method
-      (caar alternative-input-methods))
+	  (caar alternative-input-methods))
 (reload-alternative-input-methods)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1161,26 +1169,26 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    ;; allows proper loading so doesn't overwrite the recentf file with no entries
-	    (recentf-mode 1)
-	    ;; load after recentf-mode since storing recentf-list in savehist variable
-	    (savehist-mode 1)
-	    (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file)))
+		;; allows proper loading so doesn't overwrite the recentf file with no entries
+		(recentf-mode 1)
+		;; load after recentf-mode since storing recentf-list in savehist variable
+		(savehist-mode 1)
+		(setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file)))
 	  90)
 ;; needs to be added to hook after (recentf-mode 1) so loaded first
 ;; if not writing to recentf, might not work properly
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    ;; so loaded after all settings because appears to mess up things if loaded before
-	    (require 'dired+)
-	    ;; (interactive)
-	    (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
+		;; so loaded after all settings because appears to mess up things if loaded before
+		(require 'dired+)
+		;; (interactive)
+		(cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
 		   (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
 		   (setq jj/desktop-save-if-all-buffers-read t)
 		   (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
 		  (t (when (not (daemonp))
-		       (desktop-save-mode)
-		       (desktop-read)))))
+			   (desktop-save-mode)
+			   (desktop-read)))))
 	  -90)
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 ;; Run an edit server in the running emacs
