@@ -4602,7 +4602,7 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (ws-butler-mode 0)
   (whitespace-cleanup))
 
-(defalias 'jj/whitespace-cleanup 'jj/ws-butler-mode-off-whitespace-cleanup)
+(defalias 'jj/ws-butler-mode-off-whitespace-cleanup 'jj/whitespace-cleanup)
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
