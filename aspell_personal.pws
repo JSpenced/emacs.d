@@ -1,4 +1,4 @@
-personal_ws-1.1 en 107
+personal_ws-1.1 en 110 
 CNNs
 Cholesky
 Cython
@@ -46,6 +46,9 @@ generalizable
 hashmap
 homoscedasticity
 hyperplane
+importances
+interpretability
+interpretable
 iterable
 iteratively
 kurtosis
