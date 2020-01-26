@@ -76,39 +76,39 @@
 	 ("l" . jj/ibuffer-jump-to-last-buffer))
   :config
   (defun jj/ibuffer-jump-to-last-buffer ()
-    (interactive)
-    (ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
+	(interactive)
+	(ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
   )
 
 (use-package ibuffer-vc
   :bind (:map ibuffer-h-prefix-map
-	      ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
-	      ("V" . jj/ibuffer-vc-refresh-state))
+		  ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
+		  ("V" . jj/ibuffer-vc-refresh-state))
   :config
   (defun jj/vc-refresh-state-all-buffers ()
-    "Refresh all vc buffer statuses by calling `vc-refresh-state` on each one if it has an associated vc backend. Uses functions from `ibuffer-vc`, so decouple these functions if you need to use this without loading ibuffer-vc."
-    (interactive)
-    (dolist (buf (buffer-list))
-      (let ((file-name (with-current-buffer buf
+	"Refresh all vc buffer statuses by calling `vc-refresh-state` on each one if it has an associated vc backend. Uses functions from `ibuffer-vc`, so decouple these functions if you need to use this without loading ibuffer-vc."
+	(interactive)
+	(dolist (buf (buffer-list))
+	  (let ((file-name (with-current-buffer buf
 			 (file-truename (or buffer-file-name
-					    default-directory)))))
+						default-directory)))))
 	(when (ibuffer-vc--include-file-p file-name)
 	  (let ((backend (ibuffer-vc--deduce-backend file-name)))
-	    (when backend
-	      (with-current-buffer buf (vc-refresh-state))
-	      ))))))
+		(when backend
+		  (with-current-buffer buf (vc-refresh-state))
+		  ))))))
 
   (defun jj/ibuffer-vc-refresh-state ()
-    "Refresh all vc buffer statuses and redisplay to update the current status in ibuffer."
-    (interactive)
-    (jj/vc-refresh-state-all-buffers)
-    (ibuffer-redisplay))
+	"Refresh all vc buffer statuses and redisplay to update the current status in ibuffer."
+	(interactive)
+	(jj/vc-refresh-state-all-buffers)
+	(ibuffer-redisplay))
 
   (defun jj/ibuffer-vc-set-filter-groups-by-vc-root ()
-    "First run `ibuffer-vc-set-filter-groups-by-vc-root` and then `jj/ibuffer-jump-to-last-buffer`."
-    (interactive)
-    (ibuffer-vc-set-filter-groups-by-vc-root)
-    (jj/ibuffer-jump-to-last-buffer))
+	"First run `ibuffer-vc-set-filter-groups-by-vc-root` and then `jj/ibuffer-jump-to-last-buffer`."
+	(interactive)
+	(ibuffer-vc-set-filter-groups-by-vc-root)
+	(jj/ibuffer-jump-to-last-buffer))
 
   (add-hook 'ibuffer-mode-hook 'jj/ibuffer-vc-refresh-state)
   )
@@ -153,67 +153,67 @@
   :config
 
   (defun xah-lookup-word-thesaurus-eww (&optional @word)
-    "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 Version 2017-02-09"
-    (interactive)
-    (xah-lookup-word-on-internet
-     @word
-     (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
-     (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
-    ;;
-    )
+	(interactive)
+	(xah-lookup-word-on-internet
+	 @word
+	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
+	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
+	;;
+	)
   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
   (defun xah-lookup-word-thesaurus (&optional @word)
-    "Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 Version 2017-02-09"
-    (interactive)
-    (xah-lookup-word-on-internet
-     @word
-     (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
-     (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
-    ;;
-    )
+	(interactive)
+	(xah-lookup-word-on-internet
+	 @word
+	 (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
+	 (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
+	;;
+	)
   (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
   (put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
   (defun xah-lookup-word-definition-eww (&optional @word)
-    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 Version 2017-02-09"
-    (interactive)
-    (xah-lookup-word-on-internet
-     @word
-     (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
-     (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
-    ;;
-    )
+	(interactive)
+	(xah-lookup-word-on-internet
+	 @word
+	 (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
+	 (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
+	;;
+	)
   (put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
   (put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
 
   (defun xah-lookup-power-thesaurus-eww (&optional @word)
-    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 Version 2017-02-09"
-    (interactive)
-    (xah-lookup-word-on-internet
-     @word
-     (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
-     (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
-    ;;
-    )
+	(interactive)
+	(xah-lookup-word-on-internet
+	 @word
+	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
+	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
+	;;
+	)
   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
   (defun xah-lookup-power-thesaurus (&optional @word)
-    "Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 Version 2017-02-09"
-    (interactive)
-    (xah-lookup-word-on-internet
-     @word
-     (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
-     (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
-    ;;
-    )
+	(interactive)
+	(xah-lookup-word-on-internet
+	 @word
+	 (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
+	 (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
+	;;
+	)
   (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
   (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
   )
@@ -241,33 +241,33 @@ Version 2017-02-09"
   ;; turn off cua so copy works
   ;; turn on pdf-view-auto-slice-minor-mode so runs s b automatically
   (add-hook 'pdf-view-mode-hook
-	    (lambda () (cua-mode 0)
-	      (pdf-view-auto-slice-minor-mode)))
+		(lambda () (cua-mode 0)
+		  (pdf-view-auto-slice-minor-mode)))
   ;; more fine-grained zooming
   (setq pdf-view-resize-factor 1.1)
 
   (defvar jj/pdftools-selected-pages '())
 
   (defun jj/pdftools-select-page ()
-    "Add current page to list of selected pages."
-    (interactive)
-    (add-to-list 'jj/pdftools-selected-pages (pdf-view-current-page) t))
+	"Add current page to list of selected pages."
+	(interactive)
+	(add-to-list 'jj/pdftools-selected-pages (pdf-view-current-page) t))
 
   (defun jj/pdftools-unselect-page ()
-    "Add current page to list of selected pages."
-    (interactive)
-    (setq jj/pdftools-selected-pages (delete (pdf-view-current-page)  jj/pdftools-selected-pages)))
+	"Add current page to list of selected pages."
+	(interactive)
+	(setq jj/pdftools-selected-pages (delete (pdf-view-current-page)  jj/pdftools-selected-pages)))
 
   (defun jj/pdftools-extract-selected-pages (file)
-    "Save selected pages to FILE."
-    (interactive "FSave as: ")
-    (setq jj/pdftools-selected-pages (sort jj/pdftools-selected-pages #'<))
-    (start-process "pdfjam" "*pdfjam*"
+	"Save selected pages to FILE."
+	(interactive "FSave as: ")
+	(setq jj/pdftools-selected-pages (sort jj/pdftools-selected-pages #'<))
+	(start-process "pdfjam" "*pdfjam*"
 		   "pdfjam"
 		   (buffer-file-name)
 		   (mapconcat #'number-to-string
-			      jj/pdftools-selected-pages
-			      ",")
+				  jj/pdftools-selected-pages
+				  ",")
 		   "-o"
 		   (expand-file-name file)))
 
@@ -371,18 +371,18 @@ Version 2017-02-09"
 
 
   (defun jj/chronos-shell-notify (c)
-    "Notify expiration of timer C by running a shell command."
-    ;; NOTE: for alarm.wav to work has to be copied to /System/Library/sounds
-    (if (eq system-type 'darwin)
+	"Notify expiration of timer C by running a shell command."
+	;; NOTE: for alarm.wav to work has to be copied to /System/Library/sounds
+	(if (eq system-type 'darwin)
 	(chronos--shell-command "Chronos shell notification for Mac OS X"
 				"/usr/local/bin/terminal-notifier"
 				(list "-ignoreDnD" "-sound" "alarm.wav" "-title" "Chronos Timer" "-message" (chronos--message c))
 				)
-      (chronos--shell-command "Chronos shell notification for Linux & Windows"
-			      "notify-send"
-			      (list "-t" "3600000" "Chronos Timer" (chronos--message c))))
-    ;; 24*60*60*1000 = 86400000  60*60*1000 = 3600000
-    )
+	  (chronos--shell-command "Chronos shell notification for Linux & Windows"
+				  "notify-send"
+				  (list "-t" "3600000" "Chronos Timer" (chronos--message c))))
+	;; 24*60*60*1000 = 86400000  60*60*1000 = 3600000
+	)
 
   (setq
    ;; chronos-shell-notify-program "mpg123"
@@ -391,10 +391,10 @@ Version 2017-02-09"
    ;; chronos-shell-notify-parameters '("-t" "0" "Сработал таймер")
    chronos-notification-wav (expand-file-name "~/Programs/scimax/user/sounds/techno.wav")
    chronos-expiry-functions '(chronos-buffer-notify
-			      jj/chronos-shell-notify
-			      chronos-message-notify
-			      ;; chronos-sound-notify
-			      ))
+				  jj/chronos-shell-notify
+				  chronos-message-notify
+				  ;; chronos-sound-notify
+				  ))
   (use-package helm-chronos)
   ;; hack for manual addons. helm updates?
   (setq helm-chronos--fallback-source
@@ -412,9 +412,9 @@ Version 2017-02-09"
   ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
   (global-set-key (kbd "s-t") 'helm-chronos-add-timer)
   (defun jj/helm-chronos-add-timer-switch-to-chronos ()
-    (interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*"))
+	(interactive)(helm-chronos-add-timer)(switch-to-buffer "*chronos*"))
   (defun jj/switch-to-chronos ()
-    (interactive)(switch-to-buffer "*chronos*"))
+	(interactive)(switch-to-buffer "*chronos*"))
   (global-set-key (kbd "s-p s-T") 'jj/helm-chronos-add-timer-switch-to-chronos)
   ;; Don't use helm if I don't want the timer stored
   (global-set-key (kbd "s-p t") 'chronos-add-timer)
@@ -432,7 +432,7 @@ Version 2017-02-09"
 (use-package grip-mode
   :ensure t
   :bind (:map markdown-mode-command-map
-	      ("g" . grip-mode)))
+		  ("g" . grip-mode)))
 
 (use-package wgrep
   :custom
@@ -472,19 +472,19 @@ Version 2017-02-09"
 
 (defun toggle-alternative-input-method (method &optional arg interactive)
   (if arg
-      (toggle-input-method arg interactive)
-    (let ((previous-input-method current-input-method))
-      (when current-input-method
+	  (toggle-input-method arg interactive)
+	(let ((previous-input-method current-input-method))
+	  (when current-input-method
 	(deactivate-input-method))
-      (unless (and previous-input-method
+	  (unless (and previous-input-method
 		   (string= previous-input-method method))
 	(activate-input-method method)))))
 
 (defun reload-alternative-input-methods ()
   (dolist (config alternative-input-methods)
-    (let ((method (car config)))
-      (global-set-key (cdr config)
-		      `(lambda (&optional arg interactive)
+	(let ((method (car config)))
+	  (global-set-key (cdr config)
+			  `(lambda (&optional arg interactive)
 			 ,(concat "Behaves similar to `toggle-input-method', but uses \""
 				  method "\" instead of `default-input-method'")
 			 (interactive "P\np")
@@ -506,8 +506,8 @@ Version 2017-02-09"
   (interactive)
   ;; (swiper (format "\\<%s\\>" (thing-at-point 'word))))
   (if (use-region-p)
-      (swiper (format "%s" (buffer-substring (region-beginning) (region-end))))
-    (swiper)))
+	  (swiper (format "%s" (buffer-substring (region-beginning) (region-end))))
+	(swiper)))
 
 (defun jj/counsel-grep-or-swiper-symbol-at-point ()
   "Get the current symbol at point all buffers"
@@ -524,42 +524,42 @@ Version 2017-02-09"
   (interactive)
   ;; (swiper (format "\\<%s\\>" (thing-at-point 'word))))
   (if (use-region-p)
-      (counsel-grep-or-swiper (format "%s" (buffer-substring (region-beginning) (region-end))))
-    (swiper)))
+	  (counsel-grep-or-swiper (format "%s" (buffer-substring (region-beginning) (region-end))))
+	(swiper)))
 (defun jj/counsel-find-name-everything ()
   "list everything recursively"
   (interactive)
   (let* ((cands (split-string
 		 (shell-command-to-string "find .") "\n" t)))
-    (ivy-read "File: " cands
-	      :action #'find-file
-	      :caller 'jj/counsel-find-name-everything)))
+	(ivy-read "File: " cands
+		  :action #'find-file
+		  :caller 'jj/counsel-find-name-everything)))
 
 (defun jj/make-current-mark-region-active ()
   "Make the current mark region active"
   (interactive)
-    (exchange-point-and-mark)
-      (exchange-point-and-mark))
+	(exchange-point-and-mark)
+	  (exchange-point-and-mark))
 
 (defun jj/duplicate-line-or-region (&optional n)
   "Duplicate current line, or region if active.
-    With argument N, make N copies.
-    With negative N, comment out original line and use the absolute value."
+	With argument N, make N copies.
+	With negative N, comment out original line and use the absolute value."
   (interactive "*p")
   (let ((use-region (use-region-p)))
-    (save-excursion
-      (let ((text (if use-region        ;Get region if active, otherwise line
-		      (buffer-substring (region-beginning) (region-end))
-		    (prog1 (thing-at-point 'line)
-		      (end-of-line)
-		      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+	(save-excursion
+	  (let ((text (if use-region        ;Get region if active, otherwise line
+			  (buffer-substring (region-beginning) (region-end))
+			(prog1 (thing-at-point 'line)
+			  (end-of-line)
+			  (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
 			  (newline))))))
 	(dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
 	  (insert text))))
-    (if use-region nil                  ;Only if we're working with a line (not a region)
-      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+	(if use-region nil                  ;Only if we're working with a line (not a region)
+	  (let ((pos (- (point) (line-beginning-position)))) ;Save column
 	(if (> 0 n)                             ;Comment out original with negative arg
-	    (comment-region (line-beginning-position) (line-end-position)))
+		(comment-region (line-beginning-position) (line-end-position)))
 	(forward-line 1)
 	(forward-char pos)))))
 
@@ -574,14 +574,14 @@ Version 2017-02-09"
   "duplicate current line, make more than 1 copy given a numeric argument"
   (interactive "p")
   (save-excursion
-    (let ((nb (or n 1))
+	(let ((nb (or n 1))
 	  (current-line (thing-at-point 'line)))
-      ;; when on last line, insert a newline first
-      (when (or (= 1 (forward-line 1)) (eq (point) (point-max)))
+	  ;; when on last line, insert a newline first
+	  (when (or (= 1 (forward-line 1)) (eq (point) (point-max)))
 	(insert "\n"))
 
-      ;; now insert as many time as requested
-      (while (> n 0)
+	  ;; now insert as many time as requested
+	  (while (> n 0)
 	(insert current-line)
 	(decf n)))))
 
@@ -602,12 +602,12 @@ we're typing a directory name, kill forward until the next
 /. Otherwise, `kill-sexp'"
   (interactive "p")
   (if (< p 0)
-      (jj/delete-backward-sexp-or-dir (- p))
-    (let ((r (point)))
-      (if (and (or (in-string-p)
+	  (jj/delete-backward-sexp-or-dir (- p))
+	(let ((r (point)))
+	  (if (and (or (in-string-p)
 		   (minibuffer-window-active-p
-		    (selected-window)))
-	       (looking-at "[^[:blank:]\n\r]*[/\\\\]"))
+			(selected-window)))
+		   (looking-at "[^[:blank:]\n\r]*[/\\\\]"))
 	  (progn (search-forward-regexp
 		  "[/\\\\]" nil nil p)
 		 (delete-region r (point)))
@@ -617,14 +617,14 @@ we're typing a directory name, kill forward until the next
   "Kill backwards sexp or directory."
   (interactive "p")
   (if (< p 0)
-      (jj/delete-forward-sexp-or-dir (- p))
-    (let ((r (point))
+	  (jj/delete-forward-sexp-or-dir (- p))
+	(let ((r (point))
 	  (l (save-excursion
-	       (point))))
-      (if (and (or (in-string-p)
+		   (point))))
+	  (if (and (or (in-string-p)
 		   (minibuffer-window-active-p
-		    (selected-window)))
-	       (looking-back "[/\\\\][^[:blank:]\n\r]*"))
+			(selected-window)))
+		   (looking-back "[/\\\\][^[:blank:]\n\r]*"))
 	  (progn (backward-char)
 		 (search-backward-regexp
 		  "[/\\\\]" (point-min) nil p)
@@ -639,12 +639,12 @@ we're typing a directory name, kill forward until the next
 /. Otherwise, `kill-sexp'"
   (interactive "p")
   (if (< p 0)
-      (jj/backward-kill-sexp-or-dir (- p))
-    (let ((r (point)))
-      (if (and (or (in-string-p)
+	  (jj/backward-kill-sexp-or-dir (- p))
+	(let ((r (point)))
+	  (if (and (or (in-string-p)
 		   (minibuffer-window-active-p
-		    (selected-window)))
-	       (looking-at "[^[:blank:]\n\r]*[/\\\\]"))
+			(selected-window)))
+		   (looking-at "[^[:blank:]\n\r]*[/\\\\]"))
 	  (progn (search-forward-regexp
 		  "[/\\\\]" nil nil p)
 		 (kill-region r (point)))
@@ -654,14 +654,14 @@ we're typing a directory name, kill forward until the next
   "Kill backwards sexp or directory."
   (interactive "p")
   (if (< p 0)
-      (jj/forward-kill-sexp-or-dir (- p))
-    (let ((r (point))
+	  (jj/forward-kill-sexp-or-dir (- p))
+	(let ((r (point))
 	  (l (save-excursion
-	       (point))))
-      (if (and (or (in-string-p)
+		   (point))))
+	  (if (and (or (in-string-p)
 		   (minibuffer-window-active-p
-		    (selected-window)))
-	       (looking-back "[/\\\\][^[:blank:]\n\r]*"))
+			(selected-window)))
+		   (looking-back "[/\\\\][^[:blank:]\n\r]*"))
 	  (progn (backward-char)
 		 (search-backward-regexp
 		  "[/\\\\]" (point-min) nil p)
@@ -683,8 +683,8 @@ Negative arg -N means kill N sexps before point.
 This command assumes point is not in a string or comment."
   (interactive "p")
   (let ((opoint (point)))
-    (forward-sexp (or arg 1))
-    (delete-region opoint (point))))
+	(forward-sexp (or arg 1))
+	(delete-region opoint (point))))
 
 (defun jj/delete-backward-sexp (&optional arg)
   "Kill the sexp (balanced expression) preceding point.
@@ -702,8 +702,8 @@ This command does not push text to `kill-ring'."
   (delete-region
    (point)
    (progn
-     (forward-word arg)
-     (point))))
+	 (forward-word arg)
+	 (point))))
 
 (defun jj/delete-backward-word (arg)
   "Delete characters backward until encountering the beginning of a word.
@@ -759,28 +759,28 @@ you can use this command to copy text from a read-only buffer.
 even beep.)"
   (interactive "P")
   (kill-region (point)
-	       ;; It is better to move point to the other end of the kill
-	       ;; before killing.  That way, in a read-only buffer, point
-	       ;; moves across the text that is copied to the kill ring.
-	       ;; The choice has no effect on undo now that undo records
-	       ;; the value of point from before the command was run.
-	       (progn
+		   ;; It is better to move point to the other end of the kill
+		   ;; before killing.  That way, in a read-only buffer, point
+		   ;; moves across the text that is copied to the kill ring.
+		   ;; The choice has no effect on undo now that undo records
+		   ;; the value of point from before the command was run.
+		   (progn
 		 (if arg
-		     (forward-visible-line (prefix-numeric-value arg))
+			 (forward-visible-line (prefix-numeric-value arg))
 		   (if (eobp)
-		       (signal 'end-of-buffer nil))
+			   (signal 'end-of-buffer nil))
 		   (let ((end
 			  (save-excursion
-			    (end-of-visible-line) (point))))
-		     (if (or (save-excursion
-			       ;; If trailing whitespace is visible,
-			       ;; don't treat it as nothing.
-			       (unless show-trailing-whitespace
+				(end-of-visible-line) (point))))
+			 (if (or (save-excursion
+				   ;; If trailing whitespace is visible,
+				   ;; don't treat it as nothing.
+				   (unless show-trailing-whitespace
 				 (skip-chars-forward " \t" end))
-			       (= (point) end))
-			     (and kill-whole-line (bolp)))
+				   (= (point) end))
+				 (and kill-whole-line (bolp)))
 			 (forward-visible-line 1)
-		       (goto-char end))))
+			   (goto-char end))))
 		 (point))))
 
 (defun jj/kill-line-save (&optional arg)
@@ -821,19 +821,19 @@ even beep.)"
 						;; the value of point from before the command was run.
 						(progn
 						  (if arg
-						      (forward-visible-line (prefix-numeric-value arg))
-						    (if (eobp)
+							  (forward-visible-line (prefix-numeric-value arg))
+							(if (eobp)
 							(signal 'end-of-buffer nil))
-						    (let ((end
+							(let ((end
 							   (save-excursion
-							     (end-of-visible-line) (point))))
-						      (if (or (save-excursion
+								 (end-of-visible-line) (point))))
+							  (if (or (save-excursion
 								;; If trailing whitespace is visible,
 								;; don't treat it as nothing.
 								(unless show-trailing-whitespace
 								  (skip-chars-forward " \t" end))
 								(= (point) end))
-							      (and kill-whole-line (bolp)))
+								  (and kill-whole-line (bolp)))
 							  (forward-visible-line 1)
 							(goto-char end))))
 						  (point)))))
@@ -856,37 +856,37 @@ even beep.)"
 When `universal-argument' is called first, copy whole buffer (but respect `narrow-to-region')."
   (interactive)
   (let (p1 p2)
-    (if (null current-prefix-arg)
+	(if (null current-prefix-arg)
 	(progn (if (use-region-p)
 		   (progn (setq p1 (region-beginning))
 			  (setq p2 (region-end)))
 		 (progn (setq p1 (line-beginning-position))
 			(setq p2 (line-end-position)))))
-      (progn (setq p1 (point-min))
-	     (setq p2 (point-max))))
-    (kill-ring-save p1 p2)))
+	  (progn (setq p1 (point-min))
+		 (setq p2 (point-max))))
+	(kill-ring-save p1 p2)))
 
 (defun jj/cut-line-or-region ()
   "Cut current line, or text selection.
 When `universal-argument' is called first, cut whole buffer (but respect `narrow-to-region')."
   (interactive)
   (let (p1 p2)
-    (if (null current-prefix-arg)
+	(if (null current-prefix-arg)
 	(progn (if (use-region-p)
 		   (progn (setq p1 (region-beginning))
 			  (setq p2 (region-end)))
 		 (progn (setq p1 (line-beginning-position))
 			(setq p2 (line-beginning-position 2)))))
-      (progn (setq p1 (point-min))
-	     (setq p2 (point-max))))
-    (kill-region p1 p2)))
+	  (progn (setq p1 (point-min))
+		 (setq p2 (point-max))))
+	(kill-region p1 p2)))
 
 (defun jj/multi-pop-to-mark (orig-fun &rest args)
   "Call ORIG-FUN until the cursor moves.
 Try the repeated popping up to 10 times."
   (let ((p (point)))
-    (dotimes (i 10)
-      (when (= p (point))
+	(dotimes (i 10)
+	  (when (= p (point))
 	(apply orig-fun args)))))
 
 (defun jj/uncomment-sexp (&optional n)
@@ -898,66 +898,66 @@ Try the repeated popping up to 10 times."
 	 (end (save-excursion
 		(when (elt (syntax-ppss) 4)
 		  (re-search-backward comment-start-skip
-				      (line-beginning-position)
-				      t))
+					  (line-beginning-position)
+					  t))
 		(setq p (point-marker))
 		(comment-forward (point-max))
 		(point-marker)))
 	 (beg (save-excursion
 		(forward-line 0)
 		(while (and (not (bobp))
-			    (= end (save-excursion
-				     (comment-forward (point-max))
-				     (point))))
+				(= end (save-excursion
+					 (comment-forward (point-max))
+					 (point))))
 		  (forward-line -1))
 		(goto-char (line-end-position))
 		(re-search-backward comment-start-skip
-				    (line-beginning-position)
-				    t)
+					(line-beginning-position)
+					t)
 		(ignore-errors
 		  (while (looking-at-p comment-start-skip)
-		    (forward-char -1)))
+			(forward-char -1)))
 		(point-marker))))
-    (unless (= beg end)
-      (uncomment-region beg end)
-      (goto-char p)
-      ;; Indentify the "top-level" sexp inside the comment.
-      (while (and (ignore-errors (backward-up-list) t)
+	(unless (= beg end)
+	  (uncomment-region beg end)
+	  (goto-char p)
+	  ;; Indentify the "top-level" sexp inside the comment.
+	  (while (and (ignore-errors (backward-up-list) t)
 		  (>= (point) beg))
 	(skip-chars-backward (rx (syntax expression-prefix)))
 	(setq p (point-marker)))
-      ;; Re-comment everything before it.
-      (ignore-errors
-	(comment-region beg p))
-      ;; And everything after it.
-      (goto-char p)
-      (forward-sexp (or n 1))
-      (skip-chars-forward "\r\n[:blank:]")
-      (if (< (point) end)
+	  ;; Re-comment everything before it.
 	  (ignore-errors
-	    (comment-region (point) end))
+	(comment-region beg p))
+	  ;; And everything after it.
+	  (goto-char p)
+	  (forward-sexp (or n 1))
+	  (skip-chars-forward "\r\n[:blank:]")
+	  (if (< (point) end)
+	  (ignore-errors
+		(comment-region (point) end))
 	;; If this is a closing delimiter, pull it up.
 	(goto-char end)
 	(skip-chars-forward "\r\n[:blank:]")
 	(when (eq 5 (car (syntax-after (point))))
 	  (delete-indentation))))
-    ;; Without a prefix, it's more useful to leave point where
-    ;; it was.
-    (unless n
-      (goto-char initial-point))))
+	;; Without a prefix, it's more useful to leave point where
+	;; it was.
+	(unless n
+	  (goto-char initial-point))))
 
 (defun jj/comment-sexp--raw ()
   "Comment the sexp at point or ahead of point."
   (pcase (or (bounds-of-thing-at-point 'sexp)
-	     (save-excursion
-	       (skip-chars-forward "\r\n[:blank:]")
-	       (bounds-of-thing-at-point 'sexp)))
-    (`(,l . ,r)
-     (goto-char r)
-     (skip-chars-forward "\r\n[:blank:]")
-     (save-excursion
-       (comment-region l r))
-     (skip-chars-forward "\r\n[:blank:]"))))
+		 (save-excursion
+		   (skip-chars-forward "\r\n[:blank:]")
+		   (bounds-of-thing-at-point 'sexp)))
+	(`(,l . ,r)
+	 (goto-char r)
+	 (skip-chars-forward "\r\n[:blank:]")
+	 (save-excursion
+	   (comment-region l r))
+	 (skip-chars-forward "\r\n[:blank:]"))))
 
 (defun jj/comment-or-uncomment-sexp (&optional n)
   "Comment the sexp at point and move past it.
@@ -966,36 +966,36 @@ With a prefix argument N, (un)comment that many sexps."
   (interactive "P")
   (if (or (elt (syntax-ppss) 4)
 	  (< (save-excursion
-	       (skip-chars-forward "\r\n[:blank:]")
-	       (point))
-	     (save-excursion
-	       (comment-forward 1)
-	       (point))))
-      (jj/uncomment-sexp n)
-    (dotimes (_ (or n 1))
-      (jj/comment-sexp--raw))))
+		   (skip-chars-forward "\r\n[:blank:]")
+		   (point))
+		 (save-excursion
+		   (comment-forward 1)
+		   (point))))
+	  (jj/uncomment-sexp n)
+	(dotimes (_ (or n 1))
+	  (jj/comment-sexp--raw))))
 
 (defun jj/unwrap-next-sexp ()
   (interactive)
   (let ((close (progn (forward-sexp 1)
-		      (point)))
+			  (point)))
 	(open (progn (forward-sexp -1)
-		     (point))))
-    (goto-char close)
-    (delete-char -1)
-    (goto-char open)
-    (delete-char 1)))
+			 (point))))
+	(goto-char close)
+	(delete-char -1)
+	(goto-char open)
+	(delete-char 1)))
 
 (defun jj/append-to-list (list-var elements)
   "Append ELEMENTS to the end of LIST-VAR.
 
 The return value is the new value of LIST-VAR."
   (unless (consp elements)
-    (error "ELEMENTS must be a list"))
+	(error "ELEMENTS must be a list"))
   (let ((list (symbol-value list-var)))
-    (if list
+	(if list
 	(setcdr (last list) elements)
-      (set list-var elements)))
+	  (set list-var elements)))
   (symbol-value list-var))
 
 (defun jj/append-to-list-no-duplicates (list to-add &optional to-back)
@@ -1005,7 +1005,7 @@ than having to call `add-to-list' multiple times.
 If `to-back' is t then add to back of list."
   (interactive)
   (dolist (item to-add)
-    (add-to-list list item (or to-back nil))))
+	(add-to-list list item (or to-back nil))))
 
 (defun jj/evil-scroll-down-15-lines ()
   (interactive)
@@ -1018,110 +1018,110 @@ If `to-back' is t then add to back of list."
 (defun jj/org-next-item-at-ident (&optional n)
   (interactive "^p")
   (let ((sentence-end-double-space t) searchTo wordEnd2 checkBoxAt unordList ordList charBeg lineEnd)
-    (let ((item (org-in-item-p))
+	(let ((item (org-in-item-p))
 	  (org-special-ctrl-a/e 'reversed))
-      (cond ((not item)
-	     (end-of-line n))
-	    (t
-	     (org-next-item)
-	     (save-excursion
-	       (setq charBeg (point))
-	       (end-of-visual-line)
-	       (setq lineEnd (point))
-	       (beginning-of-visual-line)
-	       (save-excursion
+	  (cond ((not item)
+		 (end-of-line n))
+		(t
+		 (org-next-item)
+		 (save-excursion
+		   (setq charBeg (point))
+		   (end-of-visual-line)
+		   (setq lineEnd (point))
+		   (beginning-of-visual-line)
+		   (save-excursion
 		 (re-search-forward "\\s-\\w" lineEnd t)
 		 (re-search-forward "\\s-\\w" lineEnd t)
 		 (setq wordEnd2 (point)))
-	       (if (eq wordEnd2 charBeg)
+		   (if (eq wordEnd2 charBeg)
 		   (setq searchTo lineEnd)
 		 (setq searchTo wordEnd2))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
 		 (setq checkBoxAt (point)))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\s-*\d*\\." searchTo t)
 		 (setq ordList (point)))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
 		 (setq unordList (point))))
-	     (cond
-	      ((not (eq checkBoxAt charBeg))
-	       (if (>= (+ checkBoxAt 1) lineEnd)
+		 (cond
+		  ((not (eq checkBoxAt charBeg))
+		   (if (>= (+ checkBoxAt 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  checkBoxAt 1))))
-	      ((not (eq ordList charBeg))
-	       (if (>= (+ ordList 1) lineEnd)
+		  ((not (eq ordList charBeg))
+		   (if (>= (+ ordList 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  ordList 1))))
-	      ((not (eq unordList charBeg))
-	       (if (>= (+ unordList 1) lineEnd)
+		  ((not (eq unordList charBeg))
+		   (if (>= (+ unordList 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  unordList 1))))
-	      ;; ((eq wordEnd1 lineEnd)
-	      ;;  (end-of-visual-line))
-	      ;; ((eq wordEnd2 lineEnd)
-	      ;;  (end-of-visual-line)
-	      ;;  (org-backward-sentence))
-	      ;; ((eq wordEnd1 wordEnd2)
-	      ;;  (end-of-visual-line))
-	      ;; ((eq wordEnd2 charBeg)
-	      ;;  (end-of-visual-line)
-	      ;;  (org-backward-sentence))
-	      ;; ((>= (+ wordEnd2 1) lineEnd)
-	      ;;  (end-of-visual-line)
-	      ;;  (org-backward-sentence))
-	      ;; (t (goto-char (+ wordEnd2 1))
-	      ;;		(org-backward-sentence))
-	      )
-	     ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
-	     )))))
+		  ;; ((eq wordEnd1 lineEnd)
+		  ;;  (end-of-visual-line))
+		  ;; ((eq wordEnd2 lineEnd)
+		  ;;  (end-of-visual-line)
+		  ;;  (org-backward-sentence))
+		  ;; ((eq wordEnd1 wordEnd2)
+		  ;;  (end-of-visual-line))
+		  ;; ((eq wordEnd2 charBeg)
+		  ;;  (end-of-visual-line)
+		  ;;  (org-backward-sentence))
+		  ;; ((>= (+ wordEnd2 1) lineEnd)
+		  ;;  (end-of-visual-line)
+		  ;;  (org-backward-sentence))
+		  ;; (t (goto-char (+ wordEnd2 1))
+		  ;;		(org-backward-sentence))
+		  )
+		 ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+		 )))))
 (defun jj/org-previous-item-at-ident (&optional n)
   (interactive "^p")
   (let ((sentence-end-double-space t) wordEnd2 searchTo checkBoxAt unordList ordList charBeg lineEnd)
-    (let ((item (org-in-item-p))
+	(let ((item (org-in-item-p))
 	  (org-special-ctrl-a/e 'reversed))
-      (cond ((not item)
-	     (beginning-of-line n))
-	    (t
-	     (org-previous-item)
-	     (save-excursion
-	       (setq charBeg (point))
-	       (end-of-visual-line)
-	       (setq lineEnd (point))
-	       (beginning-of-visual-line)
-	       (save-excursion
+	  (cond ((not item)
+		 (beginning-of-line n))
+		(t
+		 (org-previous-item)
+		 (save-excursion
+		   (setq charBeg (point))
+		   (end-of-visual-line)
+		   (setq lineEnd (point))
+		   (beginning-of-visual-line)
+		   (save-excursion
 		 (re-search-forward "\\s-\\w" lineEnd t)
 		 (re-search-forward "\\s-\\w" lineEnd t)
 		 (setq wordEnd2 (point)))
-	       (if (eq wordEnd2 charBeg)
+		   (if (eq wordEnd2 charBeg)
 		   (setq searchTo lineEnd)
 		 (setq searchTo wordEnd2))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
 		 (setq checkBoxAt (point)))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\s-*\d*\\." searchTo t)
 		 (setq ordList (point)))
-	       (save-excursion
+		   (save-excursion
 		 (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
 		 (setq unordList (point))))
-	     (cond
-	      ((not (eq checkBoxAt charBeg))
-	       (if (>= (+ checkBoxAt 1) lineEnd)
+		 (cond
+		  ((not (eq checkBoxAt charBeg))
+		   (if (>= (+ checkBoxAt 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  checkBoxAt 1))))
-	      ((not (eq ordList charBeg))
-	       (if (>= (+ ordList 1) lineEnd)
+		  ((not (eq ordList charBeg))
+		   (if (>= (+ ordList 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  ordList 1))))
-	      ((not (eq unordList charBeg))
-	       (if (>= (+ unordList 1) lineEnd)
+		  ((not (eq unordList charBeg))
+		   (if (>= (+ unordList 1) lineEnd)
 		   (end-of-visual-line)
 		 (goto-char (+  unordList 1))))
-	      )
-	     ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
-	     )))))
+		  )
+		 ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+		 )))))
 ;; NOTE: These don't work right because forward-element works in funky way
 ;; (defun jj/org-forward-element-at-ident ()
 ;;   (interactive)
@@ -1144,17 +1144,17 @@ If `to-back' is t then add to back of list."
   (scimax/org-return)
   (org-metaleft))
 (defun jj/org-metaleft-next-line-beginning-item ()
-       (interactive)
-       (scimax/org-return)
-       (org-metaleft)
-       (org-metaleft)
-       (org-metaleft)
-       (org-metaleft))
+	   (interactive)
+	   (scimax/org-return)
+	   (org-metaleft)
+	   (org-metaleft)
+	   (org-metaleft)
+	   (org-metaleft))
 (defun jj/org-move-headline-next-top-level ()
-       (interactive)
-       (scimax/org-return)
-       (org-metaright)
-       (org-cycle-list-bullet 5))
+	   (interactive)
+	   (scimax/org-return)
+	   (org-metaright)
+	   (org-cycle-list-bullet 5))
 (defun jj/org-move-headline-next-second-level ()
   (interactive)
   (scimax/org-return)
@@ -1193,44 +1193,44 @@ all blocks in document."
 	(created-new-row-at-bottom nil)
 	(orig-line (org-table-current-line))
 	(more t))
-    (org-table-goto-line 1)
-    (org-table-goto-column ccol)
-    (while more
-      (setq cline (org-table-current-line))
-      ;; Cut current field (sets org-table-clip)
-      (org-table-copy-region (point) (point) 'cut)
-      ;; Justify for width
-      (ignore-errors
+	(org-table-goto-line 1)
+	(org-table-goto-column ccol)
+	(while more
+	  (setq cline (org-table-current-line))
+	  ;; Cut current field (sets org-table-clip)
+	  (org-table-copy-region (point) (point) 'cut)
+	  ;; Justify for width
+	  (ignore-errors
 	(setq org-table-clip
-	      (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
-      ;; Add new lines and fill
-      (setq new-row-count (1- (length org-table-clip)))
-      (org-table-goto-line cline)
-      (if (> new-row-count 0)
+		  (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+	  ;; Add new lines and fill
+	  (setq new-row-count (1- (length org-table-clip)))
+	  (org-table-goto-line cline)
+	  (if (> new-row-count 0)
 	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
-      (org-table-goto-line cline)
-      (org-table-goto-column ccol)
-      (org-table-paste-rectangle)
-      (org-table-goto-line (+ cline new-row-count))
-      ;; Move to next line
-      (setq more (org-table-goto-line (+ cline new-row-count 1)))
-      (org-table-goto-column ccol))
-    (when created-new-row-at-bottom
-      (org-shiftmetaup))
-    (org-table-goto-line orig-line)
-    (org-table-goto-column ccol)))
+	  (org-table-goto-line cline)
+	  (org-table-goto-column ccol)
+	  (org-table-paste-rectangle)
+	  (org-table-goto-line (+ cline new-row-count))
+	  ;; Move to next line
+	  (setq more (org-table-goto-line (+ cline new-row-count 1)))
+	  (org-table-goto-column ccol))
+	(when created-new-row-at-bottom
+	  (org-shiftmetaup))
+	(org-table-goto-line orig-line)
+	(org-table-goto-column ccol)))
 
 (defun jj/org-table-insert-n-row-below (n)
   "Insert N new lines below the current."
   (let (created-new-row-at-bottom)
-    (dotimes (_ n)
-      (setq line (buffer-substring (point-at-bol) (point-at-eol)))
-      (forward-line 1)
-      (when (looking-at "^ *$")
+	(dotimes (_ n)
+	  (setq line (buffer-substring (point-at-bol) (point-at-eol)))
+	  (forward-line 1)
+	  (when (looking-at "^ *$")
 	(insert (org-table-clean-line line))
 	(setq created-new-row-at-bottom t))
-      (org-shiftmetadown))
-    created-new-row-at-bottom))
+	  (org-shiftmetadown))
+	created-new-row-at-bottom))
 
 (defun jj/org-table-column-wrap-to-point ()
   "Wrap text in current column to current point as rightmost
@@ -1246,40 +1246,40 @@ boundary."
 	(created-new-row-at-bottom nil)
 	(orig-line (org-table-current-line))
 	(more t))
-    (save-excursion
-      (search-backward-regexp "|")
-      (forward-char 1)
-      (setq begin (point))
-      (setq cell-contents-to-point (buffer-substring begin end))
-      (setq width (length cell-contents-to-point)))
-    (org-table-check-inside-data-field)
-    (org-table-align)
-    (org-table-goto-line 1)
-    (org-table-goto-column ccol)
-    (while more
-      (setq cline (org-table-current-line))
-      ;; Cut current field (sets org-table-clip)
-      (org-table-copy-region (point) (point) 'cut)
-      ;; Justify for width
-      (ignore-errors
+	(save-excursion
+	  (search-backward-regexp "|")
+	  (forward-char 1)
+	  (setq begin (point))
+	  (setq cell-contents-to-point (buffer-substring begin end))
+	  (setq width (length cell-contents-to-point)))
+	(org-table-check-inside-data-field)
+	(org-table-align)
+	(org-table-goto-line 1)
+	(org-table-goto-column ccol)
+	(while more
+	  (setq cline (org-table-current-line))
+	  ;; Cut current field (sets org-table-clip)
+	  (org-table-copy-region (point) (point) 'cut)
+	  ;; Justify for width
+	  (ignore-errors
 	(setq org-table-clip
-	      (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
-      ;; Add new lines and fill
-      (setq new-row-count (1- (length org-table-clip)))
-      (org-table-goto-line cline)
-      (if (> new-row-count 0)
+		  (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+	  ;; Add new lines and fill
+	  (setq new-row-count (1- (length org-table-clip)))
+	  (org-table-goto-line cline)
+	  (if (> new-row-count 0)
 	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
-      (org-table-goto-line cline)
-      (org-table-goto-column ccol)
-      (org-table-paste-rectangle)
-      (org-table-goto-line (+ cline new-row-count))
-      ;; Move to next line
-      (setq more (org-table-goto-line (+ cline new-row-count 1)))
-      (org-table-goto-column ccol))
-    (when created-new-row-at-bottom
-      (org-shiftmetaup))
-    (org-table-goto-line orig-line)
-    (org-table-goto-column ccol)))
+	  (org-table-goto-line cline)
+	  (org-table-goto-column ccol)
+	  (org-table-paste-rectangle)
+	  (org-table-goto-line (+ cline new-row-count))
+	  ;; Move to next line
+	  (setq more (org-table-goto-line (+ cline new-row-count 1)))
+	  (org-table-goto-column ccol))
+	(when created-new-row-at-bottom
+	  (org-shiftmetaup))
+	(org-table-goto-line orig-line)
+	(org-table-goto-column ccol)))
 
 (defun jj/other-window-kill-buffer ()
   "Kill the buffer in the other window"
@@ -1288,21 +1288,21 @@ boundary."
   ;; if more than 2 windows are present
   (let ((win-curr (selected-window))
 	(win-other (next-window)))
-    (select-window win-other)
-    (kill-this-buffer)
-    (select-window win-curr)))
+	(select-window win-other)
+	(kill-this-buffer)
+	(select-window win-curr)))
 
 (defvar jj/help-window-names
   '(
-    ;; Ubiquitous help buffers
-    "*Help*"
-    "*Apropos*"
-    "*Messages*"
-    "*Completions*"
-    ;; Other general buffers
-    "*Command History*"
-    "*Compile-Log*"
-    "*disabled command*")
+	;; Ubiquitous help buffers
+	"*Help*"
+	"*Apropos*"
+	"*Messages*"
+	"*Completions*"
+	;; Other general buffers
+	"*Command History*"
+	"*Compile-Log*"
+	"*disabled command*")
   "Names of buffers that `jj/quit-help-windows' should quit.")
 
 (defun jj/quit-help-windows (&optional kill frame)
@@ -1318,8 +1318,8 @@ omitted parameter and will be ignored; use some other value if
 you want to quit windows on all frames."
   (interactive)
   (let ((frame (or frame t)))
-    (dolist (name jj/help-window-names)
-      (ignore-errors
+	(dolist (name jj/help-window-names)
+	  (ignore-errors
 	(quit-windows-on name kill frame)))))
 
 (defun jj/current-buffer-to-other-windoww-display-previous-buffer ()
@@ -1327,7 +1327,7 @@ you want to quit windows on all frames."
 in this window."
   (interactive)
   (save-selected-window
-    (switch-to-buffer-other-window (current-buffer)))
+	(switch-to-buffer-other-window (current-buffer)))
   (switch-to-buffer (other-buffer)))
 
 (defun jj/delete-other-windows-switch-other-buffer ()
@@ -1345,8 +1345,8 @@ Repeated invocations toggle between the two most recently open buffers."
 			   (prefix-numeric-value wenshan-number)
 			 2))
   (while (> wenshan-number 1)
-    (split-window-below)
-    (setq wenshan-number (- wenshan-number 1)))
+	(split-window-below)
+	(setq wenshan-number (- wenshan-number 1)))
   (set-window-buffer (next-window) (other-buffer))
   (balance-windows))
 
@@ -1357,8 +1357,8 @@ Repeated invocations toggle between the two most recently open buffers."
 			   (prefix-numeric-value wenshan-number)
 			 2))
   (while (> wenshan-number 1)
-    (split-window-right)
-    (setq wenshan-number (- wenshan-number 1)))
+	(split-window-right)
+	(setq wenshan-number (- wenshan-number 1)))
   (set-window-buffer (next-window) (other-buffer))
   (balance-windows))
 
@@ -1366,7 +1366,7 @@ Repeated invocations toggle between the two most recently open buffers."
   "Splite window into 4 sub-window"
   (interactive)
   (if (not (= 1 (length (window-list))))
-      (delete-other-windows))
+	  (delete-other-windows))
   (progn (split-window-vertically)
 	 (set-window-buffer (next-window) (other-buffer))
 	 (split-window-horizontally)
@@ -1390,30 +1390,30 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun change-split-type (split-fn &optional arg)
   "Change 3 window style from horizontal to vertical and vice-versa"
   (let ((bufList (mapcar 'window-buffer (window-list))))
-    (select-window (get-largest-window))
-    (funcall split-fn arg)
-    (mapcar* 'set-window-buffer (window-list) bufList)))
+	(select-window (get-largest-window))
+	(funcall split-fn arg)
+	(mapcar* 'set-window-buffer (window-list) bufList)))
 
 (defun jj/change-window-split-type-2 (&optional arg)
   "Changes splitting from vertical to horizontal and vice-versa"
   (interactive "P")
   (let ((split-type (lambda (&optional arg)
-		      (delete-other-windows-internal)
-		      (if arg (split-window-vertically)
+			  (delete-other-windows-internal)
+			  (if arg (split-window-vertically)
 			(split-window-horizontally)))))
-    (change-split-type split-type arg)))
+	(change-split-type split-type arg)))
 
 (defun jj/window-split-toggle-horizontal-vertical ()
   "Toggle between horizontal and vertical split with two windows."
   (interactive)
   (if (> (length (window-list)) 2)
-      (error "Can't toggle with more than 2 windows!")
-    (let ((func (if (window-full-width-p)
-		    #'split-window-horizontally
+	  (error "Can't toggle with more than 2 windows!")
+	(let ((func (if (window-full-width-p)
+			#'split-window-horizontally
 		  #'split-window-vertically)))
-      (delete-other-windows)
-      (funcall func)
-      (save-selected-window
+	  (delete-other-windows)
+	  (funcall func)
+	  (save-selected-window
 	(other-window 1)
 	(switch-to-buffer (other-buffer))))))
 
@@ -1423,21 +1423,21 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun jj/swap-last-changes ()
   (when jj/last-change-pos2
-    (let ((tmp jj/last-change-pos2))
-      (setf jj/last-change-pos2 jj/last-change-pos1
-	    jj/last-change-pos1 tmp))))
+	(let ((tmp jj/last-change-pos2))
+	  (setf jj/last-change-pos2 jj/last-change-pos1
+		jj/last-change-pos1 tmp))))
 
 ;; TODO: Update to ignore certain buffers (eg. COMMIT-MSG buffers)
 (defun jj/goto-last-change-across-buffers ()
   (interactive)
   (when jj/last-change-pos1
-    (let* ((buffer (find-file-noselect (car jj/last-change-pos1)))
+	(let* ((buffer (find-file-noselect (car jj/last-change-pos1)))
 	   (win (get-buffer-window buffer)))
-      (if win
+	  (if win
 	  (select-window win)
 	(switch-to-buffer-other-window buffer))
-      (goto-char (cdr jj/last-change-pos1))
-      (jj/swap-last-changes))))
+	  (goto-char (cdr jj/last-change-pos1))
+	  (jj/swap-last-changes))))
 
 (defun jj/insert-brackets (&optional arg)
   "Enclose following ARG sexps in brackets [].
@@ -1487,9 +1487,9 @@ If region is active, insert enclosing characters at region boundaries.
 This command assumes point is not in a string or comment."
   (interactive "P")
   (save-mark-and-excursion
-    (insert-pair arg ?\$ ?\$))
+	(insert-pair arg ?\$ ?\$))
   (let (( parens-require-spaces nil))
-    (insert-pair arg ?\$ ?\$))
+	(insert-pair arg ?\$ ?\$))
   (forward-char))
 (defun jj/insert-double-quotes (&optional arg)
   "Enclose following ARG sexps in dollar signs \"\".
@@ -1537,35 +1537,35 @@ This command assumes point is not in a string or comment."
   (interactive)
   (let ((file (expand-file-name save-place-file))
 	(coding-system-for-write 'utf-8))
-    (with-current-buffer (get-buffer-create " *Saved Places*")
-      (delete-region (point-min) (point-max))
-      (when save-place-forget-unreadable-files
+	(with-current-buffer (get-buffer-create " *Saved Places*")
+	  (delete-region (point-min) (point-max))
+	  (when save-place-forget-unreadable-files
 	(save-place-forget-unreadable-files))
-      (insert (format ";;; -*- coding: %s -*-\n"
-		      (symbol-name coding-system-for-write)))
-      (let ((print-length nil)
-	    (print-level nil))
+	  (insert (format ";;; -*- coding: %s -*-\n"
+			  (symbol-name coding-system-for-write)))
+	  (let ((print-length nil)
+		(print-level nil))
 	(pp save-place-alist (current-buffer)))
-      (let ((version-control
-	     (cond
-	      ((null save-place-version-control) nil)
-	      ((eq 'never save-place-version-control) 'never)
-	      ((eq 'nospecial save-place-version-control) version-control)
-	      (t
-	       t))))
+	  (let ((version-control
+		 (cond
+		  ((null save-place-version-control) nil)
+		  ((eq 'never save-place-version-control) 'never)
+		  ((eq 'nospecial save-place-version-control) version-control)
+		  (t
+		   t))))
 	(condition-case nil
-	    ;; Don't use write-file; we don't want this buffer to visit it.
-	    ;; If autosaving, avoid writing if nothing has changed since the
-	    ;; last write.
-	    (let ((checksum (md5 (current-buffer) nil nil 'no-conversion)))
-	      (unless (and auto-save (equal checksum jj/save-place-last-checksum))
+		;; Don't use write-file; we don't want this buffer to visit it.
+		;; If autosaving, avoid writing if nothing has changed since the
+		;; last write.
+		(let ((checksum (md5 (current-buffer) nil nil 'no-conversion)))
+		  (unless (and auto-save (equal checksum jj/save-place-last-checksum))
 		;; Set file-precious-flag when saving the buffer because we
 		;; don't want a half-finished write ruining the entire
 		;; history.  Remember that this is run from a timer and from
 		;; kill-emacs-hook, and also that multiple Emacs instances
 		;; could write to this file at once.
 		(let ((file-precious-flag t)
-		      (coding-system-for-write 'utf-8))
+			  (coding-system-for-write 'utf-8))
 		  (write-region (point-min) (point-max) file nil
 				(unless (called-interactively-p 'interactive) 'quiet)))
 		(setq jj/save-place-last-checksum checksum)))
@@ -1579,31 +1579,31 @@ Write data into the file specified by `recentf-save-file'."
   (interactive)
   (let ((file (expand-file-name recentf-save-file))
 	(coding-system-for-write recentf-save-file-coding-system))
-    (with-temp-buffer
-      (erase-buffer)
-      (set-buffer-file-coding-system recentf-save-file-coding-system)
-      (insert (format-message recentf-save-file-header
-			      (current-time-string)))
-      (recentf-dump-variable 'recentf-list recentf-max-saved-items)
-      (recentf-dump-variable 'recentf-filter-changer-current)
-      (insert "\n\n;; Local Variables:\n"
-	      (format ";; coding: %s\n" recentf-save-file-coding-system)
-	      ";; End:\n")
-      (condition-case nil
+	(with-temp-buffer
+	  (erase-buffer)
+	  (set-buffer-file-coding-system recentf-save-file-coding-system)
+	  (insert (format-message recentf-save-file-header
+				  (current-time-string)))
+	  (recentf-dump-variable 'recentf-list recentf-max-saved-items)
+	  (recentf-dump-variable 'recentf-filter-changer-current)
+	  (insert "\n\n;; Local Variables:\n"
+		  (format ";; coding: %s\n" recentf-save-file-coding-system)
+		  ";; End:\n")
+	  (condition-case nil
 	  (let ((checksum (md5 (current-buffer) nil nil 'no-conversion)))
-	    (unless (and auto-save (equal checksum jj/recentf-last-checksum))
-	      ;; Set file-precious-flag when saving the buffer because we
-	      ;; don't want a half-finished write ruining the entire
-	      ;; history.  Remember that this is run from a timer and from
-	      ;; kill-emacs-hook, and also that multiple Emacs instances
-	      ;; could write to this file at once.
-	      (let ((file-precious-flag t)
-		    (coding-system-for-write recentf-save-file-coding-system))
+		(unless (and auto-save (equal checksum jj/recentf-last-checksum))
+		  ;; Set file-precious-flag when saving the buffer because we
+		  ;; don't want a half-finished write ruining the entire
+		  ;; history.  Remember that this is run from a timer and from
+		  ;; kill-emacs-hook, and also that multiple Emacs instances
+		  ;; could write to this file at once.
+		  (let ((file-precious-flag t)
+			(coding-system-for-write recentf-save-file-coding-system))
 		(write-region (point-min) (point-max) file nil
-			      (unless (called-interactively-p 'interactive) 'quiet))
+				  (unless (called-interactively-p 'interactive) 'quiet))
 		(setq jj/recentf-last-checksum checksum)))
-	    (when recentf-save-file-modes
-	      (set-file-modes recentf-save-file recentf-save-file-modes)))
+		(when recentf-save-file-modes
+		  (set-file-modes recentf-save-file recentf-save-file-modes)))
 	(file-error (message "Can't write recentf file to: %s" file))
 	;; (warn "recentf mode: %s" (error-message-string error))))
 	;; (write-file (expand-file-name recentf-save-file))
@@ -1626,31 +1626,31 @@ Write data into the file specified by `recentf-save-file'."
 (defun jj/buffer-change-hook (beg end len)
   (let ((bfn (buffer-file-name))
 	(file (car jj/last-change-pos1)))
-    (when bfn
-      (if (or (not file) (equal bfn file)) ;; change the same file
+	(when bfn
+	  (if (or (not file) (equal bfn file)) ;; change the same file
 	  (setq jj/last-change-pos1 (cons bfn end))
 	(progn (setq jj/last-change-pos2 (cons bfn end))
-	       (jj/swap-last-changes))))))
+		   (jj/swap-last-changes))))))
 
 (defun jj/revert-buffers-all ()
   "Iterate through the list of buffers and revert them, e.g. after a
-    new branch has been checked out."
+	new branch has been checked out."
   (interactive)
   (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
-    (let ((frm1 (selected-frame)))
-      (make-frame)
-      (let ((frm2 (next-frame frm1)))
+	(let ((frm1 (selected-frame)))
+	  (make-frame)
+	  (let ((frm2 (next-frame frm1)))
 	(select-frame frm2)
 	(make-frame-invisible)
 	(dolist (x (buffer-list))
 	  (let ((test-buffer (buffer-name x)))
-	    (when (not (string-match "\*" test-buffer))
-	      (when (not (file-exists-p (buffer-file-name x)))
+		(when (not (string-match "\*" test-buffer))
+		  (when (not (file-exists-p (buffer-file-name x)))
 		(select-frame frm1)
 		(when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
 		  (kill-buffer (buffer-name x)))
 		(select-frame frm2))
-	      (when (file-exists-p (buffer-file-name x))
+		  (when (file-exists-p (buffer-file-name x))
 		(switch-to-buffer (buffer-name x))
 		(revert-buffer t t t)))))
 	(select-frame frm1)
@@ -1658,8 +1658,8 @@ Write data into the file specified by `recentf-save-file'."
 	))))
 
 (defun jj/revert-buffer-no-confirm ()
-    "Revert buffer without confirmation."
-    (interactive) (revert-buffer t t))
+	"Revert buffer without confirmation."
+	(interactive) (revert-buffer t t))
 
 (defun revert-buffer-no-confirm ()
   "Revert buffer without confirmation."
@@ -1680,7 +1680,7 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;     (switch-to-buffer (other-buffer (other-buffer (current-buffer) 1)) )))
 
 (fset 'jj/dired-kill-subdir-pop-mark
-      [?\s-\C-\M-4 ?\s-\[])
+	  [?\s-\C-\M-4 ?\s-\[])
 
 (defun jj/kill-buffer-immediately ()
   "Kill the current buffer immediately"
@@ -1691,9 +1691,9 @@ Repeated invocations toggle between the two most recently open buffers."
   "Lock the current buffer from being able to be killed"
   (interactive)
   (if (not emacs-lock-mode)
-      (emacs-lock-mode 'kill)
-    (emacs-lock-mode -1)
-    ))
+	  (emacs-lock-mode 'kill)
+	(emacs-lock-mode -1)
+	))
 
 (defun jj/emacs-lock-mode-kill ()
   "Lock the current buffer from being able to be killed"
@@ -1709,9 +1709,9 @@ Repeated invocations toggle between the two most recently open buffers."
   "Lock the current buffer from being killed and emacs can't exit until it us unprotected"
   (interactive)
   (if (not emacs-lock-mode)
-      (emacs-lock-mode 'all)
-    (emacs-lock-mode -1)
-    ))
+	  (emacs-lock-mode 'all)
+	(emacs-lock-mode -1)
+	))
 
 (defun jj/emacs-lock-mode-off ()
   "Lock the current buffer from being killed and emacs can't exit until it us unprotected"
@@ -1721,28 +1721,28 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun jj/find-open-last-killed-file ()
   (interactive)
   (let ((active-files (loop for buf in (buffer-list)
-			    when (buffer-file-name buf) collect it)))
-    (loop for file in recentf-list
+				when (buffer-file-name buf) collect it)))
+	(loop for file in recentf-list
 	  unless (member file active-files) return (find-file file))))
 
 (defun jj/find-alternative-file-with-sudo ()
   (interactive)
   (let ((fname (or buffer-file-name
 		   dired-directory)))
-    (when fname
-      (if (string-match "^/sudo:root@localhost:" fname)
+	(when fname
+	  (if (string-match "^/sudo:root@localhost:" fname)
 	  (setq fname (replace-regexp-in-string
-		       "^/sudo:root@localhost:" ""
-		       fname))
+			   "^/sudo:root@localhost:" ""
+			   fname))
 	(setq fname (concat "/sudo:root@localhost:" fname)))
-      (find-alternate-file fname))))
+	  (find-alternate-file fname))))
 
 (defvar jj/find-file-root-prefix (if (featurep 'xemacs) "/[sudo/root@localhost]" "/sudo:root@localhost:" )
   "*The filename prefix used to open a file with `jj/find-file-root'.")
 
 (when (not (fboundp 'jj/find-file-root-history))
   (defvar jj/find-file-root-history nil
-    "History list for files found using `jj/find-file-root'."))
+	"History list for files found using `jj/find-file-root'."))
 
 (defvar jj/find-file-root-hook nil
   "Normal hook for functions to run after finding a \"root\" file.")
@@ -1759,20 +1759,20 @@ Repeated invocations toggle between the two most recently open buffers."
 	 (file-name-history jj/find-file-root-history)
 	 (name (or buffer-file-name default-directory))
 	 (tramp (and (tramp-tramp-file-p name)
-		     (tramp-dissect-file-name name)))
+			 (tramp-dissect-file-name name)))
 	 path dir file)
 
-    ;; If called from a "root" file, we need to fix up the path.
-    (when tramp
-      (setq path (tramp-file-name-localname tramp)
-	    dir (file-name-directory path)))
+	;; If called from a "root" file, we need to fix up the path.
+	(when tramp
+	  (setq path (tramp-file-name-localname tramp)
+		dir (file-name-directory path)))
 
-    (when (setq file (read-file-name "Find file (UID = 0): " dir path))
-      (find-file (concat jj/find-file-root-prefix file))
-      ;; If this all succeeded save our new history list.
-      (setq jj/find-file-root-history file-name-history)
-      ;; allow some user customization
-      (run-hooks 'jj/find-file-root-hook))))
+	(when (setq file (read-file-name "Find file (UID = 0): " dir path))
+	  (find-file (concat jj/find-file-root-prefix file))
+	  ;; If this all succeeded save our new history list.
+	  (setq jj/find-file-root-history file-name-history)
+	  ;; allow some user customization
+	  (run-hooks 'jj/find-file-root-hook))))
 
 (defface jj/find-file-root-header-face
   '((t (:foreground "white" :background "red3")))
@@ -1785,12 +1785,12 @@ Repeated invocations toggle between the two most recently open buffers."
 	 (space (+ 6 (- (window-width) (length warning))))
 	 (bracket (make-string (/ space 2) ?-))
 	 (warning (concat bracket warning bracket)))
-    (setq header-line-format
+	(setq header-line-format
 	  (propertize  warning 'face 'jj/find-file-root-header-face))))
 
 (defun jj/find-file-hook-root-header-warning ()
   (when (and buffer-file-name (string-match "root@localhost" buffer-file-name))
-    (jj/find-file-root-header-warning)))
+	(jj/find-file-root-header-warning)))
 
 ;; open recent directory, requires ivy (part of swiper)
 ;; borrows from http://stackoverflow.com/questions/23328037/in-emacs-how-to-maintain-a-list-of-recent-directories
@@ -1800,35 +1800,35 @@ Repeated invocations toggle between the two most recently open buffers."
   (let ((recent-dirs
 	 (delete-dups
 	  (mapcar (lambda (file)
-		    (if (file-directory-p file) file (file-name-directory file)))
+			(if (file-directory-p file) file (file-name-directory file)))
 		  recentf-list))))
 
-    (let ((dir (ivy-read "Directory: "
+	(let ((dir (ivy-read "Directory: "
 			 recent-dirs
 			 :re-builder #'ivy--regex
 			 :sort nil
 			 :initial-input nil)))
-      (dired dir))))
+	  (dired dir))))
 
 (defun create-new-file (file-list)
   (defun exsitp-untitled-x (file-list cnt)
-    (while (and (car file-list) (not (string= (car file-list) (concat "untitled~~" (number-to-string cnt) ".qqq"))))
-      (setq file-list (cdr file-list)))
-    (car file-list))
+	(while (and (car file-list) (not (string= (car file-list) (concat "untitled~~" (number-to-string cnt) ".qqq"))))
+	  (setq file-list (cdr file-list)))
+	(car file-list))
 
   (defun exsitp-untitled (file-list)
-    (while (and (car file-list) (not (string= (car file-list) "untitled~~.qqq")))
-      (setq file-list (cdr file-list)))
-    (car file-list))
+	(while (and (car file-list) (not (string= (car file-list) "untitled~~.qqq")))
+	  (setq file-list (cdr file-list)))
+	(car file-list))
 
   (if (not (exsitp-untitled file-list))
-      "untitled~~.qqq"
-    (let ((cnt 2))
-      (while (exsitp-untitled-x file-list cnt)
+	  "untitled~~.qqq"
+	(let ((cnt 2))
+	  (while (exsitp-untitled-x file-list cnt)
 	(setq cnt (1+ cnt)))
-      (concat "untitled~~" (number-to-string cnt) ".qqq")
-      )
-    )
+	  (concat "untitled~~" (number-to-string cnt) ".qqq")
+	  )
+	)
   )
 (defun jj/dired-create-file (file)
   (interactive
@@ -1843,8 +1843,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun jj/ivy-kill-buffer (buf)
   (interactive)
   (if (get-buffer buf)
-      (kill-buffer buf)
-    (setq recentf-list (delete (cdr (assoc buf ivy--virtual-buffers)) recentf-list))))
+	  (kill-buffer buf)
+	(setq recentf-list (delete (cdr (assoc buf ivy--virtual-buffers)) recentf-list))))
 
 (defun jj/delete-other-windows-or-winner-undo-max-pane ()
   (interactive)
@@ -1872,48 +1872,48 @@ directory in another window."
   (interactive "P")
   (let* ((dir  (file-truename (dired-current-directory)))
 	 (up   (file-name-directory (directory-file-name dir))))
-    (or (dired-goto-file (directory-file-name dir))
+	(or (dired-goto-file (directory-file-name dir))
 	;; Only try dired-goto-subdir if buffer has more than one dir.
 	(and (cdr dired-subdir-alist)  (dired-goto-subdir up))
 	(progn (if other-window (dired-other-window up) (dired up))
-	       (dired-goto-file dir)))))
+		   (dired-goto-file dir)))))
 
 (defun jj/dired-find-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
   (interactive)
   (let ((find-file-visit-truename t))
-    (dired-find-file)))
+	(dired-find-file)))
 
 (defun jj/dired-find-alternate-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
   (interactive)
   (let ((find-file-visit-truename t))
-    (dired-find-alternate-file)))
+	(dired-find-alternate-file)))
 
 (defun jj/dired-advertised-find-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
   (interactive)
   (let ((find-file-visit-truename t))
-    (dired-advertised-find-file)))
+	(dired-advertised-find-file)))
 
 (defun jj/dired-view-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
   (interactive)
   (let ((find-file-visit-truename t))
-    (dired-view-file)))
+	(dired-view-file)))
 
 ;; setup a varibale to remember omit mode across buffers
 (defvar v-dired-omit t
-     "If dired-omit-mode enabled by default. Don't setq me.")
+	 "If dired-omit-mode enabled by default. Don't setq me.")
 (defun dired-omit-switch ()
-     "This function is a small enhancement for `dired-omit-mode', which will
+	 "This function is a small enhancement for `dired-omit-mode', which will
    \"remember\" omit state across Dired buffers."
-     (interactive)
-     (if (eq v-dired-omit t)
+	 (interactive)
+	 (if (eq v-dired-omit t)
 	 (setq v-dired-omit nil)
-       (setq v-dired-omit t))
-     (dired-omit-caller)
-     (revert-buffer))
+	   (setq v-dired-omit t))
+	 (dired-omit-caller)
+	 (revert-buffer))
 
 (defun jj/dired-do-shell-unmount-device ()
 	(interactive)
@@ -1923,9 +1923,9 @@ directory in another window."
 	   (dired-get-marked-files t current-prefix-arg))))
 
 (defun dired-omit-caller ()
-     (if v-dired-omit
+	 (if v-dired-omit
 	 (setq dired-omit-mode t)
-       (setq dired-omit-mode nil)))
+	   (setq dired-omit-mode nil)))
 
 (defcustom dired-list-of-switches
   '("-a -F -lGhHAv  --group-directories-first"  "-a -F -lGhHAv -L  --group-directories-first" "-a -F -lGhHA  --group-directories-first")
@@ -1954,68 +1954,68 @@ directory in another window."
 (defun jj/remove-elc-on-save ()
   "If you're saving an Emacs Lisp file, likely the .elc is no longer valid."
   (add-hook 'after-save-hook
-	    (lambda ()
-	      (if (file-exists-p (concat buffer-file-name "c"))
+		(lambda ()
+		  (if (file-exists-p (concat buffer-file-name "c"))
 		  (delete-file (concat buffer-file-name "c"))))
-	    nil
-	    t))
+		nil
+		t))
 
 (defun jj/brc-functions-file ()
   "Recompile the functions file to hook on exit emacs if updated"
   (interactive)
   (if (eq system-type 'darwin)
-      (progn
+	  (progn
 	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
 	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
 
 (defun jj/ivy-switch-buffer-use-virtual ()
   (interactive)
   (let ((ivy-use-virtual-buffers t))
-    (ivy-switch-buffer)))
+	(ivy-switch-buffer)))
 
 (defun jj/move-file-here ()
   "Move file from somewhere else to here.
 The file is taken from a start directory set by `jj/move-file-here-start-dir' and moved to the current directory if invoked in dired, or else the directory containing current buffer. The user is presented with a list of files in the start directory, from which to select the file to move, sorted by most recent first."
   (interactive)
   (let (file-list target-dir file-list-sorted start-file start-file-full)
-    ;; clean directories from list but keep times
-    (setq file-list
+	;; clean directories from list but keep times
+	(setq file-list
 	  (-remove (lambda (x) (nth 1 x))
 		   (directory-files-and-attributes jj/move-file-here-start-dir)))
 
-    ;; get target directory
-    ;; http://ergoemacs.org/emacs/emacs_copy_file_path.html
-    (setq target-dir
+	;; get target directory
+	;; http://ergoemacs.org/emacs/emacs_copy_file_path.html
+	(setq target-dir
 	  (if (equal major-mode 'dired-mode)
-	      (expand-file-name default-directory)
-	    (if (null (buffer-file-name))
+		  (expand-file-name default-directory)
+		(if (null (buffer-file-name))
 		(user-error "ERROR: current buffer is not associated with a file.")
-	      (file-name-directory (buffer-file-name)))))
+		  (file-name-directory (buffer-file-name)))))
 
-    ;; sort list by most recent
-    ;;http://stackoverflow.com/questions/26514437/emacs-sort-list-of-directories-files-by-modification-date
-    (setq file-list-sorted
+	;; sort list by most recent
+	;;http://stackoverflow.com/questions/26514437/emacs-sort-list-of-directories-files-by-modification-date
+	(setq file-list-sorted
 	  (mapcar #'car
 		  (sort file-list
 			#'(lambda (x y) (time-less-p (nth 6 y) (nth 6 x))))))
 
-    ;; use ivy to select start-file
-    (setq start-file (ivy-read
-		      (concat "Move selected file to " target-dir ":")
-		      file-list-sorted
-		      :re-builder #'ivy--regex
-		      :sort nil
-		      :initial-input nil))
+	;; use ivy to select start-file
+	(setq start-file (ivy-read
+			  (concat "Move selected file to " target-dir ":")
+			  file-list-sorted
+			  :re-builder #'ivy--regex
+			  :sort nil
+			  :initial-input nil))
 
-    ;; add full path to start file and end-file
-    (setq start-file-full
+	;; add full path to start file and end-file
+	(setq start-file-full
 	  (expand-file-name start-file jj/move-file-here-start-dir))
-    (setq end-file
+	(setq end-file
 	  (expand-file-name (file-name-nondirectory start-file) target-dir))
-    (rename-file start-file-full end-file)
-    (kill-new start-file)
-    (gui-set-selection 'PRIMARY start-file)
-    (message "moved %s to %s" start-file-full end-file)))
+	(rename-file start-file-full end-file)
+	(kill-new start-file)
+	(gui-set-selection 'PRIMARY start-file)
+	(message "moved %s to %s" start-file-full end-file)))
 
 (defun jj/find-next-file-in-current-directory (&optional backward)
   "Find the next file (by name) in the current directory.
@@ -2023,12 +2023,12 @@ The file is taken from a start directory set by `jj/move-file-here-start-dir' an
 With prefix arg, find the previous file."
   (interactive "P")
   (when buffer-file-name
-    (let* ((file (expand-file-name buffer-file-name))
+	(let* ((file (expand-file-name buffer-file-name))
 	   (files (cl-remove-if (lambda (file) (cl-first (file-attributes file)))
 				(sort (directory-files (file-name-directory file) t nil t) 'string<)))
 	   (pos (mod (+ (cl-position file files :test 'equal) (if backward -1 1))
-		     (length files))))
-      (find-file (nth pos files)))))
+			 (length files))))
+	  (find-file (nth pos files)))))
 
 (defun jj/open-iterm-terminal-here ()
   (interactive)
@@ -2040,14 +2040,14 @@ Version 2017-10-09"
   (interactive)
   (cond
    ((string-equal system-type "windows-nt")
-    (message "Microsoft Windows not supported. File a bug report or pull request."))
+	(message "Microsoft Windows not supported. File a bug report or pull request."))
    ((string-equal system-type "darwin")
-    (let ((process-connection-type nil))
-      (start-process "" nil "/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal" default-directory)))
+	(let ((process-connection-type nil))
+	  (start-process "" nil "/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal" default-directory)))
    ((string-equal system-type "gnu/linux")
-    (let ((process-connection-type nil))
-      (start-process "" nil "x-terminal-emulator"
-		     (concat "--working-directory=" default-directory))))))
+	(let ((process-connection-type nil))
+	  (start-process "" nil "x-terminal-emulator"
+			 (concat "--working-directory=" default-directory))))))
 
 (defun jj/show-in-path-finder ()
   "Show current file in desktop.
@@ -2058,30 +2058,30 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
 Version 2018-09-29"
   (interactive)
   (let (($path (if (buffer-file-name) (buffer-file-name) default-directory )))
-    (cond
-     ((string-equal system-type "windows-nt")
-      (w32-shell-execute "explore" (replace-regexp-in-string "/" "\\" $path t t)))
-     ((string-equal system-type "darwin")
-      (if (eq major-mode 'dired-mode)
+	(cond
+	 ((string-equal system-type "windows-nt")
+	  (w32-shell-execute "explore" (replace-regexp-in-string "/" "\\" $path t t)))
+	 ((string-equal system-type "darwin")
+	  (if (eq major-mode 'dired-mode)
 	  (let (($files (dired-get-marked-files )))
-	    (if (eq (length $files) 0)
+		(if (eq (length $files) 0)
 		(progn
 		  (shell-command
 		   (concat "open " default-directory)))
-	      (progn
+		  (progn
 		(shell-command
 		 (concat "open -R " (shell-quote-argument (car (dired-get-marked-files ))))))))
 	(shell-command
 	 (concat "open -R " $path))))
-     ((string-equal system-type "gnu/linux")
-      (let (
-	    (process-connection-type nil)
-	    (openFileProgram (if (file-exists-p "/usr/bin/gvfs-open")
+	 ((string-equal system-type "gnu/linux")
+	  (let (
+		(process-connection-type nil)
+		(openFileProgram (if (file-exists-p "/usr/bin/gvfs-open")
 				 "/usr/bin/gvfs-open"
-			       "/usr/bin/xdg-open")))
+				   "/usr/bin/xdg-open")))
 	(start-process "" nil openFileProgram $path))
-      ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. eg with nautilus
-      ))))
+	  ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. eg with nautilus
+	  ))))
 
 (defun jj/show-in-finder-for-dropbox ()
   "Show current file in desktop.
@@ -2092,17 +2092,17 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
 Version 2018-09-29"
   (interactive)
   (let (($path (if (buffer-file-name) (buffer-file-name) default-directory )))
-    (cond
-     ((string-equal system-type "darwin")
-      (if (eq major-mode 'dired-mode)
+	(cond
+	 ((string-equal system-type "darwin")
+	  (if (eq major-mode 'dired-mode)
 	  (let (($files (dired-get-marked-files nil t nil nil)))
-	    (if (eq (length $files) 0)
+		(if (eq (length $files) 0)
 		(progn
 		  (shell-command
 		   (concat "open -a Finder " default-directory)))
-	      (let* ((x (car $files))
-		     (dired-rename-file-split (f-split x))
-		     (just-directory (apply 'f-join (nbutlast dired-rename-file-split))))
+		  (let* ((x (car $files))
+			 (dired-rename-file-split (f-split x))
+			 (just-directory (apply 'f-join (nbutlast dired-rename-file-split))))
 		(progn
 		  (shell-command
 		   (concat "open -a Finder " just-directory))))))
@@ -2116,8 +2116,8 @@ buffer in current window."
   (message
    (if (let (window (get-buffer-window (current-buffer)))
 	 (set-window-dedicated-p window (not (window-dedicated-p window))))
-       "%s: Can't touch this!"
-     "%s is up for grabs.")
+	   "%s: Can't touch this!"
+	 "%s is up for grabs.")
    (current-buffer)))
 
 ;; ;; Stick/Lock buffer to window
@@ -2171,28 +2171,28 @@ you can use this command to copy text from a read-only buffer.
 even beep.)"
   (interactive "P")
   (delete-region (point)
-	       ;; It is better to move point to the other end of the delete
-	       ;; before deleteing.  That way, in a read-only buffer, point
-	       ;; moves across the text that is copied to the delete ring.
-	       ;; The choice has no effect on undo now that undo records
-	       ;; the value of point from before the command was run.
-	       (progn
+		   ;; It is better to move point to the other end of the delete
+		   ;; before deleteing.  That way, in a read-only buffer, point
+		   ;; moves across the text that is copied to the delete ring.
+		   ;; The choice has no effect on undo now that undo records
+		   ;; the value of point from before the command was run.
+		   (progn
 		 (if arg
-		     (forward-visible-line (prefix-numeric-value arg))
+			 (forward-visible-line (prefix-numeric-value arg))
 		   (if (eobp)
-		       (signal 'end-of-buffer nil))
+			   (signal 'end-of-buffer nil))
 		   (let ((end
 			  (save-excursion
-			    (end-of-visible-line) (point))))
-		     (if (or (save-excursion
-			       ;; If trailing whitespace is visible,
-			       ;; don't treat it as nothing.
-			       (unless show-trailing-whitespace
+				(end-of-visible-line) (point))))
+			 (if (or (save-excursion
+				   ;; If trailing whitespace is visible,
+				   ;; don't treat it as nothing.
+				   (unless show-trailing-whitespace
 				 (skip-chars-forward " \t" end))
-			       (= (point) end))
-			     (and jj/delete-whole-line (bolp)))
+				   (= (point) end))
+				 (and jj/delete-whole-line (bolp)))
 			 (forward-visible-line 1)
-		       (goto-char end))))
+			   (goto-char end))))
 		 (point))))
 
 (defun jj/delete-whole-line (&optional arg)
@@ -2204,9 +2204,9 @@ If ARG is zero, delete current line but exclude the trailing newline."
   (interactive "p")
   (or arg (setq arg 1))
   (if (and (> arg 0) (eobp) (save-excursion (forward-visible-line 0) (eobp)))
-      (signal 'end-of-buffer nil))
+	  (signal 'end-of-buffer nil))
   (if (and (< arg 0) (bobp) (save-excursion (end-of-visible-line) (bobp)))
-      (signal 'beginning-of-buffer nil))
+	  (signal 'beginning-of-buffer nil))
   ;; (unless (eq last-command 'delete-region)
   ;;   (delete-new "")
   ;;   (setq last-command 'delete-region))
@@ -2224,63 +2224,63 @@ If ARG is zero, delete current line but exclude the trailing newline."
 	 (save-excursion
 	   (delete-region (point) (progn (end-of-visible-line) (point))))
 	 (delete-region (point)
-		      (progn (forward-visible-line (1+ arg))
-			     (unless (bobp) (backward-char))
-			     (point))))
+			  (progn (forward-visible-line (1+ arg))
+				 (unless (bobp) (backward-char))
+				 (point))))
 	(t
 	 (save-excursion
 	   (delete-region (point) (progn (forward-visible-line 0) (point))))
 	 (delete-region (point)
-		      (progn (forward-visible-line arg) (point))))))
+			  (progn (forward-visible-line arg) (point))))))
 
 (defun jj/visual-fill-column-center-text-toggle ()
   (interactive)
   (if (not (symbol-value visual-fill-column-center-text))
-      (progn
+	  (progn
 	(setq visual-fill-column-center-text t)
 	(redraw-frame)
 	(redisplay t)
 	)
-    (progn
-      (setq visual-fill-column-center-text nil)
-      (redraw-frame)
-      (redisplay t)
-      )))
+	(progn
+	  (setq visual-fill-column-center-text nil)
+	  (redraw-frame)
+	  (redisplay t)
+	  )))
 
 (defun jj/save-new-file-before-kill ()
   (when (and (not (buffer-file-name))
-	     is-new-file-buffer
-	     (yes-or-no-p
-	      "New file has not been saved. Would you like to save before closing?"))
-    (call-interactively 'save-buffer)))
+		 is-new-file-buffer
+		 (yes-or-no-p
+		  "New file has not been saved. Would you like to save before closing?"))
+	(call-interactively 'save-buffer)))
 
 (defun jj/new-file (dir)
   (interactive "DCreate New File In: ")
   (let ((buffer (generate-new-buffer "<Unsaved File>")))
-    (switch-to-buffer buffer)
-    (setq-local default-directory dir)
-    (setq-local is-new-file-buffer t)))
+	(switch-to-buffer buffer)
+	(setq-local default-directory dir)
+	(setq-local is-new-file-buffer t)))
 
 (defun jj/increment-number-decimal (&optional arg)
   "Increment the number forward from point by 'arg'."
   (interactive "p*")
   (save-excursion
-    (save-match-data
-      (let (inc-by field-width answer)
+	(save-match-data
+	  (let (inc-by field-width answer)
 	(setq inc-by (if arg arg 1))
 	(skip-chars-backward "0123456789")
 	(when (re-search-forward "[0-9]+" nil t)
 	  (setq field-width (- (match-end 0) (match-beginning 0)))
 	  (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
 	  (when (< answer 0)
-	    (setq answer (+ (expt 10 field-width) answer)))
+		(setq answer (+ (expt 10 field-width) answer)))
 	  (replace-match (format (concat "%0" (int-to-string field-width) "d")
 				 answer)))))))
 
 (defun jj/delete-kill-process-at-point ()
   (interactive)
   (let ((process (get-text-property (point) 'tabulated-list-id)))
-    (cond ((and process
+	(cond ((and process
 		(processp process))
 	   (delete-process process)
 	   (revert-buffer))
@@ -2294,22 +2294,22 @@ If ARG is zero, delete current line but exclude the trailing newline."
 (defun jj/set-tab-stop-width (width)
   "Set all tab stops to WIDTH in current buffer.
 
-    This updates `tab-stop-list', but not `tab-width'.
+	This updates `tab-stop-list', but not `tab-width'.
 
-    By default, `indent-for-tab-command' uses tabs to indent, see
-    `indent-tabs-mode'."
+	By default, `indent-for-tab-command' uses tabs to indent, see
+	`indent-tabs-mode'."
   (interactive "nTab width: ")
   (let* ((max-col (car (last tab-stop-list)))
 	 ;; If width is not a factor of max-col,
 	 ;; then max-col could be reduced with each call.
 	 (n-tab-stops (/ max-col width)))
-    (set (make-local-variable 'tab-stop-list)
+	(set (make-local-variable 'tab-stop-list)
 	 (mapcar (lambda (x) (* width x))
 		 (number-sequence 1 n-tab-stops)))
-    ;; So preserve max-col, by adding to end.
-    (unless (zerop (% max-col width))
-      (setcdr (last tab-stop-list)
-	      (list max-col)))))
+	;; So preserve max-col, by adding to end.
+	(unless (zerop (% max-col width))
+	  (setcdr (last tab-stop-list)
+		  (list max-col)))))
 
 (defun jj/dired-rename-space-to-hyphen ()
   "In dired, rename current or marked files by replacing space to hyphen -.
@@ -2318,34 +2318,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match " " just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string " " "-" just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match " " just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string " " "-" just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-space-to-underscore ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2354,34 +2354,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match " " just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string " " "_" just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match " " just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string " " "_" just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-underscore-to-hyphen ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2390,34 +2390,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match "_" just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string "_" "-" just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match "_" just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string "_" "-" just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-hyphen-to-underscore ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2426,34 +2426,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match "-" just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string "-" "_" just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match "-" just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string "-" "_" just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-hyphen-or-underscore-to-space ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2462,34 +2462,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match "[\-|_]" just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string "[\-|_]" " " just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match "[\-|_]" just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string "[\-|_]" " " just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-hyphen-to-space ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2498,34 +2498,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match "-" just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string "-" " " just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match "-" just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string "-" " " just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/dired-rename-underscore-to-space ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -2534,34 +2534,34 @@ URL `http://ergoemacs.org/emacs/elisp_dired_rename_space_to_underscore.html'
 Version 2016-12-22"
   (interactive)
   (if (equal major-mode 'dired-mode)
-      (progn
+	  (progn
 	(let ((string-not-matched t)
-	      (new-names '())
-	      (p (point))
-	      (number-marked-files (length (dired-get-marked-files nil nil nil t))))
+		  (new-names '())
+		  (p (point))
+		  (number-marked-files (length (dired-get-marked-files nil nil nil t))))
 	  (mapc (lambda (x)
 		  (let* ((dired-rename-file-split (f-split x))
 			 (just-file-name (car (last dired-rename-file-split))))
-		    (when (string-match "_" just-file-name)
-		      ;; replace last element in file-name-split with the replaced regex
-		      (setcar (last dired-rename-file-split) (replace-regexp-in-string "_" " " just-file-name))
-		      ;; rejoin the file-name-split with / and the new file name
-		      (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
-		      (push (apply 'f-join dired-rename-file-split) new-names)
-		      ;; if filename matched won't go forward line as already does this
-		      (setq string-not-matched nil))))
+			(when (string-match "_" just-file-name)
+			  ;; replace last element in file-name-split with the replaced regex
+			  (setcar (last dired-rename-file-split) (replace-regexp-in-string "_" " " just-file-name))
+			  ;; rejoin the file-name-split with / and the new file name
+			  (dired-rename-file x (apply 'f-join dired-rename-file-split)  nil)
+			  (push (apply 'f-join dired-rename-file-split) new-names)
+			  ;; if filename matched won't go forward line as already does this
+			  (setq string-not-matched nil))))
 		(dired-get-marked-files))
 	  (revert-buffer)
 	  (when (not (eql 1 number-marked-files))
-	    (loop for f in new-names do
+		(loop for f in new-names do
 		  (dired-goto-file f)
 		  (dired-mark nil)))
 	  ;; move forward one line if dired didn't do rename (this is done automatically if rename was performed)
 	  ;; only do the below when length of marked files is 1 or doesn't make sense to move forward by lines
 	  (goto-char p)
 	  (when (eql 1  number-marked-files)
-	    (dired-next-line 1))))
-    (user-error "Not in dired")))
+		(dired-next-line 1))))
+	(user-error "Not in dired")))
 
 (defun jj/hyphen-underscore-space-cycle-region-sexp-or-line ( &optional @begin @end )
   "Cycle {underscore, space, hypen} chars in selection or inside quote/bracket or line.
@@ -2577,54 +2577,54 @@ Version 2017-01-27"
   (interactive)
   ;; this function sets a property 「'state」. Possible values are 0 to length of -charArray.
   (let ($p1 $p2)
-    (if (and @begin @end)
+	(if (and @begin @end)
 	(progn (setq $p1 @begin $p2 @end))
-      (if (use-region-p)
+	  (if (use-region-p)
 	  (setq $p1 (region-beginning) $p2 (region-end))
 	(if (nth 3 (syntax-ppss))
-	    (save-excursion
-	      (skip-chars-backward "^\"")
-	      (setq $p1 (point))
-	      (skip-chars-forward "^\"")
-	      (setq $p2 (point)))
+		(save-excursion
+		  (skip-chars-backward "^\"")
+		  (setq $p1 (point))
+		  (skip-chars-forward "^\"")
+		  (setq $p2 (point)))
 	  (let (
 		($skipChars
 		 (if (boundp 'xah-brackets)
-		     (concat "^\"" xah-brackets)
+			 (concat "^\"" xah-brackets)
 		   "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕（）")))
-	    (skip-chars-backward $skipChars (line-beginning-position))
-	    (setq $p1 (point))
-	    (skip-chars-forward $skipChars (line-end-position))
-	    (setq $p2 (point))
-	    (set-mark $p1)))))
-    (let* (
+		(skip-chars-backward $skipChars (line-beginning-position))
+		(setq $p1 (point))
+		(skip-chars-forward $skipChars (line-end-position))
+		(setq $p2 (point))
+		(set-mark $p1)))))
+	(let* (
 	   ($charArray ["_" "-" " "])
 	   ($length (length $charArray))
 	   ($regionWasActive-p (region-active-p))
 	   ($nowState
-	    (if (equal last-command this-command )
+		(if (equal last-command this-command )
 		(get 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state)
-	      0 ))
+		  0 ))
 	   ($changeTo (elt $charArray $nowState)))
-      (save-excursion
+	  (save-excursion
 	(save-restriction
 	  (narrow-to-region $p1 $p2)
 	  (goto-char (point-min))
 	  (while
-	      (re-search-forward
-	       (elt $charArray (% (+ $nowState 2) $length))
-	       ;; (concat
-	       ;;  (elt -charArray (% (+ -nowState 1) -length))
-	       ;;  "\\|"
-	       ;;  (elt -charArray (% (+ -nowState 2) -length)))
-	       (point-max)
-	       "NOERROR")
-	    (replace-match $changeTo "FIXEDCASE" "LITERAL"))))
-      (when (or (string= $changeTo " ") $regionWasActive-p)
+		  (re-search-forward
+		   (elt $charArray (% (+ $nowState 2) $length))
+		   ;; (concat
+		   ;;  (elt -charArray (% (+ -nowState 1) -length))
+		   ;;  "\\|"
+		   ;;  (elt -charArray (% (+ -nowState 2) -length)))
+		   (point-max)
+		   "NOERROR")
+		(replace-match $changeTo "FIXEDCASE" "LITERAL"))))
+	  (when (or (string= $changeTo " ") $regionWasActive-p)
 	(goto-char $p2)
 	(set-mark $p1)
 	(setq deactivate-mark nil))
-      (put 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state (% (+ $nowState 1) $length)))))
+	  (put 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state (% (+ $nowState 1) $length)))))
 
 (defun jj/space-to-underscore-region (@begin @end)
   "Change underscore char to space.
@@ -2632,10 +2632,10 @@ URL `http://ergoemacs.org/emacs/elisp_change_space-hyphen_underscore.html'
 Version 2017-01-11"
   (interactive "r")
   (save-excursion
-    (save-restriction
-      (narrow-to-region @begin @end)
-      (goto-char (point-min))
-      (while
+	(save-restriction
+	  (narrow-to-region @begin @end)
+	  (goto-char (point-min))
+	  (while
 	  (re-search-forward " " (point-max) "NOERROR")
 	(replace-match "_" "FIXEDCASE" "LITERAL")))))
 
@@ -2645,10 +2645,10 @@ URL `http://ergoemacs.org/emacs/elisp_change_space-hyphen_underscore.html'
 Version 2017-01-11"
   (interactive "r")
   (save-excursion
-    (save-restriction
-      (narrow-to-region @begin @end)
-      (goto-char (point-min))
-      (while
+	(save-restriction
+	  (narrow-to-region @begin @end)
+	  (goto-char (point-min))
+	  (while
 	  (re-search-forward " " (point-max) "NOERROR")
 	(replace-match "" "FIXEDCASE" "LITERAL")))))
 
@@ -2661,31 +2661,31 @@ URL `http://ergoemacs.org/emacs/elisp_compact_empty_lines.html'
 Version 2017-09-22"
   (interactive)
   (let ($begin $end)
-    (if (region-active-p)
+	(if (region-active-p)
 	(setq $begin (region-beginning) $end (region-end))
-      (setq $begin (point-min) $end (point-max)))
-    (save-excursion
-      (save-restriction
+	  (setq $begin (point-min) $end (point-max)))
+	(save-excursion
+	  (save-restriction
 	(narrow-to-region $begin $end)
 	(progn
 	  (goto-char (point-min))
 	  (while (re-search-forward "[ \t]+\n" nil "move")
-	    (replace-match "\n")))
+		(replace-match "\n")))
 	(progn
 	  (goto-char (point-min))
 	  (while (re-search-forward "\n\n\n+" nil "move")
-	    (replace-match "\n\n")))
+		(replace-match "\n\n")))
 	(progn
 	  (goto-char (point-max))
 	  (while (equal (char-before) 32) ; char 32 is space
-	    (delete-char -1))))
-      (message "white space cleaned"))))
+		(delete-char -1))))
+	  (message "white space cleaned"))))
 
 (defun jj/TeX-command-run-all-auto-save (arg)
   "Runs TeX-command-run-all but saving first if modified."
   (interactive "P")
   (let ((TeX-save-query nil))
-    (TeX-command-run-all arg)))
+	(TeX-command-run-all arg)))
 
 (defun jj/TeX-LaTeX-auctex-latexmk-compile-view ()
   "Compile, view *.pdf, and clean (maybe)."
@@ -2694,16 +2694,16 @@ Version 2017-09-22"
 	(TeX-source-correlate-mode t)
 	(TeX-source-correlate-method 'synctex)
 	(TeX-source-correlate-start-server nil))
-    (when (buffer-modified-p)
-      (save-buffer))
-    (set-process-sentinel
-     (TeX-command "latexmk" 'TeX-master-file)
-     (lambda (p e)
-       (when (not (= 0 (process-exit-status p)))
+	(when (buffer-modified-p)
+	  (save-buffer))
+	(set-process-sentinel
+	 (TeX-command "latexmk" 'TeX-master-file)
+	 (lambda (p e)
+	   (when (not (= 0 (process-exit-status p)))
 	 (TeX-next-error t) )
-       (when (= 0 (process-exit-status p))
+	   (when (= 0 (process-exit-status p))
 	 (TeX-command "View" 'TeX-active-master 0))))
-    ))
+	))
 
 (defun jj/TeX-LaTeX-auctex-xelatexmk-compile-view ()
   "Compile, view *.pdf, and clean (maybe)."
@@ -2712,16 +2712,16 @@ Version 2017-09-22"
 	(TeX-source-correlate-mode t)
 	(TeX-source-correlate-method 'synctex)
 	(TeX-source-correlate-start-server nil))
-    (when (buffer-modified-p)
-      (save-buffer))
-    (set-process-sentinel
-     (TeX-command "Xelatexmk" 'TeX-master-file)
-     (lambda (p e)
-       (when (not (= 0 (process-exit-status p)))
+	(when (buffer-modified-p)
+	  (save-buffer))
+	(set-process-sentinel
+	 (TeX-command "Xelatexmk" 'TeX-master-file)
+	 (lambda (p e)
+	   (when (not (= 0 (process-exit-status p)))
 	 (TeX-next-error t) )
-       (when (= 0 (process-exit-status p))
+	   (when (= 0 (process-exit-status p))
 	 (TeX-command "View" 'TeX-active-master 0))))
-    ))
+	))
 
 (defun jj/TeX-LaTeX-auctex-lualatex-compile-view ()
   "Compile and view *.pdf for lualatex files"
@@ -2730,16 +2730,16 @@ Version 2017-09-22"
 	(TeX-source-correlate-mode t)
 	(TeX-source-correlate-method 'synctex)
 	(TeX-source-correlate-start-server nil))
-    (when (buffer-modified-p)
-      (save-buffer))
-    (set-process-sentinel
-     (TeX-command "Lualatexmk" 'TeX-master-file)
-     (lambda (p e)
-       (when (not (= 0 (process-exit-status p)))
+	(when (buffer-modified-p)
+	  (save-buffer))
+	(set-process-sentinel
+	 (TeX-command "Lualatexmk" 'TeX-master-file)
+	 (lambda (p e)
+	   (when (not (= 0 (process-exit-status p)))
 	 (TeX-next-error t) )
-       (when (= 0 (process-exit-status p))
+	   (when (= 0 (process-exit-status p))
 	 (TeX-command "View" 'TeX-active-master 0))))
-    ))
+	))
 
 ;; TODO: Get Latex running correctly because sometimes gets passed in resume.pdf.pdf instead of resume.pdf
 ;; I think can maybe fix by calling view a second time or figure out where the error is occurring in auctex
@@ -2750,8 +2750,8 @@ Version 2017-09-22"
 	(TeX-source-correlate-mode t)
 	(TeX-source-correlate-method 'synctex)
 	(TeX-source-correlate-start-server nil))
-    (TeX-command "View" 'TeX-active-master 0)
-    ))
+	(TeX-command "View" 'TeX-active-master 0)
+	))
 
 (defun jj/TeX-LaTeX-auctex-regular-compile-view-clean ()
   "Compile, view *.pdf, and clean (maybe)."
@@ -2773,20 +2773,20 @@ Version 2017-09-22"
 	   "\\.out" "\\.snm" "\\.toc" "\\.url" "\\.bcf"
 	   "\\.run\\.xml" "\\.fls" "-blx\\.bib" "\\.acn" "\\.acr" "\\.alg"
 	   "\\.glg" "\\.ist" "\\.fdb.latexmk")))
-    (when (buffer-modified-p)
-      (save-buffer))
-    (set-process-sentinel
-     (TeX-command "LaTeX" 'TeX-master-file)
-     (lambda (p e)
-       (when (not (= 0 (process-exit-status p)))
+	(when (buffer-modified-p)
+	  (save-buffer))
+	(set-process-sentinel
+	 (TeX-command "LaTeX" 'TeX-master-file)
+	 (lambda (p e)
+	   (when (not (= 0 (process-exit-status p)))
 	 (TeX-next-error t) )
-       (when (= 0 (process-exit-status p))
+	   (when (= 0 (process-exit-status p))
 	 (TeX-command "View" 'TeX-active-master 0)
 	 ;; `set-process-sentinel` cannot be used on Windows XP for post-view cleanup,
 	 ;; because Emacs treats SumatraPDF as an active process until SumatraPDF exits.
 	 (let ((major-mode 'latex-mode))
 	   (with-current-buffer TeX-command-buffer
-	     (TeX-command "Clean" 'TeX-master-file))))))))
+		 (TeX-command "Clean" 'TeX-master-file))))))))
 
 ;;; --------------------------------------------------- adding words to flyspell
 ;; If ispell-personal-dictionary variable not set this won't work correctly
@@ -2794,27 +2794,27 @@ Version 2017-09-22"
   (let ((header "hunspell_personal_dic: Total word count is ")
 	(file-name (symbol-value 'ispell-personal-dictionary))
 	(read-words (lambda (file-name)
-		      (let ((all-lines (with-temp-buffer
+			  (let ((all-lines (with-temp-buffer
 					 (insert-file-contents file-name)
 					 (split-string (buffer-string) "\n" t))))
 			(if (null all-lines)
-			    ""
+				""
 			  (split-string (mapconcat 'identity (cdr all-lines) "\n")
 					nil
 					t))))))
-    (cond ((equal ispell-program-name (executable-find "aspell"))
+	(cond ((equal ispell-program-name (executable-find "aspell"))
 	   (setq header "personal_ws-1.1 en ")))
-    (when (file-readable-p file-name)
-      (let* ((cur-words (eval (list read-words file-name)))
-	     (all-words (delq header (cons new-word cur-words)))
-	     (words (delq nil (remove-duplicates all-words :test 'string=))))
+	(when (file-readable-p file-name)
+	  (let* ((cur-words (eval (list read-words file-name)))
+		 (all-words (delq header (cons new-word cur-words)))
+		 (words (delq nil (remove-duplicates all-words :test 'string=))))
 	(with-temp-file file-name
 	  (insert (concat header
 			  (number-to-string (length words))
 			  "\n"
 			  (mapconcat 'identity (sort words #'string<) "\n") "\n")))))
-    (unless (file-readable-p file-name)
-      (with-temp-file file-name
+	(unless (file-readable-p file-name)
+	  (with-temp-file file-name
 	(insert (concat header " en 1\n" new-word "\n")))))
   ;; wrapped to supress starting hunspell message can also use with-suppressed-message
   (let ((inhibit-message t)) (ispell-kill-ispell))
@@ -2831,35 +2831,35 @@ Version 2017-09-22"
 (defmacro no-message (&rest body)
   "Eval BODY, with `message' doing nothing."
   `(cl-letf (((symbol-function 'message)
-	      (lambda (&rest args)
+		  (lambda (&rest args)
 		nil)))
-     (progn ,@body)))
+	 (progn ,@body)))
 
 (defmacro with-suppressed-message (&rest body)
   "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
   (let ((message-log-max nil))
-    `(with-temp-message (or (current-message) "") ,@body)))
+	`(with-temp-message (or (current-message) "") ,@body)))
 
 (defun jj/counsel-imenu-comments ()
   "Imenu display comments."
   (interactive)
   (let* ((imenu-create-index-function 'evilnc-imenu-create-index-function))
-    (counsel-imenu)))
+	(counsel-imenu)))
 
 (defun jj/infer-indentation-style ()
   ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
   ;; neither, we use the current indent-tabs-mode
   (let ((space-count (how-many "^  " (point-min) (point-max)))
 	(tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+	(if (> space-count tab-count) (setq indent-tabs-mode nil))
+	(if (> tab-count space-count) (setq indent-tabs-mode t))))
 
 (defvar jj/ratio-dict
   '((1 . 1.61803398875)
-    (2 . 2)
-    (3 . 3)
-    (4 . 4)
-    (5 . 0.61803398875))
+	(2 . 2)
+	(3 . 3)
+	(4 . 4)
+	(5 . 0.61803398875))
   "The ratio dictionary.")
 
 (defun jj/split-window-horizontally (&optional ratio)
@@ -2867,16 +2867,16 @@ Version 2017-09-22"
 Always focus bigger window."
   (interactive "P")
   (let* (ratio-val)
-    (cond
-     (ratio
-      (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
-      (split-window-horizontally (floor (/ (window-body-width)
+	(cond
+	 (ratio
+	  (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
+	  (split-window-horizontally (floor (/ (window-body-width)
 					   (1+ ratio-val)))))
-     (t
-      (split-window-horizontally)))
-    (set-window-buffer (next-window) (other-buffer))
-    (if (or (not ratio-val)
-	    (>= ratio-val 1))
+	 (t
+	  (split-window-horizontally)))
+	(set-window-buffer (next-window) (other-buffer))
+	(if (or (not ratio-val)
+		(>= ratio-val 1))
 	(windmove-right))))
 
 (defun jj/split-window-vertically (&optional ratio)
@@ -2884,18 +2884,18 @@ Always focus bigger window."
 Always focus bigger window."
   (interactive "P")
   (let* (ratio-val)
-    (cond
-     (ratio
-      (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
-      (split-window-vertically (floor (/ (window-body-height)
+	(cond
+	 (ratio
+	  (setq ratio-val (cdr (assoc ratio jj/ratio-dict)))
+	  (split-window-vertically (floor (/ (window-body-height)
 					 (1+ ratio-val)))))
-     (t
-      (split-window-vertically)))
-    ;; open another window with other-buffer
-    (set-window-buffer (next-window) (other-buffer))
-    ;; move focus if new window bigger than current one
-    (if (or (not ratio-val)
-	    (>= ratio-val 1))
+	 (t
+	  (split-window-vertically)))
+	;; open another window with other-buffer
+	(set-window-buffer (next-window) (other-buffer))
+	;; move focus if new window bigger than current one
+	(if (or (not ratio-val)
+		(>= ratio-val 1))
 	(windmove-down))))
 
 (defun jj/eyebrowse-close-window-config-switch-to-2 ()
@@ -2981,20 +2981,20 @@ is equivalent to setting FOCUS to 'background.  Any other prefix
 argument is equivalent to setting FOCUS to 'foreground."
   (interactive (osx-browse-interactive-form))
   (unless (stringp url)
-    (error "No valid URL"))
+	(error "No valid URL"))
   (let ((args (list url))
 	(proc nil))
-    (when browser
-      (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
-    (when (eq osx-browse-prefer-background 'background)
-      (push "-g" args))
-    (setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
-    (set-process-query-on-exit-flag proc nil))
+	(when browser
+	  (callf2 append (list (if (osx-browse-bundle-name-p browser) "-b" "-a") browser) args))
+	(when (eq osx-browse-prefer-background 'background)
+	  (push "-g" args))
+	(setq proc (apply 'start-process "osx-browse-url" nil osx-browse-open-command args))
+	(set-process-query-on-exit-flag proc nil))
   (let ((width (- (frame-width) 25)))
-    (when (and (eq focus 'background)
-	       (not osx-browse-less-feedback)
-	       (>= width 10))
-      (message "opened in background: %s" (osx-browse-truncate-url url width)))))
+	(when (and (eq focus 'background)
+		   (not osx-browse-less-feedback)
+		   (>= width 10))
+	  (message "opened in background: %s" (osx-browse-truncate-url url width)))))
 
 (defun jj/osx-browse-url-safari (url &optional new-window browser focus)
   "Open URL in Safari on OS X.
@@ -3014,14 +3014,14 @@ for confirmation.
 PREFIX determines quoting."
   (interactive "P")
   (let ((google-this-browse-url-function 'jj/osx-browse-url-safari))
-    (google-this prefix 'noconfirm)))
+	(google-this prefix 'noconfirm)))
 
 (defun jj/google-this-word-background (prefix)
   "Google the current word.
 PREFIX determines quoting."
   (interactive "P")
   (let ((google-this-browse-url-function 'jj/osx-browse-url-safari))
-    (google-this-string prefix (thing-at-point 'word) t)))
+	(google-this-string prefix (thing-at-point 'word) t)))
 
 (defun jj/google-this-background (prefix &optional noconfirm)
   "Decide what the user wants to google (always something under point).
@@ -3032,26 +3032,26 @@ PREFIX argument determines quoting.
 NOCONFIRM goes without asking for confirmation."
   (interactive "P")
   (let ((google-this-browse-url-function 'jj/osx-browse-url-safari))
-    (cond
-     ((region-active-p) (google-this-region prefix noconfirm))
-     ((thing-at-point 'symbol) (google-this-string prefix (thing-at-point 'symbol) noconfirm))
-     ((thing-at-point 'word) (google-this-string prefix (thing-at-point 'word) noconfirm))
-     (t (google-this-line prefix noconfirm)))))
+	(cond
+	 ((region-active-p) (google-this-region prefix noconfirm))
+	 ((thing-at-point 'symbol) (google-this-string prefix (thing-at-point 'symbol) noconfirm))
+	 ((thing-at-point 'word) (google-this-string prefix (thing-at-point 'word) noconfirm))
+	 (t (google-this-line prefix noconfirm)))))
 
 (defun jj/google-this-forecast-background (prefix)
   "Search google for \"weather\".
 With PREFIX, ask for location."
   (interactive "P")
   (let ((google-this-browse-url-function 'jj/osx-browse-url-safari))
-    (if (not prefix) (google-this-parse-and-search-string "weather" nil)
-      (google-this-parse-and-search-string
-       (concat "weather " (read-string "Location: " nil nil "")) nil))))
+	(if (not prefix) (google-this-parse-and-search-string "weather" nil)
+	  (google-this-parse-and-search-string
+	   (concat "weather " (read-string "Location: " nil nil "")) nil))))
 
 (defun jj/myfunc-color-identifiers-mode-hook ()
   (interactive)
   (let ((faces '(font-lock-comment-face font-lock-comment-delimiter-face font-lock-constant-face font-lock-type-face font-lock-function-name-face font-lock-variable-name-face font-lock-keyword-face font-lock-string-face font-lock-builtin-face font-lock-preprocessor-face font-lock-warning-face font-lock-doc-face font-lock-negation-char-face font-lock-regexp-grouping-construct font-lock-regexp-grouping-backslash)))
-    (dolist (face faces)
-      (face-remap-add-relative face '((:foreground "" :weight normal :slant normal)))))
+	(dolist (face faces)
+	  (face-remap-add-relative face '((:foreground "" :weight normal :slant normal)))))
   (face-remap-add-relative 'font-lock-keyword-face '((:weight bold)))
   (face-remap-add-relative 'font-lock-comment-face '((:slant italic)))
   (face-remap-add-relative 'font-lock-builtin-face '((:weight bold)))
@@ -3066,47 +3066,47 @@ With PREFIX, ask for location."
 (defun jj/lock-my-dired-emacs-buffers ()
   (interactive)
   (progn
-    (when (get-buffer "Downloads")
-      (progn
+	(when (get-buffer "Downloads")
+	  (progn
 	(with-current-buffer "Downloads"
 	  (interactive)
 	  (jj/emacs-lock-mode-all))))
-    (when (get-buffer "*scratch*")
-      (progn
+	(when (get-buffer "*scratch*")
+	  (progn
 	(with-current-buffer "*scratch*"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "FinishedTor")
-      (progn
+	(when (get-buffer "FinishedTor")
+	  (progn
 	(with-current-buffer "FinishedTor"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "K")
-      (progn
+	(when (get-buffer "K")
+	  (progn
 	(with-current-buffer "K"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "user.el")
-      (progn
+	(when (get-buffer "user.el")
+	  (progn
 	(with-current-buffer "user.el"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "bindings.el")
-      (progn
+	(when (get-buffer "bindings.el")
+	  (progn
 	(with-current-buffer "bindings.el"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "settings.el")
-      (progn
+	(when (get-buffer "settings.el")
+	  (progn
 	(with-current-buffer "settings.el"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    (when (get-buffer "functions.el")
-      (progn
+	(when (get-buffer "functions.el")
+	  (progn
 	(with-current-buffer "functions.el"
 	  (interactive)
 	  (jj/emacs-lock-mode-kill))))
-    ))
+	))
 
 (defun jj/quit-window-kill ()
   "Uses quit-window with prefix arg to kill the buffer and return to previous-window.
@@ -3127,14 +3127,14 @@ Calling it once without a region will copy the current word.
 Calling it a second time will copy the current line."
   (interactive
    (if mark-active (list (region-beginning) (region-end))
-     (if (eq last-command 'kill-ring-save)
+	 (if (eq last-command 'kill-ring-save)
 	 (progn
 	   ;; Uncomment to only keep the line in the kill ring
 	   (kill-new "" t)
 	   (message "Copied line")
 	   (list (line-beginning-position)
 		 (line-beginning-position 2)))
-       (save-excursion
+	   (save-excursion
 	 (forward-char)
 	 (backward-word)
 	 (mark-word)
@@ -3149,7 +3149,7 @@ Calling it once without a region will kill the current word.
 Calling it a second time will kill the current line."
   (interactive
    (if mark-active (list (region-beginning) (region-end))
-     (if (eq last-command 'kill-region)
+	 (if (eq last-command 'kill-region)
 	 (progn
 	   ;; Return the previous kill to rebuild the line
 	   (yank)
@@ -3160,7 +3160,7 @@ Calling it a second time will kill the current line."
 	   (message "Killed Line")
 	   (list (line-beginning-position)
 		 (line-beginning-position 2)))
-       (save-excursion
+	   (save-excursion
 	 (forward-char)
 	 (backward-word)
 	 (mark-word)
@@ -3190,16 +3190,16 @@ Null prefix argument turns off the mode."
   ;; The minor mode bindings.
   nil
   (if (symbol-value sensitive-mode)
-      (progn
+	  (progn
 	;; disable backups
 	(set (make-local-variable 'backup-inhibited) t)
 	;; disable auto-save
 	(if auto-save-default
-	    (auto-save-mode -1)))
+		(auto-save-mode -1)))
 					;resort to default value of backup-inhibited
-    (kill-local-variable 'backup-inhibited)
+	(kill-local-variable 'backup-inhibited)
 					;resort to default auto save setting
-    (if auto-save-default
+	(if auto-save-default
 	(auto-save-mode 1))))
 
 (defun jj/org-insert-heading-respect-content-and-delete-current-line ()
@@ -3214,34 +3214,34 @@ Null prefix argument turns off the mode."
   "Delete all themes, load theme leuven, setup smart-mode-line, and set the mode-line font"
   (interactive)
   (when (display-graphic-p)
-    (set-face-attribute 'minibuffer-prompt nil :foreground nil :background nil)
-    (set-face-attribute 'org-level-1 nil :background nil :foreground nil :bold t :height 1.3 :box t :overline t)
-    (set-face-attribute 'org-level-2 nil :background nil :foreground nil :bold t :height 1.0 :box t :overline t)
-    (set-face-attribute 'org-level-3 nil :foreground nil :bold nil :overline t)
-    (set-face-attribute 'org-latex-and-related nil :foreground nil)
-    (set-face-attribute 'org-verbatim nil :foreground nil)
-    (set-face-attribute 'org-code nil :foreground nil)
-    (set-face-attribute 'dired-ignored nil :foreground nil :background nil :strike-through nil)
-    (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground nil)
-    (set-face-attribute 'font-lock-comment-face nil :foreground nil)
-    (set-face-attribute 'dired-flagged nil :foreground nil :background nil)
-    (set-face-attribute 'dired-warning nil :foreground nil :background nil :bold t)
-    (set-face-attribute 'dired-symlink nil :foreground nil :background nil :bold nil)
-    (set-face-attribute 'dired-header nil :foreground nil :background nil :bold t)
-    (set-face-attribute 'dired-directory nil :foreground nil :background nil :bold t)
-    (set-face-attribute 'dired-marked nil :foreground nil :background nil :bold t)
-    (set-face-attribute 'dired-mark nil :foreground nil :background nil :bold t)
-    (set-face-attribute 'region nil :foreground nil :background nil)
-    (set-face-attribute 'secondary-selection nil :foreground nil :background nil)
-    (set-face-attribute 'helm-selection nil :foreground nil :background nil)
-    (set-face-attribute 'Man-overstrike nil :inherit 'bold :foreground "firebrick3")
-    (set-face-attribute 'Man-underline nil :inherit 'underline :foreground "green3")
-    (counsel-load-theme-action nil)
-    (load-theme 'leuven)
-    (sml/setup)
-    (sml/apply-theme 'light)
-    (jj/light-theme-set-visible-mark-faces)
-    (set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
+	(set-face-attribute 'minibuffer-prompt nil :foreground nil :background nil)
+	(set-face-attribute 'org-level-1 nil :background nil :foreground nil :bold t :height 1.3 :box t :overline t)
+	(set-face-attribute 'org-level-2 nil :background nil :foreground nil :bold t :height 1.0 :box t :overline t)
+	(set-face-attribute 'org-level-3 nil :foreground nil :bold nil :overline t)
+	(set-face-attribute 'org-latex-and-related nil :foreground nil)
+	(set-face-attribute 'org-verbatim nil :foreground nil)
+	(set-face-attribute 'org-code nil :foreground nil)
+	(set-face-attribute 'dired-ignored nil :foreground nil :background nil :strike-through nil)
+	(set-face-attribute 'font-lock-comment-delimiter-face nil :foreground nil)
+	(set-face-attribute 'font-lock-comment-face nil :foreground nil)
+	(set-face-attribute 'dired-flagged nil :foreground nil :background nil)
+	(set-face-attribute 'dired-warning nil :foreground nil :background nil :bold t)
+	(set-face-attribute 'dired-symlink nil :foreground nil :background nil :bold nil)
+	(set-face-attribute 'dired-header nil :foreground nil :background nil :bold t)
+	(set-face-attribute 'dired-directory nil :foreground nil :background nil :bold t)
+	(set-face-attribute 'dired-marked nil :foreground nil :background nil :bold t)
+	(set-face-attribute 'dired-mark nil :foreground nil :background nil :bold t)
+	(set-face-attribute 'region nil :foreground nil :background nil)
+	(set-face-attribute 'secondary-selection nil :foreground nil :background nil)
+	(set-face-attribute 'helm-selection nil :foreground nil :background nil)
+	(set-face-attribute 'Man-overstrike nil :inherit 'bold :foreground "firebrick3")
+	(set-face-attribute 'Man-underline nil :inherit 'underline :foreground "green3")
+	(counsel-load-theme-action nil)
+	(load-theme 'leuven)
+	(sml/setup)
+	(sml/apply-theme 'light)
+	(jj/light-theme-set-visible-mark-faces)
+	(set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
 (defun jj/sml/dark ()
   "Set sml to dark and set mode-line font to Lucida Grande"
   (interactive)
@@ -3282,8 +3282,8 @@ Null prefix argument turns off the mode."
 (defun jj/save-buffers-kill-terminal ()
   (interactive)
   (when (get-buffer "Downloads")
-    (progn
-      (with-current-buffer "Downloads"
+	(progn
+	  (with-current-buffer "Downloads"
 	(interactive)
 	(jj/emacs-lock-mode-off))))
   (save-buffers-kill-terminal))
@@ -3298,14 +3298,14 @@ of marked files.  If KILL-ROOT is non-nil, kill DIRNAME as well."
   (interactive "DKill tree below directory: \ni\nP")
   (setq dirname (file-name-as-directory (expand-file-name dirname)))
   (let ((s-alist dired-subdir-alist) dir m-alist)
-    (while s-alist
-      (setq dir (car (car s-alist))
-	    s-alist (cdr s-alist))
-      (and (or kill-root (not (string-equal dir dirname)))
+	(while s-alist
+	  (setq dir (car (car s-alist))
+		s-alist (cdr s-alist))
+	  (and (or kill-root (not (string-equal dir dirname)))
 	   (dired-in-this-tree dir dirname)
 	   (dired-goto-subdir dir)
 	   (setq m-alist (nconc (dired-kill-subdir remember-marks) m-alist))))
-    m-alist))
+	m-alist))
 
 (defun jj/dired-kill-tree (dirname &optional remember-marks kill-root)
   "Kill all proper subdirs of DIRNAME, excluding DIRNAME itself.
@@ -3317,14 +3317,14 @@ of marked files.  If KILL-ROOT is non-nil, kill DIRNAME as well."
   (interactive "DKill tree below directory: \ni\nP")
   (setq dirname (file-name-as-directory (expand-file-name dirname)))
   (let ((s-alist dired-subdir-alist) dir m-alist)
-    (while s-alist
-      (setq dir (car (car s-alist))
-	    s-alist (cdr s-alist))
-      (and (or kill-root (not (string-equal dir dirname)))
+	(while s-alist
+	  (setq dir (car (car s-alist))
+		s-alist (cdr s-alist))
+	  (and (or kill-root (not (string-equal dir dirname)))
 	   (dired-in-this-tree dir dirname)
 	   (dired-goto-subdir dir)
 	   (setq m-alist (nconc (dired-kill-subdir remember-marks) m-alist))))
-    m-alist)
+	m-alist)
   (jj/dired-beginning-of-subdir))
 
 (defun jj/delete-backward-char-or-bracket-text ()
@@ -3338,29 +3338,29 @@ URL `http://ergoemacs.org/emacs/emacs_delete_backward_char_or_bracket_text.html'
 Version 2017-07-02"
   (interactive)
   (if (and delete-selection-mode (region-active-p))
-      (delete-region (region-beginning) (region-end))
-    (cond
-     ((looking-back "\\s)" 1)
-      (if current-prefix-arg
+	  (delete-region (region-beginning) (region-end))
+	(cond
+	 ((looking-back "\\s)" 1)
+	  (if current-prefix-arg
 	  (jj/delete-backward-bracket-pair)
 	(jj/delete-backward-bracket-text)))
-     ((looking-back "\\s(" 1)
-      (progn
+	 ((looking-back "\\s(" 1)
+	  (progn
 	(backward-char)
 	(forward-sexp)
 	(if current-prefix-arg
-	    (jj/delete-backward-bracket-pair)
+		(jj/delete-backward-bracket-pair)
 	  (jj/delete-backward-bracket-text))))
-     ((looking-back "\\s\"" 1)
-      (if (nth 3 (syntax-ppss))
+	 ((looking-back "\\s\"" 1)
+	  (if (nth 3 (syntax-ppss))
 	  (progn
-	    (backward-char )
-	    (jj/delete-forward-bracket-pairs (not current-prefix-arg)))
+		(backward-char )
+		(jj/delete-forward-bracket-pairs (not current-prefix-arg)))
 	(if current-prefix-arg
-	    (jj/delete-backward-bracket-pair)
+		(jj/delete-backward-bracket-pair)
 	  (jj/delete-backward-bracket-text))))
-     (t
-      (delete-char -1)))))
+	 (t
+	  (delete-char -1)))))
 
 (defun jj/delete-backward-bracket-text ()
   "Delete the matching brackets/quotes to the left of cursor, including the inner text.
@@ -3373,9 +3373,9 @@ URL `http://ergoemacs.org/emacs/emacs_delete_backward_char_or_bracket_text.html'
 Version 2017-07-02"
   (interactive)
   (progn
-    (forward-sexp -1)
-    (mark-sexp)
-    (kill-region (region-beginning) (region-end))))
+	(forward-sexp -1)
+	(mark-sexp)
+	(kill-region (region-beginning) (region-end))))
 
 (defun jj/delete-backward-bracket-pair ()
   "Delete the matching brackets/quotes to the left of cursor.
@@ -3390,14 +3390,14 @@ URL `http://ergoemacs.org/emacs/emacs_delete_backward_char_or_bracket_text.html'
 Version 2017-07-02"
   (interactive)
   (let (( $p0 (point)) $p1)
-    (forward-sexp -1)
-    (setq $p1 (point))
-    (goto-char $p0)
-    (delete-char -1)
-    (goto-char $p1)
-    (delete-char 1)
-    (push-mark (point) t)
-    (goto-char (- $p0 2))))
+	(forward-sexp -1)
+	(setq $p1 (point))
+	(goto-char $p0)
+	(delete-char -1)
+	(goto-char $p1)
+	(delete-char 1)
+	(push-mark (point) t)
+	(goto-char (- $p0 2))))
 
 (defun jj/delete-forward-bracket-pairs ( &optional @delete-inner-text-p)
   "Delete the matching brackets/quotes to the right of cursor.
@@ -3413,65 +3413,65 @@ URL `http://ergoemacs.org/emacs/emacs_delete_backward_char_or_bracket_text.html'
 Version 2017-07-02"
   (interactive)
   (if @delete-inner-text-p
-      (progn
+	  (progn
 	(mark-sexp)
 	(kill-region (region-beginning) (region-end)))
-    (let (($pt (point)))
-      (forward-sexp)
-      (delete-char -1)
-      (push-mark (point) t)
-      (goto-char $pt)
-      (delete-char 1))))
+	(let (($pt (point)))
+	  (forward-sexp)
+	  (delete-char -1)
+	  (push-mark (point) t)
+	  (goto-char $pt)
+	  (delete-char 1))))
 
 (defun jj/counsel-rg-in-project ()
   "Use `ffip' and `counsel-ag' for quick project-wide text searching."
   (interactive)
   (let ((project-root (ffip-project-root)))
-    ;; if ffip could not find project-root, it will already have
-    ;; shown an error message. We only have to check for non-nil.
-    (if project-root
+	;; if ffip could not find project-root, it will already have
+	;; shown an error message. We only have to check for non-nil.
+	(if project-root
 	(counsel-rg nil project-root nil
-		    (format "Search in PRJ %s" project-root)))))
+			(format "Search in PRJ %s" project-root)))))
 
 (defun jj/counsel-ag-in-project ()
   "Use `ffip' and `counsel-ag' for quick project-wide text searching."
   (interactive)
   (let ((project-root (ffip-project-root)))
-    ;; if ffip could not find project-root, it will already have
-    ;; shown an error message. We only have to check for non-nil.
-    (if project-root
+	;; if ffip could not find project-root, it will already have
+	;; shown an error message. We only have to check for non-nil.
+	(if project-root
 	(counsel-rg nil project-root nil
-		    (format "Search in PRJ %s" project-root)))))
+			(format "Search in PRJ %s" project-root)))))
 
 (defun jj/ivy-return-recentf-index (dir)
   (when (and (boundp 'recentf-list)
-	     recentf-list)
-    (let ((files-list
+		 recentf-list)
+	(let ((files-list
 	   (cl-subseq recentf-list
-		      0 (min (- (length recentf-list) 1) 20)))
+			  0 (min (- (length recentf-list) 1) 20)))
 	  (index 0))
-      (while files-list
+	  (while files-list
 	(if (string-match-p dir (car files-list))
-	    (setq files-list nil)
+		(setq files-list nil)
 	  (setq index (+ index 1))
 	  (setq files-list (cdr files-list))))
-      index)))
+	  index)))
 
 (defun jj/ivy-sort-file-function (x y)
   (let* ((x (concat ivy--directory x))
 	 (y (concat ivy--directory y))
 	 (x-mtime (nth 5 (file-attributes x)))
 	 (y-mtime (nth 5 (file-attributes y))))
-    (if (file-directory-p x)
+	(if (file-directory-p x)
 	(if (file-directory-p y)
-	    (let ((x-recentf-index (jj/ivy-return-recentf-index x))
+		(let ((x-recentf-index (jj/ivy-return-recentf-index x))
 		  (y-recentf-index (jj/ivy-return-recentf-index y)))
-	      (if (and x-recentf-index y-recentf-index)
+		  (if (and x-recentf-index y-recentf-index)
 		  ;; Directories is sorted by `recentf-list' index
 		  (< x-recentf-index y-recentf-index)
 		(string< x y)))
 	  t)
-      (if (file-directory-p y)
+	  (if (file-directory-p y)
 	  nil
 	;; Files is sorted by mtime
 	(time-less-p y-mtime x-mtime)))))
@@ -3481,11 +3481,11 @@ Version 2017-07-02"
 	 (y (concat ivy--directory y))
 	 (x-mtime (nth 5 (file-attributes x)))
 	 (y-mtime (nth 5 (file-attributes y))))
-    (if (file-directory-p x)
+	(if (file-directory-p x)
 	(if (file-directory-p y)
-	    (time-less-p y-mtime x-mtime)
+		(time-less-p y-mtime x-mtime)
 	  t)
-      (if (file-directory-p y)
+	  (if (file-directory-p y)
 	  nil
 	(time-less-p y-mtime x-mtime)))))
 
@@ -3493,7 +3493,7 @@ Version 2017-07-02"
 (defun jj/ws-butler-mode-if-whitespace-initially-not-clean ()
   (interactive)
   (if (not whitespace-cleanup-mode-initially-clean)
-      (ws-butler-mode)))
+	  (ws-butler-mode)))
 
 ;; NOTE: Rewrote hl-todo--setup in hl-todo.el to highlight hl-todo-highlight-punctuation before keywords (not just after)
 ;; Further modified hl-todo so to insert keywords with a colon and always a space after the colon
@@ -3508,37 +3508,37 @@ current line."
    (list (completing-read
 	  "Insert keyword: "
 	  (mapcar (pcase-lambda (`(,keyword . ,face))
-		    (propertize keyword 'face
+			(propertize keyword 'face
 				(if (stringp face)
-				    (list :inherit 'hl-todo :foreground face)
+					(list :inherit 'hl-todo :foreground face)
 				  face)))
 		  hl-todo-keyword-faces))))
   (cond
    ((hl-todo--inside-comment-or-string-p)
-    (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
-		    keyword
-		    ":"
-		    ;; NOTE: Removed ?\n in '(?\s ?\t))) so always puts a space even at end of line
-		    (and (not (memq (char-after) '(?\s ?\t))) " "))))
+	(insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
+			keyword
+			":"
+			;; NOTE: Removed ?\n in '(?\s ?\t))) so always puts a space even at end of line
+			(and (not (memq (char-after) '(?\s ?\t))) " "))))
    ((eolp)
-    ;; NOTE: Removed (and (not (memq (char-before) '(?\s ?\t))) " ") because puts space before
-    (insert (concat
-	     (format "%s %s: "
-		     (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
+	;; NOTE: Removed (and (not (memq (char-before) '(?\s ?\t))) " ") because puts space before
+	(insert (concat
+		 (format "%s %s: "
+			 (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
 			 (format "%s%s" comment-start comment-start)
-		       comment-start)
-		     keyword)
-	     (and (not (memq (char-after) '(?\s ?\t))) " ")))
-    (backward-char))
+			   comment-start)
+			 keyword)
+		 (and (not (memq (char-after) '(?\s ?\t))) " ")))
+	(backward-char))
    (t
-    (goto-char (line-beginning-position))
-    (insert (format "%s %s: \n"
-		    (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
+	(goto-char (line-beginning-position))
+	(insert (format "%s %s: \n"
+			(if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
 			(format "%s%s" comment-start comment-start)
-		      comment-start)
-		    keyword))
-    (backward-char)
-    (indent-region (line-beginning-position) (line-end-position)))))
+			  comment-start)
+			keyword))
+	(backward-char)
+	(indent-region (line-beginning-position) (line-end-position)))))
 
 ;;requires frame-cmds package
 (defvar jj/wttrin-frame-changed nil
@@ -3558,13 +3558,13 @@ current line."
   "Restore frame and window configuration saved prior to launching wttrin."
   (interactive)
   (if (equal jj/wttrin-frame-changed t)
-      (progn
+	  (progn
 	(jump-to-frame-config-register)
 	(jump-to-register :pre-wttrin)
 	(setq jj/wttrin-frame-changed nil)
 	)
-    ;; (message "Did not enter wttrin changing the frame.")
-    ))
+	;; (message "Did not enter wttrin changing the frame.")
+	))
 (advice-add 'wttrin-exit :after #'jj/wttrin-restore-frame)
 
 ;; function to open wttrin with first city on list
@@ -3582,9 +3582,9 @@ current line."
   "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
   (interactive
    (list
-    (completing-read "City name: " wttrin-default-cities nil nil
-		     (when (= (length wttrin-default-cities) 1)
-		       (car wttrin-default-cities)))))
+	(completing-read "City name: " wttrin-default-cities nil nil
+			 (when (= (length wttrin-default-cities) 1)
+			   (car wttrin-default-cities)))))
   ;; save window arrangement to register
   (jj/wttrin-save-frame)
   (wttrin-query city)
@@ -3598,12 +3598,12 @@ current line."
 	   "smex-items$" "\\recentf$" "\\.recentf$" "\\tramp$"
 	   "\\.mc-lists.el$" "\\.emacs.desktop$" "\\history$" ".newsrc\\(\\.eld\\)?"))
 	(matched-ignored-filename nil))
-    (mapc
-     (lambda (x)
-       (when (string-match x filename)
+	(mapc
+	 (lambda (x)
+	   (when (string-match x filename)
 	 (setq matched-ignored-filename t)))
-     ignored-filenames)
-    (not matched-ignored-filename)))
+	 ignored-filenames)
+	(not matched-ignored-filename)))
 
 (defun jj/backup-each-save-dired-jump ()
   (interactive)
@@ -3616,11 +3616,11 @@ current line."
 		  backup-each-save-mirror-location
 		  containing-dir))
 	 )
-    (when (file-exists-p backup-container)
-      (find-file backup-container)
-      (goto-char (point-max))
-      (search-backward basename)
-      )))
+	(when (file-exists-p backup-container)
+	  (find-file backup-container)
+	  (goto-char (point-max))
+	  (search-backward basename)
+	  )))
 
 (defun jj/projectile-kill-non-project-buffers (&optional kill-special)
   "Kill buffers that do not belong to a `projectile' project.
@@ -3628,16 +3628,16 @@ current line."
 With prefix argument (`C-u'), also kill the special buffers."
   (interactive "P")
   (let ((bufs (buffer-list (selected-frame))))
-    (dolist (buf bufs)
-      (with-current-buffer buf
+	(dolist (buf bufs)
+	  (with-current-buffer buf
 	(let ((buf-name (buffer-name buf)))
 	  (when (or (null (projectile-project-p))
-		    (and kill-special
+			(and kill-special
 			 (string-match "^\*" buf-name)))
-	    ;; Preserve buffers with names starting with *scratch or *Messages
-	    (unless (string-match "^\\*\\(\\scratch\\|Messages\\)" buf-name)
-	      (message "Killing buffer %s" buf-name)
-	      (kill-buffer buf))))))))
+		;; Preserve buffers with names starting with *scratch or *Messages
+		(unless (string-match "^\\*\\(\\scratch\\|Messages\\)" buf-name)
+		  (message "Killing buffer %s" buf-name)
+		  (kill-buffer buf))))))))
 
 (defmacro jj/special-beginning-of-buffer (mode &rest forms)
   "Define a special version of `beginning-of-buffer' in MODE.
@@ -3652,18 +3652,18 @@ buffer."
   (let ((fname (intern (concat "jj/" (symbol-name mode) "-beginning-of-buffer")))
 	(mode-map (intern (concat (symbol-name mode) "-mode-map")))
 	(mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
-    `(progn
-       (defun ,fname ()
+	`(progn
+	   (defun ,fname ()
 	 (interactive)
 	 (let ((p (point)))
 	   (goto-char (point-min))
 	   ,@forms
 	   (when (= p (point))
-	     (goto-char (point-min)))))
-       (add-hook ',mode-hook
+		 (goto-char (point-min)))))
+	   (add-hook ',mode-hook
 		 (lambda ()
 		   (define-key ,mode-map
-		     [remap beginning-of-buffer] ',fname))))))
+			 [remap beginning-of-buffer] ',fname))))))
 
 (defmacro jj/special-end-of-buffer (mode &rest forms)
   "Define a special version of `end-of-buffer' in MODE.
@@ -3677,18 +3677,18 @@ toggle between real end and logical end of the buffer."
   (let ((fname (intern (concat "jj/" (symbol-name mode) "-end-of-buffer")))
 	(mode-map (intern (concat (symbol-name mode) "-mode-map")))
 	(mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
-    `(progn
-       (defun ,fname ()
+	`(progn
+	   (defun ,fname ()
 	 (interactive)
 	 (let ((p (point)))
 	   (goto-char (point-max))
 	   ,@forms
 	   (when (= p (point))
-	     (goto-char (point-max)))))
-       (add-hook ',mode-hook
+		 (goto-char (point-max)))))
+	   (add-hook ',mode-hook
 		 (lambda ()
 		   (define-key ,mode-map
-		     [remap end-of-buffer] ',fname))))))
+			 [remap end-of-buffer] ',fname))))))
 
 (defun jj/dired-beginning-of-subdir ()
   "Move to the first line in the current subdirectory.
@@ -3697,56 +3697,56 @@ TODO: If on the first line of directory already, move to previous directory.
   (interactive)
   (dired-previous-line 1)
   (if (not (ignore-errors (dired-get-filename)))
-      (progn
+	  (progn
 	(dired-next-line 1)
 	(dired-prev-subdir 1))
-    (dired-prev-subdir 0)
-    )
+	(dired-prev-subdir 0)
+	)
   (let ((num 0))
-    (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-      (dired-next-line 1)
-      (setq num (1+ num)))
-    (if (eq num 3)
+	(while (and (not (ignore-errors (dired-get-filename))) (< num 3))
+	  (dired-next-line 1)
+	  (setq num (1+ num)))
+	(if (eq num 3)
 	(dired-prev-subdir 1))))
 
 (defun jj/insert-space-in-front (arg)
   (interactive "P")
   (save-excursion
-    (if (eq arg nil)
+	(if (eq arg nil)
 	(self-insert-command 2 ?\s)
-      (self-insert-command (prefix-numeric-value arg) ?\s))))
+	  (self-insert-command (prefix-numeric-value arg) ?\s))))
 
 (defun current-line-empty-p ()
   (save-excursion
-    (beginning-of-line)
-    (looking-at "[[:space:]]*$")))
+	(beginning-of-line)
+	(looking-at "[[:space:]]*$")))
 
 (defun jj/dired-kill-subdir ()
   "Kill subdir and go to first line of previous subdirectory."
   (interactive)
   (let ((eob nil))
-    (if (eq (dired-subdir-max) (point-max))
+	(if (eq (dired-subdir-max) (point-max))
 	(setq eob t))
-    (dired-kill-subdir)
-    (if (eq eob nil)
+	(dired-kill-subdir)
+	(if (eq eob nil)
 	(jj/dired-prev-subdir)
-      (progn
+	  (progn
 	(dired-previous-line 1)
 	(if (not (ignore-errors (dired-get-filename)))
-	    (dired-prev-subdir 0)
+		(dired-prev-subdir 0)
 	  (progn
-	    (dired-next-line 1)
-	    (jj/dired-beginning-of-subdir)))))))
+		(dired-next-line 1)
+		(jj/dired-beginning-of-subdir)))))))
 
 (defun jj/dired-prev-subdir ()
   "Move to the first line in the previous subdir."
   (interactive)
   (dired-prev-subdir 1)
   (let ((num 0))
-    (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-      (dired-next-line 1)
-      (setq num (1+ num)))
-    (if (eq num 3)
+	(while (and (not (ignore-errors (dired-get-filename))) (< num 3))
+	  (dired-next-line 1)
+	  (setq num (1+ num)))
+	(if (eq num 3)
 	(dired-prev-subdir 1))))
 
 (defun jj/dired-next-subdir ()
@@ -3754,15 +3754,15 @@ TODO: If on the first line of directory already, move to previous directory.
   (interactive)
   (let ((num 0)
 	(eob nil))
-    (dired-next-subdir 1)
-    (if (eq (dired-subdir-max) (point-max))
+	(dired-next-subdir 1)
+	(if (eq (dired-subdir-max) (point-max))
 	(setq eob t))
-    (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-      (dired-next-line 1)
-      (setq num (1+ num)))
-    (if (eq num 3)
+	(while (and (not (ignore-errors (dired-get-filename))) (< num 3))
+	  (dired-next-line 1)
+	  (setq num (1+ num)))
+	(if (eq num 3)
 	(dired-prev-subdir 1))
-    (if (eq eob t)
+	(if (eq eob t)
 	(dired-next-subdir 1))))
 
 (defun jj/dired-next-line (&optional arg)
@@ -3772,8 +3772,8 @@ around to the top."
   (interactive "p")
   (unless arg (setq arg 1))
   (if (eq (dired-subdir-max) (point-max))
-      (diredp-next-line arg)
-    (dired-hacks-next-file arg)))
+	  (diredp-next-line arg)
+	(dired-hacks-next-file arg)))
 
 (defun jj/dired-previous-line (&optional arg)
   "Move to the previous line using dired-hacks-previous-file unless it's
@@ -3782,23 +3782,23 @@ around to the bottom."
   (interactive "p")
   (unless arg (setq arg 1))
   (if (eq (dired-subdir-min) (point-min))
-      (diredp-previous-line arg)
-    (dired-hacks-previous-file arg)))
+	  (diredp-previous-line arg)
+	(dired-hacks-previous-file arg)))
 
 (defun jj/dired-tree-down ()
   "Move to the previous subdirMove to the first line in the current subdirectory."
   (interactive)
   (let ((num 0)
 	(eob nil))
-    (dired-tree-down)
-    (if (eq (dired-subdir-max) (point-max))
+	(dired-tree-down)
+	(if (eq (dired-subdir-max) (point-max))
 	(setq eob t))
-    (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-      (dired-next-line 1)
-      (setq num (1+ num)))
-    (if (eq num 3)
+	(while (and (not (ignore-errors (dired-get-filename))) (< num 3))
+	  (dired-next-line 1)
+	  (setq num (1+ num)))
+	(if (eq num 3)
 	(dired-prev-subdir 1))
-    (if (eq eob t)
+	(if (eq eob t)
 	(dired-next-subdir 1))))
 
 (defun jj/dired-tree-up ()
@@ -3806,10 +3806,10 @@ around to the bottom."
   (interactive)
   (dired-tree-up 1)
   (let ((num 0))
-    (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-      (dired-next-line 1)
-      (setq num (1+ num)))
-    (if (eq num 3)
+	(while (and (not (ignore-errors (dired-get-filename))) (< num 3))
+	  (dired-next-line 1)
+	  (setq num (1+ num)))
+	(if (eq num 3)
 	(dired-prev-subdir 1))))
 
 (defun jj/backup-every-save ()
@@ -3824,26 +3824,26 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
   ;; Make a special "per session" backup at the first save of each
   ;; emacs session.
   (when (not buffer-backed-up)
-    ;;
-    ;; Override the default parameters for per-session backups.
-    ;;
-    (let ((backup-directory-alist
+	;;
+	;; Override the default parameters for per-session backups.
+	;;
+	(let ((backup-directory-alist
 	   `(("." . ,(expand-file-name "per-session" jj/backup-location))))
 	  (kept-new-versions 3))
-      ;;
-      ;; add trash dir if needed
-      ;;
-      (if jj/backup-exclude-regexp
+	  ;;
+	  ;; add trash dir if needed
+	  ;;
+	  (if jj/backup-exclude-regexp
 	  (add-to-list
 	   'backup-directory-alist
 	   `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
-      ;;
-      ;; is file too large?
-      ;;
-      (if (<= (buffer-size) jj/backup-file-size-limit)
+	  ;;
+	  ;; is file too large?
+	  ;;
+	  (if (<= (buffer-size) jj/backup-file-size-limit)
 	  (progn
-	    (message "Made per session backup of %s" (buffer-name))
-	    (backup-buffer))
+		(message "Made per session backup of %s" (buffer-name))
+		(backup-buffer))
 	(message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
   ;;
   ;; Make a "per save" backup on each save.  The first save results in
@@ -3851,54 +3851,54 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
   ;; of per-save backups consistent.
   ;;
   (let ((buffer-backed-up nil))
-    ;;
-    ;; is file too large?
-    ;;
-    (if (<= (buffer-size) jj/backup-file-size-limit)
+	;;
+	;; is file too large?
+	;;
+	(if (<= (buffer-size) jj/backup-file-size-limit)
 	(progn
 	  (message "Made per save backup of %s" (buffer-name))
 	  (backup-buffer))
-      (message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
+	  (message "WARNING: File %s too large to backup - increase value of jj/backup-file-size-limit" (buffer-name)))))
 
 (defun jj/wg-workgroups-mode-switch ()
   (interactive)
   (let (group-names selected-group)
-    (unless (featurep 'workgroups2)
-      (require 'workgroups2))
-    (setq group-names
+	(unless (featurep 'workgroups2)
+	  (require 'workgroups2))
+	(setq group-names
 	  (mapcar (lambda (group)
-		    ;; re-shape list for the ivy-read
-		    (cons (wg-workgroup-name group) group))
+			;; re-shape list for the ivy-read
+			(cons (wg-workgroup-name group) group))
 		  (wg-session-workgroup-list (read (f-read-text (file-truename wg-session-file))))))
-    (ivy-read "work groups" group-names
-	      :action (lambda (group)
+	(ivy-read "work groups" group-names
+		  :action (lambda (group)
 			(wg-find-session-file wg-default-session-file)
 			(wg-switch-to-workgroup group)))))
 
 (eval-after-load 'workgroups2
   '(progn
-     ;; make sure wg-create-workgroup always success
-     (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
-       (unless (file-exists-p (wg-get-session-file))
+	 ;; make sure wg-create-workgroup always success
+	 (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
+	   (unless (file-exists-p (wg-get-session-file))
 	 (wg-reset t)
 	 (wg-save-session t))
 
-       (unless wg-current-session
+	   (unless wg-current-session
 	 ;; code extracted from `wg-open-session'.
 	 ;; open session but do NOT load any workgroup.
 	 (let ((session (read (f-read-text (file-truename wg-session-file)))))
 	   (setf (wg-session-file-name session) wg-session-file)
 	   (wg-reset-internal (wg-unpickel-session-parameters session))))
-       ad-do-it
-       ;; save the session file in real time
-       (wg-save-session t))
+	   ad-do-it
+	   ;; save the session file in real time
+	   (wg-save-session t))
 
-     (defadvice wg-reset (after wg-reset-hack activate)
-       (wg-save-session t))
+	 (defadvice wg-reset (after wg-reset-hack activate)
+	   (wg-save-session t))
 
-     ;; I'm fine to to override the original workgroup
-     (defadvice wg-unique-workgroup-name-p (around wg-unique-workgroup-name-p-hack activate)
-       (setq ad-return-value t))))
+	 ;; I'm fine to to override the original workgroup
+	 (defadvice wg-unique-workgroup-name-p (around wg-unique-workgroup-name-p-hack activate)
+	   (setq ad-return-value t))))
 
 (defun jj/dired-sort-by-size-switch-toggle ()
   "Sort by time not putting directories first"
@@ -3916,39 +3916,39 @@ Files larger than `jj/backup-file-size-limit' are not backed up."
 Does not affect other sort switches."
   (interactive)
   (let (case-fold-search)
-    (setq dired-actual-switches
+	(setq dired-actual-switches
 	  (if (string-match "-r " dired-actual-switches)
-	      (replace-match "" t t dired-actual-switches)
-	    (concat "-r " dired-actual-switches)))
-    (dired-sort-set-mode-line)
-    (revert-buffer)))
+		  (replace-match "" t t dired-actual-switches)
+		(concat "-r " dired-actual-switches)))
+	(dired-sort-set-mode-line)
+	(revert-buffer)))
 
 (defun jj/dired-sort-remove-classify-switch ()
   "Remove -F switch.
 TODO: Change to using regex to remove any -F or --classify switches."
   (interactive)
   (let (case-fold-search)
-    (setq dired-actual-switches
+	(setq dired-actual-switches
 	  (if (string-match "-F " dired-actual-switches)
-	      (replace-match "" t t dired-actual-switches)
-	    (concat dired-actual-switches)))
-    ;; Don't need as doesn't change the mode-line currently
-    ;; (dired-sort-set-mode-line)
-    (revert-buffer)))
+		  (replace-match "" t t dired-actual-switches)
+		(concat dired-actual-switches)))
+	;; Don't need as doesn't change the mode-line currently
+	;; (dired-sort-set-mode-line)
+	(revert-buffer)))
 
 (defun jj/dired-sort-add-classify-switch ()
   "Add -F switch after -a.
 TODO: change to using regex"
   (interactive)
   (let (case-fold-search)
-    (cond ((string-match "-F " dired-actual-switches))
+	(cond ((string-match "-F " dired-actual-switches))
 	  (t
 	   (setq dired-actual-switches
 		 (if (string-match "-a " dired-actual-switches)
-		     (replace-match "-a -F " t t dired-actual-switches)
+			 (replace-match "-a -F " t t dired-actual-switches)
 		   (concat dired-actual-switches)))
 	   ))
-    (revert-buffer)))
+	(revert-buffer)))
 
 (defvar-local jj/wdired-classify-enabled nil)
 (defun jj/wdired-before-start-advice ()
@@ -3956,15 +3956,15 @@ TODO: change to using regex"
   ;; TODO: Change to save current dired-switches if the add and remove functions use regex
   (setq jj/wdired-classify-enabled
 	(if (string-match "-F " dired-actual-switches)
-	    t nil))
+		t nil))
   (when (string-match "-F " dired-actual-switches)
-    (jj/dired-sort-remove-classify-switch)))
+	(jj/dired-sort-remove-classify-switch)))
 (defun jj/wdired-after-finish-advice ()
   "Execute when switching from `wdired' to `dired'"
   (when (eq jj/wdired-classify-enabled t)
-    ;; can save the current switches in defvar-local and set here instead
-    (jj/dired-sort-add-classify-switch)
-    (setq jj/wdired-classify-enabled nil)))
+	;; can save the current switches in defvar-local and set here instead
+	(jj/dired-sort-add-classify-switch)
+	(setq jj/wdired-classify-enabled nil)))
 (advice-add 'wdired-change-to-wdired-mode :before #'jj/wdired-before-start-advice)
 (advice-add 'wdired-change-to-dired-mode :after #'jj/wdired-after-finish-advice)
 
@@ -3977,14 +3977,14 @@ URL `http://ergoemacs.org/emacs/dired_sort.html'
 Version 2018-12-23"
   (interactive)
   (let ($sort-by $arg)
-    (setq $sort-by (ido-completing-read "Sort by:" '( "date" "size" "name" )))
-    (cond
-     ((equal $sort-by "name") (setq $arg "-a -Al "))
-     ((equal $sort-by "date") (setq $arg "-a -Al -t"))
-     ((equal $sort-by "size") (setq $arg "-a -Al -S"))
-     ;; ((equal $sort-by "dir") (setq $arg "-a -l --group-directories-first"))
-     (t (error "logic error 09535" )))
-    (dired-sort-other $arg ))
+	(setq $sort-by (ido-completing-read "Sort by:" '( "date" "size" "name" )))
+	(cond
+	 ((equal $sort-by "name") (setq $arg "-a -Al "))
+	 ((equal $sort-by "date") (setq $arg "-a -Al -t"))
+	 ((equal $sort-by "size") (setq $arg "-a -Al -S"))
+	 ;; ((equal $sort-by "dir") (setq $arg "-a -l --group-directories-first"))
+	 (t (error "logic error 09535" )))
+	(dired-sort-other $arg ))
   (dired-sort-set-mode-line))
 
 (defun dired-sort-toggle ()
@@ -3997,54 +3997,54 @@ time, and extension. Cycling works the same.
 	(let (case-fold-search)
 	  (cond
 	   ((string-match " " dired-actual-switches) ;; contains a space
-	    ;; New toggle scheme: add/remove a trailing " -t" " -S",
-	    ;; or " -U"
-	    ;; -t = sort by time (date)
-	    ;; -S = sort by size
-	    ;; -X = sort by extension
+		;; New toggle scheme: add/remove a trailing " -t" " -S",
+		;; or " -U"
+		;; -t = sort by time (date)
+		;; -S = sort by size
+		;; -X = sort by extension
 
-	    (cond
+		(cond
 
-	     ((string-match " -t\\'" dired-actual-switches)
-	      (concat
-	       (substring dired-actual-switches 0 (match-beginning 0))
-	       " -X"))
+		 ((string-match " -t\\'" dired-actual-switches)
+		  (concat
+		   (substring dired-actual-switches 0 (match-beginning 0))
+		   " -X"))
 
-	     ((string-match " -X\\'" dired-actual-switches)
-	      (concat
-	       (substring dired-actual-switches 0 (match-beginning 0))
-	       " -S"))
+		 ((string-match " -X\\'" dired-actual-switches)
+		  (concat
+		   (substring dired-actual-switches 0 (match-beginning 0))
+		   " -S"))
 
-	     ((string-match " -S\\'" dired-actual-switches)
-	      (substring dired-actual-switches 0 (match-beginning 0)))
+		 ((string-match " -S\\'" dired-actual-switches)
+		  (substring dired-actual-switches 0 (match-beginning 0)))
 
-	     (t
-	      (concat dired-actual-switches " -t"))))
+		 (t
+		  (concat dired-actual-switches " -t"))))
 
 	   (t
-	    ;; old toggle scheme: look for a sorting switch, one of [tUXS]
-	    ;; and switch between them. Assume there is only ONE present.
-	    (let* ((old-sorting-switch
-		    (if (string-match (concat "[t" dired-ls-sorting-switches "]")
-				      dired-actual-switches)
+		;; old toggle scheme: look for a sorting switch, one of [tUXS]
+		;; and switch between them. Assume there is only ONE present.
+		(let* ((old-sorting-switch
+			(if (string-match (concat "[t" dired-ls-sorting-switches "]")
+					  dired-actual-switches)
 			(substring dired-actual-switches (match-beginning 0)
 				   (match-end 0))
-		      ""))
+			  ""))
 
 		   (new-sorting-switch
-		    (cond
-		     ((string= old-sorting-switch "t") "X")
-		     ((string= old-sorting-switch "X") "S")
-		     ((string= old-sorting-switch "S") "")
-		     (t "t"))))
-	      (concat
-	       "-l"
-	       ;; strip -l and any sorting switches
-	       (dired-replace-in-string (concat "[-lt"
+			(cond
+			 ((string= old-sorting-switch "t") "X")
+			 ((string= old-sorting-switch "X") "S")
+			 ((string= old-sorting-switch "S") "")
+			 (t "t"))))
+		  (concat
+		   "-l"
+		   ;; strip -l and any sorting switches
+		   (dired-replace-in-string (concat "[-lt"
 						dired-ls-sorting-switches "]")
 					""
 					dired-actual-switches)
-	       new-sorting-switch))))))
+		   new-sorting-switch))))))
 
   (dired-sort-set-mode-line)
   (revert-buffer))
@@ -4054,14 +4054,14 @@ time, and extension. Cycling works the same.
   (interactive)
   (let ((num 0)
 	(eob nil))
-    (if (eq (dired-subdir-max) (point-max))
+	(if (eq (dired-subdir-max) (point-max))
 	(setq eob t))
-    (dired-hide-all)
-    (dired-hide-subdir 1)
-    (cond ((eq eob t)
+	(dired-hide-all)
+	(dired-hide-subdir 1)
+	(cond ((eq eob t)
 	   (while (and (not (ignore-errors (dired-get-filename))) (< num 3))
-	     (dired-next-line 1)
-	     (setq num (1+ num))))
+		 (dired-next-line 1)
+		 (setq num (1+ num))))
 	  (t
 	   (jj/dired-prev-subdir))
 	  )))
@@ -4079,64 +4079,64 @@ search modes defined in the new `dired-sort-toggle'.
   ;; match with the corresponding regexps.  Non-matching switches are
   ;; shown literally.
   (when (eq major-mode 'dired-mode)
-    (setq mode-name
+	(setq mode-name
 	  (let (case-fold-search)
-	    (cond
-	     ((string-match "^-[^t]*t[^t]*$" dired-actual-switches)
-	      "Ɖ:time")
-	     ((string-match "^-[^X]*X[^X]*$" dired-actual-switches)
-	      "Ɖ:ext")
-	     ((string-match "^-[^S]*S[^S]*$" dired-actual-switches)
-	      "Ɖ:sz")
-	     ((string-match "-t$" dired-actual-switches)
-	      "Ɖ:time")
-	     ((string-match "-[^SXUt]$" dired-actual-switches)
-	      "Ɖ:name")
-	     (t
-	      ;; (concat "Ɖ " dired-actual-switches)))))
-	      (concat "Ɖ:name")))
-	    ))
-    (let ((case-fold-search nil))
-      (if (string-match "group-directories-first" dired-actual-switches)
+		(cond
+		 ((string-match "^-[^t]*t[^t]*$" dired-actual-switches)
+		  "Ɖ:time")
+		 ((string-match "^-[^X]*X[^X]*$" dired-actual-switches)
+		  "Ɖ:ext")
+		 ((string-match "^-[^S]*S[^S]*$" dired-actual-switches)
+		  "Ɖ:sz")
+		 ((string-match "-t$" dired-actual-switches)
+		  "Ɖ:time")
+		 ((string-match "-[^SXUt]$" dired-actual-switches)
+		  "Ɖ:name")
+		 (t
+		  ;; (concat "Ɖ " dired-actual-switches)))))
+		  (concat "Ɖ:name")))
+		))
+	(let ((case-fold-search nil))
+	  (if (string-match "group-directories-first" dired-actual-switches)
 	  (setq mode-name (concat mode-name ":dir"))
 	(setq mode-name (concat mode-name ":file")))
-      (if (string-match "v" dired-actual-switches)
+	  (if (string-match "v" dired-actual-switches)
 	  (setq mode-name (concat mode-name ":v")))
-      (if (string-match "L" dired-actual-switches)
+	  (if (string-match "L" dired-actual-switches)
 	  (setq mode-name (concat mode-name ":L")))
-      (if (string-match "-r" dired-actual-switches)
+	  (if (string-match "-r" dired-actual-switches)
 	  (setq mode-name (concat mode-name ":Ř"))))
-    (force-mode-line-update)))
+	(force-mode-line-update)))
 
 (defun package-upgrade-all ()
   "Upgrade all packages automatically without showing *Packages* buffer."
   (interactive)
   (package-refresh-contents)
   (let (upgrades)
-    (cl-flet ((get-version (name where)
+	(cl-flet ((get-version (name where)
 			   (let ((pkg (cadr (assq name where))))
-			     (when pkg
-			       (package-desc-version pkg)))))
-      (dolist (package (mapcar #'car package-alist))
+				 (when pkg
+				   (package-desc-version pkg)))))
+	  (dolist (package (mapcar #'car package-alist))
 	(let ((in-archive (get-version package package-archive-contents)))
 	  (when (and in-archive
-		     (version-list-< (get-version package package-alist)
-				     in-archive))
-	    (push (cadr (assq package package-archive-contents))
+			 (version-list-< (get-version package package-alist)
+					 in-archive))
+		(push (cadr (assq package package-archive-contents))
 		  upgrades)))))
-    (if upgrades
+	(if upgrades
 	(when (yes-or-no-p
-	       (message "Upgrade %d package%s (%s)? "
+		   (message "Upgrade %d package%s (%s)? "
 			(length upgrades)
 			(if (= (length upgrades) 1) "" "s")
 			(mapconcat #'package-desc-full-name upgrades ", ")))
 	  (save-window-excursion
-	    (dolist (package-desc upgrades)
-	      (let ((old-package (cadr (assq (package-desc-name package-desc)
-					     package-alist))))
+		(dolist (package-desc upgrades)
+		  (let ((old-package (cadr (assq (package-desc-name package-desc)
+						 package-alist))))
 		(package-install package-desc)
 		(package-delete  old-package)))))
-      (message "All packages are up to date"))))
+	  (message "All packages are up to date"))))
 
 ;; Not used but can reset checkboxes and narrow subtree when all are checked
 (defun jj/org-reset-checkbox-state-subtree ()
@@ -4146,10 +4146,10 @@ search modes defined in the new `dired-sort-toggle'.
   (org-show-subtree)
   (goto-char (point-min))
   (let ((end (point-max)))
-    (while (< (point) end)
-      (when (org-at-item-checkbox-p)
+	(while (< (point) end)
+	  (when (org-at-item-checkbox-p)
 	(replace-match "[ ]" t t nil 1))
-      (beginning-of-line 2)))
+	  (beginning-of-line 2)))
   (org-update-checkbox-count-maybe 'all)
   ;; End copy from org-reset-checkbox-subtree
   )
@@ -4157,47 +4157,47 @@ search modes defined in the new `dired-sort-toggle'.
 (defun jj/org-checkbox-todo ()
   "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
   (let ((todo-state (org-get-todo-state)) beg end)
-    (unless (not todo-state)
-      (save-excursion
+	(unless (not todo-state)
+	  (save-excursion
 	(org-back-to-heading t)
 	(setq beg (point))
 	(end-of-line)
 	(setq end (point))
 	(goto-char beg)
 	(if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
-			       end t)
-	    (if (match-end 1)
+				   end t)
+		(if (match-end 1)
 		(if (equal (match-string 1) "100%")
-		    (unless (string-equal todo-state "DONE")
-		      ;; (jj/org-reset-checkbox-state-subtree)
-		      (org-todo 'done))
+			(unless (string-equal todo-state "DONE")
+			  ;; (jj/org-reset-checkbox-state-subtree)
+			  (org-todo 'done))
 		  (unless (string-equal todo-state "TODO")
-		    (org-todo 'todo)))
-	      (if (and (> (match-end 2) (match-beginning 2))
-		       (equal (match-string 2) (match-string 3)))
+			(org-todo 'todo)))
+		  (if (and (> (match-end 2) (match-beginning 2))
+			   (equal (match-string 2) (match-string 3)))
 		  (unless (string-equal todo-state "DONE")
-		    ;; (jj/org-reset-checkbox-state-subtree)
-		    (org-todo 'done))
+			;; (jj/org-reset-checkbox-state-subtree)
+			(org-todo 'done))
 		(unless (string-equal todo-state "TODO")
 		  (org-todo 'todo)))))))))
 
 (defun jj/htop-view-processes ()
   (interactive)
   (if (get-buffer "*htop*")
-      (switch-to-buffer "*htop*")
-    (ansi-term "/bin/bash" "htop")
-    (comint-send-string "*htop*" "htop\n")))
+	  (switch-to-buffer "*htop*")
+	(ansi-term "/bin/bash" "htop")
+	(comint-send-string "*htop*" "htop\n")))
 
 ;; Make the compilation window automatically disappear - from enberg on #emacs
 ;; (setq compilation-finish-functions
 ;;       (lambda (buf str)
 ;;	(if (null (string-match ".*exited abnormally.*" str))
-;;	    ;;no errors, make the compilation window go away in a few seconds
-;;	    (progn
-;;	      (run-at-time
-;;	       "2 sec" nil 'delete-windows-on
-;;	       (get-buffer-create "*compilation*"))
-;;	      (message "No Compilation Errors!")))))
+;;		;;no errors, make the compilation window go away in a few seconds
+;;		(progn
+;;		  (run-at-time
+;;		   "2 sec" nil 'delete-windows-on
+;;		   (get-buffer-create "*compilation*"))
+;;		  (message "No Compilation Errors!")))))
 
 ;; (defun jj/bury-compile-buffer-if-successful (buffer string)
 ;;   "Bury a compilation buffer if succeeded without warnings "
@@ -4221,11 +4221,11 @@ search modes defined in the new `dired-sort-toggle'.
 ;; https://emacs.stackexchange.com/questions/22574/orgmode-export-how-to-prevent-a-new-line-for-comment-lines
 (defun delete-org-comments (backend)
   (loop for comment in (reverse (org-element-map (org-element-parse-buffer)
-				    'comment 'identity))
+					'comment 'identity))
 	do
 	(setf (buffer-substring (org-element-property :begin comment)
 				(org-element-property :end comment))
-	      "")))
+		  "")))
 
 (defun jj/next-user-buffer ()
   "Switch to the next user buffer.
@@ -4235,8 +4235,8 @@ Version 2016-06-19"
   (interactive)
   (next-buffer)
   (let ((i 0))
-    (while (< i 20)
-      (if (not (jj/user-buffer-q))
+	(while (< i 20)
+	  (if (not (jj/user-buffer-q))
 	  (progn (next-buffer)
 		 (setq i (1+ i)))
 	(progn (setq i 100))))))
@@ -4249,8 +4249,8 @@ Version 2016-06-19"
   (interactive)
   (previous-buffer)
   (let ((i 0))
-    (while (< i 20)
-      (if (not (jj/user-buffer-q))
+	(while (< i 20)
+	  (if (not (jj/user-buffer-q))
 	  (progn (previous-buffer)
 		 (setq i (1+ i)))
 	(progn (setq i 100))))))
@@ -4263,11 +4263,11 @@ You can override this function to get your idea of “user buffer”. Excludes *
 version 2016-06-18"
   (interactive)
   (if (string-equal "*" (substring (buffer-name) 0 1))
-      nil
-    (if (string-equal "magit" (substring (buffer-name) 0 5))
+	  nil
+	(if (string-equal "magit" (substring (buffer-name) 0 5))
 	nil
-      ;; NOTE: Remove below if want to include dired buffers
-      (if (string-equal major-mode "dired-mode")
+	  ;; NOTE: Remove below if want to include dired buffers
+	  (if (string-equal major-mode "dired-mode")
 	  nil
 	t
 	))))
@@ -4280,8 +4280,8 @@ Version 2016-06-19"
   (interactive)
   (next-buffer)
   (let ((i 0))
-    (while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
-      (setq i (1+ i)) (next-buffer))))
+	(while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
+	  (setq i (1+ i)) (next-buffer))))
 
 (defun jj/previous-emacs-buffer ()
   "Switch to the previous emacs buffer.
@@ -4291,8 +4291,8 @@ Version 2016-06-19"
   (interactive)
   (previous-buffer)
   (let ((i 0))
-    (while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
-      (setq i (1+ i)) (previous-buffer))))
+	(while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
+	  (setq i (1+ i)) (previous-buffer))))
 
 (defun jj/visible-mark-mode-enable (prefix)
   "Enable visible mark mode or with prefix disable it."
@@ -4318,7 +4318,7 @@ If a character, copied files are unconditionally marked with that character."
 (defun jj/dired-version-file (from to ok-flag)
   (dired-handle-overwrite to)
   (dired-copy-file-recursive from to ok-flag dired-copy-preserve-time t
-			     dired-recursive-copies))
+				 dired-recursive-copies))
 
 (defun jj/dired-do-version (&optional arg)
   "Search for numeric pattern in file name and create a version of that file
@@ -4329,28 +4329,28 @@ Additionally, if called with prefix argument, will prompt for number format.
 The formatting is the same as is used with `format' function."
   (interactive "P")
   (let ((fn-list (dired-get-marked-files nil nil)))
-    (dired-create-files
-     (function jj/dired-version-file) "Version" fn-list
-     (function
-      (lambda (from)
+	(dired-create-files
+	 (function jj/dired-version-file) "Version" fn-list
+	 (function
+	  (lambda (from)
 	(let (new-name (i 0) (fmt (if arg (read-string "Version format: " "%d") "%d")))
 	  (while (or (null new-name) (file-exists-p new-name))
-	    (setq new-name
+		(setq new-name
 		  (if (string-match  "^\\([^0-9]*\\)\\([0-9]+\\)\\(.*\\)$" from)
-		      (concat (match-string 1 from)
-			      (format fmt
-				      (+ (string-to-number (match-string 2 from)) (1+ i)))
-			      (match-string 3 from))
-		    (concat from (format (concat "." fmt) i)))
+			  (concat (match-string 1 from)
+				  (format fmt
+					  (+ (string-to-number (match-string 2 from)) (1+ i)))
+				  (match-string 3 from))
+			(concat from (format (concat "." fmt) i)))
 		  i (1+ i))) new-name)))
-     jj/dired-keep-marker-version)))
+	 jj/dired-keep-marker-version)))
 
 (defun jj/org-refile-in-current ()
   "refile current item in current buffer"
   (interactive)
   (let ((org-refile-use-outline-path t)
 	(org-refile-targets '((nil . (:maxlevel . 5)))))
-    (org-refile)))
+	(org-refile)))
 
 (defun jj/markdown-html (buffer)
   (princ (with-current-buffer buffer
@@ -4397,30 +4397,30 @@ The formatting is the same as is used with `format' function."
 (defun jj/my-setup-odt-org-convert-process-to-docx ()
   (interactive)
   (let ((cmd "/Applications/LibreOffice.app/Contents/MacOS/soffice"))
-    (when (and (eq system-type 'darwin) (file-exists-p cmd))
-      ;; org v7
-      (setq org-export-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i")))
-      ;; org v8
-      (setq org-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i"))))
-    ))
+	(when (and (eq system-type 'darwin) (file-exists-p cmd))
+	  ;; org v7
+	  (setq org-export-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i")))
+	  ;; org v8
+	  (setq org-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i"))))
+	))
 
 (defun jj/counsel-rg-ignore-tests-swiper ()
   (interactive)
   (let ((search-str (ivy--input)))
-    (ivy-quit-and-run
-      (counsel-rg search-str (projectile-project-root) "--iglob '!test*'"))))
+	(ivy-quit-and-run
+	  (counsel-rg search-str (projectile-project-root) "--iglob '!test*'"))))
 
 (defun jj/counsel-rg-swiper ()
   (interactive)
   (let ((search-str (ivy--input)))
-    (ivy-quit-and-run
-      (counsel-rg search-str (projectile-project-root) ""))))
+	(ivy-quit-and-run
+	  (counsel-rg search-str (projectile-project-root) ""))))
 
 (defun jj/counsel-rg-ignore-tests ()
   (interactive)
   (let ((search-str (ivy--input)))
-    (ivy-quit-and-run
-      (counsel-rg "" (projectile-project-root) "--iglob '!test*'"))))
+	(ivy-quit-and-run
+	  (counsel-rg "" (projectile-project-root) "--iglob '!test*'"))))
 
 ;; TODO: Add to preload.el so loads properly
 ;; https://github.com/jkitchin/scimax/issues/312
@@ -4479,7 +4479,7 @@ The formatting is the same as is used with `format' function."
 		  (beginning-of-visual-line)
 		  (skip-chars-forward " \t\r")
 		  (point))))
-    (cond ((or (> pos indent) (= pos (line-beginning-position)))
+	(cond ((or (> pos indent) (= pos (line-beginning-position)))
 	   (goto-char indent))
 	  ((<= pos indent)
 	   (beginning-of-visual-line)))))
@@ -4494,7 +4494,7 @@ The formatting is the same as is used with `format' function."
 	(beg-vl (save-excursion
 		  (beginning-of-visual-line)
 		  (point))))
-    (cond ((> pos indent)
+	(cond ((> pos indent)
 	   (goto-char indent))
 	  ((= pos beg-vl)
 	   (back-to-indentation))
@@ -4528,7 +4528,7 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	(beg-vl (save-excursion
 		  (beginning-of-visual-line)
 		  (point))))
-    (cond ((and (= pos beg-vl) (not (= beg-vl beg-l)))
+	(cond ((and (= pos beg-vl) (not (= beg-vl beg-l)))
 	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
 	   (org-end-of-line)
 	   (previous-line)
@@ -4540,12 +4540,12 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (interactive "^p")
   (let ((pos (point))
 	(end (save-excursion
-	       (end-of-line)
-	       (point)))
+		   (end-of-line)
+		   (point)))
 	(end-vl (save-excursion
 		  (end-of-visual-line)
 		  (point))))
-    (cond ((= pos end-vl)
+	(cond ((= pos end-vl)
 	   (end-of-line n))
 	  (t
 	   (end-of-visual-line n)))))
@@ -4565,12 +4565,12 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (interactive "^p")
   (let ((pos (point))
 	(end (save-excursion
-	       (end-of-line)
-	       (point)))
+		   (end-of-line)
+		   (point)))
 	(end-vl (save-excursion
 		  (end-of-visual-line)
 		  (point))))
-    (cond ((and (= pos end-vl) (not (= end-vl end)))
+	(cond ((and (= pos end-vl) (not (= end-vl end)))
 	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
 	   (org-beginning-of-line)
 	   (next-line)
@@ -4585,15 +4585,15 @@ With argument N not nil or 1, move forward N - 1 lines first."
 
   ;; create the zip file
   (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
-    (shell-command
-     (concat "zip "
-	     zip-file
-	     " "
-	     (string-join
-	      (mapcar
-	       '(lambda (filename)
+	(shell-command
+	 (concat "zip "
+		 zip-file
+		 " "
+		 (string-join
+		  (mapcar
+		   '(lambda (filename)
 		  (file-name-nondirectory filename))
-	       (dired-get-marked-files)) " "))))
+		   (dired-get-marked-files)) " "))))
   (revert-buffer))
 
 (defun jj/whitespace-cleanup ()
@@ -4608,24 +4608,24 @@ With argument N not nil or 1, move forward N - 1 lines first."
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
   (when (display-graphic-p)
-    (set-face-attribute 'minibuffer-prompt nil :foreground nil :background nil)
-    (counsel-load-theme-action nil)
-    (load-theme 'sanityinc-tomorrow-eighties t)
-    (sml/setup)
-    (sml/apply-theme 'dark)
-    (jj/sml/total-lines-append-mode-line)
-    ;; Made font to try to match magenta in sublime
-    (set-face-attribute 'font-lock-keyword-face nil :foreground "#80E021")
-    ;; (set-face-attribute 'font-lock-string-face nil :foreground "#59D3DB")
-    (set-face-attribute 'font-lock-string-face nil :foreground "#55CDD5")
-    (set-face-attribute 'font-lock-constant-face nil :foreground "#A16DEA")
-    (set-face-attribute 'font-lock-type-face nil :foreground "#8490FF")
-    ;; TODO: Check if this is still working
-    (set-face-attribute 'Man-overstrike nil :inherit 'bold :foreground "firebrick3")
-    (set-face-attribute 'Man-underline nil :inherit 'underline :foreground "green3")
-    ;; (set-face-attribute 'font-python-builtin-face nil :foreground "#F26FC1")
-    (eval-after-load "font-latex"
-      '(progn
+	(set-face-attribute 'minibuffer-prompt nil :foreground nil :background nil)
+	(counsel-load-theme-action nil)
+	(load-theme 'sanityinc-tomorrow-eighties t)
+	(sml/setup)
+	(sml/apply-theme 'dark)
+	(jj/sml/total-lines-append-mode-line)
+	;; Made font to try to match magenta in sublime
+	(set-face-attribute 'font-lock-keyword-face nil :foreground "#80E021")
+	;; (set-face-attribute 'font-lock-string-face nil :foreground "#59D3DB")
+	(set-face-attribute 'font-lock-string-face nil :foreground "#55CDD5")
+	(set-face-attribute 'font-lock-constant-face nil :foreground "#A16DEA")
+	(set-face-attribute 'font-lock-type-face nil :foreground "#8490FF")
+	;; TODO: Check if this is still working
+	(set-face-attribute 'Man-overstrike nil :inherit 'bold :foreground "firebrick3")
+	(set-face-attribute 'Man-underline nil :inherit 'underline :foreground "green3")
+	;; (set-face-attribute 'font-python-builtin-face nil :foreground "#F26FC1")
+	(eval-after-load "font-latex"
+	  '(progn
 		 (font-latex-update-sectioning-faces)
 		 (set-face-attribute 'font-latex-sedate-face nil :foreground "#38CAD4")
 		 (set-face-attribute 'font-latex-string-face nil :foreground "#B1B8F4")
@@ -4639,27 +4639,27 @@ With argument N not nil or 1, move forward N - 1 lines first."
 		 ;; Original math-face below
 		 ;; (set-face-attribute 'font-latex-math-face nil :foreground "#cc99cc")
 		 ))
-    (add-hook 'LaTeX-mode-hook
+	(add-hook 'LaTeX-mode-hook
 			  (lambda ()
 				;; TODO: Doesn't work because this text set to two text properties...
 				;; (font-lock-keyword-face font-latex-sedate-face) so post to stacko
 				(make-face 'font-latex-keyword-face)
 				(set-face-attribute 'font-latex-keyword-face nil :foreground "#ee30a7")
 				(set (make-local-variable 'font-lock-keyword-face) 'font-latex-keyword-face)))
-    (set-face-attribute 'dired-marked nil :foreground "white" :background "cc0000" :bold t)
-    (make-face 'font-python-builtin-face)
-    (set-face-attribute 'font-python-builtin-face nil :foreground "#5CD3DB")
-    (make-face 'font-python-keyword-face)
-    (set-face-attribute 'font-python-keyword-face nil :foreground "#ee30a7" :italic t)
-    (make-face 'font-python-keyword-face-no-italic)
-    (set-face-attribute 'font-python-keyword-face-no-italic nil :foreground "#ee30a7")
-    (make-face 'font-python-constant-face)
-    (set-face-attribute 'font-python-constant-face nil :foreground "#A56EF2")
-    (make-face 'font-python-function-name-face)
-    (set-face-attribute 'font-python-function-name-face nil :foreground "#8BEA2E")
-    (make-face 'font-python-type-face)
-    (set-face-attribute 'font-python-type-face nil :foreground "#5CD3DB" :bold t :height 1.0)
-    (add-hook 'python-mode-hook
+	(set-face-attribute 'dired-marked nil :foreground "white" :background "cc0000" :bold t)
+	(make-face 'font-python-builtin-face)
+	(set-face-attribute 'font-python-builtin-face nil :foreground "#5CD3DB")
+	(make-face 'font-python-keyword-face)
+	(set-face-attribute 'font-python-keyword-face nil :foreground "#ee30a7" :italic t)
+	(make-face 'font-python-keyword-face-no-italic)
+	(set-face-attribute 'font-python-keyword-face-no-italic nil :foreground "#ee30a7")
+	(make-face 'font-python-constant-face)
+	(set-face-attribute 'font-python-constant-face nil :foreground "#A56EF2")
+	(make-face 'font-python-function-name-face)
+	(set-face-attribute 'font-python-function-name-face nil :foreground "#8BEA2E")
+	(make-face 'font-python-type-face)
+	(set-face-attribute 'font-python-type-face nil :foreground "#5CD3DB" :bold t :height 1.0)
+	(add-hook 'python-mode-hook
 			  (lambda ()
 				;; More editing can be done to change specific keywords using the link below
 				;; https://emacs.stackexchange.com/questions/33675/python-mode-custom-syntax-highlighting
@@ -4674,48 +4674,48 @@ With argument N not nil or 1, move forward N - 1 lines first."
 				(set (make-local-variable 'highlight-numbers-number) 'font-python-constant-face)
 				(set (make-local-variable 'font-lock-type-face) 'font-python-type-face)
 				))
-    (set-face-attribute 'org-block nil :background "gray16")
-    (set-face-attribute 'org-block-python nil :background "gray16")
-    (set-face-attribute 'org-block-ipython nil :background "gray16")
-    ;; (set-face-attribute 'org-block-python nil :background "gray19")
-    (set-face-attribute 'org-block-begin-line nil :background "#420C0C")
-    (set-face-attribute 'org-block-begin-line nil :background "#814545" :foreground "#E5E5E5")
-    (set-face-attribute 'secondary-selection nil :foreground nil :background "#2E22A6")
-    ;; (set-face-attribute 'secondary-selection nil :foreground nil :background "#4d2092")
-    (set-face-attribute 'helm-selection nil :foreground nil :background "#2E22A6")
-    (setq beacon-color "#B194CB")
-    ;; (set-face-attribute 'secondary-selection nil :foreground nil :background "#4d4d4d")
-    (set-face-attribute 'org-level-1 nil :background "#A9C5FF" :foreground "#213974" :bold t :height 1.3 :box t :overline t)
-    (set-face-attribute 'org-level-2 nil :background "#BF95D8" :foreground "#551A78" :bold t :height 1.1 :box t :overline t)
-    (set-face-attribute 'org-level-3 nil :foreground "#66cccc" :bold t :overline t)
-    (set-face-attribute 'org-latex-and-related nil :foreground "SkyBlue1")
-    (eval-after-load "markdown-mode"
-      '(progn
+	(set-face-attribute 'org-block nil :background "gray16")
+	(set-face-attribute 'org-block-python nil :background "gray16")
+	(set-face-attribute 'org-block-ipython nil :background "gray16")
+	;; (set-face-attribute 'org-block-python nil :background "gray19")
+	(set-face-attribute 'org-block-begin-line nil :background "#420C0C")
+	(set-face-attribute 'org-block-begin-line nil :background "#814545" :foreground "#E5E5E5")
+	(set-face-attribute 'secondary-selection nil :foreground nil :background "#2E22A6")
+	;; (set-face-attribute 'secondary-selection nil :foreground nil :background "#4d2092")
+	(set-face-attribute 'helm-selection nil :foreground nil :background "#2E22A6")
+	(setq beacon-color "#B194CB")
+	;; (set-face-attribute 'secondary-selection nil :foreground nil :background "#4d4d4d")
+	(set-face-attribute 'org-level-1 nil :background "#A9C5FF" :foreground "#213974" :bold t :height 1.3 :box t :overline t)
+	(set-face-attribute 'org-level-2 nil :background "#BF95D8" :foreground "#551A78" :bold t :height 1.1 :box t :overline t)
+	(set-face-attribute 'org-level-3 nil :foreground "#66cccc" :bold t :overline t)
+	(set-face-attribute 'org-latex-and-related nil :foreground "SkyBlue1")
+	(eval-after-load "markdown-mode"
+	  '(progn
 		 ;; (set-face-attribute 'markdown-header-face-1 nil :foreground "#f99157" :height 1.2)
 		 (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground "Tomato3" :height 1.1 :bold t)
 		 ;; Default value below (shadow color)
 		 ;; (set-face-attribute 'markdown-header-delimiter-face nil :inherit 'markdown-markup-face :foreground nil)
 		 ))
-    (set-face-attribute 'org-verbatim nil :foreground "SkyBlue1")
-    (set-face-attribute 'org-code nil :foreground "SpringGreen3")
-    (set-face-attribute 'org-todo nil :foreground "brown1" :background "dark red" :box t)
-    (set-face-attribute 'org-done nil :foreground "SpringGreen3" :background "dark green" :box t)
-    (setq org-src-block-faces '(("emacs-lisp" (:background "#EEE2FF"))
+	(set-face-attribute 'org-verbatim nil :foreground "SkyBlue1")
+	(set-face-attribute 'org-code nil :foreground "SpringGreen3")
+	(set-face-attribute 'org-todo nil :foreground "brown1" :background "dark red" :box t)
+	(set-face-attribute 'org-done nil :foreground "SpringGreen3" :background "dark green" :box t)
+	(setq org-src-block-faces '(("emacs-lisp" (:background "#EEE2FF"))
 								("python" (:background "#4d2092"))))
-    (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "gray53")
-    (set-face-attribute 'font-lock-comment-face nil :foreground "gray49")
-    (set-face-attribute 'dired-ignored nil :foreground "#ff3300" :background nil :strike-through t)
-    (set-face-attribute 'dired-flagged nil :foreground "#ff3300" :background nil)
-    (set-face-attribute 'dired-warning nil :foreground "#ff3300" :background nil :bold t)
-    (set-face-attribute 'dired-symlink nil :foreground "#47d147" :background nil :bold nil)
-    (set-face-attribute 'dired-header nil :foreground "ice" :background "#272727" :bold t)
-    (set-face-attribute 'dired-directory nil :foreground "ice" :background "#282828" :bold t)
-    (set-face-attribute 'dired-marked nil :foreground "white" :background "#cc0000" :bold t)
-    (set-face-attribute 'dired-mark nil :foreground "white" :background "#cc0000" :bold t)
-    (set-face-attribute 'dired-flagged nil :foreground "#ff3300" :background nil)
-    ;; (set-face-attribute 'dired-directory nil :foreground "ice" :background nil :bold t)
-    (eval-after-load "dired+"
-      '(progn
+	(set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "gray53")
+	(set-face-attribute 'font-lock-comment-face nil :foreground "gray49")
+	(set-face-attribute 'dired-ignored nil :foreground "#ff3300" :background nil :strike-through t)
+	(set-face-attribute 'dired-flagged nil :foreground "#ff3300" :background nil)
+	(set-face-attribute 'dired-warning nil :foreground "#ff3300" :background nil :bold t)
+	(set-face-attribute 'dired-symlink nil :foreground "#47d147" :background nil :bold nil)
+	(set-face-attribute 'dired-header nil :foreground "ice" :background "#272727" :bold t)
+	(set-face-attribute 'dired-directory nil :foreground "ice" :background "#282828" :bold t)
+	(set-face-attribute 'dired-marked nil :foreground "white" :background "#cc0000" :bold t)
+	(set-face-attribute 'dired-mark nil :foreground "white" :background "#cc0000" :bold t)
+	(set-face-attribute 'dired-flagged nil :foreground "#ff3300" :background nil)
+	;; (set-face-attribute 'dired-directory nil :foreground "ice" :background nil :bold t)
+	(eval-after-load "dired+"
+	  '(progn
 		 (set-face-attribute 'diredp-symlink nil :foreground "#47d147" :background nil :bold nil)
 		 (set-face-attribute 'diredp-dir-name nil :foreground "ice" :background "#282828" :bold t)
 		 (set-face-attribute 'diredp-dir-heading nil :foreground "ice" :background "#272727" :bold t)
@@ -4738,16 +4738,16 @@ With argument N not nil or 1, move forward N - 1 lines first."
 		 (set-face-attribute 'diredp-deletion-file-name nil :foreground "#ff3300" :background nil)
 		 (set-face-attribute 'diredp-deletion nil :foreground "#ff3300" :background nil)
 		 ))
-    ;; NOTE: if you set a foreground color overwrites all font colors. Value is inherited from show-paren-match
-    (set-face-attribute 'show-paren-match-expression nil :foreground nil :background "#592136")
-    ;; Color of top one is magenta and pink
-    ;; (set-face-attribute 'show-paren-match nil :foreground nil :background "#E769E7")
-    (set-face-attribute 'show-paren-match nil :foreground nil :background "#C3025B")
-    (make-face 'font-ibuffer-marked-face)
-    (set-face-attribute 'font-ibuffer-marked-face nil :foreground "white" :background "cc0000" :bold t)
-    (make-face 'font-ibuffer-deletion-face)
-    (set-face-attribute 'font-ibuffer-deletion-face nil :foreground "#ff3300" :background nil)
-    (setq ibuffer-marked-face 'font-ibuffer-marked-face)
-    (setq ibuffer-deletion-face 'font-ibuffer-deletion-face)
-    (jj/dark-theme-set-visible-mark-faces)
-    (set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
+	;; NOTE: if you set a foreground color overwrites all font colors. Value is inherited from show-paren-match
+	(set-face-attribute 'show-paren-match-expression nil :foreground nil :background "#592136")
+	;; Color of top one is magenta and pink
+	;; (set-face-attribute 'show-paren-match nil :foreground nil :background "#E769E7")
+	(set-face-attribute 'show-paren-match nil :foreground nil :background "#C3025B")
+	(make-face 'font-ibuffer-marked-face)
+	(set-face-attribute 'font-ibuffer-marked-face nil :foreground "white" :background "cc0000" :bold t)
+	(make-face 'font-ibuffer-deletion-face)
+	(set-face-attribute 'font-ibuffer-deletion-face nil :foreground "#ff3300" :background nil)
+	(setq ibuffer-marked-face 'font-ibuffer-marked-face)
+	(setq ibuffer-deletion-face 'font-ibuffer-deletion-face)
+	(jj/dark-theme-set-visible-mark-faces)
+	(set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
