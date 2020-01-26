@@ -51,6 +51,7 @@
 		indent-for-tab-command
 		jj/backward-delete-sexp-or-dir
 		jj/backward-delete-word
+		jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line
 		jj/delete-backward-sexp-or-dir
 		jj/delete-backward-word
 		jj/delete-forward-sexp-or-dir
@@ -58,8 +59,10 @@
 		jj/delete-sexp
 		jj/delete-whole-line
 		jj/delete-word
+		jj/dired-next-line
 		jj/dired-rename-space-to-hyphen
 		jj/duplicate-line-or-region
+		jj/end-of-visual-line-then-to-end-of-line
 		jj/forward-delete-sexp-or-dir
 		jj/insert-dollar-sign
 		jj/lispy-move-beginning-of-visual-line
@@ -105,6 +108,7 @@
 		scimax-dired-cycle-space-hyphen-underscore
 		sgml-slash
 		sp-backward-sexp
+		sp-down-sexp
 		sp-forward-sexp
 		special-digit-argument
 		special-lh-knight/body
@@ -181,38 +185,38 @@
 
 (setq mc/cmds-to-run-once
       '(
-	counsel-describe-function
-	describe-key
-	dired-do-delete
-	dired-jump
-	dired-ranger-move
-	dired-toggle-read-only
-	easy-kill-help
-	elpy-occur-definitions
-	eyebrowse-switch-to-window-config-11
-	eyebrowse-switch-to-window-config-2
-	eyebrowse-switch-to-window-config-3
-	eyebrowse-switch-to-window-config-4
-	eyebrowse-switch-to-window-config-5
-	eyebrowse-switch-to-window-config-6
-	eyebrowse-switch-to-window-config-7
-	eyebrowse-switch-to-window-config-8
-	flycheck-next-error
-	iedit-switch-to-mc-mode
-	ivy-done
-	ivy-switch-buffer
-	ivy-wgrep-change-to-wgrep-mode
-	jj/ivy-switch-buffer-use-virtual
-	jj/switch-to-previous-buffer
-	kmacro-end-or-call-macro
-	minibuffer-keyboard-quit
-	next-multiframe-window
-	org-cycle
-	other-frame
-	previous-multiframe-window
-	revert-buffer
-	swiper-mc
-	wdired-finish-edit
-	wgrep-finish-edit
-	window-configuration-to-register
-	))
+		counsel-describe-function
+		describe-key
+		dired-do-delete
+		dired-jump
+		dired-ranger-move
+		dired-toggle-read-only
+		easy-kill-help
+		elpy-occur-definitions
+		eyebrowse-switch-to-window-config-11
+		eyebrowse-switch-to-window-config-2
+		eyebrowse-switch-to-window-config-3
+		eyebrowse-switch-to-window-config-4
+		eyebrowse-switch-to-window-config-5
+		eyebrowse-switch-to-window-config-6
+		eyebrowse-switch-to-window-config-7
+		eyebrowse-switch-to-window-config-8
+		flycheck-next-error
+		iedit-switch-to-mc-mode
+		ivy-done
+		ivy-switch-buffer
+		ivy-wgrep-change-to-wgrep-mode
+		jj/ivy-switch-buffer-use-virtual
+		jj/switch-to-previous-buffer
+		kmacro-end-or-call-macro
+		minibuffer-keyboard-quit
+		next-multiframe-window
+		org-cycle
+		other-frame
+		previous-multiframe-window
+		revert-buffer
+		swiper-mc
+		wdired-finish-edit
+		wgrep-finish-edit
+		window-configuration-to-register
+		))
