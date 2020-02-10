@@ -533,6 +533,9 @@ Use '!' to signify that the buffer was not initially clean."
 (sml/setup)
 (setq sml/theme 'automatic)
 (jj/sml/total-lines-append-mode-line)
+(setq line-number-display-limit-width 500)
+;; Set for file size line number not too display
+;; (setq line-number-display-limit )
 
 ;; (setq jmax-user-theme 'monokai)
 ;; (setq sml/theme 'dark)
