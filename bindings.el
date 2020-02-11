@@ -542,7 +542,7 @@
 (define-key dired-h-prefix-map (kbd "s") 'jj/dired-cycle-switches)
 (define-key dired-h-prefix-map (kbd "S") 'jj/dired-sort-by-size-switch-toggle)
 (define-key dired-h-prefix-map (kbd "c") 'jj/dired-sort-choose)
-(define-key dired-h-prefix-map (kbd "C") 'jj/dired-version-file)
+(define-key dired-h-prefix-map (kbd "C") 'jj/dired-do-version)
 (define-key dired-h-prefix-map (kbd ",") 'beginning-of-buffer)
 (define-key dired-h-prefix-map (kbd ".") 'end-of-buffer)
 (define-key dired-h-prefix-map (kbd "p") 'peep-dired)
@@ -655,6 +655,7 @@
 	 (define-key dired-mode-map (kbd "_") 'jj/dired-rename-space-to-underscore)
 	 (define-key dired-mode-map (kbd "-") 'scimax-dired-cycle-space-hyphen-underscore)
 	 (define-key dired-mode-map (kbd "c") 'jj/dired-create-file)
+	 (define-key dired-mode-map (kbd "C") 'dired-async-do-copy)
 	 (define-key dired-mode-map (kbd "K") 'jj/dired-kill-subdir-pop-mark)
 	 (define-key dired-mode-map (kbd "e") 'jj/counsel-find-name-everything)
 	 ;; if you are using ido,you'd better disable ido for dired
