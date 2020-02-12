@@ -24,6 +24,7 @@
 (global-set-key (kbd "s-l") 'async-shell-command)
 (global-set-key (kbd "C-M-{")	'previous-buffer)
 (global-set-key (kbd "C-M-}")	'next-buffer)
+(global-set-key (kbd "s-K")	'jj/kill-current-buffer-and-window)
 (global-set-key (kbd "C-s-{")	'jj/previous-user-buffer)
 (global-set-key (kbd "C-s-}")	'jj/next-user-buffer)
 (global-set-key (kbd "C-M-f") 'sp-forward-sexp)
