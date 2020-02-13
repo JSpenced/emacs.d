@@ -755,6 +755,13 @@
 
 (define-key image-mode-map (kbd "=")	'image-increase-size)
 (define-key image-mode-map (kbd "_")	'image-decrease-size)
+;; FIXME Read-only-mode not working correctly so the bindings below added
+;; They were commented out of view.el
+(define-key view-mode-map "j" 'View-scroll-line-forward)
+(define-key view-mode-map "k" 'View-scroll-line-backward)
+(define-key view-mode-map "b" 'View-scroll-page-backward)
+(define-key view-mode-map "f" 'View-scroll-page-forward)
+(define-key view-mode-map "v" 'View-exit)
 (define-key pdf-view-mode-map (kbd "_")	'pdf-view-shrink)
 ;; (define-prefix-command 'pdf-view-mode-synctex-map)
 ;; (define-key pdf-view-mode-map (kbd "j") 'pdf-view-mode-synctex-map)
