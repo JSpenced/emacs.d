@@ -4616,6 +4616,12 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (interactive)
   (message "Don't use this key anymore!!"))
 
+(defun jj/dired-ranger-reset-copy-ring ()
+  "Reset the `dired-ranger-copy-ring` to nil."
+  (interactive)
+  (when (require 'dired-ranger nil 'noerror)
+	(setq dired-ranger-copy-ring (make-ring dired-ranger-copy-ring-size))))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
