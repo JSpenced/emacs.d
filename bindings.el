@@ -658,7 +658,7 @@
 	 (define-key dired-mode-map (kbd "c") 'jj/dired-create-file)
 	 (define-key dired-mode-map (kbd "C") 'dired-async-do-copy)
 	 (define-key dired-mode-map (kbd "K") 'jj/dired-kill-subdir-pop-mark)
-	 (define-key dired-mode-map (kbd "e") 'jj/counsel-find-name-everything)
+	 (define-key dired-mode-map (kbd "h e") 'jj/counsel-find-name-everything)
 	 ;; if you are using ido,you'd better disable ido for dired
 	 ;; (define-key (cdr ido-minor-mode-map-entry) [remap dired] nil) ;in ido-setup-hook
 	 ;; Possibly change this to counsel-bookmark
@@ -667,21 +667,28 @@
 	 (define-key dired-mode-map "<" 'dired)
 	 (define-key dired-mode-map "\M-b" nil)
 	 (define-key dired-mode-map "\C-\M-b" nil)
-	 (define-key dired-mode-map (kbd "w") 'dired-ranger-copy)
-	 (define-key dired-mode-map (kbd "W") 'dired-copy-filename-as-kill)
-	 (define-key dired-mode-map (kbd "E") 'dired-ranger-move)
-	 (define-key dired-mode-map (kbd "h D") 'jj/dired-ranger-reset-copy-ring)
-	 (define-key dired-mode-map (kbd "h b") 'dired-ranger-bookmark)
-	 (define-key dired-mode-map (kbd "A") 'dired-ranger-bookmark)
-	 (define-key dired-mode-map (kbd "a") 'dired-ranger-bookmark-visit)
+	 (define-key dired-mode-map (kbd "e") 'dired-copy-filename-as-kill)
+	 ;; FIXME Remove unused bindings
+	 (define-key dired-mode-map (kbd "W") 'jj/dired-copy-filename-as-kill-absolute-path)
+	 (define-key dired-mode-map (kbd "E") 'jj/dired-copy-filename-as-kill-absolute-path)
+	 (define-key dired-mode-map (kbd ": w") 'jj/dired-copy-filename-as-kill-absolute-path)
 	 (define-key dired-mode-map (kbd "/ t") 'dired-filter-mode)
 	 (define-key dired-mode-map (kbd "/ O") 'dired-filter-mode)
-	 (define-key dired-mode-map (kbd "M") 'dired-ranger-move)
-	 ;; Originally dired-do-chmod mapped to M
-	 ;; (define-key dired-mode-map (kbd "M") 'dired-do-chmod)
-	 (define-key dired-mode-map (kbd "Y") 'dired-ranger-paste)
+	 (eval-after-load "dired-ranger"
+	   '(progn
+		  (define-key dired-mode-map (kbd "w") 'dired-ranger-copy)
+		  ;; (define-key dired-mode-map (kbd "E") 'dired-ranger-move)
+		  (define-key dired-mode-map (kbd "h D") 'jj/dired-ranger-reset-copy-ring)
+		  (define-key dired-mode-map (kbd "h b") 'dired-ranger-bookmark)
+		  (define-key dired-mode-map (kbd "A") 'dired-ranger-bookmark)
+		  (define-key dired-mode-map (kbd "a") 'dired-ranger-bookmark-visit)
+		  (define-key dired-mode-map (kbd "M") 'dired-ranger-move)
+		  ;; Originally dired-do-chmod mapped to M
+		  ;; (define-key dired-mode-map (kbd "M") 'dired-do-chmod)
+		  (define-key dired-mode-map (kbd "Y") 'dired-ranger-paste)))
 	 (define-key dired-mode-map (kbd "M-i") 'diredp-dired-this-subdir)
 	 (define-key dired-mode-map (kbd "M-I") 'diredp-insert-subdirs)
+	 (define-key dired-mode-map (kbd "M-I") 'jj/dired-copy-filename-as-kill-absolute-path)
 	 (defvar dired-narrow-filter-map
 	   (let ((map (make-sparse-keymap)))
 		 (define-key map "," 'dired-narrow)
