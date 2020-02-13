@@ -4611,6 +4611,11 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (kill-current-buffer)
   (delete-window))
 
+(defun jj/set-key-to-nil ()
+  "Display a message because will change this key, but the muscle memory is still there."
+  (interactive)
+  (message "Don't use this key anymore!!"))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)
