@@ -67,13 +67,13 @@
 
 (use-package ibuffer
   :bind (
-	 :map ibuffer-mode-map
-	 :prefix-map ibuffer-h-prefix-map
-	 :prefix "h"
-	 ("h" . describe-mode)
-	 ("g" . ibuffer-clear-filter-groups)
-	 ("r" . ibuffer-clear-filter-groups)
-	 ("l" . jj/ibuffer-jump-to-last-buffer))
+		 :map ibuffer-mode-map
+		 :prefix-map ibuffer-h-prefix-map
+		 :prefix "h"
+		 ("h" . describe-mode)
+		 ("g" . ibuffer-clear-filter-groups)
+		 ("r" . ibuffer-clear-filter-groups)
+		 ("l" . jj/ibuffer-jump-to-last-buffer))
   :config
   (defun jj/ibuffer-jump-to-last-buffer ()
 	(interactive)
@@ -82,21 +82,21 @@
 
 (use-package ibuffer-vc
   :bind (:map ibuffer-h-prefix-map
-		  ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
-		  ("V" . jj/ibuffer-vc-refresh-state))
+			  ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
+			  ("V" . jj/ibuffer-vc-refresh-state))
   :config
   (defun jj/vc-refresh-state-all-buffers ()
 	"Refresh all vc buffer statuses by calling `vc-refresh-state` on each one if it has an associated vc backend. Uses functions from `ibuffer-vc`, so decouple these functions if you need to use this without loading ibuffer-vc."
 	(interactive)
 	(dolist (buf (buffer-list))
 	  (let ((file-name (with-current-buffer buf
-			 (file-truename (or buffer-file-name
-						default-directory)))))
-	(when (ibuffer-vc--include-file-p file-name)
-	  (let ((backend (ibuffer-vc--deduce-backend file-name)))
-		(when backend
-		  (with-current-buffer buf (vc-refresh-state))
-		  ))))))
+						 (file-truename (or buffer-file-name
+											default-directory)))))
+		(when (ibuffer-vc--include-file-p file-name)
+		  (let ((backend (ibuffer-vc--deduce-backend file-name)))
+			(when backend
+			  (with-current-buffer buf (vc-refresh-state))
+			  ))))))
 
   (defun jj/ibuffer-vc-refresh-state ()
 	"Refresh all vc buffer statuses and redisplay to update the current status in ibuffer."
@@ -4626,6 +4626,36 @@ With argument N not nil or 1, move forward N - 1 lines first."
   "Kill the files marked passing in the 0 argument for absolute path to `dired-copy-filename-as-kill`"
   (interactive)
   (dired-copy-filename-as-kill 0))
+
+(defun jj/delete-blank-lines ()
+  "Removes all blank lines from buffer or region"
+  (interactive)
+  (save-excursion
+	(let (min max)
+	  (if (equal (region-active-p) nil)
+		  (mark-whole-buffer))
+	  (setq min (region-beginning) max (region-end))
+	  (flush-lines "^ *$" min max t))))
+
+(defun jj/collapse-blank-lines ()
+  "Collapse multiple blank lines from buffer or region into a single blank line"
+  (interactive)
+  (save-excursion
+	(let (min max)
+	  (if (equal (region-active-p) nil)
+		  (mark-whole-buffer))
+	  (setq min (region-beginning) max (region-end))
+	  (replace-regexp "^\n\\{2,\\}" "\n" nil min max))))
+
+(defun jj/collapse-blank-lines-query ()
+  "Collapse multiple blank lines from buffer or region into a single blank line"
+  (interactive)
+  (save-excursion
+	(let (min max)
+	  (if (equal (region-active-p) nil)
+		  (mark-whole-buffer))
+	  (setq min (region-beginning) max (region-end))
+	  (query-replace-regexp "^\n\\{2,\\}" "\n" nil min max))))
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"

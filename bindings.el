@@ -31,6 +31,8 @@
 (global-set-key (kbd "C-M-b") 'sp-backward-sexp)
 (global-set-key (kbd "C-M-d") 'sp-down-sexp)
 (global-set-key (kbd "C-M-u") 'sp-backward-up-sexp)
+(global-set-key (kbd "C-x C-S-o") 'jj/delete-blank-lines)
+(global-set-key (kbd "C-x M-O") 'jj/collapse-blank-lines)
 (global-set-key (kbd "C-x C") 'jj/save-buffers-kill-terminal)
 (global-set-key [(super ?h)] 'help-command)
 (global-set-key [(control ?h)] 'delete-backward-char)
