@@ -11,3 +11,4 @@
 /.helm-chronos-recent-timers
 /bookmarks
 /emacs_workgroups
+*.snes

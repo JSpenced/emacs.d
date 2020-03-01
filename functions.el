@@ -3595,14 +3595,14 @@ current line."
 
 (defun jj/backup-each-save-filter (filename)
   (let ((ignored-filenames
-	 '("^/tmp" "semantic.cache$" "\\.gpg$" "\\.pdf$" "\\places$" "\\abbrev_defs$" "\\bookmarks$" "\\emacs_workgroups$"
-	   "smex-items$" "\\recentf$" "\\.recentf$" "\\tramp$"
-	   "\\.mc-lists.el$" "\\.emacs.desktop$" "\\history$" ".newsrc\\(\\.eld\\)?"))
-	(matched-ignored-filename nil))
+		 '("^/tmp" "semantic.cache$" "\\.gpg$" "\\.snes$" "\\.pdf$" "\\places$" "\\abbrev_defs$" "\\bookmarks$" "\\emacs_workgroups$"
+		   "smex-items$" "\\recentf$" "\\.recentf$" "\\tramp$"
+		   "\\.mc-lists.el$" "\\.emacs.desktop$" "\\history$" ".newsrc\\(\\.eld\\)?"))
+		(matched-ignored-filename nil))
 	(mapc
 	 (lambda (x)
 	   (when (string-match x filename)
-	 (setq matched-ignored-filename t)))
+		 (setq matched-ignored-filename t)))
 	 ignored-filenames)
 	(not matched-ignored-filename)))
 

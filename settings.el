@@ -663,7 +663,7 @@ Default is 5 MB")
 (defvar jj/backup-trash-dir (expand-file-name "~/.Trash")
   "Directory for unwanted backups.")
 
-(defvar jj/backup-exclude-regexp "\\.\\(vcf\\|gpg\\|pdf\\)$"
+(defvar jj/backup-exclude-regexp "\\.\\(vcf\\|gpg\\|pdf\\|snes\\)$"
   "Don't back up files matching this regexp.
 
 Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'. Set to nil to disable this.")
