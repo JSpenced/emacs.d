@@ -156,14 +156,14 @@ Use '!' to signify that the buffer was not initially clean."
 
 (setq ivy-initial-inputs-alist
 	  '((org-refile . "")
-	(org-agenda-refile . "^")
-	(org-capture-refile . "^")
-	(counsel-M-x . "")
-	(counsel-describe-function . "")
-	(counsel-describe-variable . "")
-	(counsel-org-capture . "^")
-	(Man-completion-table . "^")
-	(woman . "^")))
+		(org-agenda-refile . "^")
+		(org-capture-refile . "")
+		(counsel-M-x . "")
+		(counsel-describe-function . "")
+		(counsel-describe-variable . "")
+		(counsel-org-capture . "^")
+		(Man-completion-table . "^")
+		(woman . "^")))
 
 (setq ivy-re-builders-alist
 	  '((counsel-bookmark . ivy--regex-fuzzy)
@@ -946,13 +946,14 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (setq org-refile-targets
 	  '((nil :maxlevel . 1)
-	(org-agenda-files :maxlevel . 1)
-	("Machine_learning_notes.org" :maxlevel . 1)
-	("Job_notes.org" :maxlevel . 1)
-	("Archive_notes.org" :maxlevel . 1)
-	("computer_notes.org" :maxlevel . 1)
-	("done.org" :maxlevel . 2)
-	))
+		(org-agenda-files :maxlevel . 1)
+		("Machine_learning_notes.org" :maxlevel . 1)
+		("gtd.org" :maxlevel . 2)
+		("Job_notes.org" :maxlevel . 1)
+		("Archive_notes.org" :maxlevel . 1)
+		("computer_notes.org" :maxlevel . 1)
+		("done.org" :maxlevel . 2)
+		))
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
 ;; this allows refiling to the top level of a file
