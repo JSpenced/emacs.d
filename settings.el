@@ -966,8 +966,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-latex-packages-alist '(("margin=1in" "geometry" nil)))
 ;; adds new class defined below that can specify with #+LATEX_CLASS:
 (add-to-list 'org-latex-classes
-		 '("mybasic"
-		   "\\documentclass[letter,11pt]{article}
+			 '("mybasic"
+			   "\\documentclass[letter,11pt]{article}
 
 \\usepackage[utf8]{inputenc}
 \\usepackage{lmodern}
@@ -979,11 +979,74 @@ even when the file is larger than `large-file-warning-threshold'.")
 		   [NO-DEFAULT-PACKAGES]
 		   [NO-PACKAGES]
 		   [EXTRA]"
-		   ("\\section{%s}" . "\\section*{%s}")
-		   ("\\subsection{%s}" . "\\subsection*{%s}")
-		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+			   ("\\section{%s}" . "\\section*{%s}")
+			   ("\\subsection{%s}" . "\\subsection*{%s}")
+			   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+			   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(add-to-list 'org-latex-classes
+			 '("myarticle"
+			   "\\RequirePackage{fix-cm}
+\\PassOptionsToPackage{svgnames}{xcolor}
+
+\\documentclass[11pt]{article}
+
+\\usepackage{fontspec}
+\\usepackage{roboto}
+\\usepackage{sectsty}
+\\allsectionsfont{\\sffamily}
+\\usepackage{enumitem}
+\\setlist[description]{style=unboxed,font=\\sffamily\\bfseries}
+\\usepackage{listings}
+\\lstset{frame=single,aboveskip=1em,
+	framesep=.5em,backgroundcolor=\\color{AliceBlue},
+	rulecolor=\\color{LightSteelBlue},framerule=1pt}
+\\usepackage{xcolor}
+\\newcommand\\basicdefault[1]{\\scriptsize\\color{Black}\\ttfamily#1}
+\\lstset{basicstyle=\\basicdefault{\\spaceskip1em}}
+\\usepackage[margin=1in]{geometry}
+\\usepackage{parskip}
+\\makeatletter
+\\renewcommand{\\maketitle}{%
+  \\begingroup\\parindent0pt
+  \\sffamily
+  \\huge{\\bfseries\\@title}\\par\\bigskip
+  \\Large{\\bfseries\\@author}\\par\\medskip
+  \\normalsize\\@date\\par\\bigskip
+  \\endgroup\\@afterindentfalse\\@afterheading}
+\\makeatother
+
+\\usepackage{graphicx}
+\\usepackage{longtable}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage[numbers,super,sort&compress]{natbib}
+\\usepackage{natmove}
+\\usepackage{url}
+\\usepackage[cache=false]{minted}
+\\usepackage[strings]{underscore}
+\\usepackage[linktocpage,pdfstartview=FitH,colorlinks,\nlinkcolor=blue,anchorcolor=blue,\ncitecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue]{hyperref}
+\\hypersetup{linkcolor=Blue,urlcolor=DarkBlue,
+  citecolor=DarkRed,colorlinks=true}
+\\AtBeginDocument{\\renewcommand{\\UrlFont}{\\ttfamily}}
+
+[NO-DEFAULT-PACKAGES]
+[NO-PACKAGES]
+[EXTRA]"
+			   ("\\section{%s}" . "\\section*{%s}")
+			   ("\\subsection{%s}" . "\\subsection*{%s}")
+			   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+			   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
 ;; If export to "docx" then odt can't be in openwith associations or doesn't work
 (setq  org-odt-preferred-output-format "docx")
 ;; Used to setq certain org values to convert odt to docx
