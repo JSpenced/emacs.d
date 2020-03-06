@@ -966,7 +966,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-latex-packages-alist '(("margin=1in" "geometry" nil)))
 ;; adds new class defined below that can specify with #+LATEX_CLASS:
 (add-to-list 'org-latex-classes
-		 '("myarticle"
+		 '("mybasic"
 		   "\\documentclass[letter,11pt]{article}
 
 \\usepackage[utf8]{inputenc}
@@ -974,10 +974,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 \\usepackage[T1]{fontenc}
 \\usepackage[margin=1in]{geometry}
 \\usepackage{graphicx}
-
 \\usepackage{fixltx2e}
 
-\\newcommand\\foo{bar}
 		   [NO-DEFAULT-PACKAGES]
 		   [NO-PACKAGES]
 		   [EXTRA]"
