@@ -946,12 +946,12 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (setq org-refile-targets
 	  '((nil :maxlevel . 1)
-		(org-agenda-files :maxlevel . 1)
-		("Machine_learning_notes.org" :maxlevel . 1)
-		("gtd.org" :maxlevel . 2)
-		("Job_notes.org" :maxlevel . 1)
+		(org-agenda-files :maxlevel . 2)
+		("Machine_learning_notes.org" :maxlevel . 2)
+		("gtd.org" :maxlevel . 3)
+		("Job_notes.org" :maxlevel . 2)
 		("Archive_notes.org" :maxlevel . 1)
-		("computer_notes.org" :maxlevel . 1)
+		("computer_notes.org" :maxlevel . 2)
 		("done.org" :maxlevel . 2)
 		))
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
