@@ -1070,6 +1070,13 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; HACK: Append reset scimax bindings to end of org-mode hook so runs last
 (add-hook 'org-mode-hook 'jj/org-ob-babel-reset-scimax-bindings 90)
 
+(setq org-latex-compiler "xelatex")
+;; NOTE: Removed -synctex=1 so don't get an extra synctex file for syncing (useful for long docs)
+(setq org-latex-pdf-process
+	  (list (concat "latexmk -"
+					org-latex-compiler
+					" -shell-escape -recorder -bibtex-cond %b")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; view weather wttrin package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
