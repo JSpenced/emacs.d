@@ -4657,6 +4657,11 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	  (setq min (region-beginning) max (region-end))
 	  (query-replace-regexp "^\n\\{2,\\}" "\n" nil min max))))
 
+(defun jj/wgrep-finish-edit-save-all-buffers ()
+  (interactive)
+  (let ((wgrep-auto-save-buffer t))
+	(wgrep-finish-edit)))
+
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
   (interactive)

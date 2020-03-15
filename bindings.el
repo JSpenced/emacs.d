@@ -721,6 +721,11 @@
 (define-key global-map "\C-xg" 'magit-status)
 ;; (define-key global-map "\C-xg" 'jj/counsel-find-name-everything)
 
+(eval-after-load "wgrep"
+  '(progn
+	 (define-key wgrep-mode-map (kbd "C-c C-s") 'jj/wgrep-finish-edit-save-all-buffers)
+	 ))
+
 (global-set-key (kbd "C-x C-d") 'jj/ivy-dired-recent-dirs)
 (global-set-key (kbd "C-x s-d") 'list-directory)
 
