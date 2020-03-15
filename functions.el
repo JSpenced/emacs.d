@@ -476,40 +476,42 @@ Version 2017-02-09"
 
   (defun jj/org-gcal-fetch-quick ()
 	(interactive)
-	(let ((org-gcal-auto-archive nil)
-		  (org-gcal-up-days 1)
-		  (org-gcal-down-days 21))
-	  (org-gcal-fetch)))
+	(when (jj/internet-up-p)
+	  (let ((org-gcal-auto-archive nil)
+			(org-gcal-up-days 1)
+			(org-gcal-down-days 21))
+		(org-gcal-fetch))))
 
   (defun jj/org-gcal-archive-erase-then-fetch ()
 	(interactive)
-	(dolist (i org-gcal-fetch-file-alist)
-	  (with-current-buffer
-		  (find-file-noselect (cdr i))
-		(when org-gcal-auto-archive
-		  (org-gcal--archive-old-event))
-		(erase-buffer)))
-	(org-gcal-fetch))
+	(when (jj/internet-up-p)
+	  (dolist (i org-gcal-fetch-file-alist)
+		(with-current-buffer
+			(find-file-noselect (cdr i))
+		  (when org-gcal-auto-archive
+			(org-gcal--archive-old-event))
+		  (erase-buffer)
+		  (org-gcal-fetch)))))
 
   (defun jj/org-gcal-fetch-when-idle-quick ()
 	(interactive)
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
-	(run-with-idle-timer 21 nil 'jj/org-gcal-fetch-quick))
+	(run-with-idle-timer 28 nil 'jj/org-gcal-fetch-quick))
 
   (defun jj/org-gcal-fetch-when-idle-full ()
 	(interactive)
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
 	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
-	(run-with-idle-timer 18 nil 'jj/org-gcal-archive-erase-then-fetch)
+	(run-with-idle-timer 21 nil 'jj/org-gcal-archive-erase-then-fetch)
 	(cancel-function-timers 'jj/org-gcal-fetch-quick))
 
   ;; Can check timiers with variables timer-list or timer-idle-list
   ;; run org-gcal-fetch every 15 minutes when inactive
   ;; Do a full refresh so archive-delete-fetch every 2 hours
   (run-with-timer (* 20 60) (* 15 60) 'jj/org-gcal-fetch-quick)
-  (run-with-timer (* 1 9) (* 120 60) 'jj/org-gcal-fetch-when-idle-full))
+  (run-with-timer (* 1 9) (* 240 60) 'jj/org-gcal-fetch-when-idle-full))
 
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
@@ -4715,6 +4717,11 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (interactive)
   (let ((wgrep-auto-save-buffer t))
 	(wgrep-finish-edit)))
+
+(defun jj/internet-up-p (&optional host)
+  (= 0 (call-process "ping" nil nil nil "-c" "1" "-W" "1"
+					 (if host host "www.google.com"))))
+
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
