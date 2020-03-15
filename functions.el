@@ -457,6 +457,12 @@ Version 2017-02-09"
   (define-key deadgrep-mode-map (kbd "i") 'counsel-imenu)
   (define-key deadgrep-mode-map (kbd "j") 'counsel-imenu))
 
+(use-package ox-jekyll-lite
+  :load-path nil
+  :after org
+  :config
+  (setq org-jekyll-project-root "~/Dropbox/Documents/Blog/"))
+
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
 ;; (require 'workgroups2)
