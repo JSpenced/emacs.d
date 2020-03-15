@@ -663,7 +663,12 @@ Default is 5 MB")
 (defvar jj/backup-trash-dir (expand-file-name "~/.Trash")
   "Directory for unwanted backups.")
 
-(defvar jj/backup-exclude-regexp "\\.\\(vcf\\|gpg\\|pdf\\|snes\\)$"
+(defvar jj/backup-exclude-regexp "\\.\\(vcf\\|gpg\\|pdf\\|snes\\|org_archive\\)$"
+  "Don't back up files matching this regexp.
+
+Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'. Set to nil to disable this.")
+
+(defvar jj/backup-exclude-file-regex "\\(gcal\\.org\\|\\bookmarks\\)$"
   "Don't back up files matching this regexp.
 
 Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'. Set to nil to disable this.")
@@ -677,6 +682,8 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;; add trash dir if needed
 (if jj/backup-exclude-regexp
 	(add-to-list 'backup-directory-alist `(,jj/backup-exclude-regexp . ,jj/backup-trash-dir)))
+(if jj/backup-exclude-file-regex
+	(add-to-list 'backup-directory-alist `(,jj/backup-exclude-file-regex . ,jj/backup-trash-dir)))
 
 ;; add to save hook
 (add-hook 'before-save-hook 'jj/backup-every-save)
