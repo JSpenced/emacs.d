@@ -1246,29 +1246,33 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs startup hook and daemon settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-		;; allows proper loading so doesn't overwrite the recentf file with no entries
-		(recentf-mode 1)
-		;; load after recentf-mode since storing recentf-list in savehist variable
-		(savehist-mode 1)
-		(setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file)))
-	  90)
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   ;; allows proper loading so doesn't overwrite the recentf file with no entries
+   (recentf-mode 1)
+   ;; load after recentf-mode since storing recentf-list in savehist variable
+   (savehist-mode 1)
+   (setq save-place-timer (run-with-timer (* 60 60) (* 60 60) 'jj/save-place-recentf-to-file)))
+ 90)
 ;; needs to be added to hook after (recentf-mode 1) so loaded first
 ;; if not writing to recentf, might not work properly
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-		;; so loaded after all settings because appears to mess up things if loaded before
-		(require 'dired+)
-		;; (interactive)
-		(cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
-		   (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
-		   (setq jj/desktop-save-if-all-buffers-read t)
-		   (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
-		  (t (when (not (daemonp))
-			   (desktop-save-mode)
-			   (desktop-read)))))
-	  -90)
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   ;; Run org-gcal-fetch full when emacs starts
+   (jj/org-gcal-fetch-when-idle-full)
+   ;; so loaded after all settings because appears to mess up things if loaded before
+   (require 'dired+)
+   ;; (interactive)
+   (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
+		  (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
+		  (setq jj/desktop-save-if-all-buffers-read t)
+		  (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
+		 (t (when (not (daemonp))
+			  (desktop-save-mode)
+			  (desktop-read)))))
+ -90)
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 ;; Run an edit server in the running emacs
 ;; (when (locate-library "edit-server")

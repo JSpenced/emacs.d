@@ -510,8 +510,9 @@ Version 2017-02-09"
   ;; Can check timiers with variables timer-list or timer-idle-list
   ;; run org-gcal-fetch every 15 minutes when inactive
   ;; Do a full refresh so archive-delete-fetch every 2 hours
-  (run-with-timer (* 20 60) (* 15 60) 'jj/org-gcal-fetch-quick)
-  (run-with-timer (* 1 9) (* 240 60) 'jj/org-gcal-fetch-when-idle-full))
+  (run-with-timer (* 30 60) (* 30 60) 'jj/org-gcal-fetch-quick)
+  ;; Run once in emacs-startup-hook
+  (run-with-timer (* 363 60) (* 360 60) 'jj/org-gcal-fetch-when-idle-full))
 
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
