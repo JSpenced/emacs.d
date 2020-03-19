@@ -260,10 +260,11 @@
 (global-set-key (kbd "M-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
 (global-set-key (kbd "C-M-s-<return>") 'jj/delete-other-windows-switch-other-buffer)
 ;; necessary to recognize the j and k keys correctly on emacs 26.1
-(global-set-key (kbd "<C-s-268632074>") 'previous-multiframe-window)
-(global-set-key (kbd "<C-s-268632075>") 'next-multiframe-window)
-(global-set-key (kbd "C-s-j") 'previous-multiframe-window)
-(global-set-key (kbd "C-s-k") 'next-multiframe-window)
+(when (< emacs-major-version 27)
+  (global-set-key (kbd "<C-s-268632074>") 'previous-window-any-frame)
+  (global-set-key (kbd "<C-s-268632075>") 'next-window-any-frame))
+(global-set-key (kbd "C-s-j") 'previous-window-any-frame)
+(global-set-key (kbd "C-s-k") 'next-window-any-frame)
 (global-set-key (kbd "s-'") 'ace-window)
 (global-set-key (kbd "C-M-s-6") 'make-frame)
 
