@@ -731,8 +731,9 @@
 (global-set-key (kbd "C-x s-d") 'list-directory)
 
 (global-set-key (kbd "C-s-<tab>") 'jj/switch-to-previous-buffer)
-(global-set-key (kbd "<escape> <tab>") 'jj/switch-to-previous-buffer)
-(global-set-key (kbd "C-S-<tab>") 'jj/switch-to-previous-buffer)
+(global-set-key (kbd "<escape> <tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "s-p <tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
 
 (define-key process-menu-mode-map (kbd "C-k") 'jj/delete-kill-process-at-point)
 
