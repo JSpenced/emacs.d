@@ -558,22 +558,24 @@ Use '!' to signify that the buffer was not initially clean."
 (setq dired-omit-verbose nil)
 ;; Uses xargs to run commands instead of passing -exec to find which makes it very slow
 (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
-(add-hook 'dired-mode-hook
-	  (lambda ()
-		(auto-revert-mode)
-		(when (file-remote-p dired-directory)
-		  (setq-local dired-actual-switches "-a -F -Alh"))
-		(dired-omit-caller)
-		(dired-hide-details-mode)
-		(dired-sort-toggle-or-edit)
-		(when (get-buffer "saves-*")
-		  (progn
-		(with-current-buffer "saves-*"
-		  (interactive)
-		  (setq dired-omit-mode nil)
-		  (dired-hide-details-mode 0)
-		  (jj/dired-sort-by-time-switch-toggle))))))
+(add-hook
+ 'dired-mode-hook
+ (lambda ()
+   (auto-revert-mode)
+   (when (file-remote-p dired-directory)
+	 (setq-local dired-actual-switches "-a -F -Alh"))
+   (dired-omit-caller)
+   (dired-hide-details-mode)
+   (dired-sort-toggle-or-edit)
+   (when (get-buffer "saves-*")
+	 (progn
+	   (with-current-buffer "saves-*"
+		 (interactive)
+		 (setq dired-omit-mode nil)
+		 (dired-hide-details-mode 0)
+		 (jj/dired-sort-by-time-switch-toggle))))))
 
+(setq dired-create-destination-dirs 'ask)
 (setq dired-ranger-bookmark-reopen 'always)
 ;; Set up so that dired+ mode properly ignores auto-save files
 ;; Need to load dired+ after setting up the settings or they don't work
