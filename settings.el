@@ -304,7 +304,17 @@ Use '!' to signify that the buffer was not initially clean."
 (defun jj/flycheck-mode-python-setup ()
   "Custom behaviours of flycheck mode for `python-mode'."
   (setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
-  (setq-local flycheck-idle-change-delay 2))
+  (setq-local flycheck-idle-change-delay 2)
+  (setq-local flycheck-idle-buffer-switch-delay 2))
+;; NOTE: set so id column for pylint is wider (only has global control)
+(with-eval-after-load "flycheck"
+  (setq flycheck-error-list-format
+		`[("File" 3)
+		  ("Line" 5 flycheck-error-list-entry-< :right-align t)
+		  ("Col" 3 nil :right-align t)
+		  ("Level" 5 flycheck-error-list-entry-level-<)
+		  ("ID" 18 t)
+		  (,(flycheck-error-list-make-last-column "Message" 'Checker) 0 t)]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Latex and Tex
@@ -383,21 +393,21 @@ Use '!' to signify that the buffer was not initially clean."
 	  (lambda ()
 		(setq visual-fill-column-width 94)))
 (add-hook 'org-mode-hook
-	  (lambda ()
-		(setq visual-fill-column-center-text nil)
-		(setq visual-fill-column-width 108)
-		;; Turns off TODO, DONE, NEXT, and set local so doesn't override default value
-		(setq-local hl-todo-keyword-faces '(("HOLD" . "#d0bf8f")  ("T0D0" . "#cc9393")
-						("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
-						("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
-						("DONT" . "#5f7f5f") ("FAIL" . "#8c5353")
-						("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
-						("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
-						("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
-						("QQQ+" . "#cc9393")
-						))
-		(hl-todo-mode)
-		))
+		  (lambda ()
+			(setq visual-fill-column-center-text nil)
+			(setq visual-fill-column-width 108)
+			;; Turns off TODO, DONE, NEXT, and set local so doesn't override default value
+			(setq-local hl-todo-keyword-faces '(("HOLD" . "#d0bf8f")  ("T0D0" . "#cc9393")
+												("TOD0" . "#cc9393") ("TODOO" . "#cc9393")
+												("THEM" . "#dc8cc3") ("PROG" . "#7cb8bb") ("OKAY" . "#7cb8bb")
+												("DONT" . "#5f7f5f") ("FAIL" . "#8c5353")
+												("FINISHED" . "#afd8af") ("UNSURE" . "#dc8cc3") ("T000" . "#cc9393")
+												("NOTE" . "#d0bf8f") ("KLUDGE" . "#d0bf8f") ("HACK" . "#d0bf8f")
+												("TEMP" . "#d0bf8f") ("FIXME" . "#cc9393") ("XXX+" . "#cc9393")
+												("QQQ+" . "#cc9393")
+												))
+			(hl-todo-mode)
+			))
 (add-hook 'nxml-mode-hook
 	  (lambda ()
 		(setq visual-fill-column-mode nil)
