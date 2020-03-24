@@ -1234,9 +1234,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Easy kill settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq easy-kill-alist '((?w word           " ")
-						(?L line           "\n")
+						(?l line           "\n")
 						(?s sexp           "\n")
-						(?l list           "\n")
+						(?' list           "\n")
 						(?d defun          "\n\n")
 						(?a backward-line-edge "")
 						(?e forward-line-edge "")
@@ -1251,7 +1251,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 						(?^ backward-line-edge "")
 						(?$ forward-line-edge "")
 						(?Z string-up-to-char-forward "")
-						(?T string-up-to-char-backward "")))
+						(?T string-up-to-char-backward "")
+						(?L list           "\n")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Alternative input methods for Korean hangul
