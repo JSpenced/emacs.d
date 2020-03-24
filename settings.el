@@ -1173,6 +1173,26 @@ even when the file is larger than `large-file-warning-threshold'.")
 (if (equal ispell-program-name (executable-find "aspell"))
 	(setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/aspell_personal.pws"))
   (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/hunspell_personal.dic")))
+;; Remove scimax's hook and add my for org-mode spellchecking
+(remove-hook 'org-mode-hook
+			 (lambda ()
+			   (ispell-init-process)
+			   (message "initializing spell-checkers!")
+			   (flyspell-mode +1)
+			   (flycheck-mode +1)))
+(add-hook 'org-mode-hook
+		  (lambda ()
+			;; NOTE: Running fetch then runs ispell and the contents
+			;; is written to buffer and spellchecked in the process so
+			;; it makes the buffer load super slow (ispell-init-process)
+			;; seems unecessary
+			(when (not (string-equal (buffer-name) "gcal.org"))
+			  (flyspell-mode +1)
+			  (flycheck-mode +1)))
+		  88)
+;; Turn on flyspell for markdown and latex mode automatically
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook #'turn-on-flyspell)
 
 
 (setq desktop-path (list (expand-file-name "~/Programs/scimax/user")))
