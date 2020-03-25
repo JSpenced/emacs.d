@@ -521,6 +521,11 @@
 (global-set-key (kbd "C-x j C-e") 'avy-goto-end-of-line)
 (global-set-key (kbd "C-x j t") 'avy-goto-char-timer)
 (global-set-key (kbd "s-.") 'avy-goto-char-timer)
+
+(define-key spacebar-map (kbd "j") 'org-mark-ring-goto)
+(define-key spacebar-map (kbd "p") 'org-mark-ring-push)
+(define-key spacebar-map (kbd "C-SPC") 'org-mark-ring-push)
+
 (define-key org-mode-map (kbd "C-x j h") 'ivy-org-jump-to-visible-headline)
 (define-key org-mode-map (kbd "s-,") 'ivy-org-jump-to-visible-headline)
 ;; expand region overwrites the below hot key so added

@@ -1,6 +1,8 @@
 ;; -*- mode: Emacs-Lisp -*-
 (define-prefix-command 'commandpalette-map)
 (global-set-key (kbd "s-p") 'commandpalette-map)
+(define-prefix-command 'spacebar-map)
+(global-set-key (kbd "s-SPC") 'spacebar-map)
 (define-prefix-command 'comment-map)
 (global-set-key (kbd "s-/") 'comment-map)
 (define-prefix-command 'jj-command-m-map)
