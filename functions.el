@@ -4718,14 +4718,28 @@ With argument N not nil or 1, move forward N - 1 lines first."
 	  (query-replace-regexp "^\n\\{2,\\}" "\n" nil min max))))
 
 (defun jj/wgrep-finish-edit-save-all-buffers ()
+  "Finishes the edit and saves all buffers where an edit was
+made. Default behavior is to edit all buffers, but not save the
+files where edits were made."
   (interactive)
   (let ((wgrep-auto-save-buffer t))
 	(wgrep-finish-edit)))
 
 (defun jj/internet-up-p (&optional host)
+  "Checks if the internet is up by pinging google."
   (= 0 (call-process "ping" nil nil nil "-c" "1" "-W" "1"
 					 (if host host "www.google.com"))))
 
+(defun jj/org-mark-ring-reset ()
+  "Resets the `org-mark-ring` variable."
+  (interactive)
+  ;; Fill and close the ring
+  (setq org-mark-ring nil)
+  (setq org-mark-ring-last-goto nil)
+
+  (dotimes (_ org-mark-ring-length) (push (make-marker) org-mark-ring))
+  (setcdr (nthcdr (1- org-mark-ring-length) org-mark-ring)
+		  org-mark-ring))
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
