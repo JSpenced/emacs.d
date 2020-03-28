@@ -370,19 +370,17 @@ Version 2017-02-09"
   ;; F	freeze/unfreeze the display
   ;; q	quit window
 
-
-
   (defun jj/chronos-shell-notify (c)
 	"Notify expiration of timer C by running a shell command."
 	;; NOTE: for alarm.wav to work has to be copied to /System/Library/sounds
 	(if (eq system-type 'darwin)
-	(chronos--shell-command "Chronos shell notification for Mac OS X"
-				"/usr/local/bin/terminal-notifier"
-				(list "-ignoreDnD" "-sound" "alarm.wav" "-title" "Chronos Timer" "-message" (chronos--message c))
-				)
+		(chronos--shell-command "Chronos shell notification for Mac OS X"
+								(executable-find "terminal-notifier")
+								(list "-ignoreDnD" "-sound" "alarm.wav" "-title" "Chronos Timer" "-message" (chronos--message c) "-execute" "open -a Emacs")
+								)
 	  (chronos--shell-command "Chronos shell notification for Linux & Windows"
-				  "notify-send"
-				  (list "-t" "3600000" "Chronos Timer" (chronos--message c))))
+							  "notify-send"
+							  (list "-t" "3600000" "Chronos Timer" (chronos--message c))))
 	;; 24*60*60*1000 = 86400000  60*60*1000 = 3600000
 	)
 
@@ -393,23 +391,23 @@ Version 2017-02-09"
    ;; chronos-shell-notify-parameters '("-t" "0" "Сработал таймер")
    chronos-notification-wav (expand-file-name "~/Programs/scimax/user/sounds/techno.wav")
    chronos-expiry-functions '(chronos-buffer-notify
-				  jj/chronos-shell-notify
-				  chronos-message-notify
-				  ;; chronos-sound-notify
-				  ))
+							  jj/chronos-shell-notify
+							  chronos-message-notify
+							  ;; chronos-sound-notify
+							  ))
   (use-package helm-chronos)
   ;; hack for manual addons. helm updates?
   (setq helm-chronos--fallback-source
-	(helm-build-dummy-source "test"
-	  :action '(("Add timer" . helm-chronos--parse-string-and-add-timer))))
+		(helm-build-dummy-source "test"
+		  :action '(("Add timer" . helm-chronos--parse-string-and-add-timer))))
 
   (setq helm-chronos-standard-timers
-	'(
-	  "45/P: Work + 6/P: Break"
-	  "45/P: Work"
-	  " 6/Break"
-	  "15/Long Break"
-	  ))
+		'(
+		  "45/P: Work + 6/P: Break"
+		  "45/P: Work"
+		  " 6/Break"
+		  "15/Long Break"
+		  ))
 
   ;; (global-set-key (kbd "s-p t") 'helm-chronos-add-timer)
   (global-set-key (kbd "s-t") 'helm-chronos-add-timer)
