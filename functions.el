@@ -3626,6 +3626,18 @@ current line."
 	))
 (advice-add 'wttrin-exit :after #'jj/wttrin-restore-frame)
 
+(defun jj/wttrin-query-keymap (city-name)
+  "Define a keymap to add to the bindings for the weather page.
+
+j/g - jump to another weather or input.
+q/k - quit weather and return to window config."
+  (use-local-map (make-sparse-keymap))
+  (local-set-key "q" 'wttrin-exit)
+  (local-set-key "k" 'wttrin-exit)
+  (local-set-key "g" 'wttrin)
+  (local-set-key "j" 'wttrin))
+(advice-add 'wttrin-query :after #'jj/wttrin-query-keymap)
+
 ;; function to open wttrin with first city on list
 (defun jj/weather-default-wttrin ()
   "Open `wttrin' without prompting, using first city in `wttrin-default-cities'"
@@ -3642,14 +3654,16 @@ current line."
   (interactive
    (list
 	(completing-read "City name: " wttrin-default-cities nil nil
-			 (when (= (length wttrin-default-cities) 1)
-			   (car wttrin-default-cities)))))
+					 (when (= (length wttrin-default-cities) 1)
+					   (car wttrin-default-cities)))))
   ;; save window arrangement to register
   (jj/wttrin-save-frame)
   (wttrin-query city)
   ;; set that the frame was changed for exit
   (setq jj/wttrin-frame-changed t)
   )
+
+
 
 (defun jj/backup-each-save-filter (filename)
   (let ((ignored-filenames
@@ -3667,14 +3681,14 @@ current line."
 (defun jj/backup-each-save-dired-jump ()
   (interactive)
   (let* (
-	 (filename (buffer-file-name))
-	 (containing-dir (file-name-directory filename))
-	 (basename (file-name-nondirectory filename))
-	 (backup-container
-	  (format "%s/%s"
-		  backup-each-save-mirror-location
-		  containing-dir))
-	 )
+		 (filename (buffer-file-name))
+		 (containing-dir (file-name-directory filename))
+		 (basename (file-name-nondirectory filename))
+		 (backup-container
+		  (format "%s/%s"
+				  backup-each-save-mirror-location
+				  containing-dir))
+		 )
 	(when (file-exists-p backup-container)
 	  (find-file backup-container)
 	  (goto-char (point-max))

@@ -529,6 +529,8 @@
 (define-key spacebar-map (kbd "b") 'jj/next-user-buffer)
 (define-key spacebar-map (kbd "F") 'jj/previous-emacs-buffer)
 (define-key spacebar-map (kbd "f") 'jj/previous-user-buffer)
+(define-key spacebar-map (kbd "w") 'jj/weather-default-wttrin)
+(define-key spacebar-map (kbd "W") 'jj/weather-wttrin)
 (define-key spacebar-map (kbd "n") 'jj/new-empty-buffer)
 (define-key spacebar-map (kbd "j") 'org-mark-ring-goto)
 (define-key spacebar-map (kbd "p") 'org-mark-ring-push)
