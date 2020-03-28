@@ -522,6 +522,7 @@
 (global-set-key (kbd "C-x j t") 'avy-goto-char-timer)
 (global-set-key (kbd "s-.") 'avy-goto-char-timer)
 
+(define-key spacebar-map (kbd "n") 'jj/new-empty-buffer)
 (define-key spacebar-map (kbd "j") 'org-mark-ring-goto)
 (define-key spacebar-map (kbd "p") 'org-mark-ring-push)
 (define-key spacebar-map (kbd "C-SPC") 'org-mark-ring-push)

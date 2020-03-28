@@ -4353,12 +4353,27 @@ Version 2016-06-19"
 	(while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
 	  (setq i (1+ i)) (previous-buffer))))
 
+(defun jj/new-empty-buffer ()
+  "Create a new empty buffer.
+New buffer will be named “untitled” or “untitled<2>”, “untitled<3>”, etc.
+It returns the buffer (for org mode).
+URL `http://ergoemacs.org/emacs/emacs_new_empty_buffer.html'
+Version 2017-11-01"
+  (interactive)
+  (let (($buf (generate-new-buffer "temp~~")))
+	(switch-to-buffer $buf)
+	;; (funcall initial-major-mode)
+	(org-mode)
+	(setq buffer-offer-save t)
+	$buf
+	))
+
 (defun jj/visible-mark-mode-enable (prefix)
   "Enable visible mark mode or with prefix disable it."
   (interactive "P")
   (visible-mark-mode 0)
   (cond ((equal prefix nil)
-	 (visible-mark-mode))))
+		 (visible-mark-mode))))
 (defun jj/global-visible-mark-mode-enable (prefix)
   "Enable global visible mark mode or with prefix disable it."
   (interactive "P")
