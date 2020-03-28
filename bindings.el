@@ -522,6 +522,13 @@
 (global-set-key (kbd "C-x j t") 'avy-goto-char-timer)
 (global-set-key (kbd "s-.") 'avy-goto-char-timer)
 
+(global-set-key (kbd "C-q") 'repeat)
+(define-key spacebar-map (kbd "r") 'repeat)
+(define-key spacebar-map (kbd "q") 'quoted-insert)
+(define-key spacebar-map (kbd "B") 'jj/next-emacs-buffer)
+(define-key spacebar-map (kbd "b") 'jj/next-user-buffer)
+(define-key spacebar-map (kbd "F") 'jj/previous-emacs-buffer)
+(define-key spacebar-map (kbd "f") 'jj/previous-user-buffer)
 (define-key spacebar-map (kbd "n") 'jj/new-empty-buffer)
 (define-key spacebar-map (kbd "j") 'org-mark-ring-goto)
 (define-key spacebar-map (kbd "p") 'org-mark-ring-push)
