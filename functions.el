@@ -468,7 +468,9 @@ Version 2017-02-09"
   :config
   (setq org-gcal-client-id my-google-client-id
 		org-gcal-client-secret my-google-client-secret
-		org-gcal-file-alist '(("jeffspencerd@gmail.com" .  "~/Dropbox/Documents/Notes/gcal.org"))
+		org-gcal-file-main "~/Dropbox/Documents/Notes/gcal.org"
+		org-gcal-email-main "jeffspencerd@gmail.com"
+		org-gcal-file-alist '(("jeffspencerd@gmail.com" . "~/Dropbox/Documents/Notes/gcal.org"))
 		org-gcal-auto-archive t
 		org-gcal-up-days 15
 		org-gcal-down-days 60
@@ -494,13 +496,11 @@ Version 2017-02-09"
 		  (org-gcal-fetch)))))
 
   (defun jj/org-gcal-fetch-when-idle-quick ()
-	(interactive)
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
 	(run-with-idle-timer 28 nil 'jj/org-gcal-fetch-quick))
 
   (defun jj/org-gcal-fetch-when-idle-full ()
-	(interactive)
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
 	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
