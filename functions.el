@@ -308,7 +308,7 @@ Version 2017-02-09"
    :map jj-eyebrowse-wg-map
    ("C-c" . eyebrowse-create-window-config)
    ("\"" . eyebrowse-close-window-config)
-   ("k" . jj/eyebrowse-close-window-config-switch-to-2)
+   ("k" . jj/eyebrowse-close-window-config-switch-to-9)
    ("'" . eyebrowse-last-window-config)
    ("," . eyebrowse-rename-window-config)
    ("." . eyebrowse-switch-to-window-config)
@@ -2961,6 +2961,12 @@ Always focus bigger window."
   (eyebrowse-close-window-config)
   ;; TODO: Modify to switch to last-window-config instead of always to #2
   (eyebrowse-switch-to-window-config-2))
+
+(defun jj/eyebrowse-close-window-config-switch-to-9 ()
+  (interactive)
+  (eyebrowse-close-window-config)
+  ;; TODO: Modify to switch to last-window-config instead of always to #2
+  (eyebrowse-switch-to-window-config-9))
 
 (defun eyebrowse-switch-to-window-config-11 ()
   "Switch to window configuration 11."
