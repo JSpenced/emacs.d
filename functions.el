@@ -291,6 +291,7 @@ Version 2017-02-09"
   :bind
   (("s-{" . eyebrowse-prev-window-config)
    ("s-}" . eyebrowse-next-window-config)
+   ("M-`" . eyebrowse-switch-to-window-config-0)
    ("M-2" . eyebrowse-switch-to-window-config-2)
    ("M-3" . eyebrowse-switch-to-window-config-3)
    ("M-4" . eyebrowse-switch-to-window-config-4)
@@ -315,6 +316,7 @@ Version 2017-02-09"
    ("b" . eyebrowse-switch-to-window-config)
    ("<return>" . eyebrowse-switch-to-window-config)
    ("0" . eyebrowse-switch-to-window-config-0)
+   ("`" . eyebrowse-switch-to-window-config-0)
    ("1" . eyebrowse-switch-to-window-config-1)
    ("M-1" . eyebrowse-last-window-config)
    ("2" . eyebrowse-switch-to-window-config-2)

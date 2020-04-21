@@ -497,6 +497,7 @@
 (global-set-key (kbd "s-_") 'er/contract-region)
 (global-set-key (kbd "s-)") (lambda () (interactive) (er/expand-region 0)))
 
+(global-set-key (kbd "C-~") 'tmm-menubar)
 
 ;; Setup copy and paste for s-c and s-v
 (define-key org-mode-map (kbd "s-v") 'org-yank)
