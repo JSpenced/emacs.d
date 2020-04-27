@@ -3308,19 +3308,19 @@ Null prefix argument turns off the mode."
 	(sml/setup)
 	(sml/apply-theme 'light)
 	(jj/light-theme-set-visible-mark-faces)
-	(set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
+	(if (eq system-type 'darwin) (set-face-attribute 'mode-line nil :font "Lucida Grande-13"))))
 (defun jj/sml/dark ()
   "Set sml to dark and set mode-line font to Lucida Grande"
   (interactive)
   (sml/setup)
   (sml/apply-theme 'dark)
-  (set-face-attribute 'mode-line nil :font "Lucida Grande-13"))
+  (if (eq system-type 'darwin) (set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
 (defun jj/sml/light ()
   "Set sml to light and set mode-line font to Lucida Grande"
   (interactive)
   (sml/setup)
   (sml/apply-theme 'dark)
-  (set-face-attribute 'mode-line nil :font "Lucida Grande-13"))
+  (if (eq system-type 'darwin) (set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
 (defun jj/load-reset-fonts-for-themes ()
   "Reset many font face attributes for proper loading of themes"
   (interactive)
@@ -4922,4 +4922,4 @@ files where edits were made."
 	(setq ibuffer-marked-face 'font-ibuffer-marked-face)
 	(setq ibuffer-deletion-face 'font-ibuffer-deletion-face)
 	(jj/dark-theme-set-visible-mark-faces)
-	(set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
+	(if (eq system-type 'darwin) (set-face-attribute 'mode-line nil :font "Lucida Grande-13"))))

@@ -550,10 +550,19 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (setq jmax-user-theme 'monokai)
 ;; (setq sml/theme 'dark)
 ;; (add-hook 'after-init-hook (lambda () (load-theme 'smart-mode-line-dark)))
-(set-face-attribute 'default nil :font "Hack-14")
+(cond
+ ((string-equal system-type "darwin")
+  (set-face-attribute 'default nil :font "Hack-14"))
+ ((string-equal system-type "gnu/linux")
+  (set-face-attribute 'default nil :font "Hack-12")))
+
 ;; possibly set after-setting-font-hook if changing themes a lot to keep setting the mode-line
 ;; or since use dired a lot set in function that forces mode-line to be rewritten
-(set-face-attribute 'mode-line nil :font "Lucida Grande-13")
+(cond
+ ;; ((string-equal system-type "gnu/linux")
+ ;;  (set-face-attribute 'default nil :font "Hack-12"))
+ ((string-equal system-type "darwin")
+  (set-face-attribute 'mode-line nil :font "Lucida Grande-13")))
 (add-hook 'emacs-lisp-mode-hook 'jj/remove-elc-on-save)
 
 ;; this is a test does it work well I think so
