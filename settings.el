@@ -842,7 +842,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 (ad-activate 'abort-if-file-too-large)
 
 ;; Directories sorted by folder first
-(setq insert-directory-program "gls" dired-use-ls-dired t)
+(cond
+ ((string-equal system-type "darwin")
+  (setq insert-directory-program "gls" dired-use-ls-dired t)))
 ;; -A means almost all below not including . and ..
 ;; (setq dired-omit-case-fold t)
 (setq dired-listing-switches "-a -F -lGhHAv  --group-directories-first")
@@ -1302,8 +1304,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (add-hook
  'emacs-startup-hook
  (lambda ()
-   ;; Run org-gcal-fetch full when emacs starts
-   (jj/org-gcal-fetch-when-idle-full)
+   ;; Run org-gcal-fetch full when emacs starts (only on mac)
+   (cond
+	((string-equal system-type "darwin")
+	 (jj/org-gcal-fetch-when-idle-full)
+	 ))
    ;; so loaded after all settings because appears to mess up things if loaded before
    (require 'dired+)
    ;; (interactive)
