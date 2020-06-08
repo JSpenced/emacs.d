@@ -495,7 +495,8 @@ Version 2017-02-09"
 		  (when org-gcal-auto-archive
 			(org-gcal--archive-old-event))
 		  (erase-buffer)
-		  (org-gcal-fetch)))))
+		  (org-gcal-fetch)
+		  (save-buffer)))))
 
   (defun jj/org-gcal-fetch-when-idle-quick ()
 	;; cancel this idle timer if it exists and hasn't run
@@ -512,9 +513,12 @@ Version 2017-02-09"
   ;; Can check timiers with variables timer-list or timer-idle-list
   ;; run org-gcal-fetch every 15 minutes when inactive
   ;; Do a full refresh so archive-delete-fetch every 2 hours
-  (run-with-timer (* 60 60) (* 60 60) 'jj/org-gcal-fetch-when-idle-quick)
-  ;; Run once in emacs-startup-hook
-  (run-with-timer (* 363 60) (* 360 60) 'jj/org-gcal-fetch-when-idle-full)
+  (cond
+   ((string-equal system-type "darwin")
+	(run-with-timer (* 60 60) (* 60 60) 'jj/org-gcal-fetch-when-idle-quick)
+	;; Run once in emacs-startup-hook
+	(run-with-timer (* 363 60) (* 360 60) 'jj/org-gcal-fetch-when-idle-full)
+	))
   )
 
 ;; latexmk works for compiling but not updating viewers
