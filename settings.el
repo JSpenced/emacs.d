@@ -910,8 +910,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; auto-save all buffers when you lose emacs focus
 (add-hook 'focus-out-hook (lambda () (do-auto-save t)))
 
-;; Doesn't work because currently Fn is set to operate as Command+Alt+Shift
-(setq ns-function-modifier 'hyper)  ; make Fn key do Hyper
 ;; open in the original frame
 (setq ns-pop-up-frames nil)
 
