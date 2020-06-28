@@ -494,20 +494,23 @@ Version 2017-02-09"
 			(find-file-noselect (cdr i))
 		  (when org-gcal-auto-archive
 			(org-gcal--archive-old-event))
+		  ;; Ensures whole calender is retrieved (otherwise erases bufffer but doesn't pull calender)
+		  (org-gcal-sync-tokens-clear)
 		  (erase-buffer)
 		  (org-gcal-fetch)
-		  (save-buffer)))))
+		  (save-buffer)
+		  ))))
 
   (defun jj/org-gcal-fetch-when-idle-quick ()
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
-	(run-with-idle-timer 28 nil 'jj/org-gcal-fetch-quick))
+	(run-with-idle-timer 21 nil 'jj/org-gcal-fetch-quick))
 
   (defun jj/org-gcal-fetch-when-idle-full ()
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
 	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
-	(run-with-idle-timer 21 nil 'jj/org-gcal-archive-erase-then-fetch)
+	(run-with-idle-timer 9 nil 'jj/org-gcal-archive-erase-then-fetch)
 	(cancel-function-timers 'jj/org-gcal-fetch-quick))
 
   ;; Can check timiers with variables timer-list or timer-idle-list
@@ -515,11 +518,10 @@ Version 2017-02-09"
   ;; Do a full refresh so archive-delete-fetch every 2 hours
   (cond
    ((string-equal system-type "darwin")
-	(run-with-timer (* 60 60) (* 60 60) 'jj/org-gcal-fetch-when-idle-quick)
+	(run-with-timer (* 480 60) (* 480 60) 'jj/org-gcal-fetch-when-idle-quick)
 	;; Run once in emacs-startup-hook
-	(run-with-timer (* 363 60) (* 360 60) 'jj/org-gcal-fetch-when-idle-full)
-	))
-  )
+	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
+	)))
 
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)

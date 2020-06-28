@@ -1311,10 +1311,6 @@ even when the file is larger than `large-file-warning-threshold'.")
  'emacs-startup-hook
  (lambda ()
    ;; Run org-gcal-fetch full when emacs starts (only on mac)
-   (cond
-	((string-equal system-type "darwin")
-	 (jj/org-gcal-fetch-when-idle-full)
-	 ))
    ;; so loaded after all settings because appears to mess up things if loaded before
    (require 'dired+)
    ;; (interactive)
@@ -1324,7 +1320,12 @@ even when the file is larger than `large-file-warning-threshold'.")
 		  (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
 		 (t (when (not (daemonp))
 			  (desktop-save-mode)
-			  (desktop-read)))))
+			  (desktop-read))))
+   (org-reload)
+   (cond
+	((string-equal system-type "darwin")
+	 (jj/org-gcal-fetch-when-idle-full)
+	 )))
  -90)
 ;; only run when .emacs.desktop.lock file doesn't exist and not in daemon-mode
 ;; Run an edit server in the running emacs
