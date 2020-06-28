@@ -223,6 +223,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Turn on flycheck mode to validate json and add settings
 (eval-after-load "json-mode"
   '(progn
+	 (add-hook 'json-mode-hook (lambda ()
+								 (setq-local tab-width 2)))
 	 (define-key json-mode-map "\C-c\C-n" (function flycheck-next-error))
 	 (define-key json-mode-map "\C-cn" (function flycheck-previous-error))
 	 (define-key json-mode-map "\C-c\C-l" (function flycheck-list-errors))
@@ -313,6 +315,7 @@ Use '!' to signify that the buffer was not initially clean."
 		  ("Level" 5 flycheck-error-list-entry-level-<)
 		  ("ID" 18 t)
 		  (,(flycheck-error-list-make-last-column "Message" 'Checker) 0 t)]))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Latex and Tex
