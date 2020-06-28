@@ -380,3 +380,261 @@ On Mac OS X, you don't need to. This command makes this shell call:
 ;; (diminish 'hs-minor-mode "F")
 
 ;; (add-hook 'prog-mode-hook '(lambda () (linum-mode 1)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org-mode (found at link below, never used this but possible to use)
+;; https://forum.gettingthingsdone.com/threads/emacs-org-mode-is-the-perfect-tool-for-gtd.15028/
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; #+TAGS: { @home(h) @errand(e) @review(r) @read_watch_listen(R) } work(w) daily(d)
+;; #+SEQ_TODO: HOLD(h) TODO(t) NEXT(n) WAITING(w) | DONE(d) CANCELLED(c)
+;; #+PRIORITIES: A G D
+;; #+STARTUP: nologrepeat
+
+(defun my/org-skip-inode-and-root ()
+  (when (save-excursion
+          (org-goto-first-child))
+    (let ((eos (save-excursion
+                 (or (org-end-of-subtree t)
+                     (point-max))))
+          (nh (save-excursion
+                (or (outline-next-heading)
+                    (point-max))))
+          (ks org-todo-keywords-1)
+          mat)
+      (save-excursion
+        (org-goto-first-child)
+        (while (and ks (not mat))
+          (setq mat
+                (re-search-forward (concat "\\*\\W+"
+                                           (car ks)
+                                           "\\W*")
+                                   eos t))
+          (setq ks (cdr ks))))
+      (when mat
+        nh))))
+
+(defun my/org-skip-leaves ()
+  (let ((eos (save-excursion
+               (or (org-end-of-subtree t)
+                   (point-max)))))
+    (if (not (save-excursion
+               (org-goto-first-child)))
+        eos
+      (let ((ks org-todo-keywords-1)
+            mat)
+        (save-excursion
+          (org-goto-first-child)
+          (while (and ks (not mat))
+            (setq mat
+                  (re-search-forward (concat "\\*\\W+"
+                                             (car ks)
+                                             "\\W*")
+                                     eos t))
+            (setq ks (cdr ks))))
+        (when (not mat)
+          eos)))))
+
+(defun my/org-skip-non-root-task-subtree ()
+  (let ((eos (save-excursion
+               (or (org-end-of-subtree t)
+                   (point-max))))
+        nonroot)
+    (save-excursion
+      (org-save-outline-visibility nil
+        (org-reveal)
+        (while (and (not nonroot) (org-up-heading-safe))
+          (setq nonroot (org-entry-get (point) "TODO")))))
+    (when nonroot
+      eos)))
+
+(defun my/disallow-todo-state-for-projects ()
+  (when (my/org-skip-inode-and-root)
+    (let ((ts (org-get-todo-state)))
+      (when (not (or (equal ts "TODO")
+                     (equal ts "DONE")
+                     (equal ts "CANCELLED")))
+        (org-set-property "TODO" "TODO")))))
+
+(add-hook 'org-after-todo-state-change-hook 'my/disallow-todo-state-for-projects)
+
+(defun my/repeated-task-template ()
+  "Capture template for repeated tasks."
+  (concat "* NEXT %?\n"
+          "  SCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d>>\")\n"
+          "  :PROPERTIES:\n"
+          "  :REPEAT_TO_STATE: NEXT\n"
+          "  :RESET_CHECK_BOXES: t\n  :END:\n  %U\n  %a"))
+
+(setq my/inbox "~/Dropbox/Documents/Notes/Inbox.org"
+      my/project "~/Dropbox/Documents/Notes/gtd.org"
+      my/someday "~/Dropbox/Documents/Notes/someday.org"
+      my/birthdays "~/Dropbox/Documents/Notes/someday.org")
+org-agenda-show-future-repeats nil
+org-agenda-dim-blocked-tasks nil
+org-catch-invisible-edits 'smart
+org-enforce-todo-dependencies t
+org-log-into-drawer t
+org-modules '(org-info org-checklist)
+org-refile-allow-creating-parent-nodes 'confirm
+org-refile-use-outline-path t
+org-capture-templates
+'(("r" "repeated task" entry
+   (file my/inbox)
+   #'my/repeated-task-template)
+  ("t" "todo" entry
+   (file my/inbox)
+   "* TODO %?\n  %U\n  %a")
+  ("p" "plain" entry
+   (file my/inbox)
+   "* %?\n  %U\n  %a")
+  ("w" "waiting" entry
+   (file my/inbox)
+   "* WAITING %?\n  %U\n  %a"))
+org-agenda-files (list my/project)
+org-refile-targets '((my/project :maxlevel . 9)
+                     (my/someday :maxlevel . 9))
+org-agenda-prefix-format '((todo . "")
+                           (search . "")
+                           (tags . "")
+                           (agenda . ""))
+org-agenda-custom-commands
+'(("r" "Repeated or scheduled tasks"
+   ((tags
+     "SCHEDULED={<[^<>.+]+[.+]?[+][^<>.+]+>}+TODO={NEXT\\|TODO}+daily"
+     ((org-agenda-overriding-header "Daily Tasks")
+      (org-agenda-sorting-strategy '(priority-down))))
+    (tags
+     "SCHEDULED={<[^<>.+]+[.+]?[+][^<>.+]+>}+TODO={NEXT\\|TODO}-daily"
+     ((org-agenda-overriding-header "Repeated Tasks")))
+    (tags-todo "SCHEDULED={<[^<>.+]+>}+TODO={NEXT\\|TODO}"
+               ((org-agenda-overriding-header "Scheduled Tasks"))))
+   ((org-agenda-sorting-strategy '(scheduled-up priority-down))))
+  ("a" "Tasks that need attention"
+   ((tags "TODO=\"HOLD\""
+          ((org-agenda-overriding-header "HOLD")))
+    (tags "TODO={DONE\\|CANCELLED}"
+          ((org-agenda-overriding-header "DONE or CANCELLED at top level")
+           (org-agenda-skip-function #'my/org-skip-non-root-task-subtree)))))
+  ("g" "My General Agenda"
+   ((tags "TODO={.*}"
+          ((org-agenda-files (list my/inbox))
+           (org-agenda-overriding-header "Inbox")
+           (org-tags-match-list-sublevels nil)
+           (org-agenda-sorting-strategy '(priority-down))))
+    (todo "WAITING"
+          ((org-agenda-overriding-header "Waiting")
+           (org-agenda-sorting-strategy '(priority-down))))
+    (tags "-{^@.*}+TODO={NEXT\\|TODO}"
+          ((org-agenda-overriding-header "Tasks Without Context")
+           (org-agenda-skip-function #'my/org-skip-inode-and-root)
+           (org-agenda-sorting-strategy
+            '(todo-state-down priority-down))))
+    (tags "TODO=\"TODO\"+work"
+          ((org-agenda-overriding-header "Active Work Projects")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-tags-match-list-sublevels nil)
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-leaves)
+              (org-agenda-skip-subtree-if 'nottodo '("NEXT"))))))
+    (tags "TODO=\"TODO\"+work"
+          ((org-agenda-overriding-header "Stuck Work Projects")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-tags-match-list-sublevels nil)
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-leaves)
+              (org-agenda-skip-subtree-if 'todo '("NEXT"))))))
+    (tags "TODO=\"TODO\"-work"
+          ((org-agenda-overriding-header "Active Projects")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-tags-match-list-sublevels nil)
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-leaves)
+              (org-agenda-skip-subtree-if 'nottodo '("NEXT"))))))
+    (tags "TODO=\"TODO\"-work"
+          ((org-agenda-overriding-header "Stuck Projects")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-tags-match-list-sublevels nil)
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-leaves)
+              (org-agenda-skip-subtree-if 'todo '("NEXT"))))))
+    (agenda ""
+            ((org-agenda-files (list my/inbox my/project my/birthdays))
+             (org-agenda-span 'day)))
+    (tags "@errand+TODO=\"NEXT\""
+          ((org-agenda-overriding-header "NEXT @errand")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@review+TODO=\"NEXT\""
+          ((org-agenda-overriding-header "NEXT @review")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@home+work+TODO=\"NEXT\""
+          ((org-agenda-overriding-header "NEXT work@home")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@home-work+TODO=\"NEXT\""
+          ((org-agenda-overriding-header "NEXT @home")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@read_watch_listen+TODO=\"NEXT\""
+          ((org-agenda-overriding-header "NEXT @read/watch/listen")
+           (org-agenda-sorting-strategy '(priority-down effort-up))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@errand+TODO=\"TODO\""
+          ((org-agenda-overriding-header "@errand")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@review+TODO=\"TODO\""
+          ((org-agenda-overriding-header "@review")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@home+work+TODO=\"TODO\""
+          ((org-agenda-overriding-header "work@home")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@home-work+TODO=\"TODO\""
+          ((org-agenda-overriding-header "@home")
+           (org-agenda-sorting-strategy '(priority-down))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))
+    (tags "@read_watch_listen+TODO=\"TODO\""
+          ((org-agenda-overriding-header "@read/watch/listen")
+           (org-agenda-sorting-strategy '(priority-down effort-up))
+           (org-agenda-skip-function
+            '(or
+              (my/org-skip-inode-and-root)
+              (org-agenda-skip-entry-if 'scheduled)))))))))
+
+(define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cl" 'org-store-link)
