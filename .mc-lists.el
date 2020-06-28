@@ -65,6 +65,7 @@
 		jj/end-of-visual-line-then-to-end-of-line
 		jj/forward-delete-sexp-or-dir
 		jj/insert-dollar-sign
+		jj/kill-line
 		jj/lispy-move-beginning-of-visual-line
 		jj/org-beginning-of-line
 		jj/org-end-of-line
@@ -90,26 +91,37 @@
 		lispy-tick
 		lispy-yank
 		magit-copy-buffer-revision
+		markdown-outdent-or-delete
 		my/duplicate-line
 		org-ctrl-c-minus
 		org-delete-char
 		org-end-of-line
 		org-force-self-insert
+		org-metadown
+		org-metaleft
 		org-metaright
+		org-metaup
+		org-refile
 		org-return-indent
+		org-schedule
 		org-self-insert-command
 		org-shiftmetaleft
 		org-shiftmetaright
+		org-shiftmetaup
 		org-todo
 		org-yank
 		orgstruct-hijacker-org-cycle-3
 		python-indent-dedent-line
 		reindent-then-newline-and-indent
+		repeat
 		scimax-dired-cycle-space-hyphen-underscore
 		sgml-slash
 		sp-backward-sexp
+		sp-delete-char
 		sp-down-sexp
 		sp-forward-sexp
+		sp-kill-hybrid-sexp
+		sp-remove-active-pair-overlay
 		special-digit-argument
 		special-lh-knight/body
 		special-lispy-ace-char
@@ -180,7 +192,9 @@
 		special-lispy-widen
 		special-lispy-x
 		special-pop-tag-mark
+		swiper-isearch
 		whole-line-or-region-kill-region
+		yaml-electric-backspace
 		))
 
 (setq mc/cmds-to-run-once
@@ -206,6 +220,7 @@
 		ivy-done
 		ivy-switch-buffer
 		ivy-wgrep-change-to-wgrep-mode
+		jj/counsel-grep-or-swiper-symbol-at-point
 		jj/ivy-switch-buffer-use-virtual
 		jj/switch-to-previous-buffer
 		kmacro-end-or-call-macro
@@ -219,4 +234,5 @@
 		wdired-finish-edit
 		wgrep-finish-edit
 		window-configuration-to-register
+		yaml-electric-dash-and-dot
 		))
