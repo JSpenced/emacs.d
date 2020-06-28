@@ -223,7 +223,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Turn on flycheck mode to validate json and add settings
 (eval-after-load "json-mode"
   '(progn
-	 (add-hook 'json-mode-hook #'flycheck-mode)
 	 (define-key json-mode-map "\C-c\C-n" (function flycheck-next-error))
 	 (define-key json-mode-map "\C-cn" (function flycheck-previous-error))
 	 (define-key json-mode-map "\C-c\C-l" (function flycheck-list-errors))
@@ -298,8 +297,7 @@ Use '!' to signify that the buffer was not initially clean."
 (setq python-shell-interpreter "ipython"
 	  python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
 (when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 (add-hook 'elpy-mode-hook 'jj/flycheck-mode-python-setup)
 (defun jj/flycheck-mode-python-setup ()
   "Custom behaviours of flycheck mode for `python-mode'."
@@ -1202,6 +1200,13 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; Turn on flyspell for markdown and latex mode automatically
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook #'turn-on-flyspell)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Flycheck global settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq flycheck-global-modes '(python-mode json-mode))
+(global-flycheck-mode)
 
 
 (setq desktop-path (list (expand-file-name "~/Programs/scimax/user")))
