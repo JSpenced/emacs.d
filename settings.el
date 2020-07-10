@@ -381,7 +381,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;        (setq TeX-view-program-selection '((output-pdf "sumatra-viewer")))))))
 
 ;; Set fill-column for fill-paragraph command. Also wraps visual-fill-column-width globally at this value
-(setq fill-column 79)
+(setq fill-column 80)
 
 ;; (dolist (hook 'text-mode-hook markdown-mode-hook tex-mode-hook LaTeX-mode-hook latex-mode-hook ...)
 ;;   (add-hook hook (lambda ())))
