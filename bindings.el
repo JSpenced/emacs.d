@@ -578,6 +578,8 @@
 (define-key dired-mode-map (kbd "3") 'jj/dired-beginning-of-subdir)
 (define-key dired-mode-map (kbd "C-M-n") 'jj/dired-next-subdir)
 (define-key dired-mode-map (kbd "C-M-p") 'jj/dired-prev-subdir)
+(define-key dired-mode-map (kbd "M-n") 'jj/dired-next-subdir)
+(define-key dired-mode-map (kbd "M-p") 'jj/dired-prev-subdir)
 (define-key dired-mode-map (kbd "M-N") 'jj/dired-next-subdir)
 (define-key dired-mode-map (kbd "M-P") 'jj/dired-prev-subdir)
 (define-key dired-mode-map (kbd "C-M-u") 'jj/dired-tree-up)
