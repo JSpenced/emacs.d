@@ -306,6 +306,7 @@ Use '!' to signify that the buffer was not initially clean."
   (setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
   (setq-local flycheck-idle-change-delay 2)
   (setq-local flycheck-idle-buffer-switch-delay 2))
+
 ;; NOTE: set so id column for pylint is wider (only has global control)
 (with-eval-after-load "flycheck"
   (setq flycheck-error-list-format

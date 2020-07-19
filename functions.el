@@ -1906,6 +1906,16 @@ Repeated invocations toggle between the two most recently open buffers."
   (dired-goto-file (expand-file-name file))
   )
 
+(defun jj/dired-create-file-blank (file)
+  (interactive
+   (list (read-file-name "Create file: " (concat (dired-current-directory) "")))
+   )
+  (write-region "" nil (expand-file-name file) t)
+  (dired-add-file file)
+  (revert-buffer)
+  (dired-goto-file (expand-file-name file))
+  )
+
 (defun jj/ivy-kill-buffer (buf)
   (interactive)
   (if (get-buffer buf)
@@ -4781,6 +4791,40 @@ files where edits were made."
   (dotimes (_ org-mark-ring-length) (push (make-marker) org-mark-ring))
   (setcdr (nthcdr (1- org-mark-ring-length) org-mark-ring)
 		  org-mark-ring))
+
+(defun jj/get-google-docstring-snippet ()
+  "Returns a snippet for a google docstring.
+This should be run in a python function."
+  (let (arg-string
+		arg-pairs
+		arg-tuples
+		results
+		(i 1))
+	(save-excursion
+	  (when (re-search-backward "def .*(\\(.*\\)):" nil t)
+		(setq arg-string (match-string-no-properties 1)
+			  arg-pairs (mapcar 's-trim (split-string arg-string ","))
+			  arg-tuples (mapcar (lambda (pair)
+								   (mapcar 's-trim
+										   (split-string pair "=")))
+								 arg-pairs))
+		(setq arg-tuples (-filter (lambda (el) (not (string= (car el) "self")))
+								  arg-tuples))
+		(setq results
+			  (cl-loop for (arg val) in arg-tuples collect
+					   (if val
+						   (format "$>%s: ${%s:description}. Defaults to %s."
+								   arg (incf i) val)
+						 (format "\s\s\s %s: ${%s:description}"
+								 arg (incf i)))))
+		(format "\"\"\"${1:One line description}
+
+Args:
+%s    %s
+
+Returns:
+%s    ${%s:return}
+\"\"\"" "\s\s\s\s" (s-join "\n    " results) "\s\s\s\s" (incf i))))))
 
 (defun jj/load-theme-sanityinc-tomorrow-eighties ()
   "Delete all themes, load theme eighties, setup smart-mode-line, and set the mode-line font"
