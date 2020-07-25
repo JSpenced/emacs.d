@@ -64,6 +64,9 @@
 (counsel-projectile-mode)
 (require 'back-button)
 (back-button-mode 1)
+;; NOTE: Emacs slow to exit during pcache due to function below added by back-button
+(remove-hook 'kill-emacs-hook 'pcache-kill-emacs-hook)
+
 ;; (require 'nice-jumper)
 ;; (global-nice-jumper-mode t)
 
