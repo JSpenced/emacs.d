@@ -510,18 +510,21 @@ Version 2017-02-09"
 	;; cancel this idle timer if it exists and hasn't run
 	(cancel-function-timers 'jj/org-gcal-fetch-quick)
 	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
-	(run-with-idle-timer 9 nil 'jj/org-gcal-archive-erase-then-fetch)
+	(run-with-idle-timer 15 nil 'jj/org-gcal-archive-erase-then-fetch)
 	(cancel-function-timers 'jj/org-gcal-fetch-quick))
 
+  ;; FIXME: This locked up due to requests.el so just call once on emacs boot
   ;; Can check timiers with variables timer-list or timer-idle-list
   ;; run org-gcal-fetch every 15 minutes when inactive
   ;; Do a full refresh so archive-delete-fetch every 2 hours
-  (cond
-   ((string-equal system-type "darwin")
-	(run-with-timer (* 480 60) (* 480 60) 'jj/org-gcal-fetch-when-idle-quick)
-	;; Run once in emacs-startup-hook
-	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
-	)))
+  ;; (cond
+  ;;  ;; NOTE: Doesn't set up timers when desktop-lock exists
+  ;;  ((and (string-equal system-type "darwin") (not (file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))))
+  ;;	(run-with-timer (* 480 60) (* 480 60) 'jj/org-gcal-fetch-when-idle-quick)
+  ;;	;; Run once in emacs-startup-hook
+  ;;	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
+  ;;	))
+  )
 
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
