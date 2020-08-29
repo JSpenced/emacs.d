@@ -52,6 +52,7 @@
 		jj/backward-delete-sexp-or-dir
 		jj/backward-delete-word
 		jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line
+		jj/delete-backward-bracket-pair
 		jj/delete-backward-sexp-or-dir
 		jj/delete-backward-word
 		jj/delete-forward-sexp-or-dir
