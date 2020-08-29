@@ -86,6 +86,41 @@
 (use-package highlight-numbers)
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode)
+
+;; TERRAFORM MODE SETTINGS
+;; FIXME: Switch to lsp mode for emacs 27
+(use-package company-terraform
+  :config
+  (add-to-list 'company-backends 'company-terraform)
+  )
+(use-package terraform-mode
+  :init (company-terraform-init)
+  :bind (
+		 :map terraform-mode-map
+		 ("C-c C-j" . counsel-imenu)
+		 ("C-c j" . counsel-semantic-or-imenu)
+		 ("C-c C-d" . terraform-doc)
+		 ("C-c C-f" . terraform-format-buffer)
+		 )
+  :config
+  (defun jj/local-hcl-mode-setup ()
+	"Custom variables and behaviors for `hcl-mode'."
+	(display-line-numbers-mode)
+	(smartparens-strict-mode)
+	(setq-local tab-width 2)
+	(setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20)))
+  (defun jj/local-terraform-mode-setup ()
+	"Custom variables and behaviors for `terraform-mode'."
+	(company-mode)
+	(company-quickhelp-local-mode)
+	(terraform-format-on-save-mode))
+  (add-hook 'hcl-mode-hook 'jj/local-hcl-mode-setup)
+  (add-hook 'terraform-mode-hook 'jj/local-terraform-mode-setup)
+  )
+(use-package terraform-doc)
+
+(use-package company-quickhelp)
+
 (use-package ibuffer
   :bind (
 		 :map ibuffer-mode-map
