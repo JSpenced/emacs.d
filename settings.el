@@ -205,9 +205,9 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (global-whitespace-cleanup-mode)
 ;; modes to ignore for whitespace-cleanup-mode (useful when global-whtespace-cleanup-mode enabled)
 ;;
-(dolist (hook '(prog-mode-hook text-mode-hook latex-mode-hook ...))
+(dolist (hook '(prog-mode-hook text-mode-hook latex-mode-hook conf-space-mode-hook conf-unix-mode-hook ...))
   (add-hook hook (lambda ()
-		   (whitespace-cleanup-mode))))
+				   (whitespace-cleanup-mode))))
 (add-hook 'markdown-mode-hook
 	  (lambda () (whitespace-cleanup-mode 0)))
 (eval-after-load 'whitespace-cleanup-mode
