@@ -483,14 +483,25 @@ Version 2017-02-09"
 
 (use-package goto-chg :defer t
   :bind (("M-[" . goto-last-change)
-	 ("M-]" . jj/goto-last-change-reverse)
-	 ("C-M-s-0" . jj/goto-last-change-back-to-first))
+		 ("M-]" . jj/goto-last-change-reverse)
+		 ("C-M-s-0" . jj/goto-last-change-back-to-first))
   )
 
+;; Markdown: used for realtime markdown preview
 (use-package grip-mode
   :ensure t
   :bind (:map markdown-mode-command-map
-		  ("g" . grip-mode)))
+			  ("g" . grip-mode))
+  :config
+  ;; When nil, update the preview after file saves only.
+  ;; (setq grip-update-after-change nil)
+  (let ((credential (auth-source-user-and-password "api.github.com")))
+	(setq grip-github-user (car credential)
+		  grip-github-password (cadr credential)))
+  )
+;; Markdown: used for realtime markdown preview (similar to grip)
+(use-package impatient-mode)
+
 
 (use-package wgrep
   :custom
