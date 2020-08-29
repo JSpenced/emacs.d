@@ -1326,7 +1326,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 			  )))
    (cond
 	((string-equal system-type "darwin")
-	 (jj/org-gcal-fetch-when-idle-full)
+	 ;; (jj/org-gcal-fetch-when-idle-full)
 	 ))
    (org-reload)
    )
