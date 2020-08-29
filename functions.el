@@ -86,6 +86,7 @@
 (use-package highlight-numbers)
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode)
+(use-package yasnippet-snippets)
 
 ;; TERRAFORM MODE SETTINGS
 ;; FIXME: Switch to lsp mode for emacs 27
