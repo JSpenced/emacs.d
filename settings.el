@@ -276,13 +276,14 @@ Use '!' to signify that the buffer was not initially clean."
    ("markdown"        "M")
    ("gfm"        "MG")
    ("package"     "↓")
-   ("python"      "π")			;Ƥ
-   ("org"      "Ω")			;Ⓞ
-   ("org-agenda"      "ΩA")			;Ⓞ
+   ("python"      "π")					;Ƥ
+   ("org"      "Ω")						;Ⓞ
+   ("org-agenda"      "ΩA")				;Ⓞ
    ("shell"       "sh" :postfix)
    ("help"       "Ήϵ")
-   ("dired"       "Ɖ")			;Ⓓ
+   ("dired"       "Ɖ")					;Ⓓ
    ("text"        "Ŧ")
+   ("terraform"        "Ŧϵ")
    ("wdired"      "𝓦Ɖ")))
 (cyphejor-mode 1)
 
