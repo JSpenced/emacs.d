@@ -87,6 +87,12 @@
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode)
 (use-package yasnippet-snippets)
+(use-package py-isort
+  :bind (
+		 :map python-mode-map
+		 ("C-c i" . py-isort-buffer)
+		 ("C-c I" . py-isort-region)
+		 ))
 
 ;; TERRAFORM MODE SETTINGS
 ;; FIXME: Switch to lsp mode for emacs 27
