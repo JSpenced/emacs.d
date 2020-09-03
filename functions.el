@@ -124,7 +124,13 @@
   (add-hook 'hcl-mode-hook 'jj/local-hcl-mode-setup)
   (add-hook 'terraform-mode-hook 'jj/local-terraform-mode-setup)
   )
-(use-package terraform-doc)
+(use-package terraform-doc
+  :bind (
+		 :map terraform-doc-mode-map
+		 ("C-c C-c" . helm-occur)
+		 ("C-r" . helm-occur)
+		 ("C-c C-d" . terraform-doc)
+		 ))
 
 (use-package company-quickhelp)
 

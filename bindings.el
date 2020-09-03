@@ -288,6 +288,7 @@
 (global-set-key (kbd "C-M-s") 'vr/isearch-forward)
 (global-set-key (kbd "C-M-r") 'vr/isearch-backward)
 (global-set-key (kbd "C-r") 'jj/swiper-region)
+(global-set-key (kbd "s-o") 'helm-occur)
 ;; (global-set-key (kbd "C-s") 'jj/counsel-grep-or-swiper-region)
 (global-set-key (kbd "C-c s") 'swiper-all)
 (eval-after-load "ivy"
