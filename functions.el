@@ -134,6 +134,17 @@
 
 (use-package company-quickhelp)
 
+;; DOCKER MODE SETTINGS
+(use-package dockerfile-mode)
+(use-package docker
+  :ensure t
+  :bind ("s-d" . docker))
+
+(use-package yaml-mode)
+
+;; DOT .ENV Mode Settings
+(use-package dotenv-mode)
+
 (use-package ibuffer
   :bind (
 		 :map ibuffer-mode-map

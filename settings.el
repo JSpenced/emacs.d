@@ -284,6 +284,9 @@ Use '!' to signify that the buffer was not initially clean."
    ("dired"       "Ɖ")					;Ⓓ
    ("text"        "Ŧ")
    ("terraform"        "Ŧϵ")
+   ("yaml"        "Yml")
+   ("dotenv"        ".env")
+   ("dockerfile"        "Dck")
    ("wdired"      "𝓦Ɖ")))
 (cyphejor-mode 1)
 
