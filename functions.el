@@ -95,7 +95,7 @@
 		 ))
 
 ;; TERRAFORM MODE SETTINGS
-;; FIXME: Switch to lsp mode for emacs 27
+;; FIXME: Switch to lsp mode for emacs 27 (if use lsp also install dap-mode and dap-python)
 (use-package company-terraform
   :config
   (add-to-list 'company-backends 'company-terraform)
@@ -144,6 +144,26 @@
 
 ;; DOT .ENV Mode Settings
 (use-package dotenv-mode)
+
+;; DEBUGGING MODE SETTINGS
+(use-package realgud
+  :config
+  (setq realgud-safe-mode nil))
+(use-package realgud-ipdb)
+
+;; PYTHON MODE SETTINGS
+(use-package python
+  :config
+  (defun jj/python-remove-unused-imports()
+	"Removes unused imports and unused variables with autoflake."
+	(interactive)
+	(if (executable-find "autoflake")
+		(progn
+		  (shell-command (format "autoflake --remove-all-unused-imports -i %s"
+								 (shell-quote-argument (buffer-file-name))))
+		  (revert-buffer t t t))
+	  (warn "python-mode: Cannot find autoflake executable."))))
+
 
 (use-package ibuffer
   :bind (
