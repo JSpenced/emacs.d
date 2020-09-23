@@ -60,8 +60,41 @@
 (use-package cyphejor)
 (use-package org-download)
 (use-package dumb-jump)
-(use-package counsel-projectile)
+(use-package counsel-projectile
+  :bind
+  ("C-c p SPC" . counsel-projectile)
+  ("C-c P" . counsel-projectile)
+  ("C-c p r" . counsel-projectile-rg)
+  ("C-c p a" . counsel-projectile-ag)
+  ("C-c p g" . counsel-projectile-git-grep)
+  ("C-c p e" . counsel-projectile-find-file-dwim)
+  )
+(use-package helm
+  :bind
+  ("s-SPC r" . helm-recentf)
+  ("s-p I" . helm-resume)
+  ("s-SPC I" . helm-resume)
+  )
+(use-package helm-rg
+  :after helm)
+(use-package helm-projectile
+  :after helm
+  :bind
+  ("<escape> p" . helm-projectile)
+  ("C-c h p" . helm-projectile)
+  ("C-c h P" . helm-list-emacs-process)
+  (
+   :map spacebar-map
+   :prefix-map spc-projectile-map
+   :prefix "p"
+   ("f" . helm-projectile-find-file)
+   ("a" . helm-projectile-ag)
+   ("r" . helm-projectile-rg)
+   ("g" . helm-projectile-grep)
+   )
+  )
 (counsel-projectile-mode)
+(use-package find-file-in-project)
 (require 'back-button)
 (back-button-mode 1)
 ;; NOTE: Emacs slow to exit during pcache due to function below added by back-button
@@ -71,6 +104,7 @@
 ;; (global-nice-jumper-mode t)
 
 (use-package easy-kill)
+(use-package easy-kill-extras)
 (use-package osx-trash)
 (use-package beacon)
 (use-package color-theme-sanityinc-tomorrow)
@@ -93,6 +127,8 @@
 		 ("C-c i" . py-isort-buffer)
 		 ("C-c I" . py-isort-region)
 		 ))
+
+(use-package org-sidebar)
 
 ;; TERRAFORM MODE SETTINGS
 ;; FIXME: Switch to lsp mode for emacs 27 (if use lsp also install dap-mode and dap-python)
@@ -164,6 +200,18 @@
 		  (revert-buffer t t t))
 	  (warn "python-mode: Cannot find autoflake executable."))))
 
+(use-package powershell
+  :config
+  (defun jj/powershell-mode-setup ()
+	"Custom variables and behaviors for `powershell-mode'."
+	(display-line-numbers-mode)
+	(smartparens-strict-mode)
+	;; (setq-local tab-width 2)
+	;; (setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20))
+	)
+  (add-hook 'powershell-mode-hook 'jj/powershell-mode-setup))
+
+(use-package which-key)
 
 (use-package ibuffer
   :bind (
@@ -3637,21 +3685,31 @@ Version 2017-07-02"
 	;; if ffip could not find project-root, it will already have
 	;; shown an error message. We only have to check for non-nil.
 	(if project-root
-	(counsel-rg nil project-root nil
-			(format "Search in PRJ %s" project-root)))))
+		(counsel-rg nil project-root nil
+					(format "Search in PRJ %s" project-root)))))
+
+(defun jj/counsel-rg-hidden ()
+  "Use `counsel-rg' and search hidden files."
+  (interactive)
+  (counsel-rg nil nil "--hidden" nil))
+
+(defun jj/counsel-ag-hidden ()
+  "Use `counsel-ag' and search hidden files."
+  (interactive)
+  (counsel-ag nil nil "--hidden" nil))
 
 (defun jj/ivy-return-recentf-index (dir)
   (when (and (boundp 'recentf-list)
-		 recentf-list)
+			 recentf-list)
 	(let ((files-list
-	   (cl-subseq recentf-list
-			  0 (min (- (length recentf-list) 1) 20)))
-	  (index 0))
+		   (cl-subseq recentf-list
+					  0 (min (- (length recentf-list) 1) 20)))
+		  (index 0))
 	  (while files-list
-	(if (string-match-p dir (car files-list))
-		(setq files-list nil)
-	  (setq index (+ index 1))
-	  (setq files-list (cdr files-list))))
+		(if (string-match-p dir (car files-list))
+			(setq files-list nil)
+		  (setq index (+ index 1))
+		  (setq files-list (cdr files-list))))
 	  index)))
 
 (defun jj/ivy-sort-file-function (x y)
