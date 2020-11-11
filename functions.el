@@ -615,6 +615,11 @@ Version 2017-02-09"
 		 ("C-M-s-0" . jj/goto-last-change-back-to-first))
   )
 
+(use-package markdown-mode
+  :bind (
+		 :map markdown-mode-map
+		 ("C-c C-c a" . markdown-table-align)))
+
 ;; Markdown: used for realtime markdown preview
 (use-package grip-mode
   :ensure t
