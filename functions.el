@@ -77,12 +77,16 @@
   )
 (use-package helm-rg
   :after helm)
+(use-package helm-ag
+  :after helm)
 (use-package helm-projectile
   :after helm
   :bind
   ("<escape> p" . helm-projectile)
+  ("<escape> P" . helm-projectile-rg)
   ("C-c h p" . helm-projectile)
   ("C-c h P" . helm-list-emacs-process)
+  ("C-c h F" . helm-projectile-find-file)
   (
    :map spacebar-map
    :prefix-map spc-projectile-map
@@ -93,7 +97,15 @@
    ("g" . helm-projectile-grep)
    )
   )
-(counsel-projectile-mode)
+(use-package helm-gtags
+  :config
+  (setq
+   helm-gtags-ignore-case nil
+   helm-gtags-auto-update t
+   helm-gtags-use-input-at-cursor t
+   helm-gtags-pulse-at-cursor t
+   helm-gtags-suggested-key-mapping t))
+
 (use-package find-file-in-project)
 (require 'back-button)
 (back-button-mode 1)

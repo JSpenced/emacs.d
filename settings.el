@@ -745,21 +745,11 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 (setq dumb-jump-prefer-searcher 'rg)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Gtags settings (helm)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq
- helm-gtags-ignore-case nil
- helm-gtags-auto-update t
- helm-gtags-use-input-at-cursor t
- helm-gtags-pulse-at-cursor t
- helm-gtags-suggested-key-mapping t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Go to (Special) End of Buffer for certain modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (eval-after-load 'dired '(jj/special-beginning-of-buffer dired
-			   (while (not (ignore-errors (dired-get-filename)))
-				 (dired-next-line 1))))
+						   (while (not (ignore-errors (dired-get-filename)))
+							 (dired-next-line 1))))
 (jj/special-end-of-buffer dired
   (if (not (ignore-errors (dired-get-filename)))
 	  (dired-previous-line 1)))
