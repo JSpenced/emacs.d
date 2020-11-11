@@ -184,6 +184,7 @@
   :config
   (defun jj/local-hcl-mode-setup ()
 	"Custom variables and behaviors for `hcl-mode'."
+	(setq-local fill-column 87)
 	(display-line-numbers-mode)
 	(smartparens-strict-mode)
 	(setq-local tab-width 2)
@@ -211,6 +212,11 @@
 (use-package docker
   :ensure t
   :bind ("s-d" . docker))
+
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview)
+  :bind ("s-SPC k" . kubernetes-overview))
 
 (use-package yaml-mode)
 
