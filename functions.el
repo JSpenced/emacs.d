@@ -69,6 +69,7 @@
   ("C-c p g" . counsel-projectile-git-grep)
   ("C-c p e" . counsel-projectile-find-file-dwim)
   )
+(counsel-projectile-mode)
 (use-package helm
   :bind
   ("s-SPC r" . helm-recentf)
