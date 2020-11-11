@@ -621,10 +621,16 @@ Version 2017-02-09"
 		 ("C-M-s-0" . jj/goto-last-change-back-to-first))
   )
 
+;; MARKDOWN mode settings and packages
 (use-package markdown-mode
   :bind (
 		 :map markdown-mode-map
-		 ("C-c C-c a" . markdown-table-align)))
+		 ("C-c C-c a" . markdown-table-align))
+  :config
+  )
+;; Used to edit github style code-blocks in native code buffer
+(use-package edit-indirect
+  :after markdown-mode)
 
 ;; Markdown: used for realtime markdown preview
 (use-package grip-mode
