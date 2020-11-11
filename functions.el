@@ -134,12 +134,35 @@
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode)
 (use-package yasnippet-snippets)
+
+;; PYTHON stuff
 (use-package py-isort
   :bind (
 		 :map python-mode-map
 		 ("C-c i" . py-isort-buffer)
 		 ("C-c I" . py-isort-region)
+		 ("C-c r" . jj/python-remove-unused-imports)
 		 ))
+(use-package python
+  :bind (
+		 :map python-mode-map
+		 ("C-c r" . jj/python-remove-unused-imports)
+		 ("C-c M-." . xref-find-definitions-other-window)
+		 ))
+(use-package xref
+  :init (setq xref-prompt-for-identifier '(not xref-find-definitions xref-find-definitions-other-window
+											   xref-find-definitions-other-frame xref-find-references)))
+(use-package elpy
+  :bind (
+		 :map elpy-mode-map
+		 ("C-c ," . elpy-goto-assignment)
+		 ("C-c <" . elpy-goto-assignment-other-window)
+		 ("C-c ." . elpy-goto-definition)
+		 ("C-c >" . elpy-goto-definition-other-window)
+		 ))
+
+;; Programming shell stuff
+(use-package isend-mode)
 
 (use-package org-sidebar)
 

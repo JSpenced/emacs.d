@@ -176,6 +176,7 @@
 (define-key dumb-jump-map (kbd "z") 'dumb-jump-go-prefer-external-other-window)
 ;; Tags and Gtags and Xref jump to definitions bindings
 (global-set-key  (kbd "M-.") 'xref-find-definitions)
+(global-set-key  (kbd "s-SPC .") 'xref-find-definitions-other-window)
 (global-set-key  (kbd "M-g .") 'helm-gtags-dwim)
 (global-set-key  (kbd "M-g C-j") 'helm-gtags-select)
 (global-set-key  (kbd "M-g j") 'helm-gtags-select)
