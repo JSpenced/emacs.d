@@ -43,7 +43,21 @@
 (use-package dired-filter)
 ;; TODO: get dired+ working properly (one issue is doesn't flag dot files as before)
 ;; emailed Drew Adams "drew.adams@oracle.com"
-(use-package whole-line-or-region)
+
+;; Bindings for killing and deleting lines
+(use-package simple
+  :ensure nil
+  :bind
+  ("<M-s-backspace>" . kill-whole-line)
+  ("M-s-˚" . jj/delete-whole-line)
+  )
+(use-package whole-line-or-region
+  :bind
+  ("C-w" . whole-line-or-region-kill-region)
+  ("C-M-s-k" . whole-line-or-region-kill-region)
+  ("<C-M-s-268632075>" . whole-line-or-region-kill-region)
+  ("M-s-k" . whole-line-or-region-delete-region)
+  )
 (use-package backup-each-save)
 (use-package wttrin)
 (require 'frame-cmds)
@@ -630,9 +644,6 @@ Version 2017-02-09"
   :config
   ;; Markdown mode built-in preview (need to brew install markdown)
   )
-;; This seems to be DEPRECATED with the built-in live preview
-;; Markdown live eww preview (need to gem install redcarpet).
-;; Also need to (require 'markdown-preview-eww)
 
 ;; Used to edit github style code-blocks in native code buffer
 (use-package edit-indirect

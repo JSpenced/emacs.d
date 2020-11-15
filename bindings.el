@@ -318,8 +318,6 @@
 (global-set-key (kbd "M-Z")  'ace-jump-zap-up-to-char)
 (global-set-key (kbd "M-\\")  'cycle-spacing)
 
-;; Kill lines and words (currently set to delete except for kill line)
-(global-set-key (kbd "<M-s-backspace>") 'kill-whole-line)
 ;; (global-set-key (kbd "C-S-k") 'jj/backward-kill-line) ; Ctrl+Shift+k
 ;; (global-set-key (kbd "M-d") 'kill-word)
 ;; (global-set-key (kbd "<M-backspace>") 'backward-kill-word)
@@ -327,12 +325,7 @@
 ;; (global-set-key (kbd "C-M-k") #'jj/forward-kill-sexp-or-dir)
 ;; (global-set-key (kbd "<C-M-backspace>") #'jj/backward-kill-sexp-or-dir)
 ;; (global-set-key (read-kbd-macro "<C-M-backspace>") 'backward-kill-sexp)
-(global-set-key (kbd "<C-M-s-268632075>") 'whole-line-or-region-kill-region)
-(global-set-key (kbd "C-M-s-k") 'whole-line-or-region-kill-region)
 ;; (global-set-key (kbd "M-s-k") 'jj/delete-whole-line)
-(global-set-key (kbd "M-s-k") 'whole-line-or-region-delete)
-(global-set-key (kbd "M-s-˚") 'jj/delete-whole-line)
-(global-set-key (kbd "C-w") 'whole-line-or-region-kill-region)
 (define-key easy-kill-base-map (kbd "C-w") 'easy-kill-region)
 (define-key easy-kill-base-map (kbd "k") 'easy-kill-region)
 (define-key easy-kill-base-map (kbd "K") 'easy-kill-delete-region)
