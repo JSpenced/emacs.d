@@ -624,19 +624,28 @@ Version 2017-02-09"
 ;; MARKDOWN mode settings and packages
 (use-package markdown-mode
   :bind (
-		 :map markdown-mode-map
-		 ("C-c C-c a" . markdown-table-align))
+		 :map markdown-mode-command-map
+		 ("a" . markdown-table-align)
+		 )
   :config
+  ;; Markdown mode built-in preview (need to brew install markdown)
   )
+;; This seems to be DEPRECATED with the built-in live preview
+;; Markdown live eww preview (need to gem install redcarpet).
+;; Also need to (require 'markdown-preview-eww)
+
 ;; Used to edit github style code-blocks in native code buffer
 (use-package edit-indirect
   :after markdown-mode)
 
 ;; Markdown: used for realtime markdown preview
+;; Need to brew install grip on mac
 (use-package grip-mode
   :ensure t
+  :after markdown-mode
   :bind (:map markdown-mode-command-map
-			  ("g" . grip-mode))
+			  ("g" . grip-mode)
+			  ("G" . jj/grip-mode-disable))
   :config
   ;; When nil, update the preview after file saves only.
   ;; (setq grip-update-after-change nil)
@@ -644,8 +653,16 @@ Version 2017-02-09"
 	(setq grip-github-user (car credential)
 		  grip-github-password (cadr credential)))
   )
-;; Markdown: used for realtime markdown preview (similar to grip)
-(use-package impatient-mode)
+;; Markdown: used for realtime markdown preview (similar to grip-mode)
+;; Default port is 8080 so go to http://localhost:8080/imp/
+(use-package impatient-mode
+  :ensure t
+  :after markdown-mode
+  :bind (:map markdown-mode-command-map
+			  ("i" . jj/markdown-preview-impatient-mode-httpd-start)
+			  ("I" . jj/markdown-preview-impatient-mode-httpd-stop)
+			  ("M-i" . impatient-mode))
+  )
 
 
 (use-package wgrep
