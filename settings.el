@@ -260,8 +260,7 @@ Use '!' to signify that the buffer was not initially clean."
 (setq
  cyphejor-rules
  '(
-   ;; supposed to replace first letter to Upper but doesn't work
-   ;; :upcase-replace    ; change to :upcase for just first letter of major-mode
+   ;; :upcase  replace words that are not matched explicitly with their first letter upcased
    ("bookmark"    "→")
    ("buffer"      "β")
    ("diff"        "Δ")
