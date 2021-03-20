@@ -3553,6 +3553,47 @@ Null prefix argument turns off the mode."
   (jj/delete-whole-line)
   (end-of-visible-line))
 
+(defun org-insert-todo-heading-top-priority (arg &optional force-heading)
+  "Insert a new heading with the same level and TODO state as current heading with #A priority.
+
+If the heading has no TODO state, or if the state is DONE, use
+the first state (TODO by default).  Also with one prefix arg,
+force first state.  With two prefix args, force inserting at the
+end of the parent subtree.
+
+When called at a plain list item, insert a new item with an
+unchecked check box."
+  (interactive "P")
+  (when (or force-heading (not (org-insert-item 'checkbox)))
+	(org-insert-heading (or (and (equal arg '(16)) '(16))
+							force-heading))
+	(save-excursion
+	  (org-forward-heading-same-level -1)
+	  (let ((case-fold-search nil)) (looking-at org-todo-line-regexp)))
+	(let* ((new-mark-x
+			(if (or (equal arg '(4))
+					(not (match-beginning 2))
+					(member (match-string 2) org-done-keywords))
+				(car org-todo-keywords-1)
+			  (match-string 2)))
+		   (new-mark
+			(or
+			 (run-hook-with-args-until-success
+			  'org-todo-get-default-hook new-mark-x nil)
+			 new-mark-x)))
+	  (beginning-of-line 1)
+	  (and (looking-at org-outline-regexp) (goto-char (match-end 0))
+		   (if org-treat-insert-todo-heading-as-state-change
+			   (org-todo new-mark)
+			 (insert new-mark " [#A] "))))
+	(when org-provide-todo-statistics
+	  (org-update-parent-todo-statistics))))
+
+(defun org-insert-todo-heading-respect-content-top-priority (&optional force-state)
+  "Insert TODO heading with `org-insert-heading-respect-content' set to t."
+  (interactive)
+  (org-insert-todo-heading-top-priority force-state '(4)))
+
 (defun jj/load-theme-leuven ()
   "Delete all themes, load theme leuven, setup smart-mode-line, and set the mode-line font"
   (interactive)
