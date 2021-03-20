@@ -407,6 +407,8 @@
 (define-key org-agenda-mode-map (kbd "C-c M-j") 'counsel-org-goto-all)
 (define-key org-agenda-mode-map (kbd "C-c j") 'counsel-org-goto-all)
 (define-key org-agenda-mode-map (kbd "C-c J") 'ivy-org-jump-to-heading-in-directory)
+(define-key org-agenda-mode-map (kbd "C-c R") 'jj/org-agenda-clockreport-mode-off)
+(define-key org-agenda-mode-map (kbd "<escape> R") 'jj/org-agenda-clockreport-mode-off)
 (define-key org-mode-map (kbd "C-c C-S-j") 'ivy-org-jump-to-open-headline)
 (define-key org-mode-map (kbd "C-c C-j") 'ivy-org-jump-to-heading)
 (define-key org-mode-map (kbd "C-c M-j") 'counsel-org-goto-all)

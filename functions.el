@@ -5103,6 +5103,12 @@ files where edits were made."
   (setcdr (nthcdr (1- org-mark-ring-length) org-mark-ring)
 		  org-mark-ring))
 
+(defun jj/org-agenda-clockreport-mode-off ()
+  "Turns off clockreport mode."
+  (interactive)
+  (setq org-agenda-clockreport-mode nil)
+  (message nil))
+
 (defun jj/get-google-docstring-snippet ()
   "Returns a snippet for a google docstring.
 This should be run in a python function."
