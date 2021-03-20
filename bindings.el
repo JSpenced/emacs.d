@@ -552,6 +552,9 @@
 ;; expand region overwrites the below hot key so added
 (define-key org-mode-map (kbd "C-c g") 'org-mark-ring-goto)
 (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-heading-respect-content)
+(define-key org-mode-map (kbd "<escape> <M-RET>") 'org-insert-todo-heading)
+(define-key org-mode-map (kbd "<escape> <s-return>") 'org-insert-todo-heading-respect-content-top-priority)
+(define-key org-mode-map (kbd "<C-M-S-return>") 'org-insert-todo-heading-respect-content-top-priority)
 (define-key org-mode-map (kbd "<C-s-return>") 'org-insert-heading-after-current)
 (define-key org-mode-map (kbd "<escape> <C-M-return>") 'jj/org-insert-heading-respect-content-and-delete-current-line)
 (define-key org-mode-map (kbd "<escape> <return>") 'org-insert-heading)
