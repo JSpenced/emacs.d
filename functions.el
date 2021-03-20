@@ -2897,53 +2897,55 @@ Version 2017-01-27"
   ;; this function sets a property 「'state」. Possible values are 0 to length of -charArray.
   (let ($p1 $p2)
 	(if (and @begin @end)
-	(progn (setq $p1 @begin $p2 @end))
+		(progn (setq $p1 @begin $p2 @end))
 	  (if (use-region-p)
-	  (setq $p1 (region-beginning) $p2 (region-end))
-	(if (nth 3 (syntax-ppss))
-		(save-excursion
-		  (skip-chars-backward "^\"")
-		  (setq $p1 (point))
-		  (skip-chars-forward "^\"")
-		  (setq $p2 (point)))
-	  (let (
-		($skipChars
-		 (if (boundp 'xah-brackets)
-			 (concat "^\"" xah-brackets)
-		   "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕（）")))
-		(skip-chars-backward $skipChars (line-beginning-position))
-		(setq $p1 (point))
-		(skip-chars-forward $skipChars (line-end-position))
-		(setq $p2 (point))
-		(set-mark $p1)))))
+		  (setq $p1 (region-beginning) $p2 (region-end))
+		(if (nth 3 (syntax-ppss))
+			(save-excursion
+			  (skip-chars-backward "^\"")
+			  (setq $p1 (point))
+			  (skip-chars-forward "^\"")
+			  (setq $p2 (point)))
+		  (let (
+				($skipChars
+				 (if (boundp 'xah-brackets)
+					 (concat "^\"" xah-brackets)
+				   "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕（）")))
+			(skip-chars-backward $skipChars (line-beginning-position))
+			(setq $p1 (point))
+			(skip-chars-forward $skipChars (line-end-position))
+			(setq $p2 (point))
+			(set-mark $p1)))))
 	(let* (
-	   ($charArray ["_" "-" " "])
-	   ($length (length $charArray))
-	   ($regionWasActive-p (region-active-p))
-	   ($nowState
-		(if (equal last-command this-command )
-		(get 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state)
-		  0 ))
-	   ($changeTo (elt $charArray $nowState)))
+		   ($charArray ["_" "-" " "])
+		   ($length (length $charArray))
+		   ($regionWasActive-p (region-active-p))
+		   ($nowState
+			(if (equal last-command this-command )
+				(get 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state)
+			  0 ))
+		   ($changeTo (elt $charArray $nowState)))
 	  (save-excursion
-	(save-restriction
-	  (narrow-to-region $p1 $p2)
-	  (goto-char (point-min))
-	  (while
-		  (re-search-forward
-		   (elt $charArray (% (+ $nowState 2) $length))
-		   ;; (concat
-		   ;;  (elt -charArray (% (+ -nowState 1) -length))
-		   ;;  "\\|"
-		   ;;  (elt -charArray (% (+ -nowState 2) -length)))
-		   (point-max)
-		   "NOERROR")
-		(replace-match $changeTo "FIXEDCASE" "LITERAL"))))
+		(save-restriction
+		  (narrow-to-region $p1 $p2)
+		  (goto-char (point-min))
+		  (while
+			  (re-search-forward
+			   (elt $charArray (% (+ $nowState 2) $length))
+			   ;; (concat
+			   ;;  (elt -charArray (% (+ -nowState 1) -length))
+			   ;;  "\\|"
+			   ;;  (elt -charArray (% (+ -nowState 2) -length)))
+			   (point-max)
+			   "NOERROR")
+			(replace-match $changeTo "FIXEDCASE" "LITERAL"))))
 	  (when (or (string= $changeTo " ") $regionWasActive-p)
-	(goto-char $p2)
-	(set-mark $p1)
-	(setq deactivate-mark nil))
+		(goto-char $p2)
+		(set-mark $p1)
+		(setq deactivate-mark nil))
 	  (put 'jj/hyphen-underscore-space-cycle-region-sexp-or-line 'state (% (+ $nowState 1) $length)))))
+
+(defalias 'jj/dash-underscore-space-cycle-region-sexp-or-line 'jj/hyphen-underscore-space-cycle-region-sexp-or-line)
 
 (defun jj/space-to-underscore-region (@begin @end)
   "Change underscore char to space.
@@ -2955,8 +2957,23 @@ Version 2017-01-11"
 	  (narrow-to-region @begin @end)
 	  (goto-char (point-min))
 	  (while
-	  (re-search-forward " " (point-max) "NOERROR")
-	(replace-match "_" "FIXEDCASE" "LITERAL")))))
+		  (re-search-forward " " (point-max) "NOERROR")
+		(replace-match "_" "FIXEDCASE" "LITERAL")))))
+
+(defun jj/space-to-dash-region (@begin @end)
+  "Change underscore char to space.
+URL `http://ergoemacs.org/emacs/elisp_change_space-hyphen_underscore.html'
+Version 2017-01-11"
+  (interactive "r")
+  (save-excursion
+	(save-restriction
+	  (narrow-to-region @begin @end)
+	  (goto-char (point-min))
+	  (while
+		  (re-search-forward " " (point-max) "NOERROR")
+		(replace-match "-" "FIXEDCASE" "LITERAL")))))
+
+(defalias 'jj/space-to-hyphen-region 'jj/space-to-dash-region)
 
 (defun jj/space-to-no-space-region (@begin @end)
   "Change underscore char to space.
@@ -2968,8 +2985,8 @@ Version 2017-01-11"
 	  (narrow-to-region @begin @end)
 	  (goto-char (point-min))
 	  (while
-	  (re-search-forward " " (point-max) "NOERROR")
-	(replace-match "" "FIXEDCASE" "LITERAL")))))
+		  (re-search-forward " " (point-max) "NOERROR")
+		(replace-match "" "FIXEDCASE" "LITERAL")))))
 
 (defun jj/xah-clean-whitespace ()
   "Delete trailing whitespace, and replace repeated blank lines to just 1.
