@@ -122,6 +122,7 @@
 
 ;; Match sublime bindings and s-maps
 (global-set-key (kbd "M-t") 'jj/ivy-switch-buffer-use-virtual)
+(global-set-key (kbd "M-T") 'jj/ivy-switch-buffer-use-virtual-full)
 (global-set-key (kbd "s-b") 'ivy-switch-buffer)
 
 ;; PROJECTILE bindings

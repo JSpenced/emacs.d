@@ -2294,13 +2294,22 @@ directory in another window."
   (interactive)
   (if (eq system-type 'darwin)
 	  (progn
-	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
-	(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
+		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
+		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
 
-(defun jj/ivy-switch-buffer-use-virtual ()
-  (interactive)
+
+(defun jj/ivy-switch-buffer-use-virtual (&optional full-names)
+  (interactive "p")
   (let ((ivy-use-virtual-buffers t))
-	(ivy-switch-buffer)))
+	(if (equal full-names 1)
+		(ivy-switch-buffer)
+	  (let ((ivy-virtual-abbreviate 'full))
+		(ivy-switch-buffer))
+	  )))
+
+(defun jj/ivy-switch-buffer-use-virtual-full ()
+  (interactive)
+  (jj/ivy-switch-buffer-use-virtual '(4)))
 
 (defun jj/move-file-here ()
   "Move file from somewhere else to here.
@@ -2309,38 +2318,38 @@ The file is taken from a start directory set by `jj/move-file-here-start-dir' an
   (let (file-list target-dir file-list-sorted start-file start-file-full)
 	;; clean directories from list but keep times
 	(setq file-list
-	  (-remove (lambda (x) (nth 1 x))
-		   (directory-files-and-attributes jj/move-file-here-start-dir)))
+		  (-remove (lambda (x) (nth 1 x))
+				   (directory-files-and-attributes jj/move-file-here-start-dir)))
 
 	;; get target directory
 	;; http://ergoemacs.org/emacs/emacs_copy_file_path.html
 	(setq target-dir
-	  (if (equal major-mode 'dired-mode)
-		  (expand-file-name default-directory)
-		(if (null (buffer-file-name))
-		(user-error "ERROR: current buffer is not associated with a file.")
-		  (file-name-directory (buffer-file-name)))))
+		  (if (equal major-mode 'dired-mode)
+			  (expand-file-name default-directory)
+			(if (null (buffer-file-name))
+				(user-error "ERROR: current buffer is not associated with a file.")
+			  (file-name-directory (buffer-file-name)))))
 
 	;; sort list by most recent
 	;;http://stackoverflow.com/questions/26514437/emacs-sort-list-of-directories-files-by-modification-date
 	(setq file-list-sorted
-	  (mapcar #'car
-		  (sort file-list
-			#'(lambda (x y) (time-less-p (nth 6 y) (nth 6 x))))))
+		  (mapcar #'car
+				  (sort file-list
+						#'(lambda (x y) (time-less-p (nth 6 y) (nth 6 x))))))
 
 	;; use ivy to select start-file
 	(setq start-file (ivy-read
-			  (concat "Move selected file to " target-dir ":")
-			  file-list-sorted
-			  :re-builder #'ivy--regex
-			  :sort nil
-			  :initial-input nil))
+					  (concat "Move selected file to " target-dir ":")
+					  file-list-sorted
+					  :re-builder #'ivy--regex
+					  :sort nil
+					  :initial-input nil))
 
 	;; add full path to start file and end-file
 	(setq start-file-full
-	  (expand-file-name start-file jj/move-file-here-start-dir))
+		  (expand-file-name start-file jj/move-file-here-start-dir))
 	(setq end-file
-	  (expand-file-name (file-name-nondirectory start-file) target-dir))
+		  (expand-file-name (file-name-nondirectory start-file) target-dir))
 	(rename-file start-file-full end-file)
 	(kill-new start-file)
 	(gui-set-selection 'PRIMARY start-file)
