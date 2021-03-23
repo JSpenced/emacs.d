@@ -143,10 +143,7 @@
   :after magit)
 (use-package visual-fill-column)
 (use-package auctex-latexmk)
-(use-package counsel-pydoc)
 (use-package highlight-numbers)
-(use-package all-the-icons-dired
-  :diminish all-the-icons-dired-mode)
 (use-package yasnippet-snippets)
 
 ;; PYTHON stuff
@@ -174,6 +171,7 @@
 		 ("C-c ." . elpy-goto-definition)
 		 ("C-c >" . elpy-goto-definition-other-window)
 		 ))
+(use-package counsel-pydoc)
 
 ;; Programming shell stuff
 (use-package isend-mode)
@@ -765,6 +763,18 @@ Version 2017-02-09"
   ;;	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
   ;;	))
   )
+(use-package all-the-icons-dired
+  :diminish all-the-icons-dired-mode)
+(use-package all-the-icons-ivy-rich
+  :init (all-the-icons-ivy-rich-mode 1))
+(use-package ivy-rich
+  :after all-the-icons-ivy-rich
+  :init
+  (ivy-rich-mode 1)
+  (ivy-rich-project-root-cache-mode 1)
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (setq ivy-rich-path-style 'abbrev))
 
 ;; latexmk works for compiling but not updating viewers
 ;; (require 'auctex-latexmk)
