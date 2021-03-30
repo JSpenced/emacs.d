@@ -230,7 +230,14 @@
   :commands (kubernetes-overview)
   :bind ("s-SPC k" . kubernetes-overview))
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :config
+  (add-hook 'yaml-mode-hook
+			(lambda ()
+			  (setq visual-fill-column-mode nil)
+			  (setq visual-fill-column-center-text nil)
+			  (setq visual-fill-column-width 108)
+			  )))
 
 ;; DOT .ENV Mode Settings
 (use-package dotenv-mode)
