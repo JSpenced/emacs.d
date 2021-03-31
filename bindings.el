@@ -697,7 +697,8 @@
 	 (define-key dired-mode-map (kbd "_") 'jj/dired-rename-space-to-underscore)
 	 (define-key dired-mode-map (kbd "-") 'scimax-dired-cycle-space-hyphen-underscore)
 	 (define-key dired-mode-map (kbd "c") 'counsel-find-file)
-	 (define-key dired-mode-map (kbd "C") 'dired-async-do-copy)
+	 (define-key dired-mode-map (kbd "C") 'dired-do-copy)
+	 (define-key dired-mode-map (kbd "C-S-c") 'dired-async-do-copy)
 	 (define-key dired-mode-map (kbd "K") 'jj/dired-kill-subdir-pop-mark)
 	 (define-key dired-mode-map (kbd "h e") 'jj/counsel-find-name-everything)
 	 ;; if you are using ido,you'd better disable ido for dired
