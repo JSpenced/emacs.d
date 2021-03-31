@@ -838,6 +838,8 @@ Version 2017-02-09"
 		   all-the-icons-font-families))
 		(kill-buffer buffer))))
 
+  (defalias 'jj/build-all-the-icon-dimension-data 'build-icon-dimension-data)
+
   (defmacro define-icon (name alist family &optional font-name)
 	"Macro to generate functions for inserting icons for icon set NAME.
 
@@ -868,7 +870,7 @@ FONT-NAME is the name of the .ttf file providing the font, defaults to FAMILY."
 						   `(:family ,family :height ,height :inherit ,other-face)
 						 `(:family ,family :height ,height))))
 			 (propertize icon
-						 'face face           ;so that this works without `font-lock-mode' enabled
+						 'face face	;so that this works without `font-lock-mode' enabled
 						 'font-lock-face face ;so that `font-lock-mode' leaves this alone
 						 'display `(raise ,v-adjust)
 						 'rear-nonsticky t))))
