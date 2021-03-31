@@ -232,12 +232,16 @@
 
 (use-package yaml-mode
   :config
-  (add-hook 'yaml-mode-hook
-			(lambda ()
-			  (setq visual-fill-column-mode nil)
-			  (setq visual-fill-column-center-text nil)
-			  (setq visual-fill-column-width 108)
-			  )))
+  (defun jj/yaml-mode-setup ()
+	"Custom variables and behaviors for `yaml-mode'."
+	(setq visual-fill-column-mode nil)
+	(setq visual-fill-column-center-text nil)
+	(setq visual-fill-column-width 108)
+	(display-line-numbers-mode)
+	(smartparens-strict-mode)
+	(setq-local tab-width 2)
+	(setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20)))
+  (add-hook 'yaml-mode-hook 'jj/yaml-mode-setup))
 
 ;; DOT .ENV Mode Settings
 (use-package dotenv-mode)
