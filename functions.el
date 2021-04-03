@@ -230,6 +230,8 @@
   :commands (kubernetes-overview)
   :bind ("s-SPC k" . kubernetes-overview))
 
+(use-package k8s-mode)
+
 (use-package yaml-mode
   :config
   (defun jj/yaml-mode-setup ()
