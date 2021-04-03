@@ -536,8 +536,8 @@
 (global-set-key (kbd "s-.") 'avy-goto-char-timer)
 
 (global-set-key (kbd "C-q") 'repeat)
+(global-set-key (kbd "C-S-q") 'quoted-insert)
 (define-key spacebar-map (kbd "r") 'repeat)
-(define-key spacebar-map (kbd "q") 'quoted-insert)
 (define-key spacebar-map (kbd "w") 'jj/weather-default-wttrin)
 (define-key spacebar-map (kbd "W") 'jj/weather-wttrin)
 (define-key spacebar-map (kbd "n") 'jj/new-empty-buffer)
