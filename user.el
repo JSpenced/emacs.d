@@ -10,6 +10,12 @@
 (load "settings")
 ;; if error stringp, nil (filename-extension: wrong-type argument) likely due to (desktop-read)
 
+;; LOCATION based values
+(setq calendar-latitude 20.66)
+(setq calendar-longitude  -103.35)
+(setq wttrin-default-cities '("Guadalajara, Mexico"))
+
+
 (defun jj/delete-backward-char (n &optional killflag)
   "Delete the previous N characters (following if N is negative).
 If Transient Mark mode is enabled, the mark is active, and N is 1,
@@ -57,18 +63,10 @@ the end of the line."
 ;; All the icons dired
 (define-key dired-h-prefix-map (kbd "i") 'all-the-icons-dired-mode)
 ;; This will add a dired hook except for remote files but makes loading folders slow
-;; (add-hook 'dired-mode-hook
-;;		  (lambda ()
-;;			(if (not (file-remote-p dired-directory))
-;;				(all-the-icons-dired-mode))) 1)
-
-;; Added because on mac this call to git faster apparently
-(setq magit-git-executable "/usr/local/bin/git")
-;; FIXME: Do I want to add these?
-;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
-;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+(add-hook 'dired-mode-hook
+		  (lambda ()
+			(if (not (file-remote-p dired-directory))
+				(all-the-icons-dired-mode))) 1)
 
 ;; Used to not show closed pull-requests by default
 (setq forge-topic-list-limit '(60 . -5))
@@ -102,8 +100,10 @@ the end of the line."
 ;; (setq org-clock-persist-query-resume nil)
 ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
 (setq org-clock-out-remove-zero-time-clocks t)
+(setq org-agenda-clockreport-parameter-plist '(:stepskip0 t :link t :maxlevel 4 :fileskip0 t))
 ;; use pretty things for the clocktable
 (setq org-pretty-entities t)
+(setq org-log-into-drawer t)
 ;; Sets global clock-in and clock-out
 ;; (defun eos/org-clock-in ()
 ;; "Allows to select recent clocks."
@@ -129,8 +129,10 @@ the end of the line."
 ;; (setq keyfreq-excluded-commands
 ;;       '(self-insert-command
 ;;         next-line))
+(use-package which-key)
 (setq which-key-show-early-on-C-h t)
 (eval-after-load "which-key" '(diminish 'which-key-mode ""))
+(which-key-mode 1)
 
 (global-set-key (kbd "<escape> 6") 'delete-indentation)
 
@@ -799,6 +801,7 @@ enter but brings you to the same level. "
 (global-set-key (kbd "C-x M-q") 'set-fill-column)
 (global-set-key (kbd "s-<SPC> M-q") 'set-fill-column)
 (global-set-key (kbd "s-<SPC> q") 'set-fill-column)
+(defalias 'jj/insert-keyboard-characters-quoted 'quoted-insert)
 
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 

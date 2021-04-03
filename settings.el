@@ -536,6 +536,14 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (setq magit-remote-set-if-missing nil)
 ;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
 (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode)
+;; Added because on mac this call to git faster apparently
+(if (eq system-type 'darwin) (setq magit-git-executable "/usr/local/bin/git"))
+(setq magit-branch-prefer-remote-upstream t)
+;; FIXME: Do I want to add these?
+;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
 
 ;; Makes it so you can't kill this buffer (but with dired can't usa a or keys that don't open new buffer
 ;; (with-current-buffer "Downloads"
