@@ -245,6 +245,14 @@
 	(setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20)))
   (add-hook 'yaml-mode-hook 'jj/yaml-mode-setup))
 
+(use-package indent-tools
+  :bind (
+		 :map python-mode-map
+		 ("C-c ]" . indent-tools-hydra/body)
+		 :map yaml-mode-map
+		 ("C-c ]" . indent-tools-hydra/body)
+		 ))
+
 ;; DOT .ENV Mode Settings
 (use-package dotenv-mode)
 
