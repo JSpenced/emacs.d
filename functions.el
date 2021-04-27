@@ -894,7 +894,24 @@ FONT-NAME is the name of the .ttf file providing the font, defaults to FAMILY."
   )
 
 (use-package all-the-icons-dired
-  :diminish all-the-icons-dired-mode)
+  :diminish all-the-icons-dired-mode
+  :config
+  (define-key dired-h-prefix-map (kbd "i") 'all-the-icons-dired-mode)
+  ;; This will add a dired hook except for remote files but makes loading folders slow
+  (add-hook 'dired-mode-hook
+			(lambda ()
+			  (if (not (file-remote-p dired-directory))
+				  (all-the-icons-dired-mode))) 1)
+
+  (advice-add 'jj/dired-kill-subdir-pop-mark :after (lambda ()
+													  (interactive)
+													  (when all-the-icons-dired-mode
+														(revert-buffer))))
+  (advice-add 'jj/dired-kill-subdir :after (lambda ()
+											 (interactive)
+											 (when all-the-icons-dired-mode
+											   (revert-buffer)))))
+
 (use-package all-the-icons-ivy-rich
   :init (all-the-icons-ivy-rich-mode 1))
 (use-package ivy-rich

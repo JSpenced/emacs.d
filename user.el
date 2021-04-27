@@ -59,15 +59,6 @@ the end of the line."
 		(t (delete-char (- n) killflag))))
 (global-set-key [(control ?h)] 'jj/delete-backward-char)
 
-
-;; All the icons dired
-(define-key dired-h-prefix-map (kbd "i") 'all-the-icons-dired-mode)
-;; This will add a dired hook except for remote files but makes loading folders slow
-(add-hook 'dired-mode-hook
-		  (lambda ()
-			(if (not (file-remote-p dired-directory))
-				(all-the-icons-dired-mode))) 1)
-
 ;; Used to not show closed pull-requests by default
 (setq forge-topic-list-limit '(60 . -5))
 ;; (global-set-key (kbd "C-x C-j") 'dired-jump)
