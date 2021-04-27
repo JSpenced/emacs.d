@@ -712,7 +712,7 @@
 	 (define-key dired-mode-map (kbd "e") 'dired-copy-filename-as-kill)
 	 ;; FIXME Remove unused bindings
 	 (define-key dired-mode-map (kbd "W") 'jj/dired-copy-filename-as-kill-absolute-path)
-	 (define-key dired-mode-map (kbd "E") 'jj/dired-copy-filename-as-kill-absolute-path)
+	 (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only)
 	 (define-key dired-mode-map (kbd ": w") 'jj/dired-copy-filename-as-kill-absolute-path)
 	 (define-key dired-mode-map (kbd "/ t") 'dired-filter-mode)
 	 (define-key dired-mode-map (kbd "/ O") 'dired-filter-mode)

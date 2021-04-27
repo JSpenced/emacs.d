@@ -2128,8 +2128,15 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;       (switch-to-buffer (other-buffer (current-buffer) 1))
 ;;     (switch-to-buffer (other-buffer (other-buffer (current-buffer) 1)) )))
 
-(fset 'jj/dired-kill-subdir-pop-mark
-	  [?\s-\C-\M-4 ?\s-\[])
+(defun jj/dired-kill-subdir-pop-mark ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (dired-kill-subdir)
+  (pop-to-mark-command)
+  ;; This doesn't work for some reason so use pop-to-mark instead
+  ;; (back-button-local-backward)
+  )
 
 (defun jj/kill-buffer-immediately ()
   "Kill the current buffer immediately"
