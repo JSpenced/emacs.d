@@ -565,8 +565,6 @@
 (define-key org-mode-map (kbd "<escape> o") 'org-occur)
 (define-key org-mode-map (kbd "<escape> O") 'org-remove-occur-highlights)
 (define-key org-mode-map (kbd "C-c C-g") 'org-mark-ring-goto)
-(define-prefix-command 'dired-h-prefix-map)
-(define-key dired-mode-map (kbd "h") 'dired-h-prefix-map)
 (define-key dired-h-prefix-map (kbd "P") 'jj/dired-up-directory-follow-symlink-up)
 (define-key dired-h-prefix-map (kbd "^") 'jj/dired-up-directory-follow-symlink-up)
 ;; (define-key dired-h-prefix-map (kbd "p") 'jj/dired-up-directory-follow-symlink-up)

@@ -13,6 +13,8 @@
 (global-set-key (kbd "M-1") 'jj-eyebrowse-wg-map)
 (define-prefix-command 'tags-jump-map)
 (global-set-key (kbd "M-g t") 'tags-jump-map)
+(define-prefix-command 'dired-h-prefix-map)
+(define-key dired-mode-map (kbd "h") 'dired-h-prefix-map)
 (defvar grep-and-find-map (make-sparse-keymap))
 (define-key global-map "\C-xf" grep-and-find-map)
 
