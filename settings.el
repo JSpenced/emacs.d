@@ -663,7 +663,6 @@ Use '!' to signify that the buffer was not initially clean."
  kept-new-versions 4		   ; keep 12 latest versions
  kept-old-versions 1		   ; don't bother with old versions
  delete-old-versions t		   ; don't ask about deleting old versions
- delete-by-moving-to-trash t
  version-control t			 ; number backups
  vc-make-backup-files t) ; backup version controlled files
 ;; Later maybe update the backup functions above so the tramp files are stored into their own
