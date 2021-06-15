@@ -246,9 +246,24 @@
 	(setq visual-fill-column-width 108)
 	(display-line-numbers-mode)
 	(smartparens-strict-mode)
+	(highlight-indentation-mode)
+	(highlight-indentation-current-column-mode)
+	;; TODO: Possibly need to change the face as really light gray
+	;; (set-face-background 'highlight-indentation-face "#e3e3d3")
+	;; (set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
 	(setq-local tab-width 2)
-	(setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20)))
-  (add-hook 'yaml-mode-hook 'jj/yaml-mode-setup))
+	(setq-local tab-stop-list (list 2 4 6 8 10 12 14 16 18 20))
+	)
+  (add-hook 'yaml-mode-hook 'jj/yaml-mode-setup)
+  )
+;; Settings for yamllint contained in ~/.yamllint on Mac
+(use-package flycheck-yamllint
+  :after yaml-mode
+  :defer t
+  :init
+  (progn
+	(eval-after-load 'flycheck
+	  '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
 
 (use-package indent-tools
   :bind (
