@@ -200,6 +200,7 @@ currently open, based on `org-agenda-files'."
 
 (eval-after-load "org-gcal"
   '(progn
+	 (setq org-agenda-files '())
 	 (if (file-exists-p (expand-file-name org-gcal-file-main))
 		 (setq org-agenda-files (append org-agenda-files (list org-gcal-file-main))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/gtd_work.org"))
