@@ -300,6 +300,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-directory-p (expand-file-name "~/anaconda3/envs"))
 	(setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
+(if (file-directory-p (expand-file-name "~/.pyenv/versions"))
+	(setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
 
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
