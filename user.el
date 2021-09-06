@@ -4,7 +4,8 @@
 (setq markdown-header-scaling t)
 (setq markdown-header-scaling-values '(1.25 1.15 1.1 1.05 1.0 1.0))
 
-(load "definitions.el.snes")
+(if (file-exists-p "definitions.el.snes")
+	(load "definitions.el.snes"))
 (load "functions")
 (load "bindings")
 (load "settings")
