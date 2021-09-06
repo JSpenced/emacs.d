@@ -298,7 +298,9 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs"))
+(if (file-directory-p (expand-file-name "~/anaconda3/envs"))
+	(setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
+
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
 	  python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
