@@ -127,12 +127,6 @@ the end of the line."
 
 (global-set-key (kbd "<escape> 6") 'delete-indentation)
 
-(setq org-refile-targets
-	  (append org-refile-targets
-			  '(("Interview_prep.org" :maxlevel . 1)
-				("someday.org" :maxlevel . 1)
-				("Work/gtd_work.org" :maxlevel . 3)
-				)))
 
 ;; Setup current ssh to log to deep learning box
 ;; Need to use sshx (not sure why but ssh won't work)
