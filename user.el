@@ -4,7 +4,7 @@
 (setq markdown-header-scaling t)
 (setq markdown-header-scaling-values '(1.25 1.15 1.1 1.05 1.0 1.0))
 
-(if (file-exists-p "definitions.el.snes")
+(if (file-exists-p (expand-file-name "~/Programs/scimax/user/definitions.el.snes"))
 	(load "definitions.el.snes"))
 (load "functions")
 (load "bindings")
