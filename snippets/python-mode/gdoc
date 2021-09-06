@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: google docstring (mine)
+# key: gd
+# contributor: Jeff Spencer <jeffspencerd@gmail.com>
+# type: command
+# --
+(yas-expand-snippet (jj/get-google-docstring-snippet))
