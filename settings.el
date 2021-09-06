@@ -977,12 +977,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-refile-targets
 	  '((nil :maxlevel . 1)
 		(org-agenda-files :maxlevel . 2)
-		("Machine_learning_notes.org" :maxlevel . 2)
-		("gtd.org" :maxlevel . 3)
-		("Job_notes.org" :maxlevel . 2)
-		("Archive_notes.org" :maxlevel . 1)
-		("computer_notes.org" :maxlevel . 2)
-		("done.org" :maxlevel . 2)
+		("~/Dropbox/Documents/Notes/Orgzly/gtd.org" :maxlevel . 3)
+		("~/Dropbox/Documents/Notes/Computer_notes.org" :maxlevel . 2)
+		("~/Dropbox/Documents/Notes/archive/Archive_notes.org" :maxlevel . 1)
 		))
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
