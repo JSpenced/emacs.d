@@ -15,7 +15,6 @@
 (setq calendar-longitude  -103.35)
 (setq wttrin-default-cities '("Guadalajara, Mexico"))
 
-
 (defun jj/delete-backward-char (n &optional killflag)
   "Delete the previous N characters (following if N is negative).
 If Transient Mark mode is enabled, the mark is active, and N is 1,
@@ -225,7 +224,7 @@ currently open, based on `org-agenda-files'."
   (setq appt-display-interval (* 2 60)) ;; warn every 2 hours (only want the message to display once)
   (setq appt-audible nil				;; Don't have audible beep
 		appt-message-warning-time '5 ;; send first warning 5 minutes before appointment
-		appt-display-mode-line nil ;; don't show in the modeline
+		appt-display-mode-line nil	 ;; don't show in the modeline
 		appt-display-format 'window) ;; pass warnings to the designated window function
   (setq appt-disp-window-function (function jj/appt-display-native-timer-osx))
   :config
@@ -306,6 +305,9 @@ org-agenda-to-appt with a ``universal prefix`` arg."
 		("b" "Backlog" entry
 		 (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Backlog")
 		 "* %i%?\n%a")))
+
+;; FIXME: This was renamed and called during org-capture for some reason so alias necessary
+(defalias 'scimax-define-src-key 'scimax-ob-define-src-key)
 
 ;; Sets a specific capture template to a key-binding
 (define-key global-map (kbd "H-;") (lambda () (interactive) (org-capture nil "t")))
@@ -746,12 +748,21 @@ in the next 24 hours. "
 ;; (setq ac-menu-height       20)
 ;; (setq ac-auto-start    2)
 (setq company-minimum-prefix-length 2)
-(global-set-key (kbd "s-j") 'ac-complete)
-(define-key ac-complete-mode-map (kbd "s-j") 'ac-complete)
+(setq company-idle-delay 0)
+(setq company-show-numbers t)
+;; (global-set-key (kbd "s-j") 'ac-complete)
+;; (define-key ac-complete-mode-map (kbd "s-j") 'ac-complete)
 (define-key ac-complete-mode-map (kbd "M-j") 'ac-complete)
-(define-key company-active-map (kbd "s-j") 'company-complete-selection)
+;; (define-key company-active-map (kbd "s-j") 'company-complete-selection)
 (define-key company-active-map (kbd "M-j") 'company-complete-selection)
 (define-key company-active-map [return] 'company-complete-selection)
+
+(use-package company-tabnine
+  :ensure t
+  :after company
+  :bind (("s-j" . company-tabnine))
+  :config
+  (add-to-list 'company-backends #'company-tabnine))
 
 (defun jj/split-line-move-down (&optional arg)
   "Run split line and move down to the next line, so like hitting
