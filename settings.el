@@ -964,11 +964,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq org-goto-interface 'outline-path-completion)
 (setq org-outline-path-complete-in-steps nil)
 ;; Bibliography
-(setq reftex-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib")))
+;; (setq reftex-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib")))
 ;; see org-ref for use of these variables
-(setq org-ref-bibliography-notes (expand-file-name "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib")
-	  org-ref-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib"))
-	  org-ref-pdf-directory (expand-file-name "~/Google-dr/Research/Papers/"))
+;; (setq org-ref-bibliography-notes (expand-file-name "~/Google-dr/Research/MyWork/Bibtex/libraryNotes.bib")
+;;	  org-ref-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib"))
+;;	  org-ref-pdf-directory (expand-file-name "~/Google-dr/Research/Papers/"))
 ;; setup when start refiling notes
 ;; (setq org-refile-targets
 ;;       '(("gtd.org" :maxlevel . 1)
