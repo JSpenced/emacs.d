@@ -976,11 +976,33 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (setq org-refile-targets
 	  '((nil :maxlevel . 1)
-		(org-agenda-files :maxlevel . 2)
-		("~/Dropbox/Documents/Notes/Orgzly/gtd.org" :maxlevel . 3)
-		("~/Dropbox/Documents/Notes/Computer_notes.org" :maxlevel . 2)
-		("~/Dropbox/Documents/Notes/archive/Archive_notes.org" :maxlevel . 1)
-		))
+		(org-agenda-files :maxlevel . 2)))
+
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/Orgzly/gtd.org" :maxlevel . 3)
+									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Computer_notes.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/Computer_notes.org" :maxlevel . 2)
+									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/archive/Archive_notes.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/archive/Archive_notes.org" :maxlevel . 1)
+									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Interview_prep.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/Interview_prep.org" :maxlevel . 1)
+									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/someday.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/someday.org" :maxlevel . 1)
+									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/gtd_work.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/Work/gtd_work.org" :maxlevel . 3)
+									   ))))
+
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
 ;; this allows refiling to the top level of a file
@@ -1111,17 +1133,18 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq wttrin-default-accept-language '("Accept-Language" . "en-US,en;q=0.8"))
 
 ;; Setup so todotxt works and initialize location of todotxt file
-(setq todotxt-file (expand-file-name "~/Dropbox/Apps/Simpletask/todo.txt"))
+(if (file-exists-p (expand-file-name "~/Dropbox/Apps/Simpletask/todo.txt"))
+	(setq todotxt-file (expand-file-name "~/Dropbox/Apps/Simpletask/todo.txt")))
 
 (setq user-full-name "Jeff Spencer"
-					; andrewid "jeffspencerd"
+										; andrewid "jeffspencerd"
 	  user-mail-address "jeffspencerd@gmail.com"
 	  ;; specify how email is sent
-					; send-mail-function 'smtpmail-send-it
+										; send-mail-function 'smtpmail-send-it
 	  ;; used in message mode
-					; message-send-mail-function 'smtpmail-send-it
-					; smtpmail-smtp-server "smtp.gmail.com"
-					; smtpmail-smtp-service 587
+										; message-send-mail-function 'smtpmail-send-it
+										; smtpmail-smtp-server "smtp.gmail.com"
+										; smtpmail-smtp-service 587
 	  )
 
 (when (and (daemonp) (locate-library "edit-server"))
