@@ -201,13 +201,16 @@ currently open, based on `org-agenda-files'."
 
 (eval-after-load "org-gcal"
   '(progn
-	 (setq org-agenda-files
-		   (list org-gcal-file-main
-				 "~/Dropbox/Documents/Notes/Work/gtd_work.org"
-				 "~/Dropbox/Documents/Notes/gtd.org"
-				 "~/Dropbox/Documents/Notes/Inbox.org"
-				 ))
+	 (if (file-exists-p (expand-file-name org-gcal-file-main))
+		 (setq org-agenda-files (append org-agenda-files (list org-gcal-file-main))))
+	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/gtd_work.org"))
+		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Work/gtd_work.org"))))
+	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))
+		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))))
+	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/Inbox.org"))
+		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Orgzly/Inbox.org"))))
 	 ))
+
 
 ;; FIXME: All the below is working but an error with appt-check is
 ;; causing no timers from org or manually added to activate in the
