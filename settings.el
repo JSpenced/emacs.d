@@ -298,11 +298,6 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (file-directory-p (expand-file-name "~/anaconda3/envs"))
-	(setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
-(if (file-directory-p (expand-file-name "~/.pyenv/versions"))
-	(setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
-
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
 	  python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
@@ -345,14 +340,14 @@ Use '!' to signify that the buffer was not initially clean."
 	 (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
 	 (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
 	 (add-to-list 'TeX-command-list
-		  '("Xelatexnonstop" "xelatex -no-pdf -synctex=1 -interaction=nonstopmode %s"
-			TeX-run-command t t :help "Run xelatex"))
+				  '("Xelatexnonstop" "xelatex -no-pdf -synctex=1 -interaction=nonstopmode %s"
+					TeX-run-command t t :help "Run xelatex"))
 
 	 (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 	 (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -pdfxe -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
 	 (add-to-list 'TeX-command-list
-		  '("Lualatexnonstop" "lualatex -synctex=1 -interaction=nonstopmode %s"
-			TeX-run-command t t :help "Run xelatex"))
+				  '("Lualatexnonstop" "lualatex -synctex=1 -interaction=nonstopmode %s"
+					TeX-run-command t t :help "Run xelatex"))
 	 (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
 	 (setq TeX-view-program-selection '((output-pdf "Skim")))
 	 (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))

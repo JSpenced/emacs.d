@@ -109,9 +109,6 @@ the end of the line."
 								 '("10/P: SQL + 8/P: SQL Solution"
 								   "20/P: Code + 10/P: Code Solution"))
 
-
-(setq elpy-rpc-virtualenv-path 'current)
-(define-key elpy-mode-map (kbd "s-SPC f") 'elpy-folding-toggle-at-point)
 (setq switch-to-prev-buffer-skip 'visible)
 
 (use-package keyfreq)
@@ -734,10 +731,6 @@ in the next 24 hours. "
 				   'done)
 			  'agenda)))	 ; Everything else should go in the agenda
 	(if (eq result part) dont-skip skip)))
-
-(eval-after-load "pyvenv"
-  '(progn
-	 (add-hook 'python-mode-hook (lambda () (pyvenv-workon "jjj")))))
 
 (require 'auto-complete-config)
 (ac-config-default)
