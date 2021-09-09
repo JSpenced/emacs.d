@@ -271,10 +271,6 @@
 (global-set-key (kbd "s-'") 'ace-window)
 (global-set-key (kbd "C-M-s-6") 'make-frame)
 
-(define-prefix-command 'cp-select-map)
-(define-key commandpalette-map (kbd "s") 'cp-select-map)
-(define-key commandpalette-map (kbd "s p") 'mark-paragraph)
-
 ;; Input method and key binding configuration.
 (global-set-key (kbd "M-s M-s") 'jj/swiper-symbol-at-point)
 (global-set-key (kbd "M-s s") 'jj/counsel-grep-or-swiper-symbol-at-point)
