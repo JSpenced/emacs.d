@@ -166,14 +166,79 @@
   :init (setq xref-prompt-for-identifier '(not xref-find-definitions xref-find-definitions-other-window
 											   xref-find-definitions-other-frame xref-find-references)))
 (use-package elpy
+  :init
+  (setq elpy-rpc-virtualenv-path 'current)
   :bind (
 		 :map elpy-mode-map
 		 ("C-c ," . elpy-goto-assignment)
 		 ("C-c <" . elpy-goto-assignment-other-window)
 		 ("C-c ." . elpy-goto-definition)
 		 ("C-c >" . elpy-goto-definition-other-window)
+		 ("s-SPC f" . elpy-folding-toggle-at-point)
 		 ))
 (use-package counsel-pydoc)
+(use-package elpy
+  (use-package pyvenv
+	:init
+	(if (file-directory-p (expand-file-name "~/anaconda3/envs"))
+		(setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
+	(if (file-directory-p (expand-file-name "~/.pyenv/versions"))
+		(setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
+	(add-hook 'emacs-startup-hook 'jj/pyvenv-activate-jjj)
+	:bind
+	("s-p e" . jj/pyvenv-activate-current-project)
+	("s-p s" . pyvenv-workon)
+	("s-p S" . pyvenv-deactivate)
+	:config
+	(pyvenv-mode)
+	(defvar pyvenv-current-version nil nil)
+	(defun jj/pyvenv-activate-current-project ()
+	  "Automatically activates pyvenv version if .python-version file exists."
+	  (interactive)
+	  (let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
+		(if python-version-directory
+			(let* ((pyvenv-version-path (f-expand ".python-version" python-version-directory))
+				   (pyvenv-current-version (s-trim (f-read-text pyvenv-version-path 'utf-8))))
+			  (pyvenv-workon pyvenv-current-version)
+			  (message (concat "Setting virtualenv to " pyvenv-current-version))))))
+	(defun jj/pyvenv-activate-jjj()
+	  "Initialize pyvenv's current version to the global one."
+	  (interactive)
+	  (pyvenv-workon "jjj")
+	  (setq pyvenv-current-version "jjj"))
+	;; Can use this if what it to activate the global environment, but use jjj as the global typically
+	;; (add-hook 'after-init-hook 'pyenv-init)
+	(defun jj/pyvenv-global-init()
+	  "Initialize pyvenv's current version to the global one."
+	  (let ((global-pyvenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global"))))
+		(message (concat "Setting pyvenv version to " global-pyvenv))
+		(pyvenv-workon global-pyvenv)
+		(setq pyvenv-current-version global-pyvenv))))
+;; NOTE: This is another option, but the author of elpy wrote pyvenv so most the config copied to above
+;; (use-package pyenv-mode
+;;   :init
+;;   (if (file-directory-p (expand-file-name "~/anaconda3/envs"))
+;;	  (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
+;;   (if (file-directory-p (expand-file-name "~/.pyenv/versions"))
+;;	  (setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
+;;   :bind
+;;   ("s-p e" . jj/pyenv-activate-current-project)
+;;   ;; Remove these because activated globally and takes over org-mode bindings
+;;   :config
+;;   (define-key pyenv-mode-map (kbd "C-c C-u") nil)
+;;   (define-key pyenv-mode-map (kbd "C-c C-s") nil)
+;;   (define-key pyenv-mode-map (kbd "s-P s") 'pyenv-mode-set)
+;;   (define-key pyenv-mode-map (kbd "s-P S") 'pyenv-mode-unset)
+;;   (pyenv-mode)
+;;   (defun jj/pyenv-activate-current-project ()
+;;	"Automatically activates pyenv version if .python-version file exists."
+;;	(interactive)
+;;	(let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
+;;	  (if python-version-directory
+;;		  (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
+;;				 (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+;;			(pyenv-mode-set pyenv-current-version)
+;;			(message (concat "Setting virtualenv to " pyenv-current-version)))))))
 
 ;; Programming shell stuff
 (use-package isend-mode)
