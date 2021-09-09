@@ -993,7 +993,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 	(setq org-refile-targets (append org-refile-targets
 									 '(("~/Dropbox/Documents/Notes/Interview_prep.org" :maxlevel . 1)
 									   ))))
-(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/someday.org"))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/someday.org"))
 	(setq org-refile-targets (append org-refile-targets
 									 '(("~/Dropbox/Documents/Notes/someday.org" :maxlevel . 1)
 									   ))))

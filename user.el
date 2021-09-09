@@ -271,38 +271,38 @@ org-agenda-to-appt with a ``universal prefix`` arg."
 
 ;; Add later
 (setq org-capture-templates
-	  '(("t" "todo [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+	  '(("t" "todo [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?")
-		("f" "todo [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("f" "todo [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?")
-		("F" "todo [gtd, timestamp]" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("F" "todo [gtd, timestamp]" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\n%^t")
 		("j" "Todo [gtd, link]" entry
-		 (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		 (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %i%?\n%a")
 		;; %U inserts current inactive time-stamp
 		;; :empty-lines 1 or any number to add at end
-		("s" "Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("s" "Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t")
 		("w" "Work: Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/Work/gtd_work.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t")
 		("W" "Work: Todo [gtd, link]" entry
 		 (file+headline "~/Dropbox/Documents/Notes/Work/gtd_work.org" "Tasks")
 		 "* TODO %i%?\n%a")
-		("d" "Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("d" "Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nDEADLINE: %^t")
-		("a" "todo priority A [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("a" "todo priority A [gtd]" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO [#A] %?")
-		("c" "Calendar/Reminder activity" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Calendar")
+		("c" "Calendar/Reminder activity" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Calendar")
 		 "* %?\n%^t")
-		("S" "Scheduele+Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("S" "Scheduele+Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t DEADLINE: %^t")
-		("D" "Scheduele+Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("D" "Scheduele+Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t DEADLINE: %^t")
-		("A" "todo priority A [gtd, link]" entry (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Tasks")
+		("A" "todo priority A [gtd, link]" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO [#A] %i%?\n%a")
 		("b" "Backlog" entry
-		 (file+headline "~/Dropbox/Documents/Notes/gtd.org" "Backlog")
+		 (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Backlog")
 		 "* %i%?\n%a")))
 
 ;; FIXME: This was renamed and called during org-capture for some reason so alias necessary

@@ -816,9 +816,9 @@ Version 2017-02-09"
 	  (setq org-gcal-client-id my-google-client-id
 			org-gcal-client-secret my-google-client-secret))
   (setq
-   org-gcal-file-main "~/Dropbox/Documents/Notes/gcal.org"
+   org-gcal-file-main "~/Dropbox/Documents/Notes/Orgzly/gcal.org"
    org-gcal-email-main "jeffspencerd@gmail.com"
-   org-gcal-file-alist '(("jeffspencerd@gmail.com" . "~/Dropbox/Documents/Notes/gcal.org"))
+   org-gcal-file-alist '(("jeffspencerd@gmail.com" . "~/Dropbox/Documents/Notes/Orgzly/gcal.org"))
    org-gcal-auto-archive t
    org-gcal-up-days 15
    org-gcal-down-days 60
