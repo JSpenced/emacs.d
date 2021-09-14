@@ -780,7 +780,8 @@ enter but brings you to the same level. "
   (setq-local tab-stop-list (list 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
   ;; (setq sp-autoskip-opening-pair nil)
   ;; (setq sp-autoskip-closing-pair nil)
-  (setq-local flycheck-disabled-checkers '(python-pylint))
+  ;; With pylintrc the same as vs-code a minimal setting don't turn off anymore
+  ;; (setq-local flycheck-disabled-checkers '(python-pylint))
   ;; FIXME: choose one of these
   ;; (electric-pair-local-mode)
   )
