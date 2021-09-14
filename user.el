@@ -60,7 +60,7 @@ the end of the line."
 (global-set-key [(control ?h)] 'jj/delete-backward-char)
 
 ;; Used to not show closed pull-requests by default
-(setq forge-topic-list-limit '(60 . -5))
+(setq forge-topic-list-limit '(60 . 3))
 ;; (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x C-n") 'dired-jump-other-window)
 
