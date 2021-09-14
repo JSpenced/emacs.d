@@ -804,78 +804,14 @@ enter but brings you to the same level. "
   :demand t
   :after python)
 
-;; Ibuffer settings
-;; Add in some ibuffer settings for human readable sizes
-(defun jj/human-readable-file-sizes-to-bytes (string)
-  "Convert a human-readable file size into bytes."
-  (interactive)
-  (cond
-   ((string-suffix-p "G" string t)
-	(* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "M" string t)
-	(* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "K" string t)
-	(* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-   (t
-	(string-to-number (substring string 0 (- (length string) 1))))
-   )
-  )
-
-(defun jj/bytes-to-human-readable-file-sizes (bytes)
-  "Convert number of bytes to human-readable file size."
-  (interactive)
-  (cond
-   ((> bytes 1000000000) (format "%6.1fG" (/ bytes 1000000000.0)))
-   ((> bytes 100000000) (format "%6.0fM" (/ bytes 1000000.0)))
-   ((> bytes 1000000) (format "%6.1fM" (/ bytes 1000000.0)))
-   ((> bytes 100000) (format "%6.0fk" (/ bytes 1000.0)))
-   ((> bytes 1000) (format "%6.1fk" (/ bytes 1000.0)))
-   (t (format "%6d" bytes)))
-  )
-
-;; Use human readable Size column instead of original one
-(define-ibuffer-column size-h
-  (:name "Size"
-	 :inline t
-	 :summarizer
-	 (lambda (column-strings)
-	   (let ((total 0))
-		 (dolist (string column-strings)
-		   (setq total
-			 ;; like, ewww ...
-			 (+ (float (jj/human-readable-file-sizes-to-bytes string))
-			total)))
-		 (jj/bytes-to-human-readable-file-sizes total)))	 ;; :summarizer nil
-	 )
-  (jj/bytes-to-human-readable-file-sizes (buffer-size)))
-
-;; Modify the default ibuffer-formats (require ibuffer-vc)
-(setq ibuffer-formats
-	  '((mark modified read-only locked " "
-		  (name 21 21 :left :elide)
-		  " "
-		  (size-h 7 -1 :right)
-		  " "
-		  (mode 12 12 :left :elide)
-		  " "
-		  (vc-status 12 12 :left :elide)
-		  " "
-		  vc-relative-file)
-	;;       " "
-	;;       filename-and-process)
-	(mark " "
-		  (name 18 -1)
-		  " " filename)))
-
-
 ;; Use for remote directory completion
 (eval-after-load 'ssh
   '(progn
 	 (add-hook 'ssh-mode-hook
-		   (lambda ()
-		 (setq ssh-directory-tracking-mode t)
-		 (shell-dirtrack-mode t)
-		 (setq dirtrackp nil)))))
+			   (lambda ()
+				 (setq ssh-directory-tracking-mode t)
+				 (shell-dirtrack-mode t)
+				 (setq dirtrackp nil)))))
 
 ;; PDF printing from pdf-tools
 (setq pdf-misc-print-programm "/usr/bin/lpr")

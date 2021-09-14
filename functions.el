@@ -385,13 +385,78 @@
   (defun jj/ibuffer-jump-to-last-buffer ()
 	(interactive)
 	(ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
+  ;; Ibuffer settings
+  ;; Add in some ibuffer settings for human readable sizes
+
+  (defun jj/human-readable-file-sizes-to-bytes (string)
+	"Convert a human-readable file size into bytes."
+	(interactive)
+	(cond
+	 ((string-suffix-p "G" string t)
+	  (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+	 ((string-suffix-p "M" string t)
+	  (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+	 ((string-suffix-p "K" string t)
+	  (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+	 (t
+	  (string-to-number (substring string 0 (- (length string) 1))))
+	 )
+	)
+
+  (defun jj/bytes-to-human-readable-file-sizes (bytes)
+	"Convert number of bytes to human-readable file size."
+	(interactive)
+	(cond
+	 ((> bytes 1000000000) (format "%6.1fG" (/ bytes 1000000000.0)))
+	 ((> bytes 100000000) (format "%6.0fM" (/ bytes 1000000.0)))
+	 ((> bytes 1000000) (format "%6.1fM" (/ bytes 1000000.0)))
+	 ((> bytes 100000) (format "%6.0fk" (/ bytes 1000.0)))
+	 ((> bytes 1000) (format "%6.1fk" (/ bytes 1000.0)))
+	 (t (format "%6d" bytes)))
+	)
+
+  ;; Use human readable Size column instead of original one
+  (define-ibuffer-column size-h
+	(:name "Size"
+		   :inline t
+		   :summarizer
+		   (lambda (column-strings)
+			 (let ((total 0))
+			   (dolist (string column-strings)
+				 (setq total
+					   ;; like, ewww ...
+					   (+ (float (jj/human-readable-file-sizes-to-bytes string))
+						  total)))
+			   (jj/bytes-to-human-readable-file-sizes total))) ;; :summarizer nil
+		   )
+	(jj/bytes-to-human-readable-file-sizes (buffer-size)))
   )
 
+
 (use-package ibuffer-vc
+  :after ibuffer
   :bind (:map ibuffer-h-prefix-map
 			  ("v" . jj/ibuffer-vc-set-filter-groups-by-vc-root)
 			  ("V" . jj/ibuffer-vc-refresh-state))
   :config
+  ;; Modify the default ibuffer-formats (require ibuffer-vc)
+  (setq ibuffer-formats
+		'((mark modified read-only locked " "
+				(name 21 21 :left :elide)
+				" "
+				(size-h 7 -1 :right)
+				" "
+				(mode 12 12 :left :elide)
+				" "
+				(vc-status 12 12 :left :elide)
+				" "
+				vc-relative-file)
+		  ;;       " "
+		  ;;       filename-and-process)
+		  (mark " "
+				(name 18 -1)
+				" " filename)))
+
   (defun jj/vc-refresh-state-all-buffers ()
 	"Refresh all vc buffer statuses by calling `vc-refresh-state` on each one if it has an associated vc backend. Uses functions from `ibuffer-vc`, so decouple these functions if you need to use this without loading ibuffer-vc."
 	(interactive)
