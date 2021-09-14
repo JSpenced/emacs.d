@@ -373,7 +373,8 @@
 (use-package which-key)
 
 (use-package ibuffer
-  :bind (
+  :bind (("C-x C-B" . ibuffer)
+		 ("C-x C-b" . ibuffer-other-window)
 		 :map ibuffer-mode-map
 		 :prefix-map ibuffer-h-prefix-map
 		 :prefix "h"
