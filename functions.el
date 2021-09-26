@@ -1642,279 +1642,493 @@ If `to-back' is t then add to back of list."
   (dolist (item to-add)
 	(add-to-list list item (or to-back nil))))
 
-(defun jj/evil-scroll-down-15-lines ()
-  (interactive)
-  (evil-scroll-line-down 15))
+(use-package org
+  :config
 
-(defun jj/evil-scroll-up-15-lines ()
-  (interactive)
-  (evil-scroll-line-up 15))
+  (defun jj/org-next-item-at-ident (&optional n)
+	(interactive "^p")
+	(let ((sentence-end-double-space t) searchTo wordEnd2 checkBoxAt unordList ordList charBeg lineEnd)
+	  (let ((item (org-in-item-p))
+			(org-special-ctrl-a/e 'reversed))
+		(cond ((not item)
+			   (end-of-line n))
+			  (t
+			   (org-next-item)
+			   (save-excursion
+				 (setq charBeg (point))
+				 (end-of-visual-line)
+				 (setq lineEnd (point))
+				 (beginning-of-visual-line)
+				 (save-excursion
+				   (re-search-forward "\\s-\\w" lineEnd t)
+				   (re-search-forward "\\s-\\w" lineEnd t)
+				   (setq wordEnd2 (point)))
+				 (if (eq wordEnd2 charBeg)
+					 (setq searchTo lineEnd)
+				   (setq searchTo wordEnd2))
+				 (save-excursion
+				   (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
+				   (setq checkBoxAt (point)))
+				 (save-excursion
+				   (re-search-forward "\\s-*\d*\\." searchTo t)
+				   (setq ordList (point)))
+				 (save-excursion
+				   (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
+				   (setq unordList (point))))
+			   (cond
+				((not (eq checkBoxAt charBeg))
+				 (if (>= (+ checkBoxAt 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  checkBoxAt 1))))
+				((not (eq ordList charBeg))
+				 (if (>= (+ ordList 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  ordList 1))))
+				((not (eq unordList charBeg))
+				 (if (>= (+ unordList 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  unordList 1))))
+				;; ((eq wordEnd1 lineEnd)
+				;;  (end-of-visual-line))
+				;; ((eq wordEnd2 lineEnd)
+				;;  (end-of-visual-line)
+				;;  (org-backward-sentence))
+				;; ((eq wordEnd1 wordEnd2)
+				;;  (end-of-visual-line))
+				;; ((eq wordEnd2 charBeg)
+				;;  (end-of-visual-line)
+				;;  (org-backward-sentence))
+				;; ((>= (+ wordEnd2 1) lineEnd)
+				;;  (end-of-visual-line)
+				;;  (org-backward-sentence))
+				;; (t (goto-char (+ wordEnd2 1))
+				;;		(org-backward-sentence))
+				)
+			   ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+			   )))))
+  (defun jj/org-previous-item-at-ident (&optional n)
+	(interactive "^p")
+	(let ((sentence-end-double-space t) wordEnd2 searchTo checkBoxAt unordList ordList charBeg lineEnd)
+	  (let ((item (org-in-item-p))
+			(org-special-ctrl-a/e 'reversed))
+		(cond ((not item)
+			   (beginning-of-line n))
+			  (t
+			   (org-previous-item)
+			   (save-excursion
+				 (setq charBeg (point))
+				 (end-of-visual-line)
+				 (setq lineEnd (point))
+				 (beginning-of-visual-line)
+				 (save-excursion
+				   (re-search-forward "\\s-\\w" lineEnd t)
+				   (re-search-forward "\\s-\\w" lineEnd t)
+				   (setq wordEnd2 (point)))
+				 (if (eq wordEnd2 charBeg)
+					 (setq searchTo lineEnd)
+				   (setq searchTo wordEnd2))
+				 (save-excursion
+				   (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
+				   (setq checkBoxAt (point)))
+				 (save-excursion
+				   (re-search-forward "\\s-*\d*\\." searchTo t)
+				   (setq ordList (point)))
+				 (save-excursion
+				   (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
+				   (setq unordList (point))))
+			   (cond
+				((not (eq checkBoxAt charBeg))
+				 (if (>= (+ checkBoxAt 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  checkBoxAt 1))))
+				((not (eq ordList charBeg))
+				 (if (>= (+ ordList 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  ordList 1))))
+				((not (eq unordList charBeg))
+				 (if (>= (+ unordList 1) lineEnd)
+					 (end-of-visual-line)
+				   (goto-char (+  unordList 1))))
+				)
+			   ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
+			   )))))
+  ;; NOTE: These don't work right because forward-element works in funky way
+  ;; (defun jj/org-forward-element-at-ident ()
+  ;;   (interactive)
+  ;;   (let ((sentence-end-double-space t))
+  ;;     (org-forward-element)
+  ;;     (forward-char 30)
+  ;;     (org-backward-sentence)
+  ;;     ))
+  ;; (defun jj/org-backward-element-at-ident ()
+  ;;   (interactive)
+  ;;   (let ((sentence-end-double-space t))
+  ;;     (org-backward-element)
+  ;;     (forward-char 25)
+  ;;     (org-backward-sentence)
+  ;;     ))
 
-(defun jj/org-next-item-at-ident (&optional n)
-  (interactive "^p")
-  (let ((sentence-end-double-space t) searchTo wordEnd2 checkBoxAt unordList ordList charBeg lineEnd)
-	(let ((item (org-in-item-p))
-	  (org-special-ctrl-a/e 'reversed))
-	  (cond ((not item)
-		 (end-of-line n))
-		(t
-		 (org-next-item)
-		 (save-excursion
-		   (setq charBeg (point))
-		   (end-of-visual-line)
-		   (setq lineEnd (point))
-		   (beginning-of-visual-line)
-		   (save-excursion
-		 (re-search-forward "\\s-\\w" lineEnd t)
-		 (re-search-forward "\\s-\\w" lineEnd t)
-		 (setq wordEnd2 (point)))
-		   (if (eq wordEnd2 charBeg)
-		   (setq searchTo lineEnd)
-		 (setq searchTo wordEnd2))
-		   (save-excursion
-		 (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
-		 (setq checkBoxAt (point)))
-		   (save-excursion
-		 (re-search-forward "\\s-*\d*\\." searchTo t)
-		 (setq ordList (point)))
-		   (save-excursion
-		 (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
-		 (setq unordList (point))))
-		 (cond
-		  ((not (eq checkBoxAt charBeg))
-		   (if (>= (+ checkBoxAt 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  checkBoxAt 1))))
-		  ((not (eq ordList charBeg))
-		   (if (>= (+ ordList 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  ordList 1))))
-		  ((not (eq unordList charBeg))
-		   (if (>= (+ unordList 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  unordList 1))))
-		  ;; ((eq wordEnd1 lineEnd)
-		  ;;  (end-of-visual-line))
-		  ;; ((eq wordEnd2 lineEnd)
-		  ;;  (end-of-visual-line)
-		  ;;  (org-backward-sentence))
-		  ;; ((eq wordEnd1 wordEnd2)
-		  ;;  (end-of-visual-line))
-		  ;; ((eq wordEnd2 charBeg)
-		  ;;  (end-of-visual-line)
-		  ;;  (org-backward-sentence))
-		  ;; ((>= (+ wordEnd2 1) lineEnd)
-		  ;;  (end-of-visual-line)
-		  ;;  (org-backward-sentence))
-		  ;; (t (goto-char (+ wordEnd2 1))
-		  ;;		(org-backward-sentence))
-		  )
-		 ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
-		 )))))
-(defun jj/org-previous-item-at-ident (&optional n)
-  (interactive "^p")
-  (let ((sentence-end-double-space t) wordEnd2 searchTo checkBoxAt unordList ordList charBeg lineEnd)
-	(let ((item (org-in-item-p))
-	  (org-special-ctrl-a/e 'reversed))
-	  (cond ((not item)
-		 (beginning-of-line n))
-		(t
-		 (org-previous-item)
-		 (save-excursion
-		   (setq charBeg (point))
-		   (end-of-visual-line)
-		   (setq lineEnd (point))
-		   (beginning-of-visual-line)
-		   (save-excursion
-		 (re-search-forward "\\s-\\w" lineEnd t)
-		 (re-search-forward "\\s-\\w" lineEnd t)
-		 (setq wordEnd2 (point)))
-		   (if (eq wordEnd2 charBeg)
-		   (setq searchTo lineEnd)
-		 (setq searchTo wordEnd2))
-		   (save-excursion
-		 (re-search-forward "\\[[X\\|\\ ]\\]" searchTo t)
-		 (setq checkBoxAt (point)))
-		   (save-excursion
-		 (re-search-forward "\\s-*\d*\\." searchTo t)
-		 (setq ordList (point)))
-		   (save-excursion
-		 (re-search-forward "\\s-*\\([+*]\\|-\\)" searchTo t)
-		 (setq unordList (point))))
-		 (cond
-		  ((not (eq checkBoxAt charBeg))
-		   (if (>= (+ checkBoxAt 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  checkBoxAt 1))))
-		  ((not (eq ordList charBeg))
-		   (if (>= (+ ordList 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  ordList 1))))
-		  ((not (eq unordList charBeg))
-		   (if (>= (+ unordList 1) lineEnd)
-		   (end-of-visual-line)
-		 (goto-char (+  unordList 1))))
-		  )
-		 ;; (message "CharBeg: %d. Checkboxat: %d Linend: %d. unordList: %d WordEnd: %d wordend2: %d" charBeg checkBoxAt lineEnd unordList wordEnd1 wordEnd2)
-		 )))))
-;; NOTE: These don't work right because forward-element works in funky way
-;; (defun jj/org-forward-element-at-ident ()
-;;   (interactive)
-;;   (let ((sentence-end-double-space t))
-;;     (org-forward-element)
-;;     (forward-char 30)
-;;     (org-backward-sentence)
-;;     ))
-;; (defun jj/org-backward-element-at-ident ()
-;;   (interactive)
-;;   (let ((sentence-end-double-space t))
-;;     (org-backward-element)
-;;     (forward-char 25)
-;;     (org-backward-sentence)
-;;     ))
+  ;; Org functions to create bullet points at the correct location
+  (defun jj/org-metaleft-next-line-previous-item ()
+	(interactive)
+	(scimax/org-return)
+	(org-metaleft))
+  (defun jj/org-metaleft-next-line-beginning-item ()
+	(interactive)
+	(scimax/org-return)
+	(org-metaleft)
+	(org-metaleft)
+	(org-metaleft)
+	(org-metaleft))
+  (defun jj/org-move-headline-next-top-level ()
+	(interactive)
+	(scimax/org-return)
+	(org-metaright)
+	(org-cycle-list-bullet 5))
+  (defun jj/org-move-headline-next-second-level ()
+	(interactive)
+	(scimax/org-return)
+	(org-metaright)
+	(org-cycle-list-bullet 1))
 
-;; Org functions to create bullet points at the correct location
-(defun jj/org-metaleft-next-line-previous-item ()
-  (interactive)
-  (scimax/org-return)
-  (org-metaleft))
-(defun jj/org-metaleft-next-line-beginning-item ()
-	   (interactive)
-	   (scimax/org-return)
-	   (org-metaleft)
-	   (org-metaleft)
-	   (org-metaleft)
-	   (org-metaleft))
-(defun jj/org-move-headline-next-top-level ()
-	   (interactive)
-	   (scimax/org-return)
-	   (org-metaright)
-	   (org-cycle-list-bullet 5))
-(defun jj/org-move-headline-next-second-level ()
-  (interactive)
-  (scimax/org-return)
-  (org-metaright)
-  (org-cycle-list-bullet 1))
+  ;; Function as stated below
+  (defun jj/org-show-just-me (&rest _)
+	"Fold all other trees, then show entire current subtree."
+	(interactive)
+	(org-overview)
+	(org-reveal)
+	(org-show-subtree))
 
-;; Function as stated below
-(defun jj/org-show-just-me (&rest _)
-  "Fold all other trees, then show entire current subtree."
-  (interactive)
-  (org-overview)
-  (org-reveal)
-  (org-show-subtree))
 
-(defun jj/org-babel-remove-result-all-blocks ()
-  "Call org-babel-remove-result-one-or-many with prefix arg to remove
-all blocks in document."
-  (interactive)
-  (org-babel-remove-result-one-or-many '(4)))
 
-(defun jj/org-show-todo-tree-then-remove-occur-highlights (arg)
-  "Run org-show-todo-tree then org-remove-occur-highlights to remove the highlights."
-  (interactive "P")
-  (save-excursion (org-show-todo-tree arg))
-  (beginning-of-visual-line)
-  (org-remove-occur-highlights))
+  (defun jj/org-show-todo-tree-then-remove-occur-highlights (arg)
+	"Run org-show-todo-tree then org-remove-occur-highlights to remove the highlights."
+	(interactive "P")
+	(save-excursion (org-show-todo-tree arg))
+	(beginning-of-visual-line)
+	(org-remove-occur-highlights))
 
-(defun jj/org-table-wrap-to-width (width)
-  "Wrap current column to WIDTH."
-  (interactive (list (read-number "Enter column width: ")))
-  (org-table-check-inside-data-field)
-  (org-table-align)
-  (let (cline
-	(ccol (org-table-current-column))
-	new-row-count
-	(created-new-row-at-bottom nil)
-	(orig-line (org-table-current-line))
-	(more t))
-	(org-table-goto-line 1)
-	(org-table-goto-column ccol)
-	(while more
-	  (setq cline (org-table-current-line))
-	  ;; Cut current field (sets org-table-clip)
-	  (org-table-copy-region (point) (point) 'cut)
-	  ;; Justify for width
-	  (ignore-errors
-	(setq org-table-clip
-		  (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
-	  ;; Add new lines and fill
-	  (setq new-row-count (1- (length org-table-clip)))
-	  (org-table-goto-line cline)
-	  (if (> new-row-count 0)
-	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
-	  (org-table-goto-line cline)
-	  (org-table-goto-column ccol)
-	  (org-table-paste-rectangle)
-	  (org-table-goto-line (+ cline new-row-count))
-	  ;; Move to next line
-	  (setq more (org-table-goto-line (+ cline new-row-count 1)))
-	  (org-table-goto-column ccol))
-	(when created-new-row-at-bottom
-	  (org-shiftmetaup))
-	(org-table-goto-line orig-line)
-	(org-table-goto-column ccol)))
-
-(defun jj/org-table-insert-n-row-below (n)
-  "Insert N new lines below the current."
-  (let (created-new-row-at-bottom)
-	(dotimes (_ n)
-	  (setq line (buffer-substring (point-at-bol) (point-at-eol)))
-	  (forward-line 1)
-	  (when (looking-at "^ *$")
-	(insert (org-table-clean-line line))
-	(setq created-new-row-at-bottom t))
-	  (org-shiftmetadown))
-	created-new-row-at-bottom))
-
-(defun jj/org-table-column-wrap-to-point ()
-  "Wrap text in current column to current point as rightmost
-boundary."
-  (interactive)
-  (let (begin
-	(end (point))
-	cell-contents-to-point
-	width
-	cline
-	(ccol (org-table-current-column))
-	new-row-count
-	(created-new-row-at-bottom nil)
-	(orig-line (org-table-current-line))
-	(more t))
-	(save-excursion
-	  (search-backward-regexp "|")
-	  (forward-char 1)
-	  (setq begin (point))
-	  (setq cell-contents-to-point (buffer-substring begin end))
-	  (setq width (length cell-contents-to-point)))
+  (defun jj/org-table-wrap-to-width (width)
+	"Wrap current column to WIDTH."
+	(interactive (list (read-number "Enter column width: ")))
 	(org-table-check-inside-data-field)
 	(org-table-align)
-	(org-table-goto-line 1)
-	(org-table-goto-column ccol)
-	(while more
-	  (setq cline (org-table-current-line))
-	  ;; Cut current field (sets org-table-clip)
-	  (org-table-copy-region (point) (point) 'cut)
-	  ;; Justify for width
-	  (ignore-errors
-	(setq org-table-clip
-		  (mapcar 'list (org-wrap (caar org-table-clip) width nil))))
-	  ;; Add new lines and fill
-	  (setq new-row-count (1- (length org-table-clip)))
-	  (org-table-goto-line cline)
-	  (if (> new-row-count 0)
-	  (setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
-	  (org-table-goto-line cline)
+	(let (cline
+		  (ccol (org-table-current-column))
+		  new-row-count
+		  (created-new-row-at-bottom nil)
+		  (orig-line (org-table-current-line))
+		  (more t))
+	  (org-table-goto-line 1)
 	  (org-table-goto-column ccol)
-	  (org-table-paste-rectangle)
-	  (org-table-goto-line (+ cline new-row-count))
-	  ;; Move to next line
-	  (setq more (org-table-goto-line (+ cline new-row-count 1)))
-	  (org-table-goto-column ccol))
-	(when created-new-row-at-bottom
-	  (org-shiftmetaup))
-	(org-table-goto-line orig-line)
-	(org-table-goto-column ccol)))
+	  (while more
+		(setq cline (org-table-current-line))
+		;; Cut current field (sets org-table-clip)
+		(org-table-copy-region (point) (point) 'cut)
+		;; Justify for width
+		(ignore-errors
+		  (setq org-table-clip
+				(mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+		;; Add new lines and fill
+		(setq new-row-count (1- (length org-table-clip)))
+		(org-table-goto-line cline)
+		(if (> new-row-count 0)
+			(setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
+		(org-table-goto-line cline)
+		(org-table-goto-column ccol)
+		(org-table-paste-rectangle)
+		(org-table-goto-line (+ cline new-row-count))
+		;; Move to next line
+		(setq more (org-table-goto-line (+ cline new-row-count 1)))
+		(org-table-goto-column ccol))
+	  (when created-new-row-at-bottom
+		(org-shiftmetaup))
+	  (org-table-goto-line orig-line)
+	  (org-table-goto-column ccol)))
+
+  (defun jj/org-table-insert-n-row-below (n)
+	"Insert N new lines below the current."
+	(let (created-new-row-at-bottom)
+	  (dotimes (_ n)
+		(setq line (buffer-substring (point-at-bol) (point-at-eol)))
+		(forward-line 1)
+		(when (looking-at "^ *$")
+		  (insert (org-table-clean-line line))
+		  (setq created-new-row-at-bottom t))
+		(org-shiftmetadown))
+	  created-new-row-at-bottom))
+
+  (defun jj/org-table-column-wrap-to-point ()
+	"Wrap text in current column to current point as rightmost
+boundary."
+	(interactive)
+	(let (begin
+		  (end (point))
+		  cell-contents-to-point
+		  width
+		  cline
+		  (ccol (org-table-current-column))
+		  new-row-count
+		  (created-new-row-at-bottom nil)
+		  (orig-line (org-table-current-line))
+		  (more t))
+	  (save-excursion
+		(search-backward-regexp "|")
+		(forward-char 1)
+		(setq begin (point))
+		(setq cell-contents-to-point (buffer-substring begin end))
+		(setq width (length cell-contents-to-point)))
+	  (org-table-check-inside-data-field)
+	  (org-table-align)
+	  (org-table-goto-line 1)
+	  (org-table-goto-column ccol)
+	  (while more
+		(setq cline (org-table-current-line))
+		;; Cut current field (sets org-table-clip)
+		(org-table-copy-region (point) (point) 'cut)
+		;; Justify for width
+		(ignore-errors
+		  (setq org-table-clip
+				(mapcar 'list (org-wrap (caar org-table-clip) width nil))))
+		;; Add new lines and fill
+		(setq new-row-count (1- (length org-table-clip)))
+		(org-table-goto-line cline)
+		(if (> new-row-count 0)
+			(setq created-new-row-at-bottom (jj/org-table-insert-n-row-below new-row-count)))
+		(org-table-goto-line cline)
+		(org-table-goto-column ccol)
+		(org-table-paste-rectangle)
+		(org-table-goto-line (+ cline new-row-count))
+		;; Move to next line
+		(setq more (org-table-goto-line (+ cline new-row-count 1)))
+		(org-table-goto-column ccol))
+	  (when created-new-row-at-bottom
+		(org-shiftmetaup))
+	  (org-table-goto-line orig-line)
+	  (org-table-goto-column ccol)))
+
+  (defun jj/org-insert-heading-respect-content-and-delete-current-line ()
+	"Delete line and insert heading at same level respecting the content"
+	(interactive)
+	(org-insert-heading-respect-content)
+	(previous-line)
+	(jj/delete-whole-line)
+	(end-of-visible-line))
+
+  (defun org-insert-todo-heading-top-priority (arg &optional force-heading)
+	"Insert a new heading with the same level and TODO state as current heading with #A priority.
+
+If the heading has no TODO state, or if the state is DONE, use
+the first state (TODO by default).  Also with one prefix arg,
+force first state.  With two prefix args, force inserting at the
+end of the parent subtree.
+
+When called at a plain list item, insert a new item with an
+unchecked check box."
+	(interactive "P")
+	(when (or force-heading (not (org-insert-item 'checkbox)))
+	  (org-insert-heading (or (and (equal arg '(16)) '(16))
+							  force-heading))
+	  (save-excursion
+		(org-forward-heading-same-level -1)
+		(let ((case-fold-search nil)) (looking-at org-todo-line-regexp)))
+	  (let* ((new-mark-x
+			  (if (or (equal arg '(4))
+					  (not (match-beginning 2))
+					  (member (match-string 2) org-done-keywords))
+				  (car org-todo-keywords-1)
+				(match-string 2)))
+			 (new-mark
+			  (or
+			   (run-hook-with-args-until-success
+				'org-todo-get-default-hook new-mark-x nil)
+			   new-mark-x)))
+		(beginning-of-line 1)
+		(and (looking-at org-outline-regexp) (goto-char (match-end 0))
+			 (if org-treat-insert-todo-heading-as-state-change
+				 (org-todo new-mark)
+			   (insert new-mark " [#A] "))))
+	  (when org-provide-todo-statistics
+		(org-update-parent-todo-statistics))))
+
+  (defun org-insert-todo-heading-respect-content-top-priority (&optional force-state)
+	"Insert TODO heading with `org-insert-heading-respect-content' set to t."
+	(interactive)
+	(org-insert-todo-heading-top-priority force-state '(4)))
+
+  (defun jj/org-beginning-of-line (&optional n)
+	"Go to the beginning of the current visible line.
+
+If this is a headline, and `org-special-ctrl-a/e' is not nil or
+symbol `reversed', on the first attempt move to where the
+headline text starts, and only move to beginning of line when the
+cursor is already before the start of the text of the headline.
+
+If `org-special-ctrl-a/e' is symbol `reversed' then go to the
+start of the text on the second attempt.
+
+With argument N not nil or 1, move forward N - 1 lines first."
+	(interactive "^p")
+	(let ((pos (point))
+		  (beg-l (save-excursion
+				   (beginning-of-line)
+				   (point)))
+		  (beg-vl (save-excursion
+					(beginning-of-visual-line)
+					(point))))
+	  (cond ((and (= pos beg-vl) (not (= beg-vl beg-l)))
+			 ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
+			 (org-end-of-line)
+			 (previous-line)
+			 (org-beginning-of-line n))
+			(t
+			 (org-beginning-of-line n)))))
+
+  (defun jj/org-end-of-line (&optional n)
+	"Go to the end of the line, but before ellipsis, if any.
+
+If this is a headline, and `org-special-ctrl-a/e' is not nil or
+symbol `reversed', ignore tags on the first attempt, and only
+move to after the tags when the cursor is already beyond the end
+of the headline.
+
+If `org-special-ctrl-a/e' is symbol `reversed' then ignore tags
+on the second attempt.
+
+With argument N not nil or 1, move forward N - 1 lines first."
+	(interactive "^p")
+	(let ((pos (point))
+		  (end (save-excursion
+				 (end-of-line)
+				 (point)))
+		  (end-vl (save-excursion
+					(end-of-visual-line)
+					(point))))
+	  (cond ((and (= pos end-vl) (not (= end-vl end)))
+			 ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
+			 (org-beginning-of-line)
+			 (next-line)
+			 (org-end-of-line n))
+			(t
+			 (org-end-of-line n)))))
+
+  (defun jj/org-agenda-clockreport-mode-off ()
+	"Turns off clockreport mode."
+	(interactive)
+	(setq org-agenda-clockreport-mode nil)
+	(message nil))
+
+  (defun jj/org-save-all-agenda-buffers ()
+	"Function used to save all agenda buffers that are
+currently open, based on `org-agenda-files'."
+	(interactive)
+	(save-current-buffer
+	  (dolist (buffer (buffer-list t))
+		(set-buffer buffer)
+		(when (member (buffer-file-name)
+					  (mapcar 'expand-file-name (org-agenda-files t)))
+		  (save-buffer)))))
+
+  (defun jj/org-kill-all-agenda-buffers ()
+	"Function used to save all agenda buffers that are
+currently open, based on `org-agenda-files'."
+	(interactive)
+	(save-current-buffer
+	  (dolist (buffer (buffer-list t))
+		(set-buffer buffer)
+		(when (member (buffer-file-name)
+					  (mapcar 'expand-file-name (org-agenda-files t)))
+		  (kill-buffer)))))
+
+  (defun jj/org-mark-ring-reset ()
+	"Resets the `org-mark-ring` variable."
+	(interactive)
+	;; Fill and close the ring
+	(setq org-mark-ring nil)
+	(setq org-mark-ring-last-goto nil)
+
+	(dotimes (_ org-mark-ring-length) (push (make-marker) org-mark-ring))
+	(setcdr (nthcdr (1- org-mark-ring-length) org-mark-ring)
+			org-mark-ring))
+
+  (defun jj/org-babel-remove-result-all-blocks ()
+	"Call org-babel-remove-result-one-or-many with prefix arg to remove
+all blocks in document."
+	(interactive)
+	(org-babel-remove-result-one-or-many '(4)))
+
+  ;; TODO: Add to preload.el so loads properly
+  ;; https://github.com/jkitchin/scimax/issues/312
+  (defun jj/org-ob-babel-reset-scimax-bindings ()
+	"Reset scimax bindings for org-babel so doesn't override my bindings."
+	;; My defined bindings get overridden so set to nil then redefine
+	(interactive)
+	(scimax-define-src-key ipython "s-<return>" #'nil)
+	(scimax-define-src-key ipython "s" #'nil)
+	(scimax-define-src-key ipython "M-s-<return>" #'nil)
+	(scimax-define-src-key ipython "s-k" #'nil)
+	(scimax-define-src-key ipython "s-K" #'nil)
+	(scimax-define-src-key ipython "s-s" #'nil)
+	;; (scimax-define-src-key ipython "s-w" #'nil)
+	;; ("s-<return>" . #'scimax-ob-ipython-restart-kernel-execute-block)
+	;; ("M-s-<return>" . #'scimax-restart-ipython-and-execute-to-point)
+	;; ("s-i" . #'org-babel-previous-src-block)
+	;; ("s-k" . #'org-babel-next-src-block)
+	;; ("s-w" . #'scimax-ob-move-src-block-up)
+	;; ("s-s" . #'scimax-ob-move-src-block-down)
+	(scimax-define-src-key ipython "C-s-n" #'org-babel-next-src-block)
+	(scimax-define-src-key ipython "C-s-p" #'org-babel-previous-src-block))
+
+  ;; Not used but can reset checkboxes and narrow subtree when all are checked
+  (defun jj/org-reset-checkbox-state-subtree ()
+	"Simplified version of org-list builtin"
+	;; Begin copy from org-reset-checkbox-subtree
+	(org-narrow-to-subtree)
+	(org-show-subtree)
+	(goto-char (point-min))
+	(let ((end (point-max)))
+	  (while (< (point) end)
+		(when (org-at-item-checkbox-p)
+		  (replace-match "[ ]" t t nil 1))
+		(beginning-of-line 2)))
+	(org-update-checkbox-count-maybe 'all)
+	;; End copy from org-reset-checkbox-subtree
+	)
+
+  (defun jj/org-checkbox-todo ()
+	"Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
+	(let ((todo-state (org-get-todo-state)) beg end)
+	  (unless (not todo-state)
+		(save-excursion
+		  (org-back-to-heading t)
+		  (setq beg (point))
+		  (end-of-line)
+		  (setq end (point))
+		  (goto-char beg)
+		  (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
+								 end t)
+			  (if (match-end 1)
+				  (if (equal (match-string 1) "100%")
+					  (unless (string-equal todo-state "DONE")
+						;; (jj/org-reset-checkbox-state-subtree)
+						(org-todo 'done))
+					(unless (string-equal todo-state "TODO")
+					  (org-todo 'todo)))
+				(if (and (> (match-end 2) (match-beginning 2))
+						 (equal (match-string 2) (match-string 3)))
+					(unless (string-equal todo-state "DONE")
+					  ;; (jj/org-reset-checkbox-state-subtree)
+					  (org-todo 'done))
+				  (unless (string-equal todo-state "TODO")
+					(org-todo 'todo)))))))))
+
+  (defun jj/org-refile-in-current ()
+	"refile current item in current buffer"
+	(interactive)
+	(let ((org-refile-use-outline-path t)
+		  (org-refile-targets '((nil . (:maxlevel . 5)))))
+	  (org-refile)))
+  )
 
 (defun jj/other-window-kill-buffer ()
   "Kill the buffer in the other window"
@@ -1922,7 +2136,7 @@ boundary."
   ;; Window selection is used because point goes to a different window
   ;; if more than 2 windows are present
   (let ((win-curr (selected-window))
-	(win-other (next-window)))
+		(win-other (next-window)))
 	(select-window win-other)
 	(kill-this-buffer)
 	(select-window win-curr)))
@@ -3887,55 +4101,6 @@ Null prefix argument turns off the mode."
 	(if auto-save-default
 		(auto-save-mode 1))))
 
-(defun jj/org-insert-heading-respect-content-and-delete-current-line ()
-  "Delete line and insert heading at same level respecting the content"
-  (interactive)
-  (org-insert-heading-respect-content)
-  (previous-line)
-  (jj/delete-whole-line)
-  (end-of-visible-line))
-
-(defun org-insert-todo-heading-top-priority (arg &optional force-heading)
-  "Insert a new heading with the same level and TODO state as current heading with #A priority.
-
-If the heading has no TODO state, or if the state is DONE, use
-the first state (TODO by default).  Also with one prefix arg,
-force first state.  With two prefix args, force inserting at the
-end of the parent subtree.
-
-When called at a plain list item, insert a new item with an
-unchecked check box."
-  (interactive "P")
-  (when (or force-heading (not (org-insert-item 'checkbox)))
-	(org-insert-heading (or (and (equal arg '(16)) '(16))
-							force-heading))
-	(save-excursion
-	  (org-forward-heading-same-level -1)
-	  (let ((case-fold-search nil)) (looking-at org-todo-line-regexp)))
-	(let* ((new-mark-x
-			(if (or (equal arg '(4))
-					(not (match-beginning 2))
-					(member (match-string 2) org-done-keywords))
-				(car org-todo-keywords-1)
-			  (match-string 2)))
-		   (new-mark
-			(or
-			 (run-hook-with-args-until-success
-			  'org-todo-get-default-hook new-mark-x nil)
-			 new-mark-x)))
-	  (beginning-of-line 1)
-	  (and (looking-at org-outline-regexp) (goto-char (match-end 0))
-		   (if org-treat-insert-todo-heading-as-state-change
-			   (org-todo new-mark)
-			 (insert new-mark " [#A] "))))
-	(when org-provide-todo-statistics
-	  (org-update-parent-todo-statistics))))
-
-(defun org-insert-todo-heading-respect-content-top-priority (&optional force-state)
-  "Insert TODO heading with `org-insert-heading-respect-content' set to t."
-  (interactive)
-  (org-insert-todo-heading-top-priority force-state '(4)))
-
 (defun jj/load-theme-leuven ()
   "Delete all themes, load theme leuven, setup smart-mode-line, and set the mode-line font"
   (interactive)
@@ -4864,72 +5029,29 @@ search modes defined in the new `dired-sort-toggle'.
   (package-refresh-contents)
   (let (upgrades)
 	(cl-flet ((get-version (name where)
-			   (let ((pkg (cadr (assq name where))))
-				 (when pkg
-				   (package-desc-version pkg)))))
+						   (let ((pkg (cadr (assq name where))))
+							 (when pkg
+							   (package-desc-version pkg)))))
 	  (dolist (package (mapcar #'car package-alist))
-	(let ((in-archive (get-version package package-archive-contents)))
-	  (when (and in-archive
-			 (version-list-< (get-version package package-alist)
-					 in-archive))
-		(push (cadr (assq package package-archive-contents))
-		  upgrades)))))
+		(let ((in-archive (get-version package package-archive-contents)))
+		  (when (and in-archive
+					 (version-list-< (get-version package package-alist)
+									 in-archive))
+			(push (cadr (assq package package-archive-contents))
+				  upgrades)))))
 	(if upgrades
-	(when (yes-or-no-p
-		   (message "Upgrade %d package%s (%s)? "
-			(length upgrades)
-			(if (= (length upgrades) 1) "" "s")
-			(mapconcat #'package-desc-full-name upgrades ", ")))
-	  (save-window-excursion
-		(dolist (package-desc upgrades)
-		  (let ((old-package (cadr (assq (package-desc-name package-desc)
-						 package-alist))))
-		(package-install package-desc)
-		(package-delete  old-package)))))
+		(when (yes-or-no-p
+			   (message "Upgrade %d package%s (%s)? "
+						(length upgrades)
+						(if (= (length upgrades) 1) "" "s")
+						(mapconcat #'package-desc-full-name upgrades ", ")))
+		  (save-window-excursion
+			(dolist (package-desc upgrades)
+			  (let ((old-package (cadr (assq (package-desc-name package-desc)
+											 package-alist))))
+				(package-install package-desc)
+				(package-delete  old-package)))))
 	  (message "All packages are up to date"))))
-
-;; Not used but can reset checkboxes and narrow subtree when all are checked
-(defun jj/org-reset-checkbox-state-subtree ()
-  "Simplified version of org-list builtin"
-  ;; Begin copy from org-reset-checkbox-subtree
-  (org-narrow-to-subtree)
-  (org-show-subtree)
-  (goto-char (point-min))
-  (let ((end (point-max)))
-	(while (< (point) end)
-	  (when (org-at-item-checkbox-p)
-	(replace-match "[ ]" t t nil 1))
-	  (beginning-of-line 2)))
-  (org-update-checkbox-count-maybe 'all)
-  ;; End copy from org-reset-checkbox-subtree
-  )
-
-(defun jj/org-checkbox-todo ()
-  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
-  (let ((todo-state (org-get-todo-state)) beg end)
-	(unless (not todo-state)
-	  (save-excursion
-	(org-back-to-heading t)
-	(setq beg (point))
-	(end-of-line)
-	(setq end (point))
-	(goto-char beg)
-	(if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
-				   end t)
-		(if (match-end 1)
-		(if (equal (match-string 1) "100%")
-			(unless (string-equal todo-state "DONE")
-			  ;; (jj/org-reset-checkbox-state-subtree)
-			  (org-todo 'done))
-		  (unless (string-equal todo-state "TODO")
-			(org-todo 'todo)))
-		  (if (and (> (match-end 2) (match-beginning 2))
-			   (equal (match-string 2) (match-string 3)))
-		  (unless (string-equal todo-state "DONE")
-			;; (jj/org-reset-checkbox-state-subtree)
-			(org-todo 'done))
-		(unless (string-equal todo-state "TODO")
-		  (org-todo 'todo)))))))))
 
 (defun jj/htop-view-processes ()
   (interactive)
@@ -5098,29 +5220,22 @@ The formatting is the same as is used with `format' function."
 	 (function jj/dired-version-file) "Version" fn-list
 	 (function
 	  (lambda (from)
-	(let (new-name (i 0) (fmt (if arg (read-string "Version format: " "%d") "%d")))
-	  (while (or (null new-name) (file-exists-p new-name))
-		(setq new-name
-		  (if (string-match  "^\\([^0-9]*\\)\\([0-9]+\\)\\(.*\\)$" from)
-			  (concat (match-string 1 from)
-				  (format fmt
-					  (+ (string-to-number (match-string 2 from)) (1+ i)))
-				  (match-string 3 from))
-			(concat from (format (concat "." fmt) i)))
-		  i (1+ i))) new-name)))
+		(let (new-name (i 0) (fmt (if arg (read-string "Version format: " "%d") "%d")))
+		  (while (or (null new-name) (file-exists-p new-name))
+			(setq new-name
+				  (if (string-match  "^\\([^0-9]*\\)\\([0-9]+\\)\\(.*\\)$" from)
+					  (concat (match-string 1 from)
+							  (format fmt
+									  (+ (string-to-number (match-string 2 from)) (1+ i)))
+							  (match-string 3 from))
+					(concat from (format (concat "." fmt) i)))
+				  i (1+ i))) new-name)))
 	 jj/dired-keep-marker-version)))
-
-(defun jj/org-refile-in-current ()
-  "refile current item in current buffer"
-  (interactive)
-  (let ((org-refile-use-outline-path t)
-	(org-refile-targets '((nil . (:maxlevel . 5)))))
-	(org-refile)))
 
 (defun jj/markdown-html (buffer)
   (princ (with-current-buffer buffer
-	   (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
-	 (current-buffer)))
+		   (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+		 (current-buffer)))
 
 (defun jj/markdown-github-html (buffer)
   (princ (with-current-buffer buffer
@@ -5187,34 +5302,12 @@ The formatting is the same as is used with `format' function."
 	(ivy-quit-and-run
 	  (counsel-rg "" (projectile-project-root) "--iglob '!test*'"))))
 
-;; TODO: Add to preload.el so loads properly
-;; https://github.com/jkitchin/scimax/issues/312
-(defun jj/org-ob-babel-reset-scimax-bindings ()
-  "Reset scimax bindings for org-babel so doesn't override my bindings."
-  ;; My defined bindings get overridden so set to nil then redefine
-  (interactive)
-  (scimax-define-src-key ipython "s-<return>" #'nil)
-  (scimax-define-src-key ipython "s" #'nil)
-  (scimax-define-src-key ipython "M-s-<return>" #'nil)
-  (scimax-define-src-key ipython "s-k" #'nil)
-  (scimax-define-src-key ipython "s-K" #'nil)
-  (scimax-define-src-key ipython "s-s" #'nil)
-  ;; (scimax-define-src-key ipython "s-w" #'nil)
-  ;; ("s-<return>" . #'scimax-ob-ipython-restart-kernel-execute-block)
-  ;; ("M-s-<return>" . #'scimax-restart-ipython-and-execute-to-point)
-  ;; ("s-i" . #'org-babel-previous-src-block)
-  ;; ("s-k" . #'org-babel-next-src-block)
-  ;; ("s-w" . #'scimax-ob-move-src-block-up)
-  ;; ("s-s" . #'scimax-ob-move-src-block-down)
-  (scimax-define-src-key ipython "C-s-n" #'org-babel-next-src-block)
-  (scimax-define-src-key ipython "C-s-p" #'org-babel-previous-src-block))
-
 (defun jj/goto-last-change-reverse ()
   "Fix goto-last-change-reverse code that doesn't work properly"
   (interactive)
   ;; Make 'goto-last-change-reverse' look like 'goto-last-change'
   (cond ((eq last-command this-command)
-	 (setq last-command 'goto-last-change)))
+		 (setq last-command 'goto-last-change)))
   (setq this-command 'goto-last-change)
   ;; FIXME: Fix so can pass in any number of previous argument
   (goto-last-change '-1))
@@ -5232,10 +5325,10 @@ The formatting is the same as is used with `format' function."
   Interactively, N is the prefix arg."
   (interactive "P")
   (cond ((or (bolp) n)
-	 (forward-line (- (prefix-numeric-value n))))
-	((save-excursion (skip-chars-backward " \t") (bolp)) ; At indentation.
-	 (forward-line 0))
-	(t (back-to-indentation))))
+		 (forward-line (- (prefix-numeric-value n))))
+		((save-excursion (skip-chars-backward " \t") (bolp)) ; At indentation.
+		 (forward-line 0))
+		(t (back-to-indentation))))
 
 (defun jj/beginning-or-indentation-of-visual-line ()
   (interactive)
@@ -5273,75 +5366,19 @@ Reveal outlines."
   (lispy--ensure-visible)
   (jj/beginning-or-indentation-of-visual-line-then-back-to-indentation-whole-line))
 
-(defun jj/org-beginning-of-line (&optional n)
-  "Go to the beginning of the current visible line.
-
-If this is a headline, and `org-special-ctrl-a/e' is not nil or
-symbol `reversed', on the first attempt move to where the
-headline text starts, and only move to beginning of line when the
-cursor is already before the start of the text of the headline.
-
-If `org-special-ctrl-a/e' is symbol `reversed' then go to the
-start of the text on the second attempt.
-
-With argument N not nil or 1, move forward N - 1 lines first."
-  (interactive "^p")
-  (let ((pos (point))
-	(beg-l (save-excursion
-		 (beginning-of-line)
-		 (point)))
-	(beg-vl (save-excursion
-		  (beginning-of-visual-line)
-		  (point))))
-	(cond ((and (= pos beg-vl) (not (= beg-vl beg-l)))
-	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
-	   (org-end-of-line)
-	   (previous-line)
-	   (org-beginning-of-line n))
-	  (t
-	   (org-beginning-of-line n)))))
-
 (defun jj/end-of-visual-line-then-to-end-of-line (&optional n)
   (interactive "^p")
   (let ((pos (point))
-	(end (save-excursion
-		   (end-of-line)
-		   (point)))
-	(end-vl (save-excursion
-		  (end-of-visual-line)
-		  (point))))
+		(end (save-excursion
+			   (end-of-line)
+			   (point)))
+		(end-vl (save-excursion
+				  (end-of-visual-line)
+				  (point))))
 	(cond ((= pos end-vl)
-	   (end-of-line n))
-	  (t
-	   (end-of-visual-line n)))))
-
-(defun jj/org-end-of-line (&optional n)
-  "Go to the end of the line, but before ellipsis, if any.
-
-If this is a headline, and `org-special-ctrl-a/e' is not nil or
-symbol `reversed', ignore tags on the first attempt, and only
-move to after the tags when the cursor is already beyond the end
-of the headline.
-
-If `org-special-ctrl-a/e' is symbol `reversed' then ignore tags
-on the second attempt.
-
-With argument N not nil or 1, move forward N - 1 lines first."
-  (interactive "^p")
-  (let ((pos (point))
-	(end (save-excursion
-		   (end-of-line)
-		   (point)))
-	(end-vl (save-excursion
-		  (end-of-visual-line)
-		  (point))))
-	(cond ((and (= pos end-vl) (not (= end-vl end)))
-	   ;; NOTE: Could change this to always go to beginning of line then call org-beginning-of-line again to go after the *** or 1.
-	   (org-beginning-of-line)
-	   (next-line)
-	   (org-end-of-line n))
-	  (t
-	   (org-end-of-line n)))))
+		   (end-of-line n))
+		  (t
+		   (end-of-visual-line n)))))
 
 ;; TODO: Make this work when in a sub-directory (also d-comp
 (defun jj/dired-do-compress-marked-files-to-zip (zip-file)
@@ -5352,13 +5389,13 @@ With argument N not nil or 1, move forward N - 1 lines first."
   (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
 	(shell-command
 	 (concat "zip "
-		 zip-file
-		 " "
-		 (string-join
-		  (mapcar
-		   '(lambda (filename)
-		  (file-name-nondirectory filename))
-		   (dired-get-marked-files)) " "))))
+			 zip-file
+			 " "
+			 (string-join
+			  (mapcar
+			   '(lambda (filename)
+				  (file-name-nondirectory filename))
+			   (dired-get-marked-files)) " "))))
   (revert-buffer))
 
 (defun jj/whitespace-cleanup ()
@@ -5433,23 +5470,6 @@ files where edits were made."
   "Checks if the internet is up by pinging google."
   (= 0 (call-process "ping" nil nil nil "-c" "1" "-W" "1"
 					 (if host host "www.google.com"))))
-
-(defun jj/org-mark-ring-reset ()
-  "Resets the `org-mark-ring` variable."
-  (interactive)
-  ;; Fill and close the ring
-  (setq org-mark-ring nil)
-  (setq org-mark-ring-last-goto nil)
-
-  (dotimes (_ org-mark-ring-length) (push (make-marker) org-mark-ring))
-  (setcdr (nthcdr (1- org-mark-ring-length) org-mark-ring)
-		  org-mark-ring))
-
-(defun jj/org-agenda-clockreport-mode-off ()
-  "Turns off clockreport mode."
-  (interactive)
-  (setq org-agenda-clockreport-mode nil)
-  (message nil))
 
 (defun jj/get-google-docstring-snippet ()
   "Returns a snippet for a google docstring.

@@ -159,16 +159,6 @@ The body of the advice is in BODY."
 						  (org-agenda-kill jj/org-agenda-kill org-agenda-schedule org-agenda-archive-default-with-confirmation)
 						  (jj/org-save-all-agenda-buffers))
 
-(defun jj/org-save-all-agenda-buffers ()
-  "Function used to save all agenda buffers that are
-currently open, based on `org-agenda-files'."
-  (interactive)
-  (save-current-buffer
-	(dolist (buffer (buffer-list t))
-	  (set-buffer buffer)
-	  (when (member (buffer-file-name)
-					(mapcar 'expand-file-name (org-agenda-files t)))
-		(save-buffer)))))
 
 ;; NOTE: Can use this instead o fthe function below
 ;; Cancel the timer with one of the below:
