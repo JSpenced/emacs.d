@@ -64,7 +64,16 @@
 (use-package wttrin)
 (require 'frame-cmds)
 (require 'f)
-(use-package evil)
+(use-package evil
+  :config
+  (defun jj/evil-scroll-down-15-lines ()
+	(interactive)
+	(evil-scroll-line-down 15))
+
+  (defun jj/evil-scroll-up-15-lines ()
+	(interactive)
+	(evil-scroll-line-up 15))
+  )
 (require 'pdf-tools)
 (require 'gse-number-rect)
 (require 'man)
