@@ -217,13 +217,17 @@
 		eyebrowse-switch-to-window-config-7
 		eyebrowse-switch-to-window-config-8
 		flycheck-next-error
+		handle-switch-frame
 		iedit-switch-to-mc-mode
 		ivy-done
+		ivy-occur-press-and-switch
 		ivy-switch-buffer
 		ivy-wgrep-change-to-wgrep-mode
 		jj/counsel-grep-or-swiper-symbol-at-point
 		jj/ivy-switch-buffer-use-virtual
+		jj/swiper-region
 		jj/switch-to-previous-buffer
+		jj/wgrep-finish-edit-save-all-buffers
 		kmacro-end-or-call-macro
 		minibuffer-keyboard-quit
 		next-multiframe-window
