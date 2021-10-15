@@ -509,13 +509,12 @@
   :after magit
   :after hl-todo
   :init
+  ;; nil Forces manual update of magit-todos
+  ;; or int is number of seconds (so updates every 24 hours)
   (setq magit-todos-update 86400)
   ;; Needs entire regex set to optional if you want to recognize words not ending with suffixes
   ;; (setq magit-todos-keyword-suffix nil)
-  :config
-  ;; nil Forces manual update of magit-todos
-  ;; or int is number of seconds (so updates every 24 hours)
-  (magit-todos-mode))
+  )
 (use-package hideshow
   :bind (("<escape> f" . hs-toggle-hiding)
 	 ("<escape> F" . hs-show-block)

@@ -874,6 +874,7 @@
 		  (define-key magit-mode-todos-simple-map "u" 'magit-todos-update)
 		  (define-key magit-mode-todos-simple-map "l" 'magit-todos-list)
 		  (define-key magit-mode-todos-simple-map "h" 'helm-magit-todos)
+		  (define-key magit-mode-todos-simple-map "t" 'magit-todos-mode)
 		  (define-key magit-mode-todos-simple-map "i" 'ivy-magit-todos)
 		  (define-key magit-mode-todos-simple-map "s" 'ivy-magit-todos)
 		  (define-key magit-mode-todos-simple-map "C-s" 'ivy-magit-todos)
