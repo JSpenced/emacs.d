@@ -757,13 +757,13 @@ enter but brings you to the same level. "
   (next-line))
 (global-set-key (kbd "M-j") 'jj/split-line-move-down)
 
-(setq py-docstring-fill-column 88)
-(setq py-comment-fill-column 88)
+(setq py-docstring-fill-column 120)
+(setq py-comment-fill-column 120)
 (setq flycheck-python-mypy-config '("mypy.ini" "setup.cfg" ".mypy.ini"))
 
 (defun jj/local-python-mode-setup ()
   "Custom variables and behaviors for `python-mode'."
-  (setq-local fill-column 88)
+  (setq-local fill-column 120)
   (display-line-numbers-mode)
   (smartparens-strict-mode)
   ;; So indent-rigidly recognizes 4 spaces for identation
