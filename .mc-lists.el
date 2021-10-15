@@ -98,6 +98,7 @@
 		org-delete-char
 		org-end-of-line
 		org-force-self-insert
+		org-kill-line
 		org-metadown
 		org-metaleft
 		org-metaright
