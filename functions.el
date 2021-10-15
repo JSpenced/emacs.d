@@ -152,6 +152,12 @@
 (use-package git-commit-insert-issue)
 (use-package forge
   :after magit)
+(use-package github-review
+  :after magit
+  :config
+  (setq github-review-view-comments-in-code-lines t)
+  (setq github-review-reply-inline-comments t)
+  )
 (use-package visual-fill-column)
 (use-package auctex-latexmk)
 (use-package highlight-numbers)
