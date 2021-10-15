@@ -125,6 +125,8 @@ the end of the line."
 (global-set-key (kbd "<escape> 6") 'delete-indentation)
 
 
+;; Used so tramp doesn't hang (also in config)
+(setq tramp-terminal-type "tramp")
 ;; Setup current ssh to log to deep learning box
 ;; Need to use sshx (not sure why but ssh won't work)
 (cond
