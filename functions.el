@@ -75,7 +75,6 @@
 	(evil-scroll-line-up 15))
   )
 (require 'pdf-tools)
-(require 'gse-number-rect)
 (require 'man)
 (use-package smartparens)
 (use-package dtrt-indent)

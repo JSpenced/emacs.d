@@ -489,7 +489,7 @@
 ;; Could make this to be a local key map
 (global-set-key (kbd "M-s-a") 'mc/mark-all-like-this)
 (global-set-key (kbd "M-s-å") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-x r 1") 'gse-number-rectangle)
+(global-set-key (kbd "C-x r 1") 'rectangle-number-lines)
 ;; Backup commands
 (define-key mc/keymap (kbd "M-s n") 'mc/insert-numbers)
 (define-key mc/keymap (kbd "M-s l") 'mc/insert-letters)
