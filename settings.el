@@ -1102,11 +1102,12 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 ;; Org-mode source blocks
 ;; If you have issues like described above, then try disable ob-ipython and see, is it help. Usually, it is enough to remove ipython from (org-babel-do-load-languages ...) list, and restart your Emacs.
+;; Need to remove C, Fortrain, and jupyter so works in emacs 28 with native comp
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t) (latex . t) (python . t) (shell . t) (matlab . t)
-   (sqlite . t) (ruby . t) (perl . t) (org . t) (dot . t) (plantuml . t)
-   (R . t) (fortran . t) (C . t) (jupyter . t)))
+   (sqlite . t) (ruby . t) (perl . t) (org . t) (dot . t) (plantuml . t) (R . t)))
+;; (fortran . t) (C . t)))
 ;; overrides so when you put python it does jupyter-python
 ;; (org-babel-jupyter-override-src-block "python")
 ;; Fix error that async might cause issues
