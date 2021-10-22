@@ -2817,7 +2817,11 @@ directory in another window."
   (interactive)
   (if (eq system-type 'darwin)
 	  (progn
+		;; FIXME: As of now, if I compile these then it messes up emacs on next load using native comp
 		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
+		;; TODO: remove user when move everything to other files
+		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/user.el") nil 0)
+		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/bindings.el") nil 0)
 		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
 
 
