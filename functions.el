@@ -1,5 +1,17 @@
 ;; -*- mode: Emacs-Lisp -*-
 
+(when (and (fboundp 'native-comp-available-p)
+		   (native-comp-available-p))
+  (progn
+	(setq native-comp-async-report-warnings-errors nil)
+	(setq comp-deferred-compilation t)
+	(add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory))
+	(setq package-native-compile t)
+	;; These don't seem to work or prevent compilation but leaving here for now
+	;; (setq native-comp-deferred-compilation-deny-list '("^user\.el$" "^functions\.el$" "^settings\.el$" "^bindings\.el$"))
+	;; (setq native-comp-bootstrap-deny-list '("^user\.el$" "^functions\.el$" "^settings\.el$" "^bindings\.el$"))
+	))
+
 ;; ensures packages are installed or installs them but doesn't keep them updated
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
@@ -2817,12 +2829,11 @@ directory in another window."
   (interactive)
   (if (eq system-type 'darwin)
 	  (progn
-		;; FIXME: As of now, if I compile these then it messes up emacs on next load using native comp
+		;; Not necessary because can't symlink settings elc with emacs native comp or emacs is broken
+		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0)
 		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el") nil 0)
-		;; TODO: remove user when move everything to other files
-		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/user.el") nil 0)
 		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/bindings.el") nil 0)
-		(byte-recompile-file (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el") nil 0))))
+		)))
 
 
 (defun jj/ivy-switch-buffer-use-virtual (&optional full-names)

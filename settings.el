@@ -620,7 +620,7 @@ Use '!' to signify that the buffer was not initially clean."
 (defvar jj/move-file-here-start-dir (expand-file-name "~/Downloads"))
 (defvar-local is-new-file-buffer nil)
 (add-hook 'kill-buffer-hook 'jj/save-new-file-before-kill)
-;; FIXME: removed due to emacs 28 native comp not working if my user files are byte-compiled
+;; Not necessary because can't symlink settings elc with emacs native comp or emacs is broken
 ;; (add-hook 'kill-emacs-hook 'jj/brc-functions-file)
 
 ;; Setup remebering what major mode to open files with no file extension
