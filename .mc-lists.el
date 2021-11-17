@@ -99,11 +99,13 @@
 		org-end-of-line
 		org-force-self-insert
 		org-kill-line
+		org-meta-return
 		org-metadown
 		org-metaleft
 		org-metaright
 		org-metaup
 		org-refile
+		org-return
 		org-return-indent
 		org-schedule
 		org-self-insert-command
@@ -195,12 +197,14 @@
 		special-lispy-x
 		special-pop-tag-mark
 		swiper-isearch
+		whole-line-or-region-delete-region
 		whole-line-or-region-kill-region
 		yaml-electric-backspace
 		))
 
 (setq mc/cmds-to-run-once
       '(
+		ace-window
 		counsel-describe-function
 		describe-key
 		dired-do-delete
@@ -240,5 +244,6 @@
 		wdired-finish-edit
 		wgrep-finish-edit
 		window-configuration-to-register
+		xref-find-definitions
 		yaml-electric-dash-and-dot
 		))
