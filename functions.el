@@ -530,75 +530,76 @@
 		  (json-mode "{" "}" "/[*/]" nil)
 		  (javascript-mode  "{" "}" "/[*/]" nil)))))
 (use-package sentence-navigation :defer t)
-(use-package xah-lookup
-  :defer 6
-  :config
+;; NOTE: Commented out for now because removed from melpa (look for it later to add locally but don't really use it anymore)
+;; (use-package xah-lookup
+;;   :defer 6
+;;   :config
 
-  (defun xah-lookup-word-thesaurus-eww (&optional @word)
-	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
-Version 2017-02-09"
-	(interactive)
-	(xah-lookup-word-on-internet
-	 @word
-	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
-	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
-	;;
-	)
-  (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
-  (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
+;;   (defun xah-lookup-word-thesaurus-eww (&optional @word)
+;; 	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+;; Version 2017-02-09"
+;; 	(interactive)
+;; 	(xah-lookup-word-on-internet
+;; 	 @word
+;; 	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
+;; 	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
+;; 	;;
+;; 	)
+;;   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+;;   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
-  (defun xah-lookup-word-thesaurus (&optional @word)
-	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
-Version 2017-02-09"
-	(interactive)
-	(xah-lookup-word-on-internet
-	 @word
-	 (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
-	 (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
-	;;
-	)
-  (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
-  (put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
+;;   (defun xah-lookup-word-thesaurus (&optional @word)
+;; 	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+;; Version 2017-02-09"
+;; 	(interactive)
+;; 	(xah-lookup-word-on-internet
+;; 	 @word
+;; 	 (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
+;; 	 (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
+;; 	;;
+;; 	)
+;;   (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
+;;   (put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
-  (defun xah-lookup-word-definition-eww (&optional @word)
-	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-	(interactive)
-	(xah-lookup-word-on-internet
-	 @word
-	 (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
-	 (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
-	;;
-	)
-  (put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
-  (put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
+;;   (defun xah-lookup-word-definition-eww (&optional @word)
+;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;; Version 2017-02-09"
+;; 	(interactive)
+;; 	(xah-lookup-word-on-internet
+;; 	 @word
+;; 	 (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
+;; 	 (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
+;; 	;;
+;; 	)
+;;   (put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
+;;   (put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
 
-  (defun xah-lookup-power-thesaurus-eww (&optional @word)
-	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-	(interactive)
-	(xah-lookup-word-on-internet
-	 @word
-	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
-	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
-	;;
-	)
-  (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-  (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
+;;   (defun xah-lookup-power-thesaurus-eww (&optional @word)
+;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;; Version 2017-02-09"
+;; 	(interactive)
+;; 	(xah-lookup-word-on-internet
+;; 	 @word
+;; 	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
+;; 	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
+;; 	;;
+;; 	)
+;;   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+;;   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
-  (defun xah-lookup-power-thesaurus (&optional @word)
-	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
-Version 2017-02-09"
-	(interactive)
-	(xah-lookup-word-on-internet
-	 @word
-	 (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
-	 (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
-	;;
-	)
-  (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
-  (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
-  )
+;;   (defun xah-lookup-power-thesaurus (&optional @word)
+;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;; Version 2017-02-09"
+;; 	(interactive)
+;; 	(xah-lookup-word-on-internet
+;; 	 @word
+;; 	 (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
+;; 	 (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
+;; 	;;
+;; 	)
+;;   (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
+;;   (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
+;;   )
 (use-package poporg :defer t
   ;; bind: doesn't work here I think because prefix defined outside package
   ;; :bind (("s-/ o" . poporg-dwim))
