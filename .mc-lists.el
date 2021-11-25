@@ -197,6 +197,7 @@
 		special-lispy-x
 		special-pop-tag-mark
 		swiper-isearch
+		upcase-region
 		whole-line-or-region-delete-region
 		whole-line-or-region-kill-region
 		yaml-electric-backspace
