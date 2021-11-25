@@ -215,6 +215,8 @@ The body of the advice is in BODY."
 		 (setq org-agenda-files (append org-agenda-files (list org-gcal-file-main))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/gtd_work.org"))
 		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Work/gtd_work.org"))))
+	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/realtor.org"))
+		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Work/realtor.org"))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))
 		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/Inbox.org"))
@@ -296,10 +298,10 @@ org-agenda-to-appt with a ``universal prefix`` arg."
 		;; :empty-lines 1 or any number to add at end
 		("s" "Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t")
-		("w" "Work: Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/Work/gtd_work.org" "Tasks")
+		("w" "Work: Scheduled TODO" entry (file+headline "~/Dropbox/Documents/Notes/Work/realtor.org" "Tasks")
 		 "* TODO %?\nSCHEDULED: %^t")
 		("W" "Work: Todo [gtd, link]" entry
-		 (file+headline "~/Dropbox/Documents/Notes/Work/gtd_work.org" "Tasks")
+		 (file+headline "~/Dropbox/Documents/Notes/Work/realtor.org" "Tasks")
 		 "* TODO %i%?\n%a")
 		("d" "Deadline TODO" entry (file+headline "~/Dropbox/Documents/Notes/Orgzly/gtd.org" "Tasks")
 		 "* TODO %?\nDEADLINE: %^t")

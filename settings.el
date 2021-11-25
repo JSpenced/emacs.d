@@ -1002,6 +1002,10 @@ even when the file is larger than `large-file-warning-threshold'.")
 	(setq org-refile-targets (append org-refile-targets
 									 '(("~/Dropbox/Documents/Notes/Work/gtd_work.org" :maxlevel . 3)
 									   ))))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/realtor.org"))
+	(setq org-refile-targets (append org-refile-targets
+									 '(("~/Dropbox/Documents/Notes/Work/realtor.org" :maxlevel . 3)
+									   ))))
 
 (setq org-outline-path-complete-in-steps nil)    ; Refile in a single go
 ;; also seen people set use-outline-path to 'file
