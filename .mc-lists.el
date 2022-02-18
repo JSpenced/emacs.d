@@ -70,6 +70,7 @@
 		jj/lispy-move-beginning-of-visual-line
 		jj/org-beginning-of-line
 		jj/org-end-of-line
+		kill-sentence
 		kill-sexp
 		kill-visual-line
 		lispy-braces
@@ -104,6 +105,7 @@
 		org-metaleft
 		org-metaright
 		org-metaup
+		org-priority
 		org-refile
 		org-return
 		org-return-indent
@@ -121,6 +123,7 @@
 		scimax-dired-cycle-space-hyphen-underscore
 		sgml-slash
 		sp-backward-sexp
+		sp-backward-up-sexp
 		sp-delete-char
 		sp-down-sexp
 		sp-forward-sexp
@@ -235,11 +238,14 @@
 		jj/switch-to-previous-buffer
 		jj/wgrep-finish-edit-save-all-buffers
 		kmacro-end-or-call-macro
+		magit-refresh
 		minibuffer-keyboard-quit
 		next-multiframe-window
+		next-window-any-frame
 		org-cycle
 		other-frame
 		previous-multiframe-window
+		previous-window-any-frame
 		revert-buffer
 		swiper-mc
 		wdired-finish-edit
