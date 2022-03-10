@@ -587,6 +587,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;; (setq dired-auto-revert-buffer  (lambda (_dir) (null (cdr dired-subdir-alist))))
 (setq auto-revert-verbose nil)		;; Set to nil to not generate messages
 (setq dired-omit-verbose nil)
+;; This might be necessary on some systems (uses polling instead  of file notifications)
+;; (setq auto-revert-use-notify nil)
 ;; increase speed that you global auto revert the buffer to 2 seconds
 (setq auto-revert-interval 2)
 ;; Uses xargs to run commands instead of passing -exec to find which makes it very slow
