@@ -24,6 +24,7 @@
 (use-package ivy-dired-history)
 (use-package ace-jump-zap)
 (use-package visible-mark)
+(use-package dash-functional)
 (require 'dash)
 (use-package visual-regexp)
 (use-package visual-regexp-steroids)
