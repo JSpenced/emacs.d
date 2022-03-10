@@ -1081,6 +1081,7 @@ FONT-NAME is the name of the .ttf file providing the font, defaults to FAMILY."
 											 (when all-the-icons-dired-mode
 											   (revert-buffer)))))
 
+(use-package all-the-icons-ivy)
 (use-package all-the-icons-ivy-rich
   :init (all-the-icons-ivy-rich-mode 1))
 (use-package ivy-rich
