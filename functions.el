@@ -1642,6 +1642,8 @@ If `to-back' is t then add to back of list."
 	(add-to-list list item (or to-back nil))))
 
 (use-package org
+  :init
+  (setq org-use-speed-commands t)
   :config
 
   (defun jj/org-next-item-at-ident (&optional n)
