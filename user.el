@@ -373,7 +373,7 @@ org-agenda-to-appt with a ``universal prefix`` arg."
   '(progn
 	 (setq org-agenda-restore-windows-after-quit t)
 	 (setq org-agenda-sticky t)
-	 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+	 (setq org-agenda-skip-deadline-prewarning-if-scheduled 5)
 	 ;; These already set to t by scimax I think (possibly change to below)
 	 ;; (setq org-agenda-todo-ignore-scheduled 'future)
 	 ;; (setq org-agenda-todo-ignore-deadlines 'far)
