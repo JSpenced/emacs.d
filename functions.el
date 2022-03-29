@@ -1646,6 +1646,7 @@ If `to-back' is t then add to back of list."
 (use-package org
   :init
   (setq org-use-speed-commands t)
+  :bind (("C-c <C-tab>" . org-force-cycle-archived))
   :config
 
   (defun jj/org-next-item-at-ident (&optional n)
@@ -2130,8 +2131,7 @@ all blocks in document."
 	(interactive)
 	(let ((org-refile-use-outline-path t)
 		  (org-refile-targets '((nil . (:maxlevel . 5)))))
-	  (org-refile)))
-  )
+	  (org-refile))))
 
 (defun jj/other-window-kill-buffer ()
   "Kill the buffer in the other window"
