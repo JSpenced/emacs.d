@@ -1646,6 +1646,7 @@ If `to-back' is t then add to back of list."
 (use-package org
   :init
   (setq org-use-speed-commands t)
+  (setq org-export-initial-scope 'subtree)
   :bind (("C-c <C-tab>" . org-force-cycle-archived))
   :config
 
