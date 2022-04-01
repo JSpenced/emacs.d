@@ -919,27 +919,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 (winner-mode 1) ;; winner-undo and winner-redo the functions
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Org-mode
+;; Org-mode (scimax specific org-mode also)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Set to t to go after *** first then beg of line when pressing again or 'reversed to reverse this
-(setq org-special-ctrl-a/e t)
-;; will show space between headings if 1 or more lines blank (default 2)
-(setq org-cycle-separator-lines 2)
-(setq org-support-shift-select nil)
-(setq org-list-allow-alphabetical t)
-(setq org-list-demote-modify-bullet
-	  '(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
-(setq org-startup-indented t)
-;; sets whether todo statistics are recursive for todo and checkboxes
-(setq org-hierarchical-todo-statistics t)
-(setq org-checkbox-hierarchical-statistics nil)
-
-;; Switch entry to done automatically when all subentries are done
-(add-hook 'org-checkbox-statistics-hook 'jj/org-checkbox-todo)
-
-(setq org-use-sub-superscripts '{})
-(setq org-export-with-sub-superscripts '{})
 (scimax-toggle-abbrevs 'scimax-month-abbreviations +1)
 (scimax-toggle-abbrevs 'scimax-weekday-abbreviations +1)
 (scimax-toggle-abbrevs 'scimax-chemical-formula-abbreviations -1)
@@ -955,14 +937,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; deletes comments before export so paragraphs aren't split where comments are
 ;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
 
-(setq org-todo-keywords
-	  '((sequence "TODO(t)" "|" "DONE(d)")
-	(sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
-	(sequence "|" "CANCELED(c)")))
-
-;; Make org-goto work with ivy-completion
-(setq org-goto-interface 'outline-path-completion)
-(setq org-outline-path-complete-in-steps nil)
 ;; Bibliography
 ;; (setq reftex-default-bibliography '((expand-file-name "~/Google-dr/Research/MyWork/Bibtex/library.bib")))
 ;; see org-ref for use of these variables

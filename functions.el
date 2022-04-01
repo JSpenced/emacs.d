@@ -1647,8 +1647,34 @@ If `to-back' is t then add to back of list."
   :init
   (setq org-use-speed-commands t)
   (setq org-export-initial-scope 'subtree)
+  ;; Set to t to go after *** first then beg of line when pressing again or 'reversed to reverse this
+  (setq org-special-ctrl-a/e t)
+  ;; will show space between headings if 1 or more lines blank (default 2)
+  (setq org-cycle-separator-lines 2)
+  (setq org-support-shift-select nil)
+  (setq org-list-allow-alphabetical t)
+  (setq org-list-demote-modify-bullet
+		'(("+" . "-") ("-" . "*") ("*" . "+") ("1." . "a.") ("a." . "+") ("A." . "+") ("1)" . "a)") ("a)" . "1.") ("A)" . "1.")))
+  (setq org-startup-indented t)
+  ;; sets whether todo statistics are recursive for todo and checkboxes
+  (setq org-hierarchical-todo-statistics t)
+  (setq org-checkbox-hierarchical-statistics nil)
+  (setq org-use-sub-superscripts '{})
+  (setq org-export-with-sub-superscripts '{})
+
+  (setq org-todo-keywords
+		'((sequence "TODO(t)" "|" "DONE(d)")
+		  (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+		  (sequence "|" "CANCELED(c)")))
+
+  ;; Make org-goto work with ivy-completion
+  (setq org-goto-interface 'outline-path-completion)
+  (setq org-outline-path-complete-in-steps nil)
+
   :bind (("C-c <C-tab>" . org-force-cycle-archived))
   :config
+  ;; Switch entry to done automatically when all subentries are done
+  (add-hook 'org-checkbox-statistics-hook 'jj/org-checkbox-todo)
 
   (defun jj/org-next-item-at-ident (&optional n)
 	(interactive "^p")
