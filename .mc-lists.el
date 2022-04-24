@@ -128,6 +128,7 @@
 		sp-down-sexp
 		sp-forward-sexp
 		sp-kill-hybrid-sexp
+		sp-kill-sexp
 		sp-remove-active-pair-overlay
 		special-digit-argument
 		special-lh-knight/body
