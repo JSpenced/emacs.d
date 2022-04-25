@@ -161,7 +161,7 @@
 (use-package undo-tree
   :custom
   (undo-tree-visualizer-diff t)
-  (undo-tree-history-directory-alist '(("." . (expand-file-name "~/.emacs.d/undo"))))
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   (undo-tree-visualizer-timestamps t))
 
 ;; PYTHON stuff
