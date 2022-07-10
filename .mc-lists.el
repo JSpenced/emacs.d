@@ -211,6 +211,8 @@
       '(
 		ace-window
 		counsel-describe-function
+		counsel-git-grep
+		counsel-imenu
 		describe-key
 		dired-do-delete
 		dired-jump
