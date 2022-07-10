@@ -242,7 +242,6 @@ The body of the advice is in BODY."
 		appt-message-warning-time '5 ;; send first warning 5 minutes before appointment
 		appt-display-mode-line nil	 ;; don't show in the modeline
 		appt-display-format 'window) ;; pass warnings to the designated window function
-  (setq appt-disp-window-function (function jj/appt-display-native-timer-osx))
   :config
   (appt-activate 1)	;; activate appointment notification
 
@@ -284,7 +283,9 @@ org-agenda-to-appt with a ``universal prefix`` arg."
   (defun jj/appt-display-native-timer-osx (min-to-app new-time msg)
 	(jj/terminal-notifier-notify
 	 (format "Appointment in %s minutes" min-to-app)
-	 (format "%s" msg))))
+	 (format "%s" msg)))
+  (setq appt-disp-window-function (function jj/appt-display-native-timer-osx)))
+
 
 ;; Add later
 (setq org-capture-templates
