@@ -301,14 +301,15 @@ Use '!' to signify that the buffer was not initially clean."
 ;; TODO: Switch to jupyter if bug fixed: https://github.com/jorgenschaefer/elpy/issues/1550
 (setq python-shell-interpreter "ipython"
 	  python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
-(add-hook 'elpy-mode-hook 'jj/flycheck-mode-python-setup)
-(defun jj/flycheck-mode-python-setup ()
-  "Custom behaviours of flycheck mode for `python-mode'."
-  (setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
-  (setq-local flycheck-idle-change-delay 1)
-  (setq-local flycheck-idle-buffer-switch-delay 1))
+(with-eval-after-load "elpy"
+  (when (require 'flycheck nil t)
+	(setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  (defun jj/flycheck-mode-python-setup ()
+	"Custom behaviours of flycheck mode for `python-mode'."
+	(setq-local flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
+	(setq-local flycheck-idle-change-delay 1)
+	(setq-local flycheck-idle-buffer-switch-delay 1))
+  (add-hook 'elpy-mode-hook 'jj/flycheck-mode-python-setup))
 
 ;; NOTE: set so id column for pylint is wider (only has global control)
 (with-eval-after-load "flycheck"
