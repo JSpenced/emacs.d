@@ -1,5 +1,8 @@
 ;; -*- mode: Emacs-Lisp -*-
 
+;; should be in early-init but putting here for now
+(add-to-list 'default-frame-alist '(undecorated . t))
+
 ;; Define all prefix maps
 (define-prefix-command 'commandpalette-map)
 (global-set-key (kbd "s-p") 'commandpalette-map)
