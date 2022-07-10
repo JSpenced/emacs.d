@@ -199,7 +199,6 @@
       (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
   (if (file-directory-p (expand-file-name "~/.pyenv/versions"))
       (setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
-  (add-hook 'emacs-startup-hook 'jj/pyvenv-activate-jjj)
   :bind
   ("s-p e" . jj/pyvenv-activate-current-project)
   ("s-p s" . pyvenv-workon)
@@ -212,18 +211,19 @@
     (interactive)
     (let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
       (if python-version-directory
-	  (let* ((pyvenv-version-path (f-expand ".python-version" python-version-directory))
-		 (pyvenv-current-version (s-trim (f-read-text pyvenv-version-path 'utf-8))))
-	    (pyvenv-workon pyvenv-current-version)
-	    (message (concat "Setting virtualenv to " pyvenv-current-version))))))
-  (defun jj/pyvenv-activate-jjj()
+		  (let* ((pyvenv-version-path (f-expand ".python-version" python-version-directory))
+				 (pyvenv-current-version (s-trim (f-read-text pyvenv-version-path 'utf-8))))
+			(pyvenv-workon pyvenv-current-version)
+			(message (concat "Setting virtualenv to " pyvenv-current-version))))))
+  (defun jj/pyvenv-activate-jjj ()
     "Initialize pyvenv's current version to the global one."
     (interactive)
     (pyvenv-workon "jjj")
     (setq pyvenv-current-version "jjj"))
+  (add-hook 'emacs-startup-hook 'jj/pyvenv-activate-jjj)
   ;; Can use this if what it to activate the global environment, but use jjj as the global typically
   ;; (add-hook 'after-init-hook 'pyenv-init)
-  (defun jj/pyvenv-global-init()
+  (defun jj/pyvenv-global-init ()
     "Initialize pyvenv's current version to the global one."
     (let ((global-pyvenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global"))))
       (message (concat "Setting pyvenv version to " global-pyvenv))
