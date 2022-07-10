@@ -3,6 +3,10 @@
 ;; should be in early-init but putting here for now
 (add-to-list 'default-frame-alist '(undecorated . t))
 
+;; this is causing issues on personal computer (figure out later)
+;; seems that maybe org-contrib moved to its' own repository but possibly could just add to org-speed-commands
+;; (add-to-list 'org-speed-commands-user (cons "'" 'org-schedule))
+
 ;; Define all prefix maps
 (define-prefix-command 'commandpalette-map)
 (global-set-key (kbd "s-p") 'commandpalette-map)
@@ -125,8 +129,6 @@ the end of the line."
 ;;   (org-clock-in '(4)))
 ;; (global-set-key (kbd "C-c I") #'eos/org-clock-in)
 ;; (global-set-key (kbd "C-c O") #'org-clock-out)
-
-(add-to-list 'org-speed-commands-user (cons "'" 'org-schedule))
 
 (jj/append-to-list-no-duplicates 'helm-chronos-standard-timers
 								 '("10/P: SQL + 8/P: SQL Solution"
