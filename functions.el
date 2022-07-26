@@ -199,6 +199,8 @@
 	  (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
   (if (file-directory-p (expand-file-name "~/.pyenv/versions"))
 	  (setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
+  (if (file-directory-p (expand-file-name "~/miniconda/envs"))
+	  (setenv "WORKON_HOME" (expand-file-name "~/miniconda/envs")))
   :bind
   ("s-p e" . jj/pyvenv-activate-current-project)
   ("s-p s" . pyvenv-workon)
