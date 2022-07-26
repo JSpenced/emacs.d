@@ -196,9 +196,9 @@
 (use-package pyvenv
   :init
   (if (file-directory-p (expand-file-name "~/anaconda3/envs"))
-      (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
+	  (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")))
   (if (file-directory-p (expand-file-name "~/.pyenv/versions"))
-      (setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
+	  (setenv "WORKON_HOME" (expand-file-name "~/.pyenv/versions")))
   :bind
   ("s-p e" . jj/pyvenv-activate-current-project)
   ("s-p s" . pyvenv-workon)
@@ -207,28 +207,28 @@
   (pyvenv-mode)
   (defvar pyvenv-current-version nil nil)
   (defun jj/pyvenv-activate-current-project ()
-    "Automatically activates pyvenv version if .python-version file exists."
-    (interactive)
-    (let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
-      (if python-version-directory
+	"Automatically activates pyvenv version if .python-version file exists."
+	(interactive)
+	(let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
+	  (if python-version-directory
 		  (let* ((pyvenv-version-path (f-expand ".python-version" python-version-directory))
 				 (pyvenv-current-version (s-trim (f-read-text pyvenv-version-path 'utf-8))))
 			(pyvenv-workon pyvenv-current-version)
 			(message (concat "Setting virtualenv to " pyvenv-current-version))))))
   (defun jj/pyvenv-activate-jjj ()
-    "Initialize pyvenv's current version to the global one."
-    (interactive)
-    (pyvenv-workon "jjj")
-    (setq pyvenv-current-version "jjj"))
+	"Initialize pyvenv's current version to the global one."
+	(interactive)
+	(pyvenv-workon "jjj")
+	(setq pyvenv-current-version "jjj"))
   (add-hook 'emacs-startup-hook 'jj/pyvenv-activate-jjj)
   ;; Can use this if what it to activate the global environment, but use jjj as the global typically
   ;; (add-hook 'after-init-hook 'pyenv-init)
   (defun jj/pyvenv-global-init ()
-    "Initialize pyvenv's current version to the global one."
-    (let ((global-pyvenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global"))))
-      (message (concat "Setting pyvenv version to " global-pyvenv))
-      (pyvenv-workon global-pyvenv)
-      (setq pyvenv-current-version global-pyvenv))))
+	"Initialize pyvenv's current version to the global one."
+	(let ((global-pyvenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global"))))
+	  (message (concat "Setting pyvenv version to " global-pyvenv))
+	  (pyvenv-workon global-pyvenv)
+	  (setq pyvenv-current-version global-pyvenv))))
 ;; NOTE: This is another option, but the author of elpy wrote pyvenv so most the config copied to above
 ;; (use-package pyenv-mode
 ;;   :init
@@ -544,67 +544,67 @@
 ;;   :config
 
 ;;   (defun xah-lookup-word-thesaurus-eww (&optional @word)
-;; 	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+;;	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 ;; Version 2017-02-09"
-;; 	(interactive)
-;; 	(xah-lookup-word-on-internet
-;; 	 @word
-;; 	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
-;; 	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
-;; 	;;
-;; 	)
+;;	(interactive)
+;;	(xah-lookup-word-on-internet
+;;	 @word
+;;	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-url)
+;;	 (get 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function))
+;;	;;
+;;	)
 ;;   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-url "http://www.freethesaurus.com/word02051")
 ;;   (put 'xah-lookup-word-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
 ;;   (defun xah-lookup-word-thesaurus (&optional @word)
-;; 	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
+;;	"Lookup definition of current word or text selection in URL `http://www.freethesaurus.com/curlicue'.
 ;; Version 2017-02-09"
-;; 	(interactive)
-;; 	(xah-lookup-word-on-internet
-;; 	 @word
-;; 	 (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
-;; 	 (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
-;; 	;;
-;; 	)
+;;	(interactive)
+;;	(xah-lookup-word-on-internet
+;;	 @word
+;;	 (get 'xah-lookup-word-thesaurus 'xah-lookup-url )
+;;	 (get 'xah-lookup-word-thesaurus 'xah-lookup-browser-function ))
+;;	;;
+;;	)
 ;;   (put 'xah-lookup-word-thesaurus 'xah-lookup-url "http://www.freethesaurus.com/word02051")
 ;;   (put 'xah-lookup-word-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 
 ;;   (defun xah-lookup-word-definition-eww (&optional @word)
-;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;;	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 ;; Version 2017-02-09"
-;; 	(interactive)
-;; 	(xah-lookup-word-on-internet
-;; 	 @word
-;; 	 (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
-;; 	 (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
-;; 	;;
-;; 	)
+;;	(interactive)
+;;	(xah-lookup-word-on-internet
+;;	 @word
+;;	 (get 'xah-lookup-word-definition-eww 'xah-lookup-url )
+;;	 (get 'xah-lookup-word-definition-eww 'xah-lookup-browser-function ))
+;;	;;
+;;	)
 ;;   (put 'xah-lookup-word-definition-eww 'xah-lookup-url "http://www.thefreedictionary.com/word02051")
 ;;   (put 'xah-lookup-word-definition-eww 'xah-lookup-browser-function 'eww)
 
 ;;   (defun xah-lookup-power-thesaurus-eww (&optional @word)
-;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;;	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 ;; Version 2017-02-09"
-;; 	(interactive)
-;; 	(xah-lookup-word-on-internet
-;; 	 @word
-;; 	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
-;; 	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
-;; 	;;
-;; 	)
+;;	(interactive)
+;;	(xah-lookup-word-on-internet
+;;	 @word
+;;	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-url)
+;;	 (get 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function))
+;;	;;
+;;	)
 ;;   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
 ;;   (put 'xah-lookup-power-thesaurus-eww 'xah-lookup-browser-function 'eww)
 
 ;;   (defun xah-lookup-power-thesaurus (&optional @word)
-;; 	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
+;;	"Lookup definition of current word or text selection in URL `http://www.thefreedictionary.com/curlicue'.
 ;; Version 2017-02-09"
-;; 	(interactive)
-;; 	(xah-lookup-word-on-internet
-;; 	 @word
-;; 	 (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
-;; 	 (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
-;; 	;;
-;; 	)
+;;	(interactive)
+;;	(xah-lookup-word-on-internet
+;;	 @word
+;;	 (get 'xah-lookup-power-thesaurus 'xah-lookup-url)
+;;	 (get 'xah-lookup-power-thesaurus 'xah-lookup-browser-function))
+;;	;;
+;;	)
 ;;   (put 'xah-lookup-power-thesaurus 'xah-lookup-url "http://www.powerthesaurus.org/word02051/synonyms")
 ;;   (put 'xah-lookup-power-thesaurus 'xah-lookup-browser-function xah-lookup-browser-function)
 ;;   )
