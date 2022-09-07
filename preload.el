@@ -1,4 +1,2 @@
-;; TODO: Setting now in scimax to not load leuven theme
-;; (when (display-graphic-p)
-;;   (load-theme 'leuven t)
-;;   )
+;; should be in early-init but putting here for now
+(add-to-list 'default-frame-alist '(undecorated . t))

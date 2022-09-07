@@ -1,8 +1,5 @@
 ;; -*- mode: Emacs-Lisp -*-
 
-;; should be in early-init but putting here for now
-(add-to-list 'default-frame-alist '(undecorated . t))
-
 ;; this is causing issues on personal computer (figure out later)
 ;; seems that maybe org-contrib moved to its' own repository but possibly could just add to org-speed-commands
 ;; (add-to-list 'org-speed-commands-user (cons "'" 'org-schedule))
