@@ -140,7 +140,12 @@
 (use-package osx-trash)
 (use-package beacon)
 (use-package color-theme-sanityinc-tomorrow)
-(use-package ob-ipython)
+;; core package removed elpy and added jupyter so doing the same here (should already by installed from core but leaving
+;; the jupyter here in case not)
+(use-package elpy
+  :config
+  (elpy-enable))
+;; (use-package ob-ipython)
 (use-package jupyter)
 (use-package evil-nerd-commenter)
 (use-package git-commit-insert-issue)
