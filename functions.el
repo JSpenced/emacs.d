@@ -525,25 +525,34 @@
   )
 (use-package hideshow
   :bind (("<escape> f" . hs-toggle-hiding)
-	 ("<escape> F" . hs-show-block)
-	 ("C-c f s" . hs-show-block)
-	 ("C-c f S" . hs-show-all)
-	 ("C-c f h" . hs-hide-block)
-	 ("C-c f H" . hs-hide-all)
-	 ("C-c f t" . hs-toggle-hiding)
-	 ("C-c f a" . hs-show-all))
+		 ("<escape> F" . hs-show-block)
+		 ("C-c f s" . hs-show-block)
+		 ("C-c f S" . hs-show-all)
+		 ("C-c f h" . hs-hide-block)
+		 ("C-c f H" . hs-hide-all)
+		 ("C-c f t" . hs-toggle-hiding)
+		 ("C-c f a" . hs-show-all))
   :init (add-hook 'json-mode-hook #'hs-minor-mode)
   :diminish hs-minor-mode
   :config
   (setq hs-special-modes-alist
-	(mapcar 'purecopy
-		'((c-mode "{" "}" "/[*/]" nil nil)
-		  (c++-mode "{" "}" "/[*/]" nil nil)
-		  (java-mode "{" "}" "/[*/]" nil nil)
-		  (js-mode "{" "}" "/[*/]" nil)
-		  (js2-mode "{" "}" "/[*/]" nil)
-		  (json-mode "{" "}" "/[*/]" nil)
-		  (javascript-mode  "{" "}" "/[*/]" nil)))))
+		(mapcar 'purecopy
+				'((c-mode "{" "}" "/[*/]" nil nil)
+				  (c++-mode "{" "}" "/[*/]" nil nil)
+				  (java-mode "{" "}" "/[*/]" nil nil)
+				  (js-mode "{" "}" "/[*/]" nil)
+				  (js2-mode "{" "}" "/[*/]" nil)
+				  (json-mode "{" "}" "/[*/]" nil)
+				  (javascript-mode  "{" "}" "/[*/]" nil)))))
+(use-package json-mode
+  :config
+  (defun jj/json-format-beautify ()
+	(interactive)
+	(let ((b (if mark-active (min (point) (mark)) (point-min)))
+		  (e (if mark-active (max (point) (mark)) (point-max))))
+	  (shell-command-on-region b e
+							   "python -mjson.tool" (current-buffer) t))))
+
 (use-package sentence-navigation :defer t)
 ;; NOTE: Commented out for now because removed from melpa (look for it later to add locally but don't really use it anymore)
 ;; (use-package xah-lookup
