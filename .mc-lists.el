@@ -26,6 +26,7 @@
 		diredp-next-line
 		diredp-previous-line
 		down-list
+		downcase-region
 		easy-kill
 		easy-kill-abort
 		easy-kill-append
@@ -66,6 +67,7 @@
 		jj/end-of-visual-line-then-to-end-of-line
 		jj/forward-delete-sexp-or-dir
 		jj/insert-dollar-sign
+		jj/insert-space-in-front
 		jj/kill-line
 		jj/lispy-move-beginning-of-visual-line
 		jj/org-beginning-of-line
@@ -201,7 +203,9 @@
 		special-lispy-x
 		special-pop-tag-mark
 		swiper-isearch
+		undefined
 		upcase-region
+		wdired--self-insert
 		whole-line-or-region-delete-region
 		whole-line-or-region-kill-region
 		yaml-electric-backspace
@@ -249,6 +253,7 @@
 		other-frame
 		previous-multiframe-window
 		previous-window-any-frame
+		python-black-buffer
 		revert-buffer
 		swiper-mc
 		wdired-finish-edit
