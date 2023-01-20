@@ -120,6 +120,35 @@
 (define-key lispy-mode-map (kbd "C-a") 'jj/lispy-move-beginning-of-visual-line)
 (global-set-key (kbd "C-x C-;") 'evilnc-comment-or-uncomment-lines)
 
+;; Zoom frm bindings
+;; these are used instead of text-scale-adjust because much more versatile
+;; (can toggle with ctrl+u between frame and buffer zooming)
+(define-key ctl-x-map [(control ?+)] 'zoom-in/out)
+(define-key ctl-x-map [(control ?-)] 'zoom-in/out)
+(define-key ctl-x-map [(control ?=)] 'zoom-in/out)
+(define-key ctl-x-map [(control ?0)] 'zoom-in/out)
+(global-set-key [C-mouse-1]    'zoom-in)
+(global-set-key [C-S-mouse-1]  'zoom-out)
+(global-set-key [C-down-mouse-1] nil)
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+					(vector (list 'control
+								  mouse-wheel-down-event))
+				  [C-mouse-wheel])    ; Emacs 20, 21
+				'zoom-in)
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+					(vector (list 'control 'meta
+								  mouse-wheel-down-event))
+				  [C-M-mouse-wheel])  ; Emacs 20, 21
+				'zoom-all-frames-in)
+(when (boundp 'mouse-wheel-up-event) ; Emacs 22+
+  (global-set-key (vector (list 'control
+								mouse-wheel-up-event))
+				  'zoom-out)
+  (global-set-key (vector (list 'control 'meta
+								mouse-wheel-up-event))
+				  'zoom-all-frames-out))
+
+
 ;; Match sublime bindings and s-maps
 (global-set-key (kbd "M-t") 'jj/ivy-switch-buffer-use-virtual)
 (global-set-key (kbd "M-T") 'jj/ivy-switch-buffer-use-virtual-full)

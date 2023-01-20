@@ -58,6 +58,7 @@
 (use-package backup-each-save)
 (use-package wttrin)
 (require 'frame-cmds)
+(require 'zoom-frm)
 (require 'f)
 (use-package evil
   :config
