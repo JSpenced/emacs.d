@@ -95,6 +95,7 @@
 		lispy-tick
 		lispy-yank
 		magit-copy-buffer-revision
+		markdown-enter-key
 		markdown-outdent-or-delete
 		my/duplicate-line
 		org-ctrl-c-minus
@@ -224,6 +225,7 @@
 		dired-toggle-read-only
 		easy-kill-help
 		elpy-occur-definitions
+		elpy-shell-send-statement-and-step
 		eyebrowse-switch-to-window-config-11
 		eyebrowse-switch-to-window-config-2
 		eyebrowse-switch-to-window-config-3
