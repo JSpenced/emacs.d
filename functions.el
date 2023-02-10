@@ -1105,6 +1105,14 @@ FONT-NAME is the name of the .ttf file providing the font, defaults to FAMILY."
 											 (when all-the-icons-dired-mode
 											   (revert-buffer)))))
 
+;; ivy describe-function wasn't working and this provides more expanded descriptions
+(use-package helpful
+  :after counsel
+  :config
+  (setq counsel-describe-function-function #'helpful-callable)
+  (setq counsel-describe-variable-function #'helpful-variable)
+  (setq counsel-describe-symbol-function #'helpful-symbol))
+
 (use-package all-the-icons-ivy)
 (use-package all-the-icons-ivy-rich
   :init (all-the-icons-ivy-rich-mode 1))

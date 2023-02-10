@@ -18,6 +18,7 @@
 (global-set-key (kbd "M-A") 'sentence-nav-backward-end)
 (global-set-key (kbd "<C-m>") 'exchange-point-and-mark)
 (global-set-key (kbd "s-h") 'help-command)
+(global-set-key (kbd "s-h k") 'helpful-key)
 (global-set-key (kbd "s-h s-h") 'ns-do-hide-emacs)
 (global-set-key (kbd "s-H") 'ns-do-hide-others)
 (global-set-key (kbd "H-h") 'ns-do-hide-others)
