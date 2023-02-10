@@ -49,6 +49,7 @@
 		evilnc-comment-or-uncomment-lines
 		forward-sexp
 		gse-number-rectangle
+		ibuffer-mark-forward
 		indent-for-tab-command
 		jj/backward-delete-sexp-or-dir
 		jj/backward-delete-word
