@@ -537,7 +537,8 @@ Use '!' to signify that the buffer was not initially clean."
 ;; Typing: "Fixes #" in git commit buffer will bring up all the issues in helm window
 (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode)
 ;; Added because on mac this call to git faster apparently
-(if (eq system-type 'darwin) (setq magit-git-executable "/usr/local/bin/git"))
+(if (eq system-type 'darwin) (cond ((file-exists-p "/usr/local/bin/git") (setq magit-git-executable "/usr/local/bin/git"))
+								   ((file-exists-p "/opt/homebrew/bin/git") (setq magit-git-executable "/opt/homebrew/bin/git"))))
 (setq magit-branch-prefer-remote-upstream t)
 ;; FIXME: Do I want to add these?
 ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
