@@ -315,15 +315,15 @@
   :ensure t
   :bind ("s-d" . docker))
 
-(use-package kubernetes
-  :ensure t
-  :commands (kubernetes-overview)
-  :bind ("s-SPC k" . kubernetes-overview))
+;; (use-package kubernetes
+;;   :ensure t
+;;   :commands (kubernetes-overview)
+;;   :bind ("s-SPC k" . kubernetes-overview))
 
 ;; Good package like the one above but can use when don't have full permissions to the cluster
-(use-package kubel)
+;; (use-package kubel)
 
-(use-package k8s-mode)
+;; (use-package k8s-mode)
 
 (use-package yaml-mode
   :config
