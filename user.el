@@ -1,5 +1,7 @@
 ;; -*- mode: Emacs-Lisp -*-
 
+;; TODO: Add use-package for rust-mode package if develop in rust (might also check out rustic)
+
 ;; this is causing issues on personal computer (figure out later)
 ;; seems that maybe org-contrib moved to its' own repository but possibly could just add to org-speed-commands
 ;; (add-to-list 'org-speed-commands-user (cons "'" 'org-schedule))
