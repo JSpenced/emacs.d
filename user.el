@@ -40,7 +40,7 @@
 ;; LOCATION based values
 (setq calendar-latitude 20.66)
 (setq calendar-longitude  -103.35)
-(setq wttrin-default-cities '("Guadalajara, Mexico"))
+(setq wttrin-default-cities '("Seoul, Korea"))
 
 (defun jj/delete-backward-char (n &optional killflag)
   "Delete the previous N characters (following if N is negative).
