@@ -112,6 +112,7 @@
 		org-priority
 		org-refile
 		org-return
+		org-return-and-maybe-indent
 		org-return-indent
 		org-schedule
 		org-self-insert-command
@@ -216,6 +217,7 @@
 (setq mc/cmds-to-run-once
       '(
 		ace-window
+		beginning-of-buffer
 		counsel-describe-function
 		counsel-git-grep
 		counsel-imenu
@@ -263,5 +265,6 @@
 		wgrep-finish-edit
 		window-configuration-to-register
 		xref-find-definitions
+		xref-go-back
 		yaml-electric-dash-and-dot
 		))
