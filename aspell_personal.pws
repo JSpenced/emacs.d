@@ -1,4 +1,4 @@
-personal_ws-1.1 en 131
+personal_ws-1.1 en 139 
 Autoencoder
 Butterworth
 CNNs
@@ -16,6 +16,8 @@ Kubernetes
 NN
 NNs
 Numba
+OKR
+OKRs
 PCA
 Personalization
 SGD
@@ -23,6 +25,7 @@ SOTA
 SVD
 accelerometer
 affine
+amidst
 analytics
 autoencoder
 bioinformatics
@@ -72,6 +75,7 @@ maxpool
 maxpooling
 microservice
 misclassification
+monetization
 monotonicity
 multiclass
 multicollinearity
@@ -84,6 +88,7 @@ nmf
 nonnegative
 nonnegativity
 numpy
+onboarding
 orthogonalization
 overfitting
 oversized
@@ -99,6 +104,8 @@ quantiles
 quartile
 recommender
 resampling
+roadmap
+roadmaps
 runtime
 scalability
 scalable
@@ -120,6 +127,7 @@ tokenize
 tokenizing
 tradeoff
 trained
+transformative
 triangularization
 upsample
 vectorization
