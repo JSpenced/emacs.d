@@ -962,9 +962,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 	(setq org-refile-targets (append org-refile-targets
 									 '(("~/Dropbox/Documents/Notes/Computer_notes.org" :maxlevel . 2)
 									   ))))
-(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/Manager_notes.org"))
+(if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/Manager_Business_notes.org"))
 	(setq org-refile-targets (append org-refile-targets
-									 '(("~/Dropbox/Documents/Notes/Orgzly/Manager_notes.org" :maxlevel . 2)
+									 '(("~/Dropbox/Documents/Notes/Orgzly/Manager_Business_notes.org" :maxlevel . 2)
 									   ))))
 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/archive/Archive_notes.org"))
 	(setq org-refile-targets (append org-refile-targets
