@@ -664,8 +664,8 @@
   '(progn
 	 (define-key flyspell-mode-map (kbd "s-RET") 'dabbrev-expand)
 	 ;; (define-key flyspell-mode-map (kbd "M-p") 'flyspell-auto-correct-previous-word)
-	 (define-key flyspell-mode-map (kbd "C-.") 'flyspell-correct-previous-word-generic)
-	 (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-auto-correct-previous-word)
+	 (define-key flyspell-mode-map (kbd "C-.") 'flyspell-auto-correct-previous-word)
+	 (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-correct-wrapper)
 	 (define-key flyspell-mode-map (kbd "M-s f a") 'jj/ispell-append-current-and-sort)
 	 (define-key flyspell-mode-map (kbd "M-s f w") 'ispell-word)
 	 (define-key flyspell-mode-map (kbd "M-s f i") 'ispell)
