@@ -42,6 +42,28 @@
 (setq calendar-longitude  -103.35)
 (setq wttrin-default-cities '("Seoul, Korea"))
 
+(defun jj/org-number-of-subentries (&optional pos match scope level)
+  "Return number of subentries for entry at POS.
+MATCH and SCOPE are the same as for `org-map-entries', but
+SCOPE defaults to 'tree.
+By default, all subentries are counted; restrict with LEVEL."
+  (interactive)
+  (save-excursion
+	(goto-char (or pos (point)))
+	;; If we are in the middle ot an entry, use the current heading.
+	(org-back-to-heading t)
+	(let ((maxlevel (when (and level (org-current-level))
+					  (+ level (org-current-level)))))
+	  (message "%s subentries"
+			   (1- (length
+					(delq nil
+						  (org-map-entries
+						   (lambda ()
+							 ;; Return true, unless below maxlevel.
+							 (or (not maxlevel)
+								 (<= (org-current-level) maxlevel)))
+						   match (or scope 'tree)))))))))
+
 (defun jj/delete-backward-char (n &optional killflag)
   "Delete the previous N characters (following if N is negative).
 If Transient Mark mode is enabled, the mark is active, and N is 1,
