@@ -729,9 +729,9 @@ Files whose full name matches this regexp are backed up to `jj/backup-trash-dir'
 ;; // -*-mode:org; mode:sensitive; fill-column:132-*-
 (setq auto-mode-alist
 	  (append '(("\\.gpg$" . sensitive-mode)
-		;; ("\\.pdf$" . sensitive-mode)
-		)
-		  auto-mode-alist))
+				("\\.snes$" . sensitive-mode)
+				)
+			  auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto save settings
