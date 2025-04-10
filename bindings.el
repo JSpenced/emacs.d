@@ -1,6 +1,8 @@
 ;; -*- mode: Emacs-Lisp -*-
 ;; This is bindings loaded by user.el
 (setq ns-function-modifier 'hyper)  ; make Fn key do Hyper
+;; This is so on keyboards that can't make Fn do hyper I can still get the hyper key
+(define-key function-key-map (kbd "M-s->") 'event-apply-hyper-modifier)
 ;; (setq ns-function-modifier 'hyper)  ; make Fn key do Hyper
 (define-key input-decode-map [?\C-m] [C-m])
 (global-set-key (kbd "<f8>") 'menu-bar-open)
