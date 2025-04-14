@@ -40,7 +40,7 @@
 ;; LOCATION based values
 (setq calendar-latitude 20.66)
 (setq calendar-longitude  -103.35)
-(setq wttrin-default-cities '("Seoul, Korea"))
+(setq wttrin-default-cities '("Bali, Indonesia"))
 
 (defun jj/org-number-of-subentries (&optional pos match scope level)
   "Return number of subentries for entry at POS.
