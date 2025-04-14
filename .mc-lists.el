@@ -218,6 +218,7 @@
       '(
 		ace-window
 		beginning-of-buffer
+		clone-frame
 		counsel-describe-function
 		counsel-git-grep
 		counsel-imenu
