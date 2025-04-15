@@ -42,6 +42,9 @@
 (setq calendar-longitude  -103.35)
 (setq wttrin-default-cities '("Bali, Indonesia"))
 
+;; For some reason this gets overwritten by delete a sentence (at least in org mode)
+(global-set-key (kbd "<M-backspace>") 'jj/delete-backward-word)
+
 (defun jj/org-number-of-subentries (&optional pos match scope level)
   "Return number of subentries for entry at POS.
 MATCH and SCOPE are the same as for `org-map-entries', but
