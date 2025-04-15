@@ -293,6 +293,8 @@
 (global-set-key (kbd "C-c q") 'jj/quit-help-windows)
 										; Set same binding as in sublime to take emacs full screen c-x 1
 (global-set-key (kbd "M-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
+;; Removed the above key binding to activate edge
+(global-set-key (kbd "M-S-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
 (global-set-key (kbd "C-M-s-<return>") 'jj/delete-other-windows-switch-other-buffer)
 ;; necessary to recognize the j and k keys correctly on emacs 26.1
 (when (< emacs-major-version 27)
