@@ -294,8 +294,8 @@
 										; Set same binding as in sublime to take emacs full screen c-x 1
 (global-set-key (kbd "M-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
 ;; Removed the above key binding to activate edge
-(global-set-key (kbd "M-S-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
-(global-set-key (kbd "C-M-s-<return>") 'jj/delete-other-windows-switch-other-buffer)
+(global-set-key (kbd "M-S-s-<return>") 'jj/delete-other-windows-switch-other-buffer)
+(global-set-key (kbd "C-M-s-<return>") 'jj/delete-other-windows-or-winner-undo-max-pane)
 ;; necessary to recognize the j and k keys correctly on emacs 26.1
 (when (< emacs-major-version 27)
   (global-set-key (kbd "<C-s-268632074>") 'previous-window-any-frame)
@@ -523,6 +523,9 @@
 ;; Could make this to be a local key map
 (global-set-key (kbd "M-s-a") 'mc/mark-all-like-this)
 (global-set-key (kbd "M-s-å") 'mc/mark-all-like-this)
+;; added because the above won't be available
+(global-set-key (kbd "C-S-s-a") 'mc/mark-all-like-this)
+
 (global-set-key (kbd "C-x r 1") 'rectangle-number-lines)
 ;; Backup commands
 (define-key mc/keymap (kbd "M-s n") 'mc/insert-numbers)
