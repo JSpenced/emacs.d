@@ -777,6 +777,7 @@ in the next 24 hours. "
 			  'agenda)))	 ; Everything else should go in the agenda
 	(if (eq result part) dont-skip skip)))
 
+(use-package auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
 (global-auto-complete-mode t)

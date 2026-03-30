@@ -1321,12 +1321,14 @@ even when the file is larger than `large-file-warning-threshold'.")
  (lambda ()
    ;; Run org-gcal-fetch full when emacs starts (only on mac)
    ;; so loaded after all settings because appears to mess up things if loaded before
-   (require 'dired+)
-   ;; (interactive)
+   (use-package dired+
+	 :ensure nil
+	 :load-path "~/Dropbox/Programs/emacs/user/")
+
    (cond ((file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))
 		  (message ".emacs.desktop.lock file exists so desktop-save-mode not turned on")
 		  (setq jj/desktop-save-if-all-buffers-read t)
-		  (setq desktop-path (list (expand-file-name "~/Programs/scimax/user/desktops"))))
+		  (setq desktop-path (list (expand-file-name "~/.emacs.d/desktops"))))
 		 (t (when (not (daemonp))
 			  (desktop-save-mode)
 			  (desktop-read)

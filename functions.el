@@ -21,7 +21,9 @@
 (use-package expand-region)
 (require 'avy)
 (use-package openwith)
-(use-package ivy-dired-history)
+(use-package ivy-dired-history
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/")
 (use-package ace-jump-zap)
 (use-package visible-mark)
 (use-package dash-functional)
@@ -57,8 +59,18 @@
   )
 (use-package backup-each-save)
 (use-package wttrin)
-(require 'frame-cmds)
-(require 'zoom-frm)
+(use-package frame-fns
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/")
+(use-package frame-cmds
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/")
+;; (load (expand-file-name "~/Dropbox/Programs/emacs/user/frame-fns"))
+;; (load (expand-file-name "~/Dropbox/Programs/emacs/user/frame-cmds"))
+;; (require 'frame-cmds)
+(use-package zoom-frm
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/")
 (require 'f)
 (use-package evil
   :config
@@ -70,7 +82,7 @@
 	(interactive)
 	(evil-scroll-line-up 15))
   )
-(require 'pdf-tools)
+(use-package pdf-tools)
 (require 'man)
 (use-package smartparens)
 (use-package dtrt-indent)
@@ -128,8 +140,11 @@
    helm-gtags-suggested-key-mapping t))
 
 (use-package find-file-in-project)
-(require 'back-button)
-(back-button-mode 1)
+(use-package back-button
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/"
+  :config
+  (back-button-mode 1))
 ;; NOTE: Emacs slow to exit during pcache due to function below added by back-button
 (remove-hook 'kill-emacs-hook 'pcache-kill-emacs-hook)
 
@@ -513,7 +528,9 @@
 (use-package vlf
   :config
   (require 'vlf-setup))
-(require 'doom-todo-ivy)
+(use-package doom-todo-ivy
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/")
 (use-package magit-todos
   :after magit
   :after hl-todo
@@ -902,7 +919,8 @@
   (define-key deadgrep-mode-map (kbd "j") 'counsel-imenu))
 
 (use-package ox-jekyll-lite
-  :load-path nil
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/"
   :after org
   :config
   (setq org-jekyll-project-root "~/Dropbox/Documents/Blog/"))
