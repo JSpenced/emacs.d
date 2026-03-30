@@ -410,7 +410,8 @@
 (global-set-key (kbd "s-D") 'jj/duplicate-line-or-region)
 (global-set-key (kbd "C-c d") 'jj/duplicate-line-or-region)
 
-					; (global-set-key (read-kbd-macro "<C-x j>") 'ess/org-show-just-me)
+(global-set-key (kbd "C-c a") 'org-agenda)
+
 (define-key org-mode-map (kbd "C-x n o") 'jj/org-show-just-me)
 (define-key org-mode-map (kbd "C-x n <tab>") 'jj/org-show-just-me)
 (define-key text-mode-map (kbd "M-+") 'count-words)
