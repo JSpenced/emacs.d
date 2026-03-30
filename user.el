@@ -1,4 +1,4 @@
-;; -*- mode: Emacs-Lisp -*-
+;; -*- mode: Emacs-Lisp, lexical-binding: t -*-
 
 ;; TODO: Add use-package for rust-mode package if develop in rust (might also check out rustic)
 
@@ -30,16 +30,16 @@
 (setq markdown-header-scaling t)
 (setq markdown-header-scaling-values '(1.25 1.15 1.1 1.05 1.0 1.0))
 
-(if (file-exists-p (expand-file-name "~/Programs/scimax/user/definitions.el.snes"))
-	(load "definitions.el.snes"))
-(load "functions")
-(load "bindings")
-(load "settings")
+(if (file-exists-p (expand-file-name "~/Dropbox/Programs/emacs/user/definitions.el.snes"))
+    (load (expand-file-name "~/Dropbox/Programs/emacs/user/definitions.el.snes")))
+(load (expand-file-name "~/Dropbox/Programs/emacs/user/functions.el"))
+(load (expand-file-name "~/Dropbox/Programs/emacs/user/bindings.el"))
+(load (expand-file-name "~/Dropbox/Programs/emacs/user/settings.el"))
 ;; if error stringp, nil (filename-extension: wrong-type argument) likely due to (desktop-read)
 
 ;; LOCATION based values
-(setq calendar-latitude 20.66)
-(setq calendar-longitude  -103.35)
+(setq calendar-latitude -8.41)
+(setq calendar-longitude  115.19)
 (setq wttrin-default-cities '("Bali, Indonesia"))
 
 ;; For some reason this gets overwritten by delete a sentence (at least in org mode)
@@ -47,25 +47,25 @@
 
 (defun jj/org-number-of-subentries (&optional pos match scope level)
   "Return number of subentries for entry at POS.
-MATCH and SCOPE are the same as for `org-map-entries', but
-SCOPE defaults to 'tree.
-By default, all subentries are counted; restrict with LEVEL."
+  MATCH and SCOPE are the same as for `org-map-entries', but
+  SCOPE defaults to 'tree.
+  By default, all subentries are counted; restrict with LEVEL."
   (interactive)
   (save-excursion
-	(goto-char (or pos (point)))
-	;; If we are in the middle ot an entry, use the current heading.
-	(org-back-to-heading t)
-	(let ((maxlevel (when (and level (org-current-level))
-					  (+ level (org-current-level)))))
-	  (message "%s subentries"
-			   (1- (length
-					(delq nil
-						  (org-map-entries
-						   (lambda ()
-							 ;; Return true, unless below maxlevel.
-							 (or (not maxlevel)
-								 (<= (org-current-level) maxlevel)))
-						   match (or scope 'tree)))))))))
+    (goto-char (or pos (point)))
+    ;; If we are in the middle ot an entry, use the current heading.
+    (org-back-to-heading t)
+    (let ((maxlevel (when (and level (org-current-level))
+		      (+ level (org-current-level)))))
+      (message "%s subentries"
+	       (1- (length
+		    (delq nil
+			  (org-map-entries
+			   (lambda ()
+			     ;; Return true, unless below maxlevel.
+			     (or (not maxlevel)
+				 (<= (org-current-level) maxlevel)))
+			   match (or scope 'tree)))))))))
 
 (defun jj/delete-backward-char (n &optional killflag)
   "Delete the previous N characters (following if N is negative).
