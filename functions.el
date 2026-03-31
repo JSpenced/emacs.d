@@ -111,6 +111,8 @@
 (use-package helm-rg
   :after helm)
 (use-package helm-ag
+  :ensure nil
+  :load-path "~/Dropbox/Programs/emacs/user/"
   :after helm)
 (use-package helm-projectile
   :after helm
