@@ -32,7 +32,7 @@
 ;; Removed slime so don't need the following line
 ;; (setq slime-contribs '(slime-fancy))
 
-(setq recentf-save-file (expand-file-name "~/Programs/scimax/user/recentf"))
+(setq recentf-save-file (expand-file-name "~/emacs.d/recentf"))
 ;; (run-with-timer (* 60 60) (* 60 60) 'recentf-save-list)
 (setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*dmg$" ".*pkg$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
 ;; ".*\\.pdf$"
@@ -339,17 +339,17 @@ Use '!' to signify that the buffer was not initially clean."
   '(progn
 	 ;; adding command options -b before -g below will highlight the line number in skim
 	 (add-to-list 'TeX-command-list '("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b" TeX-run-TeX nil t))
-	 (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
+	 (add-to-list 'TeX-command-list '("latexmk" "latexmk -pdf -r ~/Dropbox/Programs/emacs/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run latexmk on file then output to skim"))
 	 (add-to-list 'TeX-command-list
 				  '("Xelatexnonstop" "xelatex -no-pdf -synctex=1 -interaction=nonstopmode %s"
 					TeX-run-command t t :help "Run xelatex"))
 
 	 (add-to-list 'TeX-command-list '("Xelatex" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-	 (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -pdfxe -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
+	 (add-to-list 'TeX-command-list '("Xelatexmk" "latexmk -xelatex -pdfxe -r ~/Dropbox/Programs/emacs/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run xelatexmk on file then output to skim"))
 	 (add-to-list 'TeX-command-list
 				  '("Lualatexnonstop" "lualatex -synctex=1 -interaction=nonstopmode %s"
 					TeX-run-command t t :help "Run xelatex"))
-	 (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Programs/scimax/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
+	 (add-to-list 'TeX-command-list '("Lualatexmk" "latexmk -lualatex -pdflua -r ~/Dropbox/Programs/emacs/user/latexmkrc %s"  TeX-run-TeX nil t :help "Run Lualatexmk on file then output to skim"))
 	 (setq TeX-view-program-selection '((output-pdf "Skim")))
 	 (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -r -g %n %o %b")))
 	 (setq-default TeX-command-default "latexmk")
@@ -1190,8 +1190,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq ispell-dictionary "american")
 ;; TODO: Need two files because headers are different (can rewrite header depending on loaded program)
 (if (equal ispell-program-name (executable-find "aspell"))
-	(setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/aspell_personal.pws"))
-  (setq ispell-personal-dictionary (expand-file-name "~/Programs/scimax/user/hunspell_personal.dic")))
+	(setq ispell-personal-dictionary (expand-file-name "~/Dropbox/Programs/emacs/user/aspell_personal.pws"))
+  (setq ispell-personal-dictionary (expand-file-name "~/Dropbox/Programs/emacs/user/hunspell_personal.dic")))
 ;; Remove scimax's hook and add my for org-mode spellchecking
 (remove-hook 'org-mode-hook
 			 (lambda ()
@@ -1221,7 +1221,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (global-flycheck-mode)
 
 
-(setq desktop-path (list (expand-file-name "~/Programs/scimax/user")))
+(setq desktop-path (list (expand-file-name "~/emacs.d")))
 ;; Too low a number eg.5 doesn't seem to load workspaces correctly but maybe 30-50 better
 ;; (setq desktop-restore-eager 30)
 (setq desktop-auto-save-timeout (* 60 5))
@@ -1295,7 +1295,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq wg-use-default-session-file nil)
 ;; don't open last workgroup automatically in `wg-open-session',
 ;; I only want to check available workgroups! Nothing more.
-(setq wg-session-file (expand-file-name "~/Programs/scimax/user/emacs_workgroups"))
+(setq wg-session-file (expand-file-name "~/emacs.d/emacs_workgroups"))
 (setq wg-load-last-workgroup nil)
 (setq wg-open-this-wg nil)
 ;;(workgroups-mode 1) ; put this one at the bottom of .emacs

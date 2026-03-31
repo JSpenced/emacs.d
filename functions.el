@@ -816,7 +816,7 @@
    ;; chronos-shell-notify-parameters '("-q ~/.emacs.d/manual-addons/sounds/end.mp3")
    ;; chronos-shell-notify-program "notify-send"
    ;; chronos-shell-notify-parameters '("-t" "0" "Сработал таймер")
-   chronos-notification-wav (expand-file-name "~/Programs/scimax/user/sounds/techno.wav")
+   chronos-notification-wav (expand-file-name "~/Dropbox/Programs/emacs/user/sounds/techno.wav")
    chronos-expiry-functions '(chronos-buffer-notify
 							  jj/chronos-shell-notify
 							  chronos-message-notify

@@ -224,7 +224,7 @@ The body of the advice is in BODY."
 
 ;; FIXME: Not sure if this is working. Check later or ask on scimax
 (setq save-abbrevs 'silently)
-(setq abbrev-file-name "~/Programs/scimax/user/abbrev_defs")
+(setq abbrev-file-name "~/Dropbox/Programs/emacs/user/abbrev_defs")
 
 (global-set-key (kbd "C-c M-t") 'transpose-words)
 (global-set-key (kbd "M-s M-i") 'swiper-isearch-thing-at-point)
