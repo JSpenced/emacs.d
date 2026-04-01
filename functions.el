@@ -2840,12 +2840,6 @@ directory in another window."
   (let ((find-file-visit-truename t))
 	(dired-find-alternate-file)))
 
-(defun jj/dired-advertised-find-file-following-symlinks ()
-  "In Dired, visit the file or directory on the line, following symlinks"
-  (interactive)
-  (let ((find-file-visit-truename t))
-	(dired-advertised-find-file)))
-
 (defun jj/dired-view-file-following-symlinks ()
   "In Dired, visit the file or directory on the line, following symlinks"
   (interactive)

@@ -32,7 +32,6 @@
 ;; Removed slime so don't need the following line
 ;; (setq slime-contribs '(slime-fancy))
 
-(setq recentf-save-file (expand-file-name "~/emacs.d/recentf"))
 ;; (run-with-timer (* 60 60) (* 60 60) 'recentf-save-list)
 (setq recentf-exclude (append recentf-exclude  '(".*projectile-bookmarks.eld$" ".*user/recentf$" ".*user/history$" ".*user/abbrev_defs$" ".*user/ac-comphist.dat$" ".*user/bookmarks$" ".*mp3$" ".*mp4$" ".*elc$" ".*\\.el\\.gz$" ".*mkv$" ".*avi$" ".*wmv$" ".*dmg$" ".*pkg$" ".*png$" ".*\\.r[0-9a][0-9r]" ".*/FinishedTor/.*$" ".*/To_Delete/K/.*$" ".*/scimax/elpa/.*$")))
 ;; ".*\\.pdf$"
@@ -584,6 +583,7 @@ Use '!' to signify that the buffer was not initially clean."
 
 (setq global-auto-revert-mode t)
 ;; refresh dired buffers when revisited
+(setq dired-kill-when-opening-new-dired-buffer t)
 (setq dired-auto-revert-buffer t)
 ;; Below works by not auto reverting recursive directories (subdir)
 ;; (setq dired-auto-revert-buffer  (lambda (_dir) (null (cdr dired-subdir-alist))))
