@@ -666,20 +666,31 @@
 	 (define-key wdired-mode-map (kbd "<escape> C-g") 'wdired-abort-changes)
 	 ))
 
-(define-prefix-command 'jj-flyspell-mode-map)
-(global-set-key (kbd "M-s f") 'jj-flyspell-mode-map)
-(eval-after-load "flyspell"
+(define-prefix-command 'jj-jinx-mode-map)
+(global-set-key (kbd "M-s f") 'jj-jinx-mode-map)
+(eval-after-load "jinx"
   '(progn
-	 (define-key flyspell-mode-map (kbd "s-RET") 'dabbrev-expand)
-	 ;; (define-key flyspell-mode-map (kbd "M-p") 'flyspell-auto-correct-previous-word)
-	 (define-key flyspell-mode-map (kbd "C-.") 'flyspell-auto-correct-previous-word)
-	 (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-correct-wrapper)
-	 (define-key flyspell-mode-map (kbd "M-s f a") 'jj/ispell-append-current-and-sort)
-	 (define-key flyspell-mode-map (kbd "M-s f w") 'ispell-word)
-	 (define-key flyspell-mode-map (kbd "M-s f i") 'ispell)
-	 (define-key flyspell-mode-map (kbd "M-s f p") 'flyspell-auto-correct-previous-word)
-	 (define-key flyspell-mode-map (kbd "M-s f f") 'flyspell-correct-previous-word)
+	 (define-key jinx-mode-map (kbd "s-RET") 'dabbrev-expand)
+	 (define-key jinx-mode-map (kbd "C-.") 'scimax-jinx-correct-at-point)
+	 (define-key jinx-mode-map (kbd "C-M-i") 'scimax-ivy-jump-to-jinx-error)
+	 (define-key jinx-mode-map (kbd "M-s f n") 'jinx-correct-nearest)
+	 (define-key jinx-mode-map (kbd "M-s f c") 'jinx-correct)
+	 (define-key jinx-mode-map (kbd "M-s f p") 'scimax-jinx-correct-at-point)
+	 (define-key jinx-mode-map (kbd "M-s f i") 'scimax-ivy-jump-to-jinx-error)
 	 ))
+;; Removed flyspell for now to use jinx
+;; (eval-after-load "flyspell"
+;;   '(progn
+;;	 (define-key flyspell-mode-map (kbd "s-RET") 'dabbrev-expand)
+;;	 ;; (define-key flyspell-mode-map (kbd "M-p") 'flyspell-auto-correct-previous-word)
+;;	 (define-key flyspell-mode-map (kbd "C-.") 'flyspell-auto-correct-previous-word)
+;;	 (define-key flyspell-mode-map (kbd "C-M-i") 'flyspell-correct-wrapper)
+;;	 (define-key flyspell-mode-map (kbd "M-s f a") 'jj/ispell-append-current-and-sort)
+;;	 (define-key flyspell-mode-map (kbd "M-s f w") 'ispell-word)
+;;	 (define-key flyspell-mode-map (kbd "M-s f i") 'ispell)
+;;	 (define-key flyspell-mode-map (kbd "M-s f p") 'flyspell-auto-correct-previous-word)
+;;	 (define-key flyspell-mode-map (kbd "M-s f f") 'flyspell-correct-previous-word)
+;;	 ))
 
 ;; Archive-mode is arc-mode
 (eval-after-load "arc-mode"
