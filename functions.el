@@ -16,7 +16,9 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 (require 'savehist)
-(use-package multiple-cursors)
+(use-package multiple-cursors
+  :custom
+  (mc/list-file (expand-file-name "~/Dropbox/Programs/emacs/user/.mc-lists.el")))
 (use-package todotxt)
 (use-package expand-region)
 (require 'avy)
