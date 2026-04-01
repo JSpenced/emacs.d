@@ -68,12 +68,9 @@
 ;; Undo Tree
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setup later undo info
-;; (setq undo-tree-auto-save-history t)
+
 ;; (setq undo-tree-history-directory-alist
 ;;       (quote (("" . "~/.local/var/emacs/undo_hist"))))
-(setq undo-outer-limit (* 1024 1024 10))
-(setq undo-strong-limit (* 1024 1024 6))
-(setq undo-limit (* 1024 1024 5))
 ;; (with-eval-after-load "volatile-highlights-autoloads"
 ;;   (volatile-highlights-mode 1))
 

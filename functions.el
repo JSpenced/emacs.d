@@ -185,9 +185,17 @@
 ;; Undo tree
 (use-package undo-tree
   :custom
+  (undo-tree-auto-save-history t)
+  (undo-outer-limit (* 1024 1024 10))
+  (undo-strong-limit (* 1024 1024 6))
+  (undo-limit (* 1024 1024 5))
   (undo-tree-visualizer-diff t)
+  (undo-tree-visualizer-timestamps t)
   (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-  (undo-tree-visualizer-timestamps t))
+  :config
+  (unless (file-exists-p (expand-file-name "~/.emacs.d/undo"))
+	(make-directory (expand-file-name "~/.emacs.d/undo") t))
+  )
 
 ;; PYTHON stuff
 (use-package py-isort
