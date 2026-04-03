@@ -1,4 +1,4 @@
-;; -*- mode: Emacs-Lisp -*-
+;; -*- mode: Emacs-Lisp, lexical-binding: t -*-
 
 (when (and (fboundp 'native-comp-available-p)
 		   (native-comp-available-p))

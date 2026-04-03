@@ -1,4 +1,4 @@
-;; -*- mode: Emacs-Lisp -*-
+;; -*- mode: Emacs-Lisp, lexical-binding: t -*-
 ;; This is bindings loaded by user.el
 (setq ns-function-modifier 'hyper)  ; make Fn key do Hyper
 ;; This is so on keyboards that can't make Fn do hyper I can still get the hyper key

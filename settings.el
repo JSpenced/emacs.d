@@ -1,5 +1,5 @@
-;; -*- mode: Emacs-Lisp -*-
-;; Set the font sizesS
+;; -*- mode: Emacs-Lisp, lexical-binding: t -*-
+;; Set the font sizes
 (setq-default line-spacing 0.17)
 ;; (setq-default indent-tabs-mode nil)
 ;; Or set the below in hooks for major modes
