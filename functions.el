@@ -152,9 +152,6 @@
 ;; NOTE: Emacs slow to exit during pcache due to function below added by back-button
 (remove-hook 'kill-emacs-hook 'pcache-kill-emacs-hook)
 
-;; (require 'nice-jumper)
-;; (global-nice-jumper-mode t)
-
 (use-package easy-kill)
 (use-package easy-kill-extras)
 (use-package osx-trash)

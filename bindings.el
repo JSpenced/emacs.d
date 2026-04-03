@@ -828,8 +828,6 @@
 (define-key process-menu-mode-map (kbd "C-k") 'jj/delete-kill-process-at-point)
 
 (global-set-key (kbd "C-M-s-9") 'jj/goto-last-change-across-buffers)
-;; (global-set-key (kbd "M-[")  'nice-jumper/backward)
-;; (global-set-key (kbd "M-]") 'nice-jumper/forward)
 (global-set-key (kbd "C-(") 'back-button-global-backward)
 (global-set-key (kbd "C-)") 'back-button-global-forward)
 (global-set-key (kbd "s-[") 'back-button-local-backward)
