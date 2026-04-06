@@ -934,68 +934,69 @@
   :config
   (setq org-jekyll-project-root "~/Dropbox/Documents/Blog/"))
 
-(use-package org-gcal
-  :after org
-  :config
-  (if (boundp 'my-google-client-id)
-	  (setq org-gcal-client-id my-google-client-id
-			org-gcal-client-secret my-google-client-secret))
-  (setq
-   org-gcal-file-main "~/Dropbox/Documents/Notes/Orgzly/gcal.org"
-   org-gcal-email-main "jeffspencerd@gmail.com"
-   org-gcal-file-alist '(("jeffspencerd@gmail.com" . "~/Dropbox/Documents/Notes/Orgzly/gcal.org"))
-   org-gcal-auto-archive t
-   org-gcal-up-days 15
-   org-gcal-down-days 60
-   org-gcal-notify-p nil)
+;; Not using org-gcal anymore
+;; (use-package org-gcal
+;;   :after org
+;;   :config
+;;   (if (boundp 'my-google-client-id)
+;;	  (setq org-gcal-client-id my-google-client-id
+;;			org-gcal-client-secret my-google-client-secret))
+;;   (setq
+;;    org-gcal-file-main "~/Dropbox/Documents/Notes/Orgzly/gcal.org"
+;;    org-gcal-email-main "jeffspencerd@gmail.com"
+;;    org-gcal-file-alist '(("jeffspencerd@gmail.com" . "~/Dropbox/Documents/Notes/Orgzly/gcal.org"))
+;;    org-gcal-auto-archive t
+;;    org-gcal-up-days 15
+;;    org-gcal-down-days 60
+;;    org-gcal-notify-p nil)
 
-  (defun jj/org-gcal-fetch-quick ()
-	(interactive)
-	(when (jj/internet-up-p)
-	  (let ((org-gcal-auto-archive nil)
-			(org-gcal-up-days 1)
-			(org-gcal-down-days 21))
-		(org-gcal-fetch))))
+;;   (defun jj/org-gcal-fetch-quick ()
+;;	(interactive)
+;;	(when (jj/internet-up-p)
+;;	  (let ((org-gcal-auto-archive nil)
+;;			(org-gcal-up-days 1)
+;;			(org-gcal-down-days 21))
+;;		(org-gcal-fetch))))
 
-  (defun jj/org-gcal-archive-erase-then-fetch ()
-	(interactive)
-	(when (jj/internet-up-p)
-	  (dolist (i org-gcal-fetch-file-alist)
-		(with-current-buffer
-			(find-file-noselect (cdr i))
-		  (when org-gcal-auto-archive
-			(org-gcal--archive-old-event))
-		  ;; Ensures whole calender is retrieved (otherwise erases bufffer but doesn't pull calender)
-		  (org-gcal-sync-tokens-clear)
-		  (erase-buffer)
-		  (org-gcal-fetch)
-		  (save-buffer)
-		  ))))
+;;   (defun jj/org-gcal-archive-erase-then-fetch ()
+;;	(interactive)
+;;	(when (jj/internet-up-p)
+;;	  (dolist (i org-gcal-fetch-file-alist)
+;;		(with-current-buffer
+;;			(find-file-noselect (cdr i))
+;;		  (when org-gcal-auto-archive
+;;			(org-gcal--archive-old-event))
+;;		  ;; Ensures whole calender is retrieved (otherwise erases bufffer but doesn't pull calender)
+;;		  (org-gcal-sync-tokens-clear)
+;;		  (erase-buffer)
+;;		  (org-gcal-fetch)
+;;		  (save-buffer)
+;;		  ))))
 
-  (defun jj/org-gcal-fetch-when-idle-quick ()
-	;; cancel this idle timer if it exists and hasn't run
-	(cancel-function-timers 'jj/org-gcal-fetch-quick)
-	(run-with-idle-timer 21 nil 'jj/org-gcal-fetch-quick))
+;;   (defun jj/org-gcal-fetch-when-idle-quick ()
+;;	;; cancel this idle timer if it exists and hasn't run
+;;	(cancel-function-timers 'jj/org-gcal-fetch-quick)
+;;	(run-with-idle-timer 21 nil 'jj/org-gcal-fetch-quick))
 
-  (defun jj/org-gcal-fetch-when-idle-full ()
-	;; cancel this idle timer if it exists and hasn't run
-	(cancel-function-timers 'jj/org-gcal-fetch-quick)
-	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
-	(run-with-idle-timer 15 nil 'jj/org-gcal-archive-erase-then-fetch)
-	(cancel-function-timers 'jj/org-gcal-fetch-quick))
+;;   (defun jj/org-gcal-fetch-when-idle-full ()
+;;	;; cancel this idle timer if it exists and hasn't run
+;;	(cancel-function-timers 'jj/org-gcal-fetch-quick)
+;;	(cancel-function-timers 'jj/org-gcal-archive-erase-then-fetch)
+;;	(run-with-idle-timer 15 nil 'jj/org-gcal-archive-erase-then-fetch)
+;;	(cancel-function-timers 'jj/org-gcal-fetch-quick))
 
-  ;; FIXME: This locked up due to requests.el so just call once on emacs boot
-  ;; Can check timiers with variables timer-list or timer-idle-list
-  ;; run org-gcal-fetch every 15 minutes when inactive
-  ;; Do a full refresh so archive-delete-fetch every 2 hours
-  ;; (cond
-  ;;  ;; NOTE: Doesn't set up timers when desktop-lock exists
-  ;;  ((and (string-equal system-type "darwin") (not (file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))))
-  ;;	(run-with-timer (* 480 60) (* 480 60) 'jj/org-gcal-fetch-when-idle-quick)
-  ;;	;; Run once in emacs-startup-hook
-  ;;	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
-  ;;	))
-  )
+;;   ;; FIXME: This locked up due to requests.el so just call once on emacs boot
+;;   ;; Can check timiers with variables timer-list or timer-idle-list
+;;   ;; run org-gcal-fetch every 15 minutes when inactive
+;;   ;; Do a full refresh so archive-delete-fetch every 2 hours
+;;   ;; (cond
+;;   ;;  ;; NOTE: Doesn't set up timers when desktop-lock exists
+;;   ;;  ((and (string-equal system-type "darwin") (not (file-exists-p (concat (file-name-as-directory (car desktop-path))  desktop-base-lock-name))))
+;;   ;;	(run-with-timer (* 480 60) (* 480 60) 'jj/org-gcal-fetch-when-idle-quick)
+;;   ;;	;; Run once in emacs-startup-hook
+;;   ;;	(run-at-time "04:05:00" (* 1440 60) 'jj/org-gcal-fetch-when-idle-full)
+;;   ;;	))
+;;   )
 (use-package all-the-icons)
 ;; TODO: some issue with the following code when moving macs that needs fixed
 ;; (use-package all-the-icons

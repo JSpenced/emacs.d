@@ -237,15 +237,14 @@ The body of the advice is in BODY."
 (global-set-key (kbd "H-j")	'scimax-dispatch-mode-hydra)
 (global-set-key (kbd "H-m")	'scimax-dispatch-mode-hydra)
 
-(eval-after-load "org-gcal"
+(eval-after-load "org"
   '(progn
 	 (setq org-agenda-files '())
-	 (if (file-exists-p (expand-file-name org-gcal-file-main))
-		 (setq org-agenda-files (append org-agenda-files (list org-gcal-file-main))))
+	 ;; removed gcal. if add back, add org-gcal above
+	 ;; (if (file-exists-p (expand-file-name org-gcal-file-main))
+	 ;; 	 (setq org-agenda-files (append org-agenda-files (list org-gcal-file-main))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/gtd_work.org"))
 		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Work/gtd_work.org"))))
-	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Work/realtor.org"))
-		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Work/realtor.org"))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))
 		 (setq org-agenda-files (append org-agenda-files (list "~/Dropbox/Documents/Notes/Orgzly/gtd.org"))))
 	 (if (file-exists-p (expand-file-name "~/Dropbox/Documents/Notes/Orgzly/Inbox.org"))
@@ -258,7 +257,8 @@ The body of the advice is in BODY."
 ;; echo area or as a reminder
 (use-package calendar
   :after org-agenda
-  :after org-gcal
+  ;; removed org-gcal
+  ;; :after org-gcal
   :init
   (require 'appt)
   (defvar terminal-notifier-path (executable-find "terminal-notifier") "The path to terminal-notifier.")
@@ -277,7 +277,7 @@ Native OSX apps. `Refresh` resets the appt list to nil and
 recalculates the appt list."
 	(interactive "P")
 	(let ((save-agenda org-agenda-files))
-	  (setq org-agenda-files (delete (format org-gcal-file-main) org-agenda-files))
+	  ;; (setq org-agenda-files (delete (format org-gcal-file-main) org-agenda-files))
 	  (org-agenda-to-appt refresh)
 	  (setq org-agenda-files save-agenda)))
   (defun jj/org-agenda-to-appt-reset ()
@@ -415,13 +415,10 @@ org-agenda-to-appt with a ``universal prefix`` arg."
 	 ;; (setq org-deadline-warning-days 7)
 	 (define-prefix-command 'org-agenda-h-prefix-map)
 	 (define-key org-agenda-mode-map (kbd "h") 'org-agenda-h-prefix-map)
-	 (define-key org-agenda-mode-map (kbd "h f") 'jj/org-gcal-fetch-quick)
-	 (define-key org-agenda-mode-map (kbd "h F") 'jj/org-gcal-archive-erase-then-fetch)
-	 (define-key org-agenda-mode-map (kbd "h g") 'jj/org-gcal-archive-erase-then-fetch)
+	 (define-key org-agenda-mode-map (kbd "h k") 'jj/org-agenda-kill)
 
 	 (define-key org-agenda-mode-map (kbd "C-k") 'org-agenda-kill)
 	 (define-key org-agenda-mode-map (kbd "C-S-k") 'jj/org-agenda-kill)
-	 (define-key org-agenda-mode-map (kbd "h k") 'jj/org-agenda-kill)
 	 (define-key org-agenda-mode-map (kbd "<C-S-backspace>") 'jj/org-agenda-kill)
 	 (define-key org-agenda-mode-map (kbd "M-k") 'jj/org-agenda-kill)))
 
@@ -473,7 +470,7 @@ Use by putting the below in an org file and pressing C-c C-c.
 (add-hook 'org-agenda-finalize-hook 'org-agenda-set-category-colors)
 (defun org-agenda-set-category-colors ()
   (save-excursion
-	(org-agenda-color-category "gcal:" "gray16" "pink")
+	;; (org-agenda-color-category "gcal:" "gray16" "pink")
 	(org-agenda-color-category "gtd:" "gray16" "lightblue")))
 (defun org-agenda-color-category (category backcolor forecolor)
   (let ((re (rx-to-string `(seq bol (0+ space) ,category (1+ space)))))
